@@ -9,9 +9,6 @@ import { useRoute } from 'vue-router'
 const computeTitle = computed(() => {
   return useRoute().name as string
 })
-let a = []
-let _selt = this
-a.push({})
 </script>
 
 <style scoped></style>
