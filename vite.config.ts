@@ -112,6 +112,16 @@ export default defineConfig({
     }),
     ElementPlus({})
   ],
+  server: {
+    // http://localhost:5173/api/login -> http://localhost:3001/login
+    proxy: {
+      '/test': 'http://localhost:3000'
+      // '/test': {
+      //   target: 'http://localhost:3000',
+      //   changeOrigin: true
+      // }
+    }
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')

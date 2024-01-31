@@ -13,10 +13,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "types": ["element-plus/global"],
+    "types": ["element-plus/global", "vite/client"],
+    "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
 
     /* Linting */
@@ -27,7 +28,7 @@
     // "strictFunctionTypes": true
   },
   "include": [
-    "src/**/*.ts",
+    "src/**/*",
     "src/**/*.tsx",
     "src/**/*.vue",
     "src/**/**/*.vue",
