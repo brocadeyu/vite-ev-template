@@ -71,6 +71,7 @@
 
 <script setup lang="ts">
 import { getThoughtList } from '@/api/thought'
+import { useThoughtStore } from '@/stores/thougthStore'
 import { onMounted, ref } from 'vue'
 const tableData = ref([])
 const showLoading = ref(true)
@@ -78,6 +79,9 @@ const handleEdit = (a, b) => {}
 const handleDelete = (a, b) => {}
 onMounted(async () => {
   const list: any = await getThoughtList()
+  const thoughtStore = useThoughtStore()
+  thoughtStore.initThoughtStore(list)
+  // console.log(thoughtStore)
   setTimeout(() => {
     showLoading.value = false
     tableData.value = list
