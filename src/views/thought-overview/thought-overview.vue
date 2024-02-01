@@ -10,8 +10,8 @@ import thoughtTable from './components/thought-table.vue'
 
 <style scoped>
 .overview-container {
-  height: 92vh;
-  padding: 25px;
+  height: 100vh;
+  padding: 11vh 25px 25px 25px;
   box-sizing: border-box;
   background-color: black;
 }

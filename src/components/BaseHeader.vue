@@ -15,11 +15,16 @@ defineProps<{ title: string }>()
 <style scoped>
 .header-container {
   display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
   height: 8vh;
   background-image: url('../assets/header/header.png');
   background-repeat: no-repeat;
   background-position: 25% 100%;
-  background-color: black;
+  background-color: transparent;
 }
 .header-title {
   flex: 1;

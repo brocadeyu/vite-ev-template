@@ -88,6 +88,7 @@ onMounted(async () => {
 <style scoped>
 .table-container {
   height: 100%;
+  /* margin-top: 8vh; */
   padding: 30px;
   background-color: #0b1a39;
   border: 2px solid #119aa0;
