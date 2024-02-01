@@ -40,7 +40,11 @@ module.exports = {
     'prettier/prettier': [
       'error',
       {
-        endOfLine: 'auto'
+        endOfLine: 'auto',
+        htmlWhitespaceSensitivity: 'strict'
+        // jsxBracketSameLine: true
+        // bracketSameLine: false,
+        // singleAttributePerLine: true
       }
     ]
   }
