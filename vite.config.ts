@@ -9,8 +9,8 @@ import path from 'path'
 import simpleHtmlPlugin from 'vite-plugin-simple-html'
 import eslint from 'vite-plugin-eslint'
 export default defineConfig(({ command, mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
-  console.log(env)
+  // const env = loadEnv(mode, process.cwd(), '')
+  // console.log(env)
 
   return {
     plugins: [

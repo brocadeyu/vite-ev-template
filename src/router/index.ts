@@ -17,12 +17,12 @@ const routes: Array<RouteRecordRaw> = [
         name: '数据链模拟'
       },
       {
-        path: 'edit',
+        path: 'edit/:thoughtName',
         component: thoughtEdit,
         name: '想定编辑'
       },
       {
-        path: 'replay',
+        path: 'replay/:thoughtName',
         component: thoughtReplay,
         name: '想定回放'
       }

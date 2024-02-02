@@ -1,11 +1,5 @@
 <template>
-  <div id="cesiumContainer" class="container">
-    <!-- <div class="layout">
-      <div class="tab" v-for="(_, index) in homeCof" :key="index">
-        {{ _.name }}
-      </div>
-    </div> -->
-  </div>
+  <div id="cesiumContainer"></div>
 </template>
 <script setup lang="ts">
 // import { ref } from 'vue'
@@ -26,7 +20,7 @@ onMounted(() => {
     sceneModePicker: false, // 是否显示3D/2D选择器
     timeline: false, // 是否显示时间轴
     navigationHelpButton: false, // 是否显示右上角的帮助按钮
-    scene3DOnly: false, // 如果设置为true，则所有几何图形以3D模式绘制以节约GPU资源
+    scene3DOnly: true, // 如果设置为true，则所有几何图形以3D模式绘制以节约GPU资源
     terrainProvider: new Cesium.EllipsoidTerrainProvider(),
     imageryProvider: new Cesium.SingleTileImageryProvider({
       credit: '底图',
@@ -36,17 +30,12 @@ onMounted(() => {
   const viewer = new Viewer('cesiumContainer', opt)
   viewer.scene.debugShowFramesPerSecond = true
 })
-
-// const homeCof = ref([
-//   { name: '想定', route: 'xd' },
-//   { name: '回放', route: 'hf' }
-// ])
 </script>
 <style scoped>
 ::v-deep(.cesium-viewer-bottom) {
   visibility: hidden;
 }
-.container {
+#cesiumContainer {
   width: 100vw;
   height: 100vh;
   display: flex;

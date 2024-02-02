@@ -1,7 +1,7 @@
 <template>
   <div class="table-container">
     <div>
-      <el-button type="primary" @click="toEditView('')">新建想定</el-button>
+      <el-button type="primary" @click="toEditView('test')">新建想定</el-button>
       <el-button type="primary">一键删除</el-button>
     </div>
     <el-table
@@ -33,28 +33,12 @@
       <el-table-column label="想定名称" prop="name"> </el-table-column>
       <el-table-column label="操作">
         <template #default="scope">
-          <el-button
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-          >
-            删除
-          </el-button>
-          <el-button
-            type="primary"
-            @click="handleEdit(scope.$index, scope.row)"
-          >
+          <el-button type="danger" @click="() => {}"> 删除 </el-button>
+          <el-button type="primary" @click="toEditView(scope.row.name)">
             修改
           </el-button>
-          <el-button
-            type="success"
-            @click="handleEdit(scope.$index, scope.row)"
-          >
-            详情
-          </el-button>
-          <el-button
-            color="#626aef"
-            @click="handleEdit(scope.$index, scope.row)"
-          >
+          <el-button type="success" @click="() => {}"> 详情 </el-button>
+          <el-button color="#626aef" @click="toReplayView(scope.row.name)">
             开始
           </el-button>
         </template>
@@ -76,14 +60,16 @@ import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 const tableData = ref([])
 const showLoading = ref(true)
-const handleEdit = (a, b) => {}
-const handleDelete = (a, b) => {}
-const router = useRouter()
-const toEditView = (name?) => {
-  console.log(name)
 
+const router = useRouter()
+const toEditView: (thoughtName: string) => void = (thoughtName) => {
   router.push({
-    path: '/thought/edit'
+    path: `/thought/edit/${thoughtName}`
+  })
+}
+const toReplayView: (thoughtName: string) => void = (thoughtName) => {
+  router.push({
+    path: `/thought/replay/${thoughtName}`
   })
 }
 onMounted(async () => {
