@@ -1,7 +1,7 @@
 <template>
   <div class="table-container">
     <div>
-      <el-button type="primary">新建想定</el-button>
+      <el-button type="primary" @click="toEditView('')">新建想定</el-button>
       <el-button type="primary">一键删除</el-button>
     </div>
     <el-table
@@ -72,11 +72,20 @@
 <script setup lang="ts">
 import { getThoughtList } from '@/api/thought'
 import { useThoughtStore } from '@/stores/thougthStore'
+import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 const tableData = ref([])
 const showLoading = ref(true)
 const handleEdit = (a, b) => {}
 const handleDelete = (a, b) => {}
+const router = useRouter()
+const toEditView = (name?) => {
+  console.log(name)
+
+  router.push({
+    path: '/thought/edit'
+  })
+}
 onMounted(async () => {
   const list: any = await getThoughtList()
   const thoughtStore = useThoughtStore()
