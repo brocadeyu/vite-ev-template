@@ -5,9 +5,9 @@ export default class Thought {
   time: string
   entities: string[]
 
-  constructor(opt: RawThought) {
-    this.name = opt.name
-    this.time = opt.time
-    this.entities = opt.jsonData.Entity
+  constructor(opt?: RawThought) {
+    this.name = opt?.name || ''
+    this.time = opt?.time || ''
+    this.entities = opt?.jsonData.Entity || []
   }
 }

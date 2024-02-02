@@ -1,7 +1,7 @@
 <template>
   <div class="table-container">
     <div>
-      <el-button type="primary" @click="toEditView('test')">新建想定</el-button>
+      <el-button type="primary" @click="toCreateView">新建想定</el-button>
       <el-button type="primary">一键删除</el-button>
     </div>
     <el-table
@@ -34,11 +34,11 @@
       <el-table-column label="操作">
         <template #default="scope">
           <el-button type="danger" @click="() => {}"> 删除 </el-button>
-          <el-button type="primary" @click="toEditView(scope.row.name)">
+          <el-button type="primary" @click="toEditView(scope.row)">
             修改
           </el-button>
           <el-button type="success" @click="() => {}"> 详情 </el-button>
-          <el-button color="#626aef" @click="toReplayView(scope.row.name)">
+          <el-button color="#626aef" @click="toReplayView(scope.row)">
             开始
           </el-button>
         </template>
@@ -58,24 +58,33 @@ import { getThoughtList } from '@/api/thought'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
+import { RawThought } from '@/interface/thought'
 const tableData = ref([])
 const showLoading = ref(true)
-
+const thoughtStore = useThoughtStore()
 const router = useRouter()
-const toEditView: (thoughtName: string) => void = (thoughtName) => {
+
+const toCreateView: () => void = () => {
+  thoughtStore.initThoughtStore()
   router.push({
-    path: `/thought/edit/${thoughtName}`
+    path: `/thought/edit/ ` //二级子路由必须传参，这里传一个空string
   })
 }
-const toReplayView: (thoughtName: string) => void = (thoughtName) => {
+const toEditView: (row: RawThought) => void = (row) => {
+  thoughtStore.initThoughtStore(row)
   router.push({
-    path: `/thought/replay/${thoughtName}`
+    path: `/thought/edit/${row.name}`
+  })
+}
+const toReplayView: (row: RawThought) => void = (row) => {
+  thoughtStore.initThoughtStore(row)
+  router.push({
+    path: `/thought/replay/${row.name}`
   })
 }
 onMounted(async () => {
   const list: any = await getThoughtList()
-  const thoughtStore = useThoughtStore()
-  thoughtStore.initThoughtStore(list)
+
   // console.log(thoughtStore)
   setTimeout(() => {
     showLoading.value = false
