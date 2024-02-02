@@ -23,7 +23,39 @@ export default class CesiumMap {
       })
     }
     this.viewer = new Viewer(container, opt)
+    this.viewer.scene.globe.depthTestAgainstTerrain = false
     this.viewer.scene.debugShowFramesPerSecond = true
+    this.viewer.scene.globe.enableLighting = true
+    this.showAnimate()
     return this
+  }
+  showAnimate() {
+    this.viewer.camera.setView({
+      destination: {
+        x: 286850313.5092089,
+        y: -105350803.77203512,
+        z: 236040672.12223575
+      },
+      orientation: {
+        heading: 6.187303349122516,
+        pitch: -1.497708627296662,
+        roll: 6.27872411448609
+      }
+    })
+    setTimeout(() => {
+      this.viewer.camera.flyTo({
+        destination: {
+          x: -6835837.089677762,
+          y: 19280520.53515957,
+          z: 9537996.04319683
+        },
+        orientation: {
+          heading: 6.203259646936969,
+          pitch: -1.5004745514729665,
+          roll: 6.281777930582315
+        },
+        duration: 1.5
+      })
+    }, 1000)
   }
 }
