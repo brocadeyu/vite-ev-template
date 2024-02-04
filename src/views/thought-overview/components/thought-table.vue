@@ -83,11 +83,15 @@ const toReplayView: (row: RawThought) => void = (row) => {
   })
 }
 onMounted(async () => {
-  const list: any = await getThoughtList()
-  setTimeout(() => {
+  try {
+    const list: any = await getThoughtList()
+    setTimeout(() => {
+      showLoading.value = false
+      tableData.value = list
+    }, 500)
+  } catch (error) {
     showLoading.value = false
-    tableData.value = list
-  }, 500)
+  }
 })
 </script>
 

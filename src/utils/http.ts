@@ -2,6 +2,7 @@ import type { AxiosRequestConfig } from 'axios'
 import axios from 'axios'
 import qs from 'qs'
 import app from '@/constants/app'
+import { ElMessage } from 'element-plus'
 const http = axios.create({
   baseURL: app.BaseUrl as string,
   timeout: app.RequestTimeout
@@ -83,6 +84,7 @@ http.interceptors.response.use(
     //     top: '100px'
     //   })
     // }
+    ElMessage.error(`请求失败：${error.response.status}`)
     return Promise.reject(error)
   }
 )
