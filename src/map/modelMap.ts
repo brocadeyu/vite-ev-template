@@ -13,6 +13,7 @@ export default class ModelMap {
     this._map = new Map()
   }
   getModelUrlByType(type: string) {
+    //TODO
     switch (type) {
       case '武装直升机':
         break
