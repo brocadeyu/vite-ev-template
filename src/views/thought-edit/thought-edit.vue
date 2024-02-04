@@ -1,7 +1,11 @@
 <template>
   <CesiumMap></CesiumMap>
+  <modelSource></modelSource>
+  <entityManager></entityManager>
 </template>
 <script setup lang="ts">
+import modelSource from './components/model-source.vue'
+import entityManager from './components/entity-manager.vue'
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { onMounted } from 'vue'

@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BaseDocker: typeof import('./../components/BaseDocker.vue')['default']
     BaseHeader: typeof import('./../components/BaseHeader.vue')['default']
     CesiumMap: typeof import('./../components/CesiumMap.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
