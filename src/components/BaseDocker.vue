@@ -41,6 +41,7 @@ const computedStyle = computed(() => ({
   padding: 3px;
 }
 .bd-header {
+  font-size: 15px;
   height: 25px;
   display: flex;
   align-items: center;

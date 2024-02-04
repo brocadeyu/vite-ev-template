@@ -18,7 +18,9 @@ export interface RawThought {
  * @description 实体
  */
 export interface RawEntity {
+  id: string
   EntityMC: string
+  EntityName: string
   AntennaePower: string
   Behaviour: []
   Equipment: []

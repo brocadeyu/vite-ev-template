@@ -4,12 +4,12 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import CesiumMap from '@/map/cesiumMap'
+
 import { useCesiumStore } from '@/stores/cesiumStore'
 const cesiumStore = useCesiumStore()
 onMounted(() => {
-  const instance = new CesiumMap(document.getElementById('cesiumContainer'))
-  cesiumStore.initCesiumStore(instance)
+  const el: HTMLElement = document.getElementById('cesiumContainer')
+  cesiumStore.initCesiumStore(el)
 })
 </script>
 

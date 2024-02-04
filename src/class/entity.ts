@@ -11,5 +11,8 @@ export default class Entity {
   type: string
   position: []
   path: []
-  constructor() {}
+  constructor(opt) {
+    this.id = opt.id
+    // this.type = opt.type
+  }
 }

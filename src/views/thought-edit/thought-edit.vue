@@ -9,13 +9,16 @@ import entityManager from './components/entity-manager.vue'
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { onMounted } from 'vue'
+import { useEntityStore } from '@/stores/entityStore'
 const cesiumStore = useCesiumStore()
 const thoughtStore = useThoughtStore()
+const entityStore = useEntityStore()
 onMounted(() => {
-  // eslint-disable-next-line no-console
-  console.log('cesiumStore=>', cesiumStore.cesium)
-  // eslint-disable-next-line no-console
+  // // eslint-disable-next-line no-console
+  // console.log('cesiumStore=>', cesiumStore.cesium)
+  // // eslint-disable-next-line no-console
   console.log('thoughtStore=>', thoughtStore.thought)
+  entityStore.initEntityStore(thoughtStore.thought.entities) //根据thought初始化entityStore
 })
 </script>
 <style scoped>

@@ -4,7 +4,7 @@ import { ref } from 'vue'
 export const useThoughtStore = defineStore(
   'thought',
   () => {
-    const thought = ref(null)
+    const thought: Thought | null = ref(null)
     function initThoughtStore(rawThought?) {
       const t = new Thought(rawThought)
       thought.value = t
