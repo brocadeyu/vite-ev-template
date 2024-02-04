@@ -3,11 +3,15 @@
 </template>
 <script setup lang="ts">
 import { useCesiumStore } from '@/stores/cesiumStore'
+import { useThoughtStore } from '@/stores/thougthStore'
 import { onMounted } from 'vue'
 const cesiumStore = useCesiumStore()
+const thoughtStore = useThoughtStore()
 onMounted(() => {
   // eslint-disable-next-line no-console
   console.log('cesiumStore=>', cesiumStore.cesium)
+  // eslint-disable-next-line no-console
+  console.log('thoughtStore=>', thoughtStore.thought)
 })
 </script>
 <style scoped>
