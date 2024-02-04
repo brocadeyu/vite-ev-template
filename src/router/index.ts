@@ -17,6 +17,11 @@ const routes: Array<RouteRecordRaw> = [
         name: '数据链模拟'
       },
       {
+        path: 'create',
+        component: thoughtEdit,
+        name: '新建想定'
+      },
+      {
         path: 'edit/:thoughtName',
         component: thoughtEdit,
         name: '想定编辑'

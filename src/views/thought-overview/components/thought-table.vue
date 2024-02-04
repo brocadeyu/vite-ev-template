@@ -67,7 +67,7 @@ const router = useRouter()
 const toCreateView: () => void = () => {
   thoughtStore.initThoughtStore()
   router.push({
-    path: `/thought/edit/ ` //二级子路由必须传参，这里传一个空string
+    path: `/thought/create`
   })
 }
 const toEditView: (row: RawThought) => void = (row) => {
@@ -84,8 +84,6 @@ const toReplayView: (row: RawThought) => void = (row) => {
 }
 onMounted(async () => {
   const list: any = await getThoughtList()
-
-  // console.log(thoughtStore)
   setTimeout(() => {
     showLoading.value = false
     tableData.value = list
