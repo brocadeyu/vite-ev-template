@@ -3,7 +3,7 @@ import { RawEntity } from '@/interface/thought'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 export const useEntityStore = defineStore('entity', () => {
-  const entities = ref(null)
+  const entities = ref({})
   const initEntityStore = (rawList?: RawEntity[]) => {
     entities.value = {}
     rawList.forEach((_) => {
