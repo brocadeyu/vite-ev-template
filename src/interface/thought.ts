@@ -19,6 +19,7 @@ export interface RawThought {
  */
 export interface RawEntity {
   id: string
+  Pos: number[]
   EntityMC: string
   EntityName: string
   AntennaePower: string

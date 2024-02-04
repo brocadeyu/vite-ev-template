@@ -1,9 +1,9 @@
 import { RawThought } from '@/interface/thought'
-
+import { RawEntity } from '@/interface/thought'
 export default class Thought {
   name: string
   time: string
-  entities: string[]
+  entities: RawEntity[]
 
   constructor(opt?: RawThought) {
     this.name = opt?.name || ''

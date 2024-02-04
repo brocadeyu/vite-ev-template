@@ -13,6 +13,6 @@ export const useThoughtStore = defineStore(
     return { thought, initThoughtStore }
   },
   {
-    persist: true
+    persist: true //开启持久存储，保证刷新可以重新加载想定数据
   }
 )

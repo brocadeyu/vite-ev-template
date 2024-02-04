@@ -1,3 +1,5 @@
+import { RawEntity } from '@/interface/thought'
+
 /**
  * @description 实体
  * @id id {string}
@@ -11,8 +13,10 @@ export default class Entity {
   type: string
   position: []
   path: []
-  constructor(opt) {
+  constructor(opt: RawEntity) {
     this.id = opt.id
+    this.type = opt.EntityName
+    this.position = opt.Pos
     // this.type = opt.type
   }
 }

@@ -19,6 +19,14 @@ onMounted(() => {
   // // eslint-disable-next-line no-console
   console.log('thoughtStore=>', thoughtStore.thought)
   entityStore.initEntityStore(thoughtStore.thought.entities) //根据thought初始化entityStore
+  // console.log(entityStore.entitiesArr)
+  entityStore.entitiesArr.forEach((_) => {
+    cesiumStore.cesium.modelMap.addModel(_ as any)
+    // console.log(_)
+  })
+  // entityStore.entities.forEach((_) => {
+  //   cesiumStore.cesium.modelMap.addModel()
+  // })
 })
 </script>
 <style scoped>
