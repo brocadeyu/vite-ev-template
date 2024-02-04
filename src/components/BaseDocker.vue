@@ -7,25 +7,28 @@
     class="bd-warpper"
   >
     <div class="bd-header">
-      {{ props.title }}
+      <div>{{ props.title }}</div>
       <slot name="header"></slot>
     </div>
-    <div>
+    <div class="bd-content">
       <slot name="content"></slot>
     </div>
-    <div>
+    <div v-if="showFooter" class="bd-footer">
       <slot name="footer"></slot>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
-
-const props = defineProps<{
-  title?: string
-  width: string
-  height: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    title?: string
+    width: string
+    height: string
+    showFooter?: boolean
+  }>(),
+  { title: '', showFooter: false }
+)
 
 const computedStyle = computed(() => ({
   width: props.width,
@@ -39,6 +42,8 @@ const computedStyle = computed(() => ({
   border: 2px solid #119aa0;
   box-sizing: border-box;
   padding: 3px;
+  display: flex;
+  flex-direction: column;
 }
 .bd-header {
   font-size: 15px;
@@ -48,5 +53,14 @@ const computedStyle = computed(() => ({
   padding-left: 6px;
   color: white;
   background-image: linear-gradient(to right, #104064, #182740);
+  display: flex;
+  justify-content: space-between;
+}
+.bd-content {
+  flex: 1;
+  /* background-color: rebeccapurple; */
+}
+.bd-footer {
+  height: 25px;
 }
 </style>
