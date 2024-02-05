@@ -93,7 +93,7 @@ export default defineConfig(({ command, mode }) => {
       // http://localhost:5177/api/login -> http://localhost:12000/login
       proxy: {
         '/api': {
-          target: 'http://localhost:12000',
+          target: 'http://localhost:3000',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, '')
         }

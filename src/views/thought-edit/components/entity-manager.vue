@@ -2,7 +2,7 @@
   <div class="em-container">
     <BaseDocker :title="'想定管理'" :height="'250px'" :width="'200px'">
       <template #header>
-        <el-checkbox v-model="showPath" label="轨迹显示" />
+        <el-checkbox v-model="showPath" label="轨迹显隐" />
       </template>
       <template #content>
         <el-input
@@ -28,8 +28,7 @@ import { ref } from 'vue'
 import { ElTreeV2 } from 'element-plus'
 import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
 import { useEntityStore } from '@/stores/entityStore'
-import { computed } from 'vue'
-import { storeToRefs } from 'pinia'
+import { watch } from 'vue'
 const showPath = ref(true)
 const queryStr = ref('')
 const treeRef = ref<InstanceType<typeof ElTreeV2>>()
@@ -38,17 +37,11 @@ const props = {
   label: 'id',
   children: 'children'
 }
+const data = []
 const entityStore = useEntityStore()
-const { entitiesArr } = storeToRefs(entityStore)
-const data = entitiesArr.value.map((_: any) => {
-  return {
-    id: _.id,
-    label: _.id
-  }
-})
-// setInterval(() => {
-//   console.log(data, entityStore.entitiesArr)
-// }, 1000)
+const setTreeData = (data: any) => {
+  treeRef.value?.setData(data)
+}
 
 const onQueryChanged = (query: string) => {
   treeRef.value!.filter(query)
@@ -56,6 +49,25 @@ const onQueryChanged = (query: string) => {
 const filterMethod = (query: string, node: TreeNode) => {
   return node.label!.includes(query)
 }
+watch(
+  entityStore.entitiesArr,
+  (newVal) => {
+    setTreeData(
+      newVal.map((_): any => {
+        return {
+          id: (_ as any).id,
+          label: (_ as any).id
+        }
+      })
+    )
+  },
+  {
+    immediate: true
+  }
+)
+defineExpose({
+  setTreeData
+})
 </script>
 
 <style scoped>

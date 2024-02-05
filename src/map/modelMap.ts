@@ -1,11 +1,12 @@
-import { RawEntity } from '@/interface/thought'
 import { Viewer, PrimitiveCollection } from 'cesium'
 import * as Cesium from 'cesium'
+
+//@ts-expect-error test
 import flightUrl from '@/assets/model/Mi171ZC.gltf'
 export default class ModelMap {
   _viewer: Viewer
   _collection: PrimitiveCollection
-  _map: Map
+  _map: Map<string, any>
   constructor(viewer: Viewer) {
     this._viewer = viewer
     this._collection = new PrimitiveCollection()
@@ -22,7 +23,7 @@ export default class ModelMap {
         break
     }
   }
-  addModel(opt: RawEntity) {
+  addModel(opt: any) {
     const { position, id } = opt
     const p = Cesium.Cartesian3.fromDegrees(
       position[1],

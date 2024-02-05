@@ -1,6 +1,7 @@
 import { Viewer } from 'cesium'
 import GlobeImg from '@/assets/globe.jpg'
 import ModelMap from './modelMap'
+import * as Cesium from 'cesium'
 export default class CesiumMap {
   viewer: Viewer
   modelMap: ModelMap
@@ -38,7 +39,7 @@ export default class CesiumMap {
         x: 286850313.5092089,
         y: -105350803.77203512,
         z: 236040672.12223575
-      },
+      } as any,
       orientation: {
         heading: 6.187303349122516,
         pitch: -1.497708627296662,
@@ -51,7 +52,7 @@ export default class CesiumMap {
           x: -6835837.089677762,
           y: 19280520.53515957,
           z: 9537996.04319683
-        },
+        } as any,
         orientation: {
           heading: 6.203259646936969,
           pitch: -1.5004745514729665,

@@ -1,25 +1,30 @@
 <template>
   <CesiumMap></CesiumMap>
   <modelSource></modelSource>
-  <entityManager></entityManager>
+  <entityManager ref="entityManaRef"></entityManager>
 </template>
 <script setup lang="ts">
 import modelSource from './components/model-source.vue'
 import entityManager from './components/entity-manager.vue'
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { useThoughtStore } from '@/stores/thougthStore'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useEntityStore } from '@/stores/entityStore'
 import { onBeforeUnmount } from 'vue'
 const cesiumStore = useCesiumStore()
 const thoughtStore = useThoughtStore()
 const entityStore = useEntityStore()
+const entityManaRef = ref(null)
 onMounted(() => {
-  // // eslint-disable-next-line no-console
-  // console.log('cesiumStore=>', cesiumStore.cesium)
-  // // eslint-disable-next-line no-console
-  // console.log('thoughtStore=>', thoughtStore.thought)
   entityStore.initEntityStore(thoughtStore.thought.entities) //根据thought初始化entityStore
+  entityManaRef.value.setTreeData(
+    entityStore.entitiesArr.map((_) => {
+      return {
+        id: (_ as any).id,
+        label: (_ as any).id
+      }
+    })
+  )
   entityStore.entitiesArr.forEach((_) => {
     cesiumStore.cesium.modelMap.addModel(_ as any)
   })
