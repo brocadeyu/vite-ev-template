@@ -1,22 +1,50 @@
 <template>
   <div class="em-container">
-    <BaseDocker :title="'想定管理'" :height="'250px'" :width="'200px'">
+    <BaseDocker
+      :title="'想定管理'"
+      :height="'250px'"
+      :width="'200px'"
+      :show-footer="true"
+    >
       <template #header>
         <el-checkbox v-model="showPath" label="轨迹显隐" />
       </template>
       <template #content>
-        <el-input
-          v-model="queryStr"
-          placeholder="输入关键字搜索"
-          @input="onQueryChanged"
-        />
-        <el-tree-v2
-          ref="treeRef"
-          :data="data"
-          :props="props"
-          :filter-method="filterMethod"
-          :height="150"
-        />
+        <div class="content-tree">
+          <el-input
+            v-model="queryStr"
+            placeholder="输入关键字搜索"
+            size="small"
+            style="
+              --el-input-bg-color: #0c1a39;
+              --el-input-border-color: #0e9aa0;
+            "
+            @input="onQueryChanged"
+          />
+          <el-tree-v2
+            ref="treeRef"
+            :data="data"
+            :props="props"
+            style="
+              background-color: #113751;
+              --el-tree-node-hover-bg-color: #0e9aa0;
+              color: white;
+              margin-top: 4px;
+              border: 1px solid #0e9aa0;
+              border-radius: 4px;
+            "
+            :filter-method="filterMethod"
+            :height="150"
+            empty-text="暂无数据"
+          />
+        </div>
+      </template>
+      <template #footer>
+        <div class="foot-btns">
+          <el-button type="primary" size="small">链生成</el-button>
+          <el-button type="primary" size="small">链校验</el-button>
+          <el-button type="primary" size="small">计划</el-button>
+        </div>
       </template>
     </BaseDocker>
   </div>
@@ -82,5 +110,15 @@ defineExpose({
 }
 :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
   background-color: rgb(47, 99, 244) !important;
+}
+.content-tree {
+  display: flex;
+  flex-direction: column;
+  padding-top: 5px;
+  padding-right: 2px;
+  padding-left: 2px;
+}
+.foot-btns {
+  display: flex;
 }
 </style>
