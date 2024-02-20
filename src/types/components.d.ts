@@ -22,6 +22,7 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTreeV2: typeof import('element-plus/es')['ElTreeV2']
     HelloWorld: typeof import('./../components/HelloWorld.vue')['default']
+    PopUp: typeof import('./../components/PopUp.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

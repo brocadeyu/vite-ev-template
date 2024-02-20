@@ -33,6 +33,7 @@ import SHIP052C from '@/assets/model/052c.png'
 import SHIP052D from '@/assets/model/052d.png'
 
 import { useCesiumStore } from '@/stores/cesiumStore'
+import { usePopupStore } from '@/stores/popupStore'
 const modelConfig = ref([
   {
     name: '武装直升机',
@@ -53,6 +54,7 @@ const modelConfig = ref([
 ])
 const activeIndex = ref(-1)
 const cesiumStore = useCesiumStore()
+const popupStore = usePopupStore()
 const tryAddEntity = (item, index) => {
   activeIndex.value = index
   cesiumStore.cesium.eventHandler.register({
@@ -60,6 +62,7 @@ const tryAddEntity = (item, index) => {
     id: 'createEntity',
     callBack: (e) => {
       console.log('点击地图', e)
+      popupStore.openPop({ title: '添加实体', type: 'createEntity' })
       cesiumStore.cesium.eventHandler.remove({
         type: 'LeftClick',
         id: 'createEntity'
