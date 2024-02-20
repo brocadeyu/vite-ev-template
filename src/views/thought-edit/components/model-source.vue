@@ -7,8 +7,15 @@
             v-for="(item, index) in modelConfig"
             :key="index"
             class="card-item"
+            @click="tryAddEntity(item, index)"
           >
-            <img :src="item.img" width="60px" height="60px" />
+            <img
+              class="card-img"
+              :class="{ 'card-active': activeIndex === index }"
+              :src="item.img"
+              width="60px"
+              height="60px"
+            />
             {{ item.name }}
           </div>
         </div>
@@ -24,6 +31,8 @@ import WZImg from '@/assets/model/wzzsj.png'
 import ZCImg from '@/assets/model/zczsj.png'
 import SHIP052C from '@/assets/model/052c.png'
 import SHIP052D from '@/assets/model/052d.png'
+
+import { useCesiumStore } from '@/stores/cesiumStore'
 const modelConfig = ref([
   {
     name: '武装直升机',
@@ -42,6 +51,23 @@ const modelConfig = ref([
     img: SHIP052D
   }
 ])
+const activeIndex = ref(-1)
+const cesiumStore = useCesiumStore()
+const tryAddEntity = (item, index) => {
+  activeIndex.value = index
+  cesiumStore.cesium.eventHandler.register({
+    type: 'LeftClick',
+    id: 'createEntity',
+    callBack: (e) => {
+      console.log('点击地图', e)
+      cesiumStore.cesium.eventHandler.remove({
+        type: 'LeftClick',
+        id: 'createEntity'
+      })
+      activeIndex.value = -1
+    }
+  })
+}
 </script>
 
 <style scoped>
@@ -68,5 +94,11 @@ const modelConfig = ref([
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.card-img {
+  border: 2px solid #145780;
+}
+.card-active {
+  border-color: rgb(0, 128, 255);
 }
 </style>
