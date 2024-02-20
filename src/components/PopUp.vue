@@ -3,6 +3,7 @@
     <createEntityPop
       v-if="_type === 'createEntity'"
       :title="_title"
+      :data="_data"
     ></createEntityPop>
   </div>
 
@@ -16,7 +17,7 @@ import { usePopupStore } from '@/stores/popupStore'
 import { storeToRefs } from 'pinia'
 import createEntityPop from '@/popup/createEntityPop.vue'
 const popupStore = usePopupStore()
-const { _showMask, _showPop, _title, _type } = storeToRefs(popupStore)
+const { _showMask, _showPop, _title, _type, _data } = storeToRefs(popupStore)
 </script>
 
 <style scoped>

@@ -52,17 +52,21 @@ const modelConfig = ref([
     img: SHIP052D
   }
 ])
-const activeIndex = ref(-1)
+const activeIndex = ref<number>(-1)
 const cesiumStore = useCesiumStore()
 const popupStore = usePopupStore()
-const tryAddEntity = (item, index) => {
+const tryAddEntity = (modelInfo, index: number) => {
   activeIndex.value = index
   cesiumStore.cesium.eventHandler.register({
     type: 'LeftClick',
     id: 'createEntity',
     callBack: (e) => {
       console.log('点击地图', e)
-      popupStore.openPop({ title: '添加实体', type: 'createEntity' })
+      popupStore.openPop({
+        title: '添加实体',
+        type: 'createEntity',
+        data: { position: e.position, modelInfo }
+      })
       cesiumStore.cesium.eventHandler.remove({
         type: 'LeftClick',
         id: 'createEntity'

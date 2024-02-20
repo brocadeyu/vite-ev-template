@@ -18,6 +18,7 @@
             style="
               --el-input-bg-color: #0c1a39;
               --el-input-border-color: #0e9aa0;
+              --el-input-hover-border-color: #16b0b8;
             "
             @input="onQueryChanged"
           />
