@@ -8,30 +8,17 @@
     :bg="data.modelInfo.img"
   >
     <template #content>
-      <el-form
-        :inline="true"
-        :model="formData"
-        class="entity-form"
-        :style="{
-          // backgroundImage: 'url(' + data.modelInfo.img + ')',
-          // backgroundSize: '100% 100%',
-          // backgroundRepeat: 'no-repeat'
-        }"
-      >
+      <el-form :inline="true" :model="formData" class="entity-form">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="实体类型">
-              <el-input
-                v-model="formData.user"
-                disabled
-                :placeholder="data.modelInfo.name"
-                clearable
-              /> </el-form-item
-          ></el-col>
+            <el-form-item label="类型">
+              <el-input v-model="formData.type" disabled clearable />
+            </el-form-item>
+          </el-col>
           <el-col :span="12">
-            <el-form-item label="实体名称">
+            <el-form-item label="名称">
               <el-input
-                v-model="formData.user"
+                v-model="formData.name"
                 placeholder="请输入名称"
                 clearable
               /> </el-form-item
@@ -39,9 +26,27 @@
         </el-row>
         <el-row>
           <el-col :span="24">
+            <el-form-item label="位置">
+              <el-input
+                v-model="formData.position"
+                disabled
+                :placeholder="`经度:${data.position[0]},纬度:${data.position[1]}`"
+                clearable
+              >
+                <template #append>
+                  <el-button type="primary" size="small" @click="pickPoint">
+                    <el-icon size="20"><i-ep-location /></el-icon>
+                  </el-button>
+                </template>
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
             <el-form-item label="航线">
               <el-input
-                v-model="formData.user"
+                v-model="formData.path"
                 placeholder="请输入名称"
                 clearable
               /> </el-form-item
@@ -51,7 +56,7 @@
           <el-col :span="24">
             <el-form-item label="装备配置">
               <el-input
-                v-model="formData.user"
+                v-model="formData.equipment"
                 placeholder="请输入名称"
                 clearable
               /> </el-form-item
@@ -73,8 +78,8 @@
 <script setup lang="ts">
 import BaseDocker from '../components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
+import { useCesiumStore } from '@/stores/cesiumStore'
 import { onMounted } from 'vue'
-import SHIP052D from '@/assets/model/052d.png'
 const props = withDefaults(
   defineProps<{
     title?: string
@@ -85,16 +90,33 @@ const props = withDefaults(
 import { reactive } from 'vue'
 
 const formData = reactive({
-  user: '',
-  region: '',
-  date: ''
+  type: '',
+  name: '',
+  position: '',
+  path: '',
+  equipment: ''
 })
 const popupStore = usePopupStore()
+const cesiumStore = useCesiumStore()
 const closePopup = () => {
   popupStore.closePop()
 }
+const pickPoint = () => {
+  cesiumStore.cesium.eventHandler.register({
+    type: 'LeftClick',
+    id: 'pickEntityPoint',
+    callBack: (e) => {
+      console.log('点击地图', e)
+      cesiumStore.cesium.eventHandler.remove({
+        type: 'LeftClick',
+        id: 'pickEntityPoint'
+      })
+    }
+  })
+}
 onMounted(() => {
   console.log('daa', props.data)
+  formData.type = props.data.modelInfo.name
 })
 </script>
 
@@ -108,12 +130,20 @@ onMounted(() => {
   color: white;
 }
 .entity-form .el-input {
-  --el-input-width: 110px;
+  /* --el-input-width: 110px; */
   --el-input-bg-color: #0c1a39;
   --el-disabled-bg-color: #0c1a39;
   --el-input-hover-border-color: #16b0b8;
   --el-input-border-color: #0e9aa0;
   --el-disabled-border-color: #0d6e71;
+  --el-fill-color-light: transparent;
+  --el-color-info: white;
+}
+.entity-form .el-input .el-button {
+  display: flex;
+}
+.entity-form .el-input-group__append .el-input-group__prepend {
+  background-color: red;
 }
 
 .entity-form .el-select {

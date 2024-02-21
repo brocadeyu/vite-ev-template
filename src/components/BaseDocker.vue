@@ -15,7 +15,7 @@
       <div>{{ props.title }}</div>
       <slot name="header"></slot>
     </div>
-    <div class="bd-content" :style="{}">
+    <div class="bd-content">
       <slot name="content"></slot>
     </div>
     <div v-if="showFooter" class="bd-footer">

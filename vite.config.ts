@@ -2,6 +2,8 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { viteExternalsPlugin } from 'vite-plugin-externals'
 import AutoImport from 'unplugin-auto-import/vite'
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import ElementPlus from 'unplugin-element-plus/vite'
@@ -78,12 +80,28 @@ export default defineConfig(({ command, mode }) => {
         }
       }),
       AutoImport({
-        resolvers: [ElementPlusResolver()],
+        // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
+        imports: ['vue'],
+        resolvers: [
+          ElementPlusResolver(),
+          IconsResolver({
+            prefix: 'Icon'
+          })
+        ],
         dts: 'src/types/auto-imports.d.ts'
       }),
       Components({
-        resolvers: [ElementPlusResolver()],
+        resolvers: [
+          // 自动注册图标组件
+          IconsResolver({
+            enabledCollections: ['ep']
+          }),
+          ElementPlusResolver()
+        ],
         dts: 'src/types/components.d.ts'
+      }),
+      Icons({
+        autoInstall: true
       }),
       ElementPlus({})
     ],
