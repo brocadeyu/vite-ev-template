@@ -91,9 +91,9 @@ export default class EventHandler {
   worldCoordinate2Carto(cartesian): number[] | undefined {
     if (cartesian === undefined) return undefined
     const cartographic = Cesium.Cartographic.fromCartesian(cartesian)
-    const lng = Cesium.Math.toDegrees(cartographic.longitude)
-    const lat = Cesium.Math.toDegrees(cartographic.latitude)
+    const lng = Cesium.Math.toDegrees(cartographic.longitude).toFixed(3)
+    const lat = Cesium.Math.toDegrees(cartographic.latitude).toFixed(3)
     const height = cartographic.height
-    return [lng, lat, height]
+    return [Number(lng), Number(lat), height]
   }
 }
