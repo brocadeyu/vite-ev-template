@@ -5,6 +5,7 @@
     :height="'330px'"
     :width="'450px'"
     :is-draggable="true"
+    :bg="data.modelInfo.img"
   >
     <template #content>
       <el-form
@@ -13,8 +14,8 @@
         class="entity-form"
         :style="{
           // backgroundImage: 'url(' + data.modelInfo.img + ')',
-          backgroundSize: '100% 100%',
-          backgroundRepeat: 'no-repeat'
+          // backgroundSize: '100% 100%',
+          // backgroundRepeat: 'no-repeat'
         }"
       >
         <el-row>

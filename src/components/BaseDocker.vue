@@ -3,7 +3,11 @@
     v-dialogDrag="isDraggable"
     :style="{
       width: computedStyle.width,
-      height: computedStyle.height
+      height: computedStyle.height,
+      backgroundImage: 'url(' + bg + ')',
+      backgroundSize: '100% 100%',
+      backgroundRepeat: 'no-repeat',
+      boxShadow: 'inset 0px 0px 200px 130px #0b1a39'
     }"
     class="bd-warpper"
   >
@@ -11,7 +15,7 @@
       <div>{{ props.title }}</div>
       <slot name="header"></slot>
     </div>
-    <div class="bd-content">
+    <div class="bd-content" :style="{}">
       <slot name="content"></slot>
     </div>
     <div v-if="showFooter" class="bd-footer">
@@ -21,6 +25,7 @@
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
+// import SHIP052D from '@/assets/model/052d.png'
 const props = withDefaults(
   defineProps<{
     title?: string
@@ -28,8 +33,9 @@ const props = withDefaults(
     height: string
     showFooter?: boolean
     isDraggable?: boolean
+    bg?: string
   }>(),
-  { title: '', showFooter: false, isDraggable: false }
+  { title: '', showFooter: false, isDraggable: false, bg: '' }
 )
 
 const computedStyle = computed(() => ({
