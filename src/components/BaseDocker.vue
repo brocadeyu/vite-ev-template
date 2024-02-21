@@ -1,5 +1,6 @@
 <template>
   <div
+    v-dialogDrag="isDraggable"
     :style="{
       width: computedStyle.width,
       height: computedStyle.height
@@ -26,8 +27,9 @@ const props = withDefaults(
     width: string
     height: string
     showFooter?: boolean
+    isDraggable?: boolean
   }>(),
-  { title: '', showFooter: false }
+  { title: '', showFooter: false, isDraggable: false }
 )
 
 const computedStyle = computed(() => ({
@@ -38,6 +40,7 @@ const computedStyle = computed(() => ({
 
 <style scoped>
 .bd-warpper {
+  position: fixed;
   background-color: #0b1a39;
   border: 2px solid #119aa0;
   box-sizing: border-box;

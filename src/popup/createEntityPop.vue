@@ -4,6 +4,7 @@
     :show-footer="true"
     :height="'330px'"
     :width="'450px'"
+    :is-draggable="true"
   >
     <template #content>
       <el-form
