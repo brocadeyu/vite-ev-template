@@ -16,7 +16,7 @@
               width="60px"
               height="60px"
             />
-            {{ item.name }}
+            {{ item.type }}
           </div>
         </div>
       </template>
@@ -36,19 +36,19 @@ import { useCesiumStore } from '@/stores/cesiumStore'
 import { usePopupStore } from '@/stores/popupStore'
 const modelConfig = ref([
   {
-    name: '武装直升机',
+    type: '武装直升机',
     img: WZImg
   },
   {
-    name: '侦察直升机',
+    type: '侦察直升机',
     img: ZCImg
   },
   {
-    name: '中国052C型驱逐舰',
+    type: '中国052C型驱逐舰',
     img: SHIP052C
   },
   {
-    name: '中国052D型驱逐舰',
+    type: '中国052D型驱逐舰',
     img: SHIP052D
   }
 ])
@@ -56,6 +56,7 @@ const activeIndex = ref<number>(-1)
 const cesiumStore = useCesiumStore()
 const popupStore = usePopupStore()
 const tryAddEntity = (modelInfo, index: number) => {
+  if (activeIndex.value !== -1) return
   activeIndex.value = index
   cesiumStore.cesium.eventHandler.register({
     type: 'LeftClick',

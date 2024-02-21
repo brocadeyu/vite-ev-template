@@ -11,6 +11,7 @@ import path from 'path'
 import simpleHtmlPlugin from 'vite-plugin-simple-html'
 import eslint from 'vite-plugin-eslint'
 import gltf from 'vite-plugin-gltf'
+import glsl from 'vite-plugin-glsl'
 export default defineConfig(({ command, mode }) => {
   // const env = loadEnv(mode, process.cwd(), '')
   // console.log(env)
@@ -23,6 +24,7 @@ export default defineConfig(({ command, mode }) => {
         cesium: 'Cesium'
       }),
       gltf(),
+      glsl(),
       simpleHtmlPlugin({
         minify: true,
         inject: {

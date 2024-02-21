@@ -13,7 +13,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "types": ["element-plus/global", "vite/client"],
+    "types": ["element-plus/global", "vite/client", "vite-plugin-glsl/ext"],
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
