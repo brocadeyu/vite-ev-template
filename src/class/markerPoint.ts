@@ -1,4 +1,4 @@
-import type { CustomDataSource, Viewer, Entity } from 'cesium'
+import type { CustomDataSource, Viewer } from 'cesium'
 import LocateImg from '@/assets/locate.png'
 export default class MarkerPoint {
   viewer: Viewer
@@ -14,8 +14,9 @@ export default class MarkerPoint {
       position: Cesium.Cartesian3.fromDegrees(position[0], position[1]),
       billboard: {
         image: LocateImg,
-        width: 50,
-        height: 50
+        width: 40,
+        height: 43,
+        scale: 0.8
       }
     })
   }
