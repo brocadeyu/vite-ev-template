@@ -58,6 +58,7 @@ import { ElTreeV2 } from 'element-plus'
 import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
 import { useEntityStore } from '@/stores/entityStore'
 import { watch } from 'vue'
+import { storeToRefs } from 'pinia'
 const showPath = ref(true)
 const queryStr = ref('')
 const treeRef = ref<InstanceType<typeof ElTreeV2>>()
@@ -78,8 +79,9 @@ const onQueryChanged = (query: string) => {
 const filterMethod = (query: string, node: TreeNode) => {
   return node.label!.includes(query)
 }
+const { entitiesArr } = storeToRefs(entityStore)
 watch(
-  entityStore.entitiesArr,
+  entitiesArr,
   (newVal) => {
     setTreeData(
       newVal.map((_): any => {

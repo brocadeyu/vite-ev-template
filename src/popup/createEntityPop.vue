@@ -154,6 +154,7 @@
 import BaseDocker from '../components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
 import { useCesiumStore } from '@/stores/cesiumStore'
+import { useEntityStore } from '@/stores/entityStore'
 import { onMounted } from 'vue'
 const props = withDefaults(
   defineProps<{
@@ -196,6 +197,7 @@ const trackPointArr = computed(() => {
 })
 const popupStore = usePopupStore()
 const cesiumStore = useCesiumStore()
+const entityStore = useEntityStore()
 let trackLine: MarkerLine
 const closePopup = () => {
   popupStore.closePop()
@@ -207,6 +209,12 @@ const onSave = () => {
   formRef.value.validate((valid) => {
     if (valid) {
       console.log('校验成功')
+      const opt = {
+        ...formData,
+        id: formData.name
+      }
+      entityStore.addEntity(opt)
+      closePopup()
     } else {
       console.log('校验失败')
       return false

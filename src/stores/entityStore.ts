@@ -2,6 +2,7 @@ import Entity from '@/class/entity'
 import { RawEntity } from '@/interface/thought'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { IAddEntityOpt } from '@/interface/entity'
 export const useEntityStore = defineStore('entity', () => {
   const entities = ref({})
   const initEntityStore = (rawList?: RawEntity[]) => {
@@ -17,6 +18,10 @@ export const useEntityStore = defineStore('entity', () => {
   const entitiesArr = computed(() => {
     return Object.values(entities.value)
   })
+  const addEntity = (opt: IAddEntityOpt) => {
+    const t = new Entity(opt)
+    entities.value[opt.id] = t
+  }
 
-  return { entities, entitiesArr, initEntityStore, resetEntity }
+  return { entities, entitiesArr, initEntityStore, resetEntity, addEntity }
 })
