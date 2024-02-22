@@ -1,6 +1,6 @@
 import type { Viewer, ScreenSpaceEventHandler, Cartesian3 } from 'cesium'
 interface EventParam {
-  type: 'LeftClick' | 'DoubleClick'
+  type: 'LeftClick' | 'LeftDoubleClick'
   id: string
   callBack?: (
     e:
@@ -39,12 +39,17 @@ export default class EventHandler {
     const eventType = this.getCesiumEventType(type)
     //未注册此类事件则注册监听
     if (!this.eventMap.get(eventType)) {
-      this.eventMap.set(Cesium.ScreenSpaceEventType.LEFT_CLICK, [])
+      this.eventMap.set(eventType, [])
       this._cesiumScreenHandler.setInputAction((e) => {
         let param = e
         const worldCoords = this.screenCoordinate2World(e.position)
         const cartoCoords = this.worldCoordinate2Carto(worldCoords)
-        if (eventType === Cesium.ScreenSpaceEventType.LEFT_CLICK) {
+        if (
+          [
+            Cesium.ScreenSpaceEventType.LEFT_CLICK,
+            Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
+          ].includes(eventType)
+        ) {
           param = { position: cartoCoords }
         }
         this.eventMap.get(eventType).forEach((_) => {
@@ -73,6 +78,9 @@ export default class EventHandler {
     switch (type) {
       case 'LeftClick':
         return Cesium.ScreenSpaceEventType.LEFT_CLICK
+        break
+      case 'LeftDoubleClick':
+        return Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
         break
     }
   }

@@ -32,6 +32,7 @@ declare module 'vue' {
     IEpAddLocation: typeof import('~icons/ep/add-location')['default']
     IEpCircleCheckFilled: typeof import('~icons/ep/circle-check-filled')['default']
     IEpDocument: typeof import('~icons/ep/document')['default']
+    IEpEditPen: typeof import('~icons/ep/edit-pen')['default']
     IEpLocation: typeof import('~icons/ep/location')['default']
     PopUp: typeof import('./../components/PopUp.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

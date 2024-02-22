@@ -50,18 +50,17 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="24">
+          <el-col :span="15">
             <el-form-item label="航线">
               <el-table
                 size="small"
                 :show-header="false"
                 height="80"
-                width="200"
-                :data="[
-                  { index: 0, pos: '119,20' },
-                  { index: 1, pos: '120,30' }
-                ]"
-                style="--el-table-border-color: none"
+                :data="formData.path"
+                style="
+                  --el-table-border-color: none;
+                  --el-table-bg-color: transparent;
+                "
                 :header-cell-style="{
                   fontSize: '12px',
                   height: '20px',
@@ -83,9 +82,22 @@
                 }"
               >
                 <!-- <el-table-column prop="index" label="序号" /> -->
-                <el-table-column prop="pos" label="位置" />
+                <el-table-column
+                  prop="pos"
+                  label="位置"
+                  width="170"
+                  :align="'center'"
+                />
               </el-table> </el-form-item
           ></el-col>
+          <el-col :span="9">
+            <el-form-item>
+              <el-button type="primary" size="small" @click="editPath"
+                >{{ isPickStatus ? '标绘' : '标绘'
+                }}<el-icon :size="16"><i-ep-editPen /></el-icon
+              ></el-button>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
@@ -112,7 +124,7 @@
         <el-button type="primary" size="small" @click="closePopup"
           >取消</el-button
         >
-        <el-button type="primary" size="small">确定</el-button>
+        <el-button type="primary" size="small" @click="onSave">保存</el-button>
       </div>
     </template>
   </base-docker>
@@ -130,15 +142,16 @@ const props = withDefaults(
   }>(),
   { title: '' }
 )
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 const formData = reactive({
   type: '',
   name: '',
   position: [],
-  path: '',
+  path: [],
   equipment: ''
 })
+const isPickStatus = ref(false) //是否开启地图选点状态
 const equipmentConfig = reactive([
   { name: '短波电台', isHas: false, isUse: false },
   { name: '对空超短波电台', isHas: false, isUse: false },
@@ -152,8 +165,48 @@ const closePopup = () => {
   popupStore.closePop()
   cesiumStore.cesium.markMap.markPoint.remove(dyPoint)
 }
+const onSave = () => {
+  console.log('saveData', formData)
+}
+const editPath = () => {
+  if (isPickStatus.value) return
+  isPickStatus.value = true
+  cesiumStore.cesium.eventHandler.register({
+    type: 'LeftClick',
+    id: 'pickEditPathPoint',
+    callBack: (e) => {
+      console.log('单击绘制', JSON.stringify(e.position))
+      formData.path.push({
+        index: 0,
+        pos: [e.position[0], e.position[1]]
+      })
+      //取出path绘制线
+    }
+  })
+  cesiumStore.cesium.eventHandler.register({
+    type: 'LeftDoubleClick',
+    id: 'endEditPath',
+    callBack: (e) => {
+      console.log('结束绘制', JSON.stringify(e.position))
+      formData.path.push({
+        index: 0,
+        pos: [e.position[0], e.position[1]]
+      })
+      //取出path绘制线
+      cesiumStore.cesium.eventHandler.remove({
+        type: 'LeftClick',
+        id: 'pickEditPathPoint'
+      })
+      isPickStatus.value = false
+    }
+  })
+  //注册右击事件？
+  //注册双击事件，结束绘制
+}
 let dyPoint: any
 const pickPoint = () => {
+  if (isPickStatus.value) return
+  isPickStatus.value = true
   cesiumStore.cesium.eventHandler.register({
     type: 'LeftClick',
     id: 'pickEntityPoint',
@@ -164,10 +217,12 @@ const pickPoint = () => {
         item: dyPoint,
         position: [e.position[0], e.position[1]]
       })
+      formData.path[0] = { index: 0, pos: [e.position[0], e.position[1]] }
       cesiumStore.cesium.eventHandler.remove({
         type: 'LeftClick',
         id: 'pickEntityPoint'
       })
+      isPickStatus.value = false
     }
   })
 }
@@ -175,12 +230,10 @@ onMounted(() => {
   // console.log('daa', props.data)
   formData.type = props.data.modelInfo.type
   formData.position = [props.data.position[0], props.data.position[1], 3000]
-  // const cartographicCenter = new Cesium.Cartographic(
-  //   Cesium.Math.toRadians(props.data.position[0]),
-  //   Cesium.Math.toRadians(props.data.position[1]),
-  //   0
-  // )
-  // const scanColor = new Cesium.Color(1.0, 0.0, 0.0, 1)
+  formData.path.push({
+    index: 0,
+    pos: [props.data.position[0], props.data.position[1]]
+  })
   dyPoint = cesiumStore.cesium.markMap.markPoint.addItem({
     position: [props.data.position[0], props.data.position[1]]
   })
