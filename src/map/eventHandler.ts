@@ -68,7 +68,7 @@ export default class EventHandler {
             this.eventMap.get(eventType).forEach((_) => {
               _.fn(param)
             })
-          }, 50)
+          }, 300)
         } else {
           this.eventMap.get(eventType).forEach((_) => {
             _.fn(param)

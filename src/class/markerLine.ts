@@ -3,32 +3,22 @@ import * as Cesium from 'cesium'
 export default class MarkerLine {
   viewer: Viewer
   redLine: any
-  // position: Array
-  p: [] = []
+  linePositionArr: [] = []
   pointerPosition: [] = []
   constructor(viewer: Viewer, position: Array) {
-    this.p = position
-    // console.log('position', position, [
-    //   ...this.p,
-    //   ...(this.pointerPosition.length
-    //     ? this.pointerPosition
-    //     : [position[position.length - 2], position[position.length - 1]])
-    // ])
-    // setInterval(() => {
-    //   console.log(this.p.length)
-    // }, 2000)
-
+    this.linePositionArr = position
+    this.pointerPosition = [
+      this.linePositionArr[this.linePositionArr.length - 2],
+      this.linePositionArr[this.linePositionArr.length - 1]
+    ]
+    this.viewer = viewer
+    console.log('ppp', this.linePositionArr)
     this.redLine = viewer.entities.add({
       polyline: {
         // This callback updates positions each frame.
         positions: new Cesium.CallbackProperty(() => {
           return Cesium.Cartesian3.fromDegreesArray(
-            [
-              ...this.p,
-              ...(this.pointerPosition.length
-                ? this.pointerPosition
-                : [this.p[this.p.length - 2], this.p[this.p.length - 1]])
-            ],
+            [...this.linePositionArr, ...this.pointerPosition],
             Cesium.Ellipsoid.WGS84
           )
         }, false),
@@ -38,12 +28,26 @@ export default class MarkerLine {
     })
     return this
   }
-  update(position) {
-    this.redLine.polyline.positions = Cesium.Cartesian3.fromDegreesArray(
-      position,
-      Cesium.Ellipsoid.WGS84
-    )
-    console.log(this.redLine)
+  /**
+   * @description 更新线数据
+   * @param p
+   */
+  updateLinePosition(p) {
+    console.log('pp', p)
+
+    this.linePositionArr = p
+    if (p.length === 2) {
+      this.pointerPosition = [p[p.length - 2], p[p.length - 1]]
+    }
   }
-  destroy() {}
+  /**
+   * @description 更新鼠标地理位置
+   * @param p
+   */
+  updatePointerPosition(p) {
+    this.pointerPosition = p
+  }
+  destroy() {
+    this.viewer.entities.remove(this.redLine)
+  }
 }

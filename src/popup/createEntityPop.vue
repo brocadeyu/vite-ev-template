@@ -102,7 +102,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="装备配置">
-              <div v-for="(item, index) in equipmentConfig" :key="index">
+              <div v-for="(item, index) in formData.equipment" :key="index">
                 <el-checkbox v-model="item.isHas" size="small">{{
                   item.name
                 }}</el-checkbox>
@@ -149,21 +149,29 @@ const formData = reactive({
   name: '',
   position: [],
   path: [],
-  equipment: ''
+  equipment: [
+    { name: '短波电台', isHas: false, isUse: false },
+    { name: '对空超短波电台', isHas: false, isUse: false },
+    { name: '对海超短波电台', isHas: false, isUse: false },
+    { name: '微波电台', isHas: false, isUse: false },
+    { name: '卫星通信设备', isHas: false, isUse: false }
+  ]
 })
 const isPickStatus = ref(false) //是否开启地图选点状态
-const equipmentConfig = reactive([
-  { name: '短波电台', isHas: false, isUse: false },
-  { name: '对空超短波电台', isHas: false, isUse: false },
-  { name: '对海超短波电台', isHas: false, isUse: false },
-  { name: '微波电台', isHas: false, isUse: false },
-  { name: '卫星通信设备', isHas: false, isUse: false }
-])
+const trackPointArr = computed(() => {
+  return formData.path
+    .map((_) => {
+      return _.pos
+    })
+    .flat()
+})
 const popupStore = usePopupStore()
 const cesiumStore = useCesiumStore()
+let trackLine: MarkerLine
 const closePopup = () => {
   popupStore.closePop()
   cesiumStore.cesium.markMap.markPoint.remove(dyPoint)
+  trackLine.destroy()
 }
 const onSave = () => {
   console.log('saveData', formData)
@@ -181,28 +189,25 @@ const editPath = () => {
         index: 0,
         pos: [e.position[0], e.position[1]]
       })
-      track.p = trackPointArr.value as any
+      trackLine.updateLinePosition(
+        formData.path
+          .map((_) => {
+            return _.pos
+          })
+          .flat() as any
+      )
       //取出path绘制线
       //cesiumStore.cesium.markMap.markTools.addLine()
     }
   })
-  const trackPointArr = computed(() => {
-    return formData.path
-      .map((_) => {
-        return _.pos
-      })
-      .flat()
-  })
-  const track = new MarkerLine(
-    cesiumStore.cesium.viewer,
-    trackPointArr.value as any
-  )
+
   cesiumStore.cesium.eventHandler.register({
     type: 'MouseMove',
     id: 'getDynamicPoint',
     callBack: (e) => {
       // console.log('鼠标点位', JSON.stringify(e.position))
-      track.pointerPosition = [e.position[0], e.position[1]] as any
+      trackLine.updatePointerPosition([e.position[0], e.position[1]] as any)
+      // console.log('trackLine', trackLine)
     }
   })
   cesiumStore.cesium.eventHandler.register({
@@ -214,7 +219,13 @@ const editPath = () => {
         index: 0,
         pos: [e.position[0], e.position[1]]
       })
-      //取出path绘制线
+      trackLine.updateLinePosition(
+        formData.path
+          .map((_) => {
+            return _.pos
+          })
+          .flat() as any
+      )
       cesiumStore.cesium.eventHandler.remove({
         type: 'LeftClick',
         id: 'pickEditPathPoint'
@@ -230,8 +241,6 @@ const editPath = () => {
       isPickStatus.value = false
     }
   })
-  //注册右击事件？
-  //注册双击事件，结束绘制
 }
 let dyPoint: any
 const pickPoint = () => {
@@ -248,6 +257,13 @@ const pickPoint = () => {
         position: [e.position[0], e.position[1]]
       })
       formData.path[0] = { index: 0, pos: [e.position[0], e.position[1]] }
+      trackLine.updateLinePosition(
+        formData.path
+          .map((_) => {
+            return _.pos
+          })
+          .flat() as any
+      )
       cesiumStore.cesium.eventHandler.remove({
         type: 'LeftClick',
         id: 'pickEntityPoint'
@@ -267,6 +283,10 @@ onMounted(() => {
   dyPoint = cesiumStore.cesium.markMap.markPoint.addItem({
     position: [props.data.position[0], props.data.position[1]]
   })
+  trackLine = new MarkerLine(
+    cesiumStore.cesium.viewer,
+    trackPointArr.value as any
+  )
   // console.log('dyPoint', dyPoint)
 })
 </script>
