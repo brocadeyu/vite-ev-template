@@ -123,7 +123,6 @@ import BaseDocker from '../components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { onMounted } from 'vue'
-import * as Cesium from 'cesium'
 const props = withDefaults(
   defineProps<{
     title?: string
@@ -151,14 +150,20 @@ const popupStore = usePopupStore()
 const cesiumStore = useCesiumStore()
 const closePopup = () => {
   popupStore.closePop()
+  cesiumStore.cesium.markMap.markPoint.remove(dyPoint)
 }
+let dyPoint: any
 const pickPoint = () => {
   cesiumStore.cesium.eventHandler.register({
     type: 'LeftClick',
     id: 'pickEntityPoint',
     callBack: (e) => {
-      console.log('点击地图', e)
+      // console.log('点击地图', e)
       formData.position = [e.position[0], e.position[1], 3000]
+      cesiumStore.cesium.markMap.markPoint.updatePosition({
+        item: dyPoint,
+        position: [e.position[0], e.position[1]]
+      })
       cesiumStore.cesium.eventHandler.remove({
         type: 'LeftClick',
         id: 'pickEntityPoint'
@@ -167,7 +172,7 @@ const pickPoint = () => {
   })
 }
 onMounted(() => {
-  console.log('daa', props.data)
+  // console.log('daa', props.data)
   formData.type = props.data.modelInfo.type
   formData.position = [props.data.position[0], props.data.position[1], 3000]
   // const cartographicCenter = new Cesium.Cartographic(
@@ -176,12 +181,9 @@ onMounted(() => {
   //   0
   // )
   // const scanColor = new Cesium.Color(1.0, 0.0, 0.0, 1)
-  // const dyPoint = cesiumStore.cesium.markMap.addDynamicPoint({
-  //   cartographicCenter,
-  //   maxRadius: 150000,
-  //   scanColor,
-  //   duration: 4000
-  // })
+  dyPoint = cesiumStore.cesium.markMap.markPoint.addItem({
+    position: [props.data.position[0], props.data.position[1]]
+  })
   // console.log('dyPoint', dyPoint)
 })
 </script>
