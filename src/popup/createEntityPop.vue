@@ -74,6 +74,7 @@
               <el-table
                 size="small"
                 :show-header="false"
+                :scrollbar-always-on="true"
                 height="80"
                 :data="formData.path"
                 style="
