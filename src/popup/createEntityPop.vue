@@ -8,7 +8,12 @@
     :bg="data.modelInfo.img"
   >
     <template #content>
-      <el-form :inline="true" :model="formData" class="entity-form">
+      <el-form
+        ref="formRef"
+        :inline="true"
+        :model="formData"
+        class="entity-form"
+      >
         <el-row>
           <el-col :span="12">
             <el-form-item label="类型">
@@ -21,7 +26,21 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="名称">
+            <el-form-item
+              label="名称"
+              prop="name"
+              :rules="[
+                {
+                  required: true,
+                  message: '名称不可为空',
+                  trigger: 'change'
+                },
+                {
+                  validator: validatePass2,
+                  trigger: 'change'
+                }
+              ]"
+            >
               <el-input
                 v-model="formData.name"
                 placeholder="请输入名称"
@@ -144,6 +163,15 @@ const props = withDefaults(
 )
 import { reactive, ref, computed } from 'vue'
 import MarkerLine from '@/class/markerLine'
+import type { FormInstance } from 'element-plus'
+const validatePass2 = (rule: any, value: any, callback: any) => {
+  if (value === '123') {
+    callback(new Error('名称已存在!'))
+  } else {
+    callback()
+  }
+}
+const formRef = ref<FormInstance>()
 const formData = reactive({
   type: '',
   name: '',
@@ -175,6 +203,14 @@ const closePopup = () => {
 }
 const onSave = () => {
   console.log('saveData', formData)
+  formRef.value.validate((valid) => {
+    if (valid) {
+      console.log('校验成功')
+    } else {
+      console.log('校验失败')
+      return false
+    }
+  })
 }
 
 const editPath = () => {
