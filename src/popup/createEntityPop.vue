@@ -142,8 +142,8 @@ const props = withDefaults(
   }>(),
   { title: '' }
 )
-import { reactive, ref } from 'vue'
-
+import { reactive, ref, computed } from 'vue'
+import MarkerLine from '@/class/markerLine'
 const formData = reactive({
   type: '',
   name: '',
@@ -168,6 +168,7 @@ const closePopup = () => {
 const onSave = () => {
   console.log('saveData', formData)
 }
+
 const editPath = () => {
   if (isPickStatus.value) return
   isPickStatus.value = true
@@ -180,7 +181,28 @@ const editPath = () => {
         index: 0,
         pos: [e.position[0], e.position[1]]
       })
+      track.p = trackPointArr.value as any
       //取出path绘制线
+      //cesiumStore.cesium.markMap.markTools.addLine()
+    }
+  })
+  const trackPointArr = computed(() => {
+    return formData.path
+      .map((_) => {
+        return _.pos
+      })
+      .flat()
+  })
+  const track = new MarkerLine(
+    cesiumStore.cesium.viewer,
+    trackPointArr.value as any
+  )
+  cesiumStore.cesium.eventHandler.register({
+    type: 'MouseMove',
+    id: 'getDynamicPoint',
+    callBack: (e) => {
+      // console.log('鼠标点位', JSON.stringify(e.position))
+      track.pointerPosition = [e.position[0], e.position[1]] as any
     }
   })
   cesiumStore.cesium.eventHandler.register({
@@ -196,6 +218,14 @@ const editPath = () => {
       cesiumStore.cesium.eventHandler.remove({
         type: 'LeftClick',
         id: 'pickEditPathPoint'
+      })
+      cesiumStore.cesium.eventHandler.remove({
+        type: 'MouseMove',
+        id: 'getDynamicPoint'
+      })
+      cesiumStore.cesium.eventHandler.remove({
+        type: 'LeftDoubleClick',
+        id: 'endEditPath'
       })
       isPickStatus.value = false
     }

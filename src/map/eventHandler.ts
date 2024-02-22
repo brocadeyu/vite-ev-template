@@ -1,6 +1,6 @@
 import type { Viewer, ScreenSpaceEventHandler, Cartesian3 } from 'cesium'
 interface EventParam {
-  type: 'LeftClick' | 'LeftDoubleClick'
+  type: 'LeftClick' | 'LeftDoubleClick' | 'MouseMove'
   id: string
   callBack?: (
     e:
@@ -27,6 +27,7 @@ export default class EventHandler {
   viewer: Viewer
   _cesiumScreenHandler: ScreenSpaceEventHandler
   eventMap: Map<string, EventItem[]>
+  _timer: null
   constructor(viewer: Viewer) {
     this.viewer = viewer
     this.eventMap = new Map()
@@ -41,20 +42,35 @@ export default class EventHandler {
     if (!this.eventMap.get(eventType)) {
       this.eventMap.set(eventType, [])
       this._cesiumScreenHandler.setInputAction((e) => {
+        if (this._timer) {
+          clearTimeout(this._timer)
+        }
+        // console.log('eee', e)
         let param = e
-        const worldCoords = this.screenCoordinate2World(e.position)
+        const worldCoords = this.screenCoordinate2World(
+          e.position || e.endPosition
+        )
         const cartoCoords = this.worldCoordinate2Carto(worldCoords)
         if (
           [
             Cesium.ScreenSpaceEventType.LEFT_CLICK,
-            Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
+            Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK,
+            Cesium.ScreenSpaceEventType.MOUSE_MOVE
           ].includes(eventType)
         ) {
           param = { position: cartoCoords }
         }
-        this.eventMap.get(eventType).forEach((_) => {
-          _.fn(param)
-        })
+        if (eventType === Cesium.ScreenSpaceEventType.LEFT_CLICK) {
+          this._timer = setTimeout(() => {
+            this.eventMap.get(eventType).forEach((_) => {
+              _.fn(param)
+            })
+          }, 200)
+        } else {
+          this.eventMap.get(eventType).forEach((_) => {
+            _.fn(param)
+          })
+        }
       }, eventType)
     }
     const eventArr = this.eventMap.get(eventType)
@@ -81,6 +97,9 @@ export default class EventHandler {
         break
       case 'LeftDoubleClick':
         return Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
+        break
+      case 'MouseMove':
+        return Cesium.ScreenSpaceEventType.MOUSE_MOVE
         break
     }
   }
