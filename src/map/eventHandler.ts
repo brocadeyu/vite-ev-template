@@ -42,7 +42,10 @@ export default class EventHandler {
     if (!this.eventMap.get(eventType)) {
       this.eventMap.set(eventType, [])
       this._cesiumScreenHandler.setInputAction((e) => {
-        if (this._timer) {
+        if (
+          this._timer &&
+          eventType === Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
+        ) {
           clearTimeout(this._timer)
         }
         // console.log('eee', e)
@@ -65,7 +68,7 @@ export default class EventHandler {
             this.eventMap.get(eventType).forEach((_) => {
               _.fn(param)
             })
-          }, 200)
+          }, 50)
         } else {
           this.eventMap.get(eventType).forEach((_) => {
             _.fn(param)
