@@ -16,7 +16,9 @@ export default class MarkerPoint {
         image: LocateImg,
         width: 40,
         height: 43,
-        scale: 0.8
+        scale: 0.8,
+        pixelOffset: new Cesium.Cartesian2(0, -10),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY
       }
     })
   }
