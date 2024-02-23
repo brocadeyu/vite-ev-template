@@ -37,6 +37,7 @@
             :filter-method="filterMethod"
             :height="150"
             empty-text="暂无数据"
+            @node-contextmenu="openContextMenu"
           />
         </div>
       </template>
@@ -53,6 +54,7 @@
 
 <script setup lang="ts">
 import BaseDocker from '@/components/BaseDocker.vue'
+import ContextMenu from '@imengyu/vue3-context-menu'
 import { ref } from 'vue'
 import { ElTreeV2 } from 'element-plus'
 import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
@@ -72,7 +74,35 @@ const entityStore = useEntityStore()
 const setTreeData = (data: any) => {
   treeRef.value?.setData(data)
 }
-
+const openContextMenu = (e, data) => {
+  e.preventDefault()
+  ContextMenu.showContextMenu({
+    x: e.x,
+    y: e.y,
+    items: [
+      {
+        label: '编辑',
+        svgIcon: '#icon-bianji',
+        svgProps: {
+          color: '#f60'
+        },
+        onClick: () => {
+          console.log(data)
+        }
+      },
+      {
+        label: '删除',
+        svgIcon: '#icon-ziyuanxhdpi',
+        svgProps: {
+          color: '#f60'
+        },
+        onClick: () => {
+          console.log(data)
+        }
+      }
+    ]
+  })
+}
 const onQueryChanged = (query: string) => {
   treeRef.value!.filter(query)
 }

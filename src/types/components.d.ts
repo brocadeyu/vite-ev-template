@@ -10,6 +10,7 @@ declare module 'vue' {
     BaseDocker: typeof import('./../components/BaseDocker.vue')['default']
     BaseHeader: typeof import('./../components/BaseHeader.vue')['default']
     CesiumMap: typeof import('./../components/CesiumMap.vue')['default']
+    ContexMenu: typeof import('./../components/ContextMenu/src/ContexMenu.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCol: typeof import('element-plus/es')['ElCol']
