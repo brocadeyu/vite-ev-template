@@ -59,6 +59,7 @@ import { ref } from 'vue'
 import { ElTreeV2 } from 'element-plus'
 import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
 import { useEntityStore } from '@/stores/entityStore'
+import { usePopupStore } from '@/stores/popupStore'
 import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
 const showPath = ref(true)
@@ -71,6 +72,7 @@ const props = {
 }
 const data = []
 const entityStore = useEntityStore()
+const popupStore = usePopupStore()
 const setTreeData = (data: any) => {
   treeRef.value?.setData(data)
 }
@@ -88,6 +90,11 @@ const openContextMenu = (e, data) => {
         },
         onClick: () => {
           console.log(data)
+          // popupStore.openPop({
+          //   title: '添加实体',
+          //   type: 'createEntity'
+          //   // data: { position: e.position, modelInfo }
+          // })
         }
       },
       {
@@ -98,6 +105,8 @@ const openContextMenu = (e, data) => {
         },
         onClick: () => {
           console.log(data)
+          const id = data.id
+          entityStore.removeEntityById(id)
         }
       }
     ]
