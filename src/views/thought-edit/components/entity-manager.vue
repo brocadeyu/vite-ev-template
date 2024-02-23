@@ -43,9 +43,15 @@
       </template>
       <template #footer>
         <div class="foot-btns">
-          <el-button type="primary" size="small">链生成</el-button>
-          <el-button type="primary" size="small">链校验</el-button>
-          <el-button type="primary" size="small">计划</el-button>
+          <el-button type="primary" size="small" @click="openLinkGenPop"
+            >链生成</el-button
+          >
+          <el-button type="primary" size="small" @click="openLinkCheckPop"
+            >链校验</el-button
+          >
+          <el-button type="primary" size="small" @click="openWarPlanPop"
+            >计划</el-button
+          >
         </div>
       </template>
     </BaseDocker>
@@ -100,7 +106,11 @@ const openContextMenu = (e, data: ITreeNodeData) => {
           popupStore.openPop({
             title: '编辑实体',
             type: 'createEntity',
-            data: { position: entity.position, type: data.id, name: entity.id }
+            data: {
+              position: entity.position,
+              type: entity.type,
+              name: entity.id
+            }
           })
         }
       },
@@ -117,6 +127,19 @@ const openContextMenu = (e, data: ITreeNodeData) => {
         }
       }
     ]
+  })
+}
+const openLinkGenPop = () => {
+  popupStore.openPop({
+    title: '数据链生成',
+    type: 'genLink'
+  })
+}
+const openLinkCheckPop = () => {}
+const openWarPlanPop = () => {
+  popupStore.openPop({
+    title: '作战计划',
+    type: 'warPlan'
   })
 }
 const onQueryChanged = (query: string) => {

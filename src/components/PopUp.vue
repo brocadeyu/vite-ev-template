@@ -5,6 +5,8 @@
       :title="_title"
       :data="_data"
     ></createEntityPop>
+    <genLinkPop v-if="_type === 'genLink'" :title="_title"></genLinkPop>
+    <warPlanPop v-if="_type === 'warPlan'" :title="_title"></warPlanPop>
   </div>
 
   <Teleport to="body">
@@ -16,6 +18,8 @@
 import { usePopupStore } from '@/stores/popupStore'
 import { storeToRefs } from 'pinia'
 import createEntityPop from '@/popup/createEntityPop.vue'
+import genLinkPop from '@/popup/genLinkPop.vue'
+import warPlanPop from '@/popup/warPlanPop.vue'
 const popupStore = usePopupStore()
 const { _showMask, _showPop, _title, _type, _data } = storeToRefs(popupStore)
 </script>
