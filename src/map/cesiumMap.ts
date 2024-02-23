@@ -3,11 +3,13 @@ import GlobeImg from '@/assets/globe.jpg'
 import ModelMap from './modelMap'
 import MarkMap from './markMap'
 import EventHandler from './eventHandler'
+import TrackMap from './trackMap'
 import * as Cesium from 'cesium'
 export default class CesiumMap {
   viewer: Viewer
   modelMap: ModelMap
   markMap: MarkMap
+  trackMap: TrackMap
   eventHandler: EventHandler
   constructor(container: HTMLElement) {
     const opt = {
@@ -36,6 +38,7 @@ export default class CesiumMap {
     this.showAnimate()
     this.modelMap = new ModelMap(this.viewer)
     this.markMap = new MarkMap(this.viewer)
+    this.trackMap = new TrackMap(this.viewer)
     this.eventHandler = new EventHandler(this.viewer)
     return this
   }

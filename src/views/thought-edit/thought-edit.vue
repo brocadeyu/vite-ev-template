@@ -27,6 +27,7 @@ onMounted(() => {
   )
   entityStore.entitiesArr.forEach((_) => {
     cesiumStore.cesium.modelMap.addModel(_ as any)
+    cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
   })
 })
 onBeforeUnmount(() => {
