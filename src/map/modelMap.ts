@@ -1,8 +1,15 @@
 import { Viewer, PrimitiveCollection } from 'cesium'
 import * as Cesium from 'cesium'
 
-//@ts-expect-error test
-import flightUrl from '@/assets/model/Mi171ZC.gltf'
+import FLIGHT from '@/assets/model/Mi171ZC.gltf'
+import SHIP from '@/assets/model/052DQZJZC.gltf'
+import { EntityType } from '@/enums/entity'
+
+interface IAddModelOpt {
+  position: number[]
+  type: EntityType
+  id: string
+}
 export default class ModelMap {
   _viewer: Viewer
   _collection: PrimitiveCollection
@@ -13,29 +20,35 @@ export default class ModelMap {
     this._viewer.scene.primitives.add(this._collection)
     this._map = new Map()
   }
-  getModelUrlByType(type: string) {
-    //TODO
+  getModelUrlByType(type: EntityType) {
     switch (type) {
       case '武装直升机':
+        return FLIGHT
         break
-
-      default:
+      case '侦察直升机':
+        return FLIGHT
+        break
+      case '中国052C型驱逐舰':
+        return SHIP
+        break
+      case '中国052D型驱逐舰':
+        return SHIP
         break
     }
   }
-  addModel(opt: any) {
-    const { position, id } = opt
+  addModel(opt: IAddModelOpt) {
+    const { position, type, id } = opt
     const p = Cesium.Cartesian3.fromDegrees(
-      position[1],
       position[0],
+      position[1],
       position[2]
     )
     const headingPositionRoll = new Cesium.HeadingPitchRoll()
     const fixedFrameTransform =
       Cesium.Transforms.localFrameToFixedFrameGenerator('north', 'west')
-
+    const modelUrl = this.getModelUrlByType(type)
     let model = Cesium.Model.fromGltf({
-      url: flightUrl,
+      url: modelUrl,
       modelMatrix: Cesium.Transforms.headingPitchRollToFixedFrame(
         p,
         headingPositionRoll,

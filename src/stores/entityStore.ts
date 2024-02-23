@@ -25,7 +25,7 @@ export const useEntityStore = defineStore('entity', () => {
   const resetEntity = () => {
     entities.value = {}
   }
-  const entitiesArr = computed(() => {
+  const entitiesArr: Entity[] = computed(() => {
     return Object.values(entities.value)
   })
   const addEntity = (opt: IAddEntityOpt) => {
