@@ -66,7 +66,7 @@ const tryAddEntity = (modelInfo, index: number) => {
       popupStore.openPop({
         title: '添加实体',
         type: 'createEntity',
-        data: { position: e.position, modelInfo }
+        data: { position: e.position, type: modelInfo.type }
       })
       cesiumStore.cesium.eventHandler.remove({
         type: 'LeftClick',

@@ -62,6 +62,7 @@ import { useEntityStore } from '@/stores/entityStore'
 import { usePopupStore } from '@/stores/popupStore'
 import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
+import { EntityType } from '@/enums/entity'
 const showPath = ref(true)
 const queryStr = ref('')
 const treeRef = ref<InstanceType<typeof ElTreeV2>>()
@@ -70,13 +71,17 @@ const props = {
   label: 'id',
   children: 'children'
 }
+interface ITreeNodeData {
+  id: EntityType
+  label: string
+}
 const data = []
 const entityStore = useEntityStore()
 const popupStore = usePopupStore()
 const setTreeData = (data: any) => {
   treeRef.value?.setData(data)
 }
-const openContextMenu = (e, data) => {
+const openContextMenu = (e, data: ITreeNodeData) => {
   e.preventDefault()
   ContextMenu.showContextMenu({
     x: e.x,
@@ -90,11 +95,13 @@ const openContextMenu = (e, data) => {
         },
         onClick: () => {
           console.log(data)
-          // popupStore.openPop({
-          //   title: '添加实体',
-          //   type: 'createEntity'
-          //   // data: { position: e.position, modelInfo }
-          // })
+          const entity = entityStore.getEntityById(data.id)
+          console.log('entity', entity)
+          popupStore.openPop({
+            title: '编辑实体',
+            type: 'createEntity',
+            data: { position: entity.position, type: data.id, name: entity.id }
+          })
         }
       },
       {

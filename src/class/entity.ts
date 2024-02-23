@@ -1,5 +1,10 @@
 import { RawEntity } from '@/interface/thought'
 import { IAddEntityOpt } from '@/interface/entity'
+import WZImg from '@/assets/model/wzzsj.png'
+import ZCImg from '@/assets/model/zczsj.png'
+import SHIP052C from '@/assets/model/052c.png'
+import SHIP052D from '@/assets/model/052d.png'
+import { EntityType } from '@/enums/entity'
 /**
  * @description 实体
  * @id id {string}
@@ -10,7 +15,7 @@ import { IAddEntityOpt } from '@/interface/entity'
  */
 export default class Entity {
   id: string
-  type: string
+  type: EntityType
   position: []
   path: []
   constructor(opt: RawEntity | IAddEntityOpt) {
@@ -18,5 +23,21 @@ export default class Entity {
     this.type = opt.EntityName
     this.position = opt.Pos
     // this.type = opt.type
+  }
+  getEntityImg(): string {
+    switch (this.type) {
+      case '武装直升机':
+        return WZImg
+        break
+      case '侦察直升机':
+        return ZCImg
+        break
+      case '中国052C型驱逐舰':
+        return SHIP052C
+        break
+      case '中国052D型驱逐舰':
+        return SHIP052D
+        break
+    }
   }
 }

@@ -5,7 +5,7 @@
     :height="'400px'"
     :width="'450px'"
     :is-draggable="true"
-    :bg="data.modelInfo.img"
+    :bg="getEntityImgByType(data.type)"
   >
     <template #content>
       <el-form
@@ -156,16 +156,22 @@ import { usePopupStore } from '@/stores/popupStore'
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { useEntityStore } from '@/stores/entityStore'
 import { onMounted } from 'vue'
+import {
+  IOpenAddEntityPopProps,
+  IOpenEditEntityPopProps
+} from '@/interface/popup'
+import { getEntityImgByType } from '@/hooks/utils'
 const props = withDefaults(
   defineProps<{
     title?: string
-    data: any
+    data: IOpenAddEntityPopProps | IOpenEditEntityPopProps
   }>(),
   { title: '' }
 )
 import { reactive, ref, computed } from 'vue'
 import MarkerLine from '@/class/markerLine'
 import type { FormInstance } from 'element-plus'
+import { EntityType } from '@/enums/entity'
 const validatePass2 = (rule: any, value: any, callback: any) => {
   if (value === '123') {
     callback(new Error('名称已存在!'))
@@ -175,7 +181,7 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
 }
 const formRef = ref<FormInstance>()
 const formData = reactive({
-  type: '',
+  type: '' as EntityType,
   name: '',
   position: [],
   path: [],
@@ -205,10 +211,10 @@ const closePopup = () => {
   trackLine.destroy()
 }
 const onSave = () => {
-  console.log('saveData', formData)
+  // console.log('saveData', formData)
   formRef.value.validate((valid) => {
     if (valid) {
-      console.log('校验成功')
+      // console.log('校验成功')
       const opt = {
         ...formData,
         id: formData.name
@@ -216,7 +222,7 @@ const onSave = () => {
       entityStore.addEntity(opt)
       closePopup()
     } else {
-      console.log('校验失败')
+      // console.log('校验失败')
       return false
     }
   })
@@ -229,7 +235,7 @@ const editPath = () => {
     type: 'LeftClick',
     id: 'pickEditPathPoint',
     callBack: (e) => {
-      console.log('单击绘制', JSON.stringify(e.position))
+      // console.log('单击绘制', JSON.stringify(e.position))
       formData.path.push({
         index: 0,
         pos: [e.position[0], e.position[1]]
@@ -259,7 +265,7 @@ const editPath = () => {
     type: 'LeftDoubleClick',
     id: 'endEditPath',
     callBack: (e) => {
-      console.log('结束绘制', JSON.stringify(e.position))
+      // console.log('结束绘制', JSON.stringify(e.position))
       formData.path.push({
         index: 0,
         pos: [e.position[0], e.position[1]]
@@ -319,8 +325,12 @@ const pickPoint = () => {
 }
 onMounted(() => {
   // console.log('daa', props.data)
-  formData.type = props.data.modelInfo.type
+  formData.type = props.data.type
   formData.position = [props.data.position[0], props.data.position[1], 3000]
+  if ('name' in props.data) {
+    //IOpenEditEntityPopProps
+    formData.name = props.data.name
+  }
   formData.path.push({
     index: 0,
     pos: [props.data.position[0], props.data.position[1]]

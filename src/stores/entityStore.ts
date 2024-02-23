@@ -22,6 +22,9 @@ export const useEntityStore = defineStore('entity', () => {
     const t = new Entity(opt)
     entities.value[opt.id] = t
   }
+  const getEntityById: (id: string) => Entity = (id) => {
+    return entities.value[id]
+  }
   const removeEntityById = (id: string) => {
     const target = entities.value[id]
     if (target) {
@@ -35,6 +38,7 @@ export const useEntityStore = defineStore('entity', () => {
     initEntityStore,
     resetEntity,
     addEntity,
-    removeEntityById
+    removeEntityById,
+    getEntityById
   }
 })

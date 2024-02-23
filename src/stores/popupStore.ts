@@ -4,11 +4,16 @@
 
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import {
+  IOpenAddEntityPopProps,
+  IOpenEditEntityPopProps
+} from '@/interface/popup'
+
 interface IOpenPop {
   type: string
   title: string
   showMask?: boolean
-  data?: any
+  data?: IOpenAddEntityPopProps | IOpenEditEntityPopProps
 }
 export const usePopupStore = defineStore('popup', () => {
   const _showPop = ref(false)

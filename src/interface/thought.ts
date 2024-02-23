@@ -1,6 +1,7 @@
 /**
  * @description 想定
  */
+import { EntityType } from '@/enums/entity'
 export interface RawThought {
   name: string
   filepath: string
@@ -21,7 +22,7 @@ export interface RawEntity {
   id: string
   Pos: number[]
   EntityMC: string
-  EntityName: string
+  EntityName: EntityType
   AntennaePower: string
   Behaviour: []
   Equipment: []
