@@ -7,7 +7,11 @@
       :show-footer="true"
     >
       <template #header>
-        <el-checkbox v-model="showPath" label="轨迹显隐" />
+        <el-checkbox
+          v-model="showPath"
+          label="轨迹显隐"
+          @change="reverseTrackShow"
+        />
       </template>
       <template #content>
         <div class="content-tree">
@@ -69,6 +73,7 @@ import { usePopupStore } from '@/stores/popupStore'
 import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { EntityType } from '@/enums/entity'
+import { useCesiumStore } from '@/stores/cesiumStore'
 const showPath = ref(true)
 const queryStr = ref('')
 const treeRef = ref<InstanceType<typeof ElTreeV2>>()
@@ -84,8 +89,13 @@ interface ITreeNodeData {
 const data = []
 const entityStore = useEntityStore()
 const popupStore = usePopupStore()
+const cesiumStore = useCesiumStore()
 const setTreeData = (data: any) => {
   treeRef.value?.setData(data)
+}
+
+const reverseTrackShow = (e: boolean) => {
+  cesiumStore.cesium.trackMap.setAllVisible(e)
 }
 const openContextMenu = (e, data: ITreeNodeData) => {
   e.preventDefault()

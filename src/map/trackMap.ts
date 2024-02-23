@@ -68,4 +68,7 @@ export default class TrackMap {
     this._collection.add(trackPrimitive)
     this._map.set(id, trackPrimitive)
   }
+  setAllVisible(flag: boolean) {
+    this._collection.show = flag
+  }
 }
