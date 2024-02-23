@@ -8,7 +8,17 @@ export const useEntityStore = defineStore('entity', () => {
   const initEntityStore = (rawList?: RawEntity[]) => {
     entities.value = {}
     rawList.forEach((_) => {
-      const t = new Entity(_)
+      const convertPath = _.Behaviour[0].Points.map((_) => {
+        return [_[0], _[1], _[2]]
+      }) //根据原始格式转换格式
+      const opt: IAddEntityOpt = {
+        id: _.EntityMC,
+        type: _.EntityName,
+        position: [_.Pos[1], _.Pos[0], _.Pos[2]],
+        equipment: _.Equipment,
+        path: convertPath
+      }
+      const t = new Entity(opt)
       entities.value[_.id] = t
     })
   }

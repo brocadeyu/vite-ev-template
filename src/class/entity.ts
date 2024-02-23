@@ -18,11 +18,14 @@ export default class Entity {
   type: EntityType
   position: []
   path: []
-  constructor(opt: RawEntity | IAddEntityOpt) {
-    this.id = opt.id
-    this.type = opt.EntityName
-    this.position = opt.Pos
-    // this.type = opt.type
+  equipment: []
+  constructor(opt: IAddEntityOpt) {
+    const { id, type, position, path, equipment } = opt
+    this.id = id
+    this.type = type
+    this.position = position
+    this.path = path
+    this.equipment = equipment
   }
   getEntityImg(): string {
     switch (this.type) {
