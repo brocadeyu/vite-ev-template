@@ -10,6 +10,7 @@ const cesiumStore = useCesiumStore()
 onMounted(() => {
   const el: HTMLElement = document.getElementById('cesiumContainer')
   cesiumStore.initCesiumStore(el)
+  cesiumStore.cesium.showAnimate()
 })
 </script>
 

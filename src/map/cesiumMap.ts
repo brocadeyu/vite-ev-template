@@ -35,7 +35,6 @@ export default class CesiumMap {
     this.viewer.scene.globe.depthTestAgainstTerrain = false
     this.viewer.scene.debugShowFramesPerSecond = true
     this.viewer.scene.globe.enableLighting = true
-    this.showAnimate()
     this.modelMap = new ModelMap(this.viewer)
     this.markMap = new MarkMap(this.viewer)
     this.trackMap = new TrackMap(this.viewer)
@@ -67,8 +66,8 @@ export default class CesiumMap {
           pitch: -1.5004745514729665,
           roll: 6.281777930582315
         },
-        duration: 1.5
+        duration: 1.3
       })
-    }, 1000)
+    }, 500)
   }
 }
