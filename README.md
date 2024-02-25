@@ -4,13 +4,34 @@
 	<a href="https://vuejs.org" target="_blank" rel="noopener noreferrer"><img width="100" src="https://vuejs.org/images/logo.png" alt="Vue logo"></a>
 </div>
 <div align="center">
-<img src="./src/assets/vue.js-3.3-badge.svg" alt="badge vue.js" /> 
-<img width="100" height="20" src="https://img.shields.io/badge/typescript%20-%23007ACC.svg?&style=for-the-badge&logo=typescript&logoColor=white"/>
+<img width="50" height="20" src="./src//assets//vite-badage.svg"/>
+<img width="90" height="20" src="./src/assets/ts-badage.svg"/>
+<img width="60" height="20" src="./src/assets/pinia-badage.svg"/>
 </div>
 
 ## 项目简介
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+数据链模拟套件
+
+## 快速开始
+
+```bash
+# 克隆项目
+git clone https://github.com/brocadeyu/vite-ev-template.git
+
+# 进入项目目录
+cd vite-ev-template
+
+# 安装依赖
+npm install
+
+# 启动服务
+npm run dev
+```
+
+## 推荐设置
+
+- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)+[Prettier]()+[ESLint]()
 
 ## 工程目录
 
