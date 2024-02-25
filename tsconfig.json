@@ -13,7 +13,12 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "types": ["element-plus/global", "vite/client", "vite-plugin-glsl/ext"],
+    "types": [
+      "element-plus/global",
+      "vite/client",
+      "vite-plugin-glsl/ext",
+      "@imengyu/vue3-context-menu"
+    ],
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
