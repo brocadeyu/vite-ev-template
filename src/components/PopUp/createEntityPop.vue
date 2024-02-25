@@ -160,7 +160,7 @@ import {
   IOpenAddEntityPopProps,
   IOpenEditEntityPopProps
 } from '@/common/interface/popup'
-import { getEntityImgByType } from '@/hooks/utils'
+import { getEntityImgByType } from '@/common/helper'
 const props = withDefaults(
   defineProps<{
     title?: string
