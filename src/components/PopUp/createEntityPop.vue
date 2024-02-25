@@ -151,7 +151,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseDocker from '../components/BaseDocker.vue'
+import BaseDocker from '@/components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { useEntityStore } from '@/stores/entityStore'

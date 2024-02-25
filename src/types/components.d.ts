@@ -11,6 +11,7 @@ declare module 'vue' {
     BaseHeader: typeof import('./../components/BaseHeader.vue')['default']
     CesiumMap: typeof import('./../components/CesiumMap.vue')['default']
     ContexMenu: typeof import('./../components/ContextMenu/src/ContexMenu.vue')['default']
+    CreateEntityPop: typeof import('./../components/PopUp/createEntityPop.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCol: typeof import('element-plus/es')['ElCol']
@@ -29,6 +30,7 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTreeV2: typeof import('element-plus/es')['ElTreeV2']
+    GenLinkPop: typeof import('./../components/PopUp/genLinkPop.vue')['default']
     HelloWorld: typeof import('./../components/HelloWorld.vue')['default']
     IEpAddLocation: typeof import('~icons/ep/add-location')['default']
     IEpCircleCheckFilled: typeof import('~icons/ep/circle-check-filled')['default']
@@ -38,6 +40,7 @@ declare module 'vue' {
     PopUp: typeof import('./../components/PopUp.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    WarPlanPop: typeof import('./../components/PopUp/warPlanPop.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

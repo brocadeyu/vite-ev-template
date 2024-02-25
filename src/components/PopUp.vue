@@ -17,9 +17,9 @@
 <script setup lang="ts">
 import { usePopupStore } from '@/stores/popupStore'
 import { storeToRefs } from 'pinia'
-import createEntityPop from '@/popup/createEntityPop.vue'
-import genLinkPop from '@/popup/genLinkPop.vue'
-import warPlanPop from '@/popup/warPlanPop.vue'
+import createEntityPop from '@/components/PopUp/createEntityPop.vue'
+import genLinkPop from '@/components/PopUp/genLinkPop.vue'
+import warPlanPop from '@/components/PopUp/warPlanPop.vue'
 const popupStore = usePopupStore()
 const { _showMask, _showPop, _title, _type, _data } = storeToRefs(popupStore)
 </script>
