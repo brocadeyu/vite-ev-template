@@ -1,6 +1,6 @@
 import type { Viewer } from 'cesium'
-import DynamicPoint from '@/class/dynamicPoint'
-import MarkerPoint from '@/class/markerPoint'
+import DynamicPoint from '@/common/class/dynamicPoint'
+import MarkerPoint from '@/common/class/markerPoint'
 export default class MarkMap {
   viewer: Viewer
   markPoint: MarkerPoint

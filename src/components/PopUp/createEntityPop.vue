@@ -169,7 +169,7 @@ const props = withDefaults(
   { title: '' }
 )
 import { reactive, ref, computed } from 'vue'
-import MarkerLine from '@/class/markerLine'
+import MarkerLine from '@/common/class/markerLine'
 import type { FormInstance } from 'element-plus'
 import { EntityType } from '@/enums/entity'
 const validatePass2 = (rule: any, value: any, callback: any) => {

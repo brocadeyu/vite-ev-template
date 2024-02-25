@@ -1,4 +1,4 @@
-import Thought from '@/class/thought'
+import Thought from '@/common/class/thought'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 export const useThoughtStore = defineStore(

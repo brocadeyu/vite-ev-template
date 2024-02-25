@@ -1,5 +1,5 @@
-import Entity from '@/class/entity'
-import { RawEntity } from '@/common/interface/thought'
+import Entity from '@/common/class/entity'
+import { RawEntity } from '@/common/interface/entity'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { IAddEntityOpt } from '@/common/interface/entity'
