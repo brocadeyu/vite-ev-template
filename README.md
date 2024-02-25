@@ -1,18 +1,48 @@
-# Vue 3 + TypeScript + Vite
+# Vite-EV_WebGL1.1-Project
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+<div align="center">
+	<a href="https://vuejs.org" target="_blank" rel="noopener noreferrer"><img width="100" src="https://vuejs.org/images/logo.png" alt="Vue logo"></a>
+</div>
+<div style="text-align:center">
+<img src="./src/assets/vue.js-3.3-badge.svg" alt="badge vue.js" /> 
+<img width="100" height="20" src="https://img.shields.io/badge/typescript%20-%23007ACC.svg?&style=for-the-badge&logo=typescript&logoColor=white"/>
+</div>
 
-## Recommended IDE Setup
+## 项目简介
 
 - [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## Type Support For `.vue` Imports in TS
+## 工程目录
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+```
+vite-project
+├── src   //项目源码目录
+│   ├── api   //接口目录
+│   ├── assets   //资源目录
+│   ├── common   //通用模块
+│   │   ├── class   //class类
+│   │   ├── enum //ts枚举
+│   │   ├── interface.ts //ts接口
+│   │   └── helper //辅助函数
+│   ├── components   //公共组件目录
+│   │   ├── *.vue
+│   │   ├── PopUp.vue //公共弹窗容器
+│   │   └── PopUp //弹窗组件目录
+│   ├── map   //地图模块
+│   ├── router   //路由,这里采用嵌套路由
+│   ├── shaders   //着色器
+│   ├── stores   //pinia store
+│   ├── types   //类型声明
+│   ├── utils   //工具目录
+│   └── views   //页面目录
+│       └── thought-*.**
+│   ├── main.ts   //主入口ts文件
+│   ├── App.vue   //根组件
+├── README.md
+├── vite.config.ts  //vite config
+├── tsconfig.json  //ts config
+├── .eslintrc.cjs //eslint config
+├── .prettierrc.cjs  //prettier config
+├── index.html  //入口页面
+└── package.json //包配置文件
+```
