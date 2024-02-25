@@ -3,7 +3,7 @@
 <div align="center">
 	<a href="https://vuejs.org" target="_blank" rel="noopener noreferrer"><img width="100" src="https://vuejs.org/images/logo.png" alt="Vue logo"></a>
 </div>
-<div style="text-align:center">
+<div align="center">
 <img src="./src/assets/vue.js-3.3-badge.svg" alt="badge vue.js" /> 
 <img width="100" height="20" src="https://img.shields.io/badge/typescript%20-%23007ACC.svg?&style=for-the-badge&logo=typescript&logoColor=white"/>
 </div>
