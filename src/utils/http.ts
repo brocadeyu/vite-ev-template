@@ -1,11 +1,10 @@
 import type { AxiosRequestConfig } from 'axios'
 import axios from 'axios'
 import qs from 'qs'
-import app from '@/constants/app'
 import { ElMessage } from 'element-plus'
 const http = axios.create({
-  baseURL: app.BaseUrl as string,
-  timeout: app.RequestTimeout
+  baseURL: import.meta.env.VITE_BASE_URL as string,
+  timeout: 5000
 })
 
 /**
