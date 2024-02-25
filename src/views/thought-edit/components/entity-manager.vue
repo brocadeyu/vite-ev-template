@@ -39,7 +39,6 @@
               border-radius: 4px;
               height: 100%;
               overflow: hidden;
-              /* box-sizing: border-box; */
             "
             :filter-method="filterMethod"
             :height="150"
