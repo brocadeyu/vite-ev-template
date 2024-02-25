@@ -1,5 +1,4 @@
-// 拖拽的指令
-const drag = {
+export default {
   beforeMount(el: any, binding: any) {
     // 自定义属性，判断是否可拖拽
     if (!binding.value) return
@@ -79,10 +78,3 @@ const drag = {
     }
   }
 }
-// 挂载，注册
-const directives = {
-  install: function (app: any) {
-    app.directive('dialogDrag', drag)
-  }
-}
-export default directives
