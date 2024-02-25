@@ -1,8 +1,8 @@
 import Entity from '@/class/entity'
-import { RawEntity } from '@/interface/thought'
+import { RawEntity } from '@/common/interface/thought'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { IAddEntityOpt } from '@/interface/entity'
+import { IAddEntityOpt } from '@/common/interface/entity'
 export const useEntityStore = defineStore('entity', () => {
   const entities = ref({})
   const initEntityStore = (rawList?: RawEntity[]) => {

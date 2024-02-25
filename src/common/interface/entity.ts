@@ -1,20 +1,12 @@
-/**
- * @description 想定
- */
 import { EntityType } from '@/enums/entity'
-export interface RawThought {
-  name: string
-  filepath: string
-  jsonData: {
-    DataLinkInfo: {
-      link: []
-      linklink: []
-      mission: []
-    }
-    Entity: RawEntity[]
-  }
-  time: string
+export interface IAddEntityOpt {
+  id: string
+  type: EntityType
+  position: number[]
+  path: any[]
+  equipment: any[]
 }
+
 /**
  * @description 实体
  */

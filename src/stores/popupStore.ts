@@ -7,7 +7,7 @@ import { ref } from 'vue'
 import {
   IOpenAddEntityPopProps,
   IOpenEditEntityPopProps
-} from '@/interface/popup'
+} from '@/common/interface/popup'
 
 interface IOpenPop {
   type: string

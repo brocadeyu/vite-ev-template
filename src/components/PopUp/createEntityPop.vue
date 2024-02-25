@@ -159,7 +159,7 @@ import { onMounted } from 'vue'
 import {
   IOpenAddEntityPopProps,
   IOpenEditEntityPopProps
-} from '@/interface/popup'
+} from '@/common/interface/popup'
 import { getEntityImgByType } from '@/hooks/utils'
 const props = withDefaults(
   defineProps<{

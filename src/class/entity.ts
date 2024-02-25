@@ -1,5 +1,5 @@
-import { RawEntity } from '@/interface/thought'
-import { IAddEntityOpt } from '@/interface/entity'
+import { RawEntity } from '@/common/interface/thought'
+import { IAddEntityOpt } from '@/common/interface/entity'
 import WZImg from '@/assets/model/wzzsj.png'
 import ZCImg from '@/assets/model/zczsj.png'
 import SHIP052C from '@/assets/model/052c.png'

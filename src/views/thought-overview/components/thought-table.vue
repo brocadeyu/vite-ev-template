@@ -58,7 +58,7 @@ import { getThoughtList } from '@/api/thought'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
-import { RawThought } from '@/interface/thought'
+import { RawThought } from '@/common/interface/thought'
 const tableData = ref([])
 const showLoading = ref(true)
 const thoughtStore = useThoughtStore()

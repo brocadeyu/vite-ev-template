@@ -1,5 +1,5 @@
-import { RawThought } from '@/interface/thought'
-import { RawEntity } from '@/interface/thought'
+import { RawThought } from '@/common/interface/thought'
+import { RawEntity } from '@/common/interface/entity'
 export default class Thought {
   name: string
   time: string
