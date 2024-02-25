@@ -1,4 +1,4 @@
-# Vite-EV_WebGL1.1-Project
+# vite-ev-template
 
 <div align="center">
 	<a href="https://vuejs.org" target="_blank" rel="noopener noreferrer"><img width="100" src="https://vuejs.org/images/logo.png" alt="Vue logo"></a>
@@ -11,7 +11,8 @@
 
 ## 项目简介
 
-数据链模拟套件
+数据链模拟套件  
+技术栈：vue3 setup + ts + pinia
 
 ## 快速开始
 
