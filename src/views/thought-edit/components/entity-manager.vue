@@ -34,9 +34,12 @@
               background-color: #113751;
               --el-tree-node-hover-bg-color: #0e9aa0;
               color: white;
-              margin-top: 4px;
-              border: 1px solid #0e9aa0;
+              margin-top: 5px;
+              outline: 1px solid #0e9aa0;
               border-radius: 4px;
+              height: 100%;
+              overflow: hidden;
+              /* box-sizing: border-box; */
             "
             :filter-method="filterMethod"
             :height="150"
@@ -197,8 +200,11 @@ defineExpose({
   display: flex;
   flex-direction: column;
   padding-top: 5px;
+  padding-bottom: 5px;
   padding-right: 2px;
   padding-left: 2px;
+  box-sizing: border-box;
+  height: 100%;
 }
 .foot-btns {
   display: flex;
