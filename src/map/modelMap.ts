@@ -3,7 +3,7 @@ import * as Cesium from 'cesium'
 
 import FLIGHT from '@/assets/model/Mi171ZC.gltf'
 import SHIP from '@/assets/model/052DQZJZC.gltf'
-import { EntityType } from '@/enums/entity'
+import { EntityType } from '@/common/enum'
 
 interface IAddModelOpt {
   position: number[]

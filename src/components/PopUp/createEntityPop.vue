@@ -171,7 +171,7 @@ const props = withDefaults(
 import { reactive, ref, computed } from 'vue'
 import MarkerLine from '@/common/class/markerLine'
 import type { FormInstance } from 'element-plus'
-import { EntityType } from '@/enums/entity'
+import { EntityType } from '@/common/enum'
 const validatePass2 = (rule: any, value: any, callback: any) => {
   if (value === '123') {
     callback(new Error('名称已存在!'))

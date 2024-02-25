@@ -1,7 +1,7 @@
 /**
  * @description 想定
  */
-import { EntityType } from '@/enums/entity'
+import { EntityType } from '@/common/enum'
 import { RawEntity } from './entity'
 export interface RawThought {
   name: string

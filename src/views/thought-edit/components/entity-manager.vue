@@ -74,7 +74,7 @@ import { useEntityStore } from '@/stores/entityStore'
 import { usePopupStore } from '@/stores/popupStore'
 import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import { EntityType } from '@/enums/entity'
+import { EntityType } from '@/common/enum'
 import { useCesiumStore } from '@/stores/cesiumStore'
 const showPath = ref(true)
 const queryStr = ref('')

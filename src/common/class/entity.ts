@@ -4,7 +4,7 @@ import WZImg from '@/assets/model/wzzsj.png'
 import ZCImg from '@/assets/model/zczsj.png'
 import SHIP052C from '@/assets/model/052c.png'
 import SHIP052D from '@/assets/model/052d.png'
-import { EntityType } from '@/enums/entity'
+import { EntityType } from '@/common/enum'
 /**
  * @description 实体
  * @id id {string}

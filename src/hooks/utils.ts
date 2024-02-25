@@ -1,4 +1,4 @@
-import { EntityType } from '@/enums/entity'
+import { EntityType } from '@/common/enum'
 import WZImg from '@/assets/model/wzzsj.png'
 import ZCImg from '@/assets/model/zczsj.png'
 import SHIP052C from '@/assets/model/052c.png'
