@@ -21,7 +21,7 @@ export default class TrackMap {
         positions: Cesium.Cartesian3.fromDegreesArrayHeights(
           positionArr.flat()
         ),
-        width: 5,
+        width: 3,
         vertexFormat: Cesium.PolylineMaterialAppearance.VERTEX_FORMAT
       })
     })
@@ -38,7 +38,7 @@ export default class TrackMap {
         uniforms: {
           color: new Cesium.Color(1.0, 1.0, 1.0, 0.5),
           image: image,
-          speed: 5
+          speed: 3
         },
         source: `
             czm_material czm_getMaterial(czm_materialInput materialInput) {
