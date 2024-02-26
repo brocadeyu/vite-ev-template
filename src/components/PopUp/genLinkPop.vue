@@ -13,33 +13,61 @@
           style="--el-fill-color-light: #0b1a39; --el-border-color: #0b1a39"
         >
           <el-tab-pane label="综合链">
-            <el-row class="row-style">
-              <el-col :span="24" class="col-style"
-                >通信方式：点名呼叫轮询
-              </el-col>
-            </el-row>
-            <el-row class="row-style">
-              <el-col :span="10" class="col-style"><div>主设备：</div></el-col>
-              <el-col :span="14" class="col-style">
-                <el-select
-                  key="综合链"
-                  v-model="formDataZHL.mainDevice"
-                  placeholder="请选择主设备"
-                >
-                  <!-- <el-option label="Zone one" value="shanghai" /> -->
-                </el-select>
-              </el-col>
-            </el-row>
-            <el-table
-              ref="multipleTableRef"
-              :data="devicesList"
-              style="width: 100%; color: black"
-              height="200"
-              @selection-change="() => {}"
+            <el-form
+              :model="formDataZHL"
+              style="--el-text-color-regular: white"
             >
-              <el-table-column type="selection" width="55" />
-              <el-table-column :align="'center'" property="id" label="装备" />
-            </el-table>
+              <el-form-item label="通信方式">
+                <el-input placeholder="点名呼叫轮询" :disabled="true" />
+              </el-form-item>
+              <el-form-item label="中心设备">
+                <el-select placeholder="请选择主设备">
+                  <el-option label="Zone one" value="shanghai" />
+                  <el-option label="Zone two" value="beijing" />
+                </el-select>
+              </el-form-item>
+              <el-form-item label="设备列表">
+                <el-table
+                  ref="multipleTableRef"
+                  :data="devicesList"
+                  style="
+                    width: 100%;
+                    color: black;
+                    --el-table-border-color: none;
+                    /* --el-table-bg-color: transparent; */
+                  "
+                  height="185"
+                  :header-cell-style="{
+                    fontSize: '12px',
+                    height: '20px',
+                    color: 'white',
+                    backgroundColor: '#2b4859',
+                    borderBottom: '0.5px #143275 solid'
+                  }"
+                  :cell-style="{
+                    color: '#fff',
+                    height: '20px',
+                    fontSize: '12px',
+                    borderBottom: '0.5px #143275 solid'
+                  }"
+                  :row-style="{
+                    fontSize: '20px',
+                    height: '20px',
+                    backgroundColor: '#0b1a38',
+                    color: 'white'
+                  }"
+                  empty-text="暂无数据"
+                  @selection-change="() => {}"
+                >
+                  <el-table-column type="selection" width="55" />
+                  <el-table-column
+                    :align="'center'"
+                    property="id"
+                    label="装备"
+                  />
+                </el-table>
+              </el-form-item>
+            </el-form>
           </el-tab-pane>
           <el-tab-pane label="90X链">
             <el-row class="row-style">
@@ -62,8 +90,9 @@
             <el-table
               ref="multipleTableRef"
               :data="devicesList"
-              style="width: 100%; color: black"
-              height="200"
+              style="width: 100%; color: black; margin-top: 15px"
+              height="185"
+              empty-text="暂无数据"
               @selection-change="() => {}"
             >
               <el-table-column type="selection" width="55" />
@@ -91,8 +120,9 @@
             <el-table
               ref="multipleTableRef"
               :data="devicesList"
-              style="width: 100%; color: black"
-              height="200"
+              style="width: 100%; color: black; margin-top: 15px"
+              height="185"
+              empty-text="暂无数据"
               @selection-change="() => {}"
             >
               <el-table-column type="selection" width="55" />
@@ -118,8 +148,9 @@
             <el-table
               ref="multipleTableRef"
               :data="devicesList"
-              style="width: 100%; color: black"
-              height="200"
+              style="width: 100%; color: black; margin-top: 15px"
+              height="185"
+              empty-text="暂无数据"
               @selection-change="() => {}"
             >
               <el-table-column type="selection" width="55" />
@@ -193,15 +224,19 @@ onMounted(() => {})
 }
 .tab-card {
   height: 100%;
-  /* background-color:; */
 }
 ::v-deep(.el-tabs) {
-  /* background-color: red; */
   height: 100%;
+  --el-bg-color-overlay: #3d89b0;
+  --el-color-primary: white;
 }
 ::v-deep(.el-tabs .el-tabs__content) {
   height: calc(100% - 70px);
 }
+::v-deep(.el-tabs--border-card .el-tabs__header) {
+  border-color: transparent;
+}
+
 /* .el-tabs--border-card .el-tabs__header {
   background-color: red;
 } */
