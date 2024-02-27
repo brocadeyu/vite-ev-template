@@ -10,10 +10,11 @@ import { useCesiumStore } from '@/stores/cesiumStore'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { WS_EVENT } from '@/common/enum'
 import { useWebSocketStore } from '@/stores/webSocketStore'
-const websocketStore = useWebSocketStore()
 import { onMounted, ref } from 'vue'
 import { useEntityStore } from '@/stores/entityStore'
 import { onBeforeUnmount } from 'vue'
+import { ElMessage } from 'element-plus'
+const websocketStore = useWebSocketStore()
 const cesiumStore = useCesiumStore()
 const thoughtStore = useThoughtStore()
 const entityStore = useEntityStore()
@@ -38,6 +39,9 @@ onMounted(() => {
   })
   websocketStore.on(WS_EVENT.onclose, () => {
     console.log('断开websocket')
+  })
+  websocketStore.on(WS_EVENT.onerror, () => {
+    ElMessage.error(`websocket出错!`)
   })
 })
 onBeforeUnmount(() => {
