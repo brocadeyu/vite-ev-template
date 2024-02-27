@@ -2,21 +2,15 @@
   <BaseDocker
     :title="title"
     :show-footer="true"
-    :height="'400px'"
+    :height="'435px'"
     :width="'450px'"
     :is-draggable="true"
   >
     <template #content>
       <div class="gen-content">
-        <el-tabs
-          type="border-card"
-          style="--el-fill-color-light: #0b1a39; --el-border-color: #0b1a39"
-        >
+        <el-tabs type="border-card">
           <el-tab-pane label="综合链">
-            <el-form
-              :model="formDataZHL"
-              style="--el-text-color-regular: white"
-            >
+            <el-form :model="formDataZHL">
               <el-form-item label="通信方式">
                 <el-input placeholder="点名呼叫轮询" :disabled="true" />
               </el-form-item>
@@ -30,16 +24,11 @@
                 <el-table
                   ref="multipleTableRef"
                   :data="devicesList"
-                  style="
-                    width: 100%;
-                    color: black;
-                    --el-table-border-color: none;
-                    /* --el-table-bg-color: transparent; */
-                  "
                   height="185"
                   :header-cell-style="{
                     fontSize: '12px',
                     height: '20px',
+                    padding: '2px 0px',
                     color: 'white',
                     backgroundColor: '#2b4859',
                     borderBottom: '0.5px #143275 solid'
@@ -47,6 +36,7 @@
                   :cell-style="{
                     color: '#fff',
                     height: '20px',
+                    padding: '2px 0px',
                     fontSize: '12px',
                     borderBottom: '0.5px #143275 solid'
                   }"
@@ -70,92 +60,154 @@
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="90X链">
-            <el-row class="row-style">
-              <el-col :span="24" class="col-style"
-                >通信方式：静态时隙分配
-              </el-col>
-            </el-row>
-            <el-row class="row-style">
-              <el-col :span="10" class="col-style"><div>主设备：</div></el-col>
-              <el-col :span="14" class="col-style">
-                <el-select
-                  key="90X链"
-                  v-model="formData90X.mainDevice"
-                  placeholder="请选择主设备"
-                >
-                  <!-- <el-option label="Zone one" value="shanghai" /> -->
+            <el-form :model="formData90X">
+              <el-form-item label="通信方式">
+                <el-input placeholder="静态时隙分配" :disabled="true" />
+              </el-form-item>
+              <el-form-item label="中心设备">
+                <el-select placeholder="请选择主设备">
+                  <el-option label="Zone one" value="shanghai" />
+                  <el-option label="Zone two" value="beijing" />
                 </el-select>
-              </el-col>
-            </el-row>
-            <el-table
-              ref="multipleTableRef"
-              :data="devicesList"
-              style="width: 100%; color: black; margin-top: 15px"
-              height="185"
-              empty-text="暂无数据"
-              @selection-change="() => {}"
-            >
-              <el-table-column type="selection" width="55" />
-              <el-table-column :align="'center'" property="id" label="装备" />
-            </el-table>
+              </el-form-item>
+              <el-form-item label="设备列表">
+                <el-table
+                  ref="multipleTableRef"
+                  :data="devicesList"
+                  height="185"
+                  :header-cell-style="{
+                    fontSize: '12px',
+                    height: '20px',
+                    padding: '2px 0px',
+                    color: 'white',
+                    backgroundColor: '#2b4859',
+                    borderBottom: '0.5px #143275 solid'
+                  }"
+                  :cell-style="{
+                    color: '#fff',
+                    height: '20px',
+                    padding: '2px 0px',
+                    fontSize: '12px',
+                    borderBottom: '0.5px #143275 solid'
+                  }"
+                  :row-style="{
+                    fontSize: '20px',
+                    height: '20px',
+                    backgroundColor: '#0b1a38',
+                    color: 'white'
+                  }"
+                  empty-text="暂无数据"
+                  @selection-change="() => {}"
+                >
+                  <el-table-column type="selection" width="55" />
+                  <el-table-column
+                    :align="'center'"
+                    property="id"
+                    label="装备"
+                  />
+                </el-table>
+              </el-form-item>
+            </el-form>
           </el-tab-pane>
           <el-tab-pane label="JIDS链">
-            <el-row class="row-style">
-              <el-col :span="24" class="col-style"
-                >通信方式：动态时隙分配
-              </el-col>
-            </el-row>
-            <el-row class="row-style">
-              <el-col :span="10" class="col-style"><div>主设备：</div></el-col>
-              <el-col :span="14" class="col-style">
-                <el-select
-                  key="JIDS链"
-                  v-model="formDataJIDS.mainDevice"
-                  placeholder="请选择主设备"
-                >
-                  <!-- <el-option label="Zone one" value="shanghai" /> -->
+            <el-form :model="formDataJIDS">
+              <el-form-item label="通信方式">
+                <el-input placeholder="动态时隙分配" :disabled="true" />
+              </el-form-item>
+              <el-form-item label="中心设备">
+                <el-select placeholder="请选择主设备">
+                  <el-option label="Zone one" value="shanghai" />
+                  <el-option label="Zone two" value="beijing" />
                 </el-select>
-              </el-col>
-            </el-row>
-            <el-table
-              ref="multipleTableRef"
-              :data="devicesList"
-              style="width: 100%; color: black; margin-top: 15px"
-              height="185"
-              empty-text="暂无数据"
-              @selection-change="() => {}"
-            >
-              <el-table-column type="selection" width="55" />
-              <el-table-column :align="'center'" property="id" label="装备" />
-            </el-table>
+              </el-form-item>
+              <el-form-item label="设备列表">
+                <el-table
+                  ref="multipleTableRef"
+                  :data="devicesList"
+                  height="185"
+                  :header-cell-style="{
+                    fontSize: '12px',
+                    height: '20px',
+                    padding: '2px 0px',
+                    color: 'white',
+                    backgroundColor: '#2b4859',
+                    borderBottom: '0.5px #143275 solid'
+                  }"
+                  :cell-style="{
+                    color: '#fff',
+                    height: '20px',
+                    padding: '2px 0px',
+                    fontSize: '12px',
+                    borderBottom: '0.5px #143275 solid'
+                  }"
+                  :row-style="{
+                    fontSize: '20px',
+                    height: '20px',
+                    backgroundColor: '#0b1a38',
+                    color: 'white'
+                  }"
+                  empty-text="暂无数据"
+                  @selection-change="() => {}"
+                >
+                  <el-table-column type="selection" width="55" />
+                  <el-table-column
+                    :align="'center'"
+                    property="id"
+                    label="装备"
+                  />
+                </el-table>
+              </el-form-item>
+            </el-form>
           </el-tab-pane>
           <el-tab-pane label="卫通">
-            <el-row class="row-style">
-              <el-col :span="24" class="col-style"> 通信方式：直连通信 </el-col>
-            </el-row>
-            <el-row class="row-style">
-              <el-col :span="10" class="col-style"><div>主设备：</div></el-col>
-              <el-col :span="14" class="col-style">
-                <el-select
-                  key="卫通"
-                  v-model="formDataKu.mainDevice"
-                  placeholder="请选择主设备"
-                >
-                  <!-- <el-option label="Zone one" value="shanghai" /> -->
+            <el-form :model="formDataKu">
+              <el-form-item label="通信方式">
+                <el-input placeholder="直连通信" :disabled="true" />
+              </el-form-item>
+              <el-form-item label="中心设备">
+                <el-select placeholder="请选择主设备">
+                  <el-option label="Zone one" value="shanghai" />
+                  <el-option label="Zone two" value="beijing" />
                 </el-select>
-              </el-col>
-            </el-row>
-            <el-table
-              ref="multipleTableRef"
-              :data="devicesList"
-              style="width: 100%; color: black; margin-top: 15px"
-              height="185"
-              empty-text="暂无数据"
-              @selection-change="() => {}"
-            >
-              <el-table-column type="selection" width="55" />
-              <el-table-column :align="'center'" property="id" label="装备" />
-            </el-table>
+              </el-form-item>
+              <el-form-item label="设备列表">
+                <el-table
+                  ref="multipleTableRef"
+                  :data="devicesList"
+                  height="185"
+                  :header-cell-style="{
+                    fontSize: '12px',
+                    height: '20px',
+                    padding: '2px 0px',
+                    color: 'white',
+                    backgroundColor: '#2b4859',
+                    borderBottom: '0.5px #143275 solid'
+                  }"
+                  :cell-style="{
+                    color: '#fff',
+                    height: '20px',
+                    padding: '2px 0px',
+                    fontSize: '12px',
+                    borderBottom: '0.5px #143275 solid'
+                  }"
+                  :row-style="{
+                    fontSize: '20px',
+                    height: '20px',
+                    backgroundColor: '#0b1a38',
+                    color: 'white'
+                  }"
+                  empty-text="暂无数据"
+                  @selection-change="() => {}"
+                >
+                  <el-table-column type="selection" width="55" />
+                  <el-table-column
+                    :align="'center'"
+                    property="id"
+                    label="装备"
+                  />
+                </el-table>
+              </el-form-item>
+            </el-form>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -227,8 +279,10 @@ onMounted(() => {})
 }
 ::v-deep(.el-tabs) {
   height: 100%;
-  --el-bg-color-overlay: #3d89b0;
+  --el-bg-color-overlay: #215570;
   --el-color-primary: white;
+  --el-fill-color-light: #0b1a39;
+  --el-border-color: #0b1a39;
 }
 ::v-deep(.el-tabs .el-tabs__content) {
   height: calc(100% - 70px);
@@ -236,10 +290,29 @@ onMounted(() => {})
 ::v-deep(.el-tabs--border-card .el-tabs__header) {
   border-color: transparent;
 }
+::v-deep(.el-form) {
+  --el-text-color-regular: white;
+}
+::v-deep(.el-input) {
+  --el-disabled-bg-color: transparent;
+  --el-disabled-text-color: white;
+}
+::v-deep(.el-select) {
+  --el-fill-color-blank: transparent;
+  --el-border-color: white;
+  --el-text-color-placeholder: white;
+}
+::v-deep(.el-table) {
+  width: 100%;
+  color: black;
+  --el-table-border-color: none;
+  --el-table-bg-color: var(--el-fill-color-light);
+}
+::v-deep(.el-table .el-checkbox) {
+  --el-checkbox-checked-bg-color: transparent;
+  --el-checkbox-bg-color: transparent;
+}
 
-/* .el-tabs--border-card .el-tabs__header {
-  background-color: red;
-} */
 .tx-fs {
   height: 20px;
   padding-bottom: 10px;
