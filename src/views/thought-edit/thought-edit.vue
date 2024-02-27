@@ -8,6 +8,9 @@ import modelSource from './components/model-source.vue'
 import entityManager from './components/entity-manager.vue'
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { useThoughtStore } from '@/stores/thougthStore'
+import { WS_EVENT } from '@/common/enum'
+import { useWebSocketStore } from '@/stores/webSocketStore'
+const websocketStore = useWebSocketStore()
 import { onMounted, ref } from 'vue'
 import { useEntityStore } from '@/stores/entityStore'
 import { onBeforeUnmount } from 'vue'
@@ -29,10 +32,18 @@ onMounted(() => {
     cesiumStore.cesium.modelMap.addModel(_ as any)
     cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
   })
+  websocketStore.connect('ws://localhost:12000/hsdb/101')
+  websocketStore.on(WS_EVENT.onopen, () => {
+    console.log('连接websocket')
+  })
+  websocketStore.on(WS_EVENT.onclose, () => {
+    console.log('断开websocket')
+  })
 })
 onBeforeUnmount(() => {
   entityStore.resetEntity()
   cesiumStore.resetCesium()
+  websocketStore.disconnect()
 })
 </script>
 <style scoped>

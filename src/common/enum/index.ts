@@ -7,4 +7,10 @@ export enum EntityTypeEnum {
 
 export type EntityType = keyof typeof EntityTypeEnum
 
-// type a = keyof typeof EntityTypeEnum
+export enum WS_EVENT {
+  onopen, //连接
+  onclose, //关闭
+  onerror, //错误
+  createLink //创建数据链
+}
+export type WSEventType = keyof typeof WS_EVENT

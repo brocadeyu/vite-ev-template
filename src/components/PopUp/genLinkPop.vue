@@ -324,7 +324,6 @@ const handleSelectionChange = (e) => {
 const closePopup = () => {
   popupStore.closePop()
 }
-onMounted(() => {})
 </script>
 
 <style scoped>
