@@ -205,7 +205,7 @@
               <el-form-item label="设备列表">
                 <el-table
                   ref="multipleTableRef"
-                  :data="devicesList"
+                  :data="shipDeviceList"
                   height="185"
                   :header-cell-style="{
                     fontSize: '12px',
@@ -260,6 +260,7 @@ import BaseDocker from '@/components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
 import { useEntityStore } from '@/stores/entityStore'
 import { storeToRefs } from 'pinia'
+import { EntityTypeEnum } from '@/common/enum'
 const popupStore = usePopupStore()
 const entityStore = useEntityStore()
 const { entitiesArr } = storeToRefs(entityStore)
@@ -269,11 +270,23 @@ const props = withDefaults(
   }>(),
   { title: '' }
 )
-// const devicesList = ref([])
 const devicesList = computed(() => {
   return entitiesArr.value.map((_) => {
     return { id: _.id }
   })
+})
+
+const shipDeviceList = computed(() => {
+  return entitiesArr.value
+    .filter((_) =>
+      [
+        EntityTypeEnum[EntityTypeEnum.中国052C型驱逐舰],
+        EntityTypeEnum[EntityTypeEnum.中国052D型驱逐舰]
+      ].includes(_.type)
+    )
+    .map((_) => {
+      return { id: _.id }
+    })
 })
 
 const selectionChangeZHL = (e: string[]) => {
@@ -324,6 +337,9 @@ const handleSelectionChange = (e) => {
 const closePopup = () => {
   popupStore.closePop()
 }
+onMounted(() => {
+  console.log('shipDeviceList', shipDeviceList)
+})
 </script>
 
 <style scoped>
