@@ -326,14 +326,18 @@ const pickPoint = () => {
 onMounted(() => {
   // console.log('daa', props.data)
   formData.type = props.data.type
-  formData.position = [props.data.position[0], props.data.position[1], 3000]
+  formData.position = [
+    props.data.position[0].toFixed(3),
+    props.data.position[1].toFixed(3),
+    3000
+  ]
   if ('name' in props.data) {
     //IOpenEditEntityPopProps
     formData.name = props.data.name
   }
   formData.path.push({
     index: 0,
-    pos: [props.data.position[0], props.data.position[1]]
+    pos: [props.data.position[0].toFixed(3), props.data.position[1].toFixed(3)]
   })
   dyPoint = cesiumStore.cesium.markMap.markPoint.addItem({
     position: [props.data.position[0], props.data.position[1]]
