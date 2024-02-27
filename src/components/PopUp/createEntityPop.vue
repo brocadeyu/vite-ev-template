@@ -343,7 +343,7 @@ onMounted(() => {
       console.log('ddd', _)
       formData.path.push({
         index: 0,
-        pos: [_[0].toFixed(3), _[1].toFixed(3)]
+        pos: [Number(_[0].toFixed(3)), Number(_[1].toFixed(3))]
       })
     })
   } else {
