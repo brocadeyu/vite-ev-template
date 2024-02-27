@@ -70,7 +70,7 @@
         </el-row>
         <el-row>
           <el-col :span="15">
-            <el-form-item label="航线">
+            <el-form-item :label="`航线 (${formData.path.length}) `">
               <el-table
                 size="small"
                 :show-header="false"
@@ -216,9 +216,13 @@ const onSave = () => {
     if (valid) {
       // console.log('校验成功')
       const opt = {
-        ...formData,
-        id: formData.name
+        id: formData.name,
+        type: formData.type,
+        position: formData.position,
+        path: formData.path.map((_) => [_.pos[0], _.pos[1], 3000]),
+        equipment: formData.equipment
       }
+      console.log('opt', opt)
       entityStore.addEntity(opt)
       closePopup()
     } else {
@@ -324,21 +328,33 @@ const pickPoint = () => {
   })
 }
 onMounted(() => {
-  // console.log('daa', props.data)
+  console.log('daa', props.data)
   formData.type = props.data.type
   formData.position = [
-    props.data.position[0].toFixed(3),
-    props.data.position[1].toFixed(3),
+    Number(props.data.position[0].toFixed(3)),
+    Number(props.data.position[1].toFixed(3)),
     3000
   ]
   if ('name' in props.data) {
     //IOpenEditEntityPopProps
     formData.name = props.data.name
+    // formData.path = props.data.path
+    props.data.path.forEach((_) => {
+      console.log('ddd', _)
+      formData.path.push({
+        index: 0,
+        pos: [_[0].toFixed(3), _[1].toFixed(3)]
+      })
+    })
+  } else {
+    formData.path.push({
+      index: 0,
+      pos: [
+        Number(props.data.position[0].toFixed(3)),
+        Number(props.data.position[1].toFixed(3))
+      ]
+    })
   }
-  formData.path.push({
-    index: 0,
-    pos: [props.data.position[0].toFixed(3), props.data.position[1].toFixed(3)]
-  })
   dyPoint = cesiumStore.cesium.markMap.markPoint.addItem({
     position: [props.data.position[0], props.data.position[1]]
   })

@@ -270,12 +270,13 @@ const props = withDefaults(
   }>(),
   { title: '' }
 )
+//三种链的可选设备列表为所有设备
 const devicesList = computed(() => {
   return entitiesArr.value.map((_) => {
     return { id: _.id }
   })
 })
-
+//卫通的可选设备列表为所有船
 const shipDeviceList = computed(() => {
   return entitiesArr.value
     .filter((_) =>
@@ -331,14 +332,14 @@ const formDataKu = reactive({
   targets: []
 })
 const handleSelectionChange = (e) => {
-  console.log('eee', e)
+  // console.log('eee', e)
 }
 
 const closePopup = () => {
   popupStore.closePop()
 }
 onMounted(() => {
-  console.log('shipDeviceList', shipDeviceList)
+  // console.log('shipDeviceList', shipDeviceList)
 })
 </script>
 

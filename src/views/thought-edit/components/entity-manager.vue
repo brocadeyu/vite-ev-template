@@ -76,6 +76,7 @@ import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { EntityType } from '@/common/enum'
 import { useCesiumStore } from '@/stores/cesiumStore'
+import { getEntityImgByType } from '@/common/helper'
 const showPath = ref(true)
 const queryStr = ref('')
 const treeRef = ref<InstanceType<typeof ElTreeV2>>()
@@ -121,7 +122,8 @@ const openContextMenu = (e, data: ITreeNodeData) => {
             data: {
               position: entity.position,
               type: entity.type,
-              name: entity.id
+              name: entity.id,
+              path: entity.path
             }
           })
         }
