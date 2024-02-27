@@ -15,9 +15,16 @@
                 <el-input placeholder="点名呼叫轮询" :disabled="true" />
               </el-form-item>
               <el-form-item label="中心设备">
-                <el-select placeholder="请选择主设备">
-                  <el-option label="Zone one" value="shanghai" />
-                  <el-option label="Zone two" value="beijing" />
+                <el-select
+                  v-model="formDataZHL.mainDevice"
+                  placeholder="请选择主设备"
+                >
+                  <el-option
+                    v-for="(item, index) in formDataZHL.targets"
+                    :key="index"
+                    :label="item.id"
+                    :value="item.id"
+                  />
                 </el-select>
               </el-form-item>
               <el-form-item label="设备列表">
@@ -47,7 +54,7 @@
                     color: 'white'
                   }"
                   empty-text="暂无数据"
-                  @selection-change="() => {}"
+                  @selection-change="selectionChangeZHL"
                 >
                   <el-table-column type="selection" width="55" />
                   <el-table-column
@@ -65,9 +72,16 @@
                 <el-input placeholder="静态时隙分配" :disabled="true" />
               </el-form-item>
               <el-form-item label="中心设备">
-                <el-select placeholder="请选择主设备">
-                  <el-option label="Zone one" value="shanghai" />
-                  <el-option label="Zone two" value="beijing" />
+                <el-select
+                  v-model="formData90X.mainDevice"
+                  placeholder="请选择主设备"
+                >
+                  <el-option
+                    v-for="(item, index) in formData90X.targets"
+                    :key="index"
+                    :label="item.id"
+                    :value="item.id"
+                  />
                 </el-select>
               </el-form-item>
               <el-form-item label="设备列表">
@@ -97,7 +111,7 @@
                     color: 'white'
                   }"
                   empty-text="暂无数据"
-                  @selection-change="() => {}"
+                  @selection-change="selectionChange90X"
                 >
                   <el-table-column type="selection" width="55" />
                   <el-table-column
@@ -115,9 +129,16 @@
                 <el-input placeholder="动态时隙分配" :disabled="true" />
               </el-form-item>
               <el-form-item label="中心设备">
-                <el-select placeholder="请选择主设备">
-                  <el-option label="Zone one" value="shanghai" />
-                  <el-option label="Zone two" value="beijing" />
+                <el-select
+                  v-model="formDataJIDS.mainDevice"
+                  placeholder="请选择主设备"
+                >
+                  <el-option
+                    v-for="(item, index) in formDataJIDS.targets"
+                    :key="index"
+                    :label="item.id"
+                    :value="item.id"
+                  />
                 </el-select>
               </el-form-item>
               <el-form-item label="设备列表">
@@ -147,7 +168,7 @@
                     color: 'white'
                   }"
                   empty-text="暂无数据"
-                  @selection-change="() => {}"
+                  @selection-change="selectionChangeJIDS"
                 >
                   <el-table-column type="selection" width="55" />
                   <el-table-column
@@ -165,9 +186,16 @@
                 <el-input placeholder="直连通信" :disabled="true" />
               </el-form-item>
               <el-form-item label="中心设备">
-                <el-select placeholder="请选择主设备">
-                  <el-option label="Zone one" value="shanghai" />
-                  <el-option label="Zone two" value="beijing" />
+                <el-select
+                  v-model="formDataKu.mainDevice"
+                  placeholder="请选择主设备"
+                >
+                  <el-option
+                    v-for="(item, index) in formDataKu.targets"
+                    :key="index"
+                    :label="item.id"
+                    :value="item.id"
+                  />
                 </el-select>
               </el-form-item>
               <el-form-item label="设备列表">
@@ -197,7 +225,7 @@
                     color: 'white'
                   }"
                   empty-text="暂无数据"
-                  @selection-change="() => {}"
+                  @selection-change="selectionChangeKu"
                 >
                   <el-table-column type="selection" width="55" />
                   <el-table-column
@@ -244,6 +272,31 @@ const devicesList = computed(() => {
   })
 })
 
+const selectionChangeZHL = (e: string[]) => {
+  formDataZHL.targets = e
+  if (e.indexOf(formDataZHL.mainDevice) === -1) {
+    formDataZHL.mainDevice = ''
+  }
+}
+const selectionChange90X = (e: string[]) => {
+  formData90X.targets = e
+  if (e.indexOf(formData90X.mainDevice) === -1) {
+    formData90X.mainDevice = ''
+  }
+}
+const selectionChangeJIDS = (e: string[]) => {
+  formDataJIDS.targets = e
+  if (e.indexOf(formDataJIDS.mainDevice) === -1) {
+    formDataJIDS.mainDevice = ''
+  }
+}
+const selectionChangeKu = (e: string[]) => {
+  formDataKu.targets = e
+  if (e.indexOf(formDataKu.mainDevice) === -1) {
+    formDataKu.mainDevice = ''
+  }
+}
+
 const formDataZHL = reactive({
   mainDevice: '',
   targets: []
@@ -260,6 +313,9 @@ const formDataKu = reactive({
   mainDevice: '',
   targets: []
 })
+const handleSelectionChange = (e) => {
+  console.log('eee', e)
+}
 
 const closePopup = () => {
   popupStore.closePop()
