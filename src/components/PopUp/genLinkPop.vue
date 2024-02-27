@@ -18,6 +18,7 @@
                 <el-select
                   v-model="formDataZHL.mainDevice"
                   placeholder="请选择主设备"
+                  no-data-text="请勾选设备列表"
                 >
                   <el-option
                     v-for="(item, index) in formDataZHL.targets"
@@ -75,6 +76,7 @@
                 <el-select
                   v-model="formData90X.mainDevice"
                   placeholder="请选择主设备"
+                  no-data-text="请勾选设备列表"
                 >
                   <el-option
                     v-for="(item, index) in formData90X.targets"
@@ -132,6 +134,7 @@
                 <el-select
                   v-model="formDataJIDS.mainDevice"
                   placeholder="请选择主设备"
+                  no-data-text="请勾选设备列表"
                 >
                   <el-option
                     v-for="(item, index) in formDataJIDS.targets"
@@ -189,6 +192,7 @@
                 <el-select
                   v-model="formDataKu.mainDevice"
                   placeholder="请选择主设备"
+                  no-data-text="请勾选设备列表"
                 >
                   <el-option
                     v-for="(item, index) in formDataKu.targets"
