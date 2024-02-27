@@ -61,9 +61,9 @@ export default class WebSocketService {
     console.log('WebSocket message received:', event.data)
   }
 
-  send(data: string): void {
+  send(data: object): void {
     if (this.socket) {
-      this.socket.send(data)
+      this.socket.send(JSON.stringify(data))
     } else {
       console.error('WebSocket is not connected.')
     }
