@@ -113,9 +113,7 @@ const openContextMenu = (e, data: ITreeNodeData) => {
           color: '#f60'
         },
         onClick: () => {
-          console.log(data)
           const entity = entityStore.getEntityById(data.id)
-          console.log('entity', entity)
           popupStore.openPop({
             title: '编辑实体',
             type: 'createEntity',
@@ -135,7 +133,6 @@ const openContextMenu = (e, data: ITreeNodeData) => {
           color: '#f60'
         },
         onClick: () => {
-          console.log(data)
           const id = data.id
           entityStore.removeEntityById(id)
         }
