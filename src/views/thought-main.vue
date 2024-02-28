@@ -16,6 +16,7 @@
       >
     </div>
   </BaseHeader>
+  <ToolTip></ToolTip>
   <RouterView></RouterView>
 </template>
 

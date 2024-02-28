@@ -34,7 +34,7 @@ export const usePopupStore = defineStore('popup', () => {
   }
   const closePop = () => {
     _showPop.value = false
-    _title.value = false
+    _title.value = ''
     _showMask.value = false
     _data.value = null
     _type.value = ''

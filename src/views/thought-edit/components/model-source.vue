@@ -34,6 +34,7 @@ import SHIP052D from '@/assets/model/052d.png'
 
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { usePopupStore } from '@/stores/popupStore'
+import { useToolTipStore } from '@/stores/tooltipStore'
 const modelConfig = ref([
   {
     type: '武装直升机',
@@ -55,9 +56,11 @@ const modelConfig = ref([
 const activeIndex = ref<number>(-1)
 const cesiumStore = useCesiumStore()
 const popupStore = usePopupStore()
+const tooltipStore = useToolTipStore()
 const tryAddEntity = (modelInfo, index: number) => {
   if (activeIndex.value !== -1) return
   activeIndex.value = index
+  tooltipStore.showTooltip({ text: '单击地球，选取点位' })
   cesiumStore.cesium.eventHandler.register({
     type: 'LeftClick',
     id: 'createEntity',
@@ -72,6 +75,7 @@ const tryAddEntity = (modelInfo, index: number) => {
         id: 'createEntity'
       })
       activeIndex.value = -1
+      tooltipStore.closeToolTip()
     }
   })
 }

@@ -33,6 +33,7 @@ declare module 'vue' {
     PopUp: typeof import('./../components/PopUp.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ToolTip: typeof import('./../components/ToolTip.vue')['default']
     WarPlanPop: typeof import('./../components/PopUp/warPlanPop.vue')['default']
   }
   export interface ComponentCustomProperties {
