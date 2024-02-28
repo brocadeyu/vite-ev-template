@@ -10,7 +10,7 @@ export const useWebSocketStore = defineStore('webSocket', () => {
     webSocket.value = new WebSocketService(url)
     webSocket.value.connect()
   }
-  const sendMessage: (message: string) => void = (message) => {
+  const sendMessage: (message: obj) => void = (message) => {
     if (webSocket.value) {
       webSocket.value.send(message)
     } else {

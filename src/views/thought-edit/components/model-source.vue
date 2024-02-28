@@ -62,7 +62,6 @@ const tryAddEntity = (modelInfo, index: number) => {
     type: 'LeftClick',
     id: 'createEntity',
     callBack: (e) => {
-      console.log('点击地图', e)
       popupStore.openPop({
         title: '添加实体',
         type: 'createEntity',

@@ -249,7 +249,9 @@
         <el-button type="primary" size="small" @click="closePopup"
           >取消</el-button
         >
-        <el-button type="primary" size="small">保存</el-button>
+        <el-button type="primary" size="small" @click="confirmPopup"
+          >保存</el-button
+        >
       </div>
     </template>
   </BaseDocker>
@@ -259,10 +261,12 @@
 import BaseDocker from '@/components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
 import { useEntityStore } from '@/stores/entityStore'
+import { useWebSocketStore } from '@/stores/webSocketStore'
 import { storeToRefs } from 'pinia'
 import { EntityTypeEnum } from '@/common/enum'
 const popupStore = usePopupStore()
 const entityStore = useEntityStore()
+const websocketStore = useWebSocketStore()
 const { entitiesArr } = storeToRefs(entityStore)
 const props = withDefaults(
   defineProps<{
@@ -337,6 +341,76 @@ const handleSelectionChange = (e) => {
 
 const closePopup = () => {
   popupStore.closePop()
+}
+const confirmPopup = () => {
+  console.log('调用参数', formDataZHL.targets)
+  const param1 = {
+    dataLinkType: '综合链',
+    // usingKU: this.DataLinkInfo.link[0].usingKU,
+    centerTargetId: formDataZHL.mainDevice,
+    targets: formDataZHL.targets.map((_) => {
+      const entity = entityStore.getEntityById(_.id)
+      console.log('entity', entity)
+      return {
+        ID: entity.id,
+        type: entity.getType(),
+        lon: entity.position[0],
+        lat: entity.position[1],
+        alt: entity.position[2]
+      }
+    })
+  }
+  const param2 = {
+    dataLinkType: '90X链',
+    // usingKU: this.DataLinkInfo.link[0].usingKU,
+    centerTargetId: formData90X.mainDevice,
+    targets: formData90X.targets.map((_) => {
+      const entity = entityStore.getEntityById(_.id)
+      return {
+        ID: entity.id,
+        type: entity.getType(),
+        lon: entity.position[0],
+        lat: entity.position[1],
+        alt: entity.position[2]
+      }
+    })
+  }
+  const param3 = {
+    dataLinkType: 'JIDS链',
+    // usingKU: this.DataLinkInfo.link[0].usingKU,
+    centerTargetId: formDataJIDS.mainDevice,
+    targets: formDataJIDS.targets.map((_) => {
+      const entity = entityStore.getEntityById(_.id)
+      return {
+        ID: entity.id,
+        type: entity.getType(),
+        lon: entity.position[0],
+        lat: entity.position[1],
+        alt: entity.position[2]
+      }
+    })
+  }
+  const param4 = {
+    dataLinkType: 'KU卫通',
+    // usingKU: this.DataLinkInfo.link[0].usingKU,
+    centerTargetId: formDataKu.mainDevice,
+    targets: formDataKu.targets.map((_) => {
+      const entity = entityStore.getEntityById(_.id)
+      return {
+        ID: entity.id,
+        type: entity.getType(),
+        lon: entity.position[0],
+        lat: entity.position[1],
+        alt: entity.position[2]
+      }
+    })
+  }
+  const d = {
+    InteractType: 'baseInter.EntiyInter.VirtualInteract.DataLinkCreate',
+    Param: [param1, param2, param3, param4]
+  }
+  console.log('d', d)
+  websocketStore.sendMessage(d)
 }
 onMounted(() => {
   // console.log('shipDeviceList', shipDeviceList)

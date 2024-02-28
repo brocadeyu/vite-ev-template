@@ -16,7 +16,7 @@ import { EntityType } from '@/common/enum'
 export default class Entity {
   id: string
   type: EntityType
-  position: []
+  position: number[]
   path: []
   equipment: []
   constructor(opt: IAddEntityOpt) {
@@ -26,6 +26,9 @@ export default class Entity {
     this.position = position
     this.path = path
     this.equipment = equipment
+  }
+  getType() {
+    return this.type.includes('直升机') ? 'AIR' : 'SHIP'
   }
   getEntityImg(): string {
     switch (this.type) {

@@ -76,7 +76,6 @@ import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { EntityType } from '@/common/enum'
 import { useCesiumStore } from '@/stores/cesiumStore'
-import { getEntityImgByType } from '@/common/helper'
 const showPath = ref(true)
 const queryStr = ref('')
 const treeRef = ref<InstanceType<typeof ElTreeV2>>()

@@ -35,9 +35,11 @@ onMounted(() => {
   })
   websocketStore.connect('ws://localhost:12000/hsdb/101')
   websocketStore.on(WS_EVENT.onopen, () => {
+    // eslint-disable-next-line no-console
     console.log('连接websocket')
   })
   websocketStore.on(WS_EVENT.onclose, () => {
+    // eslint-disable-next-line no-console
     console.log('断开websocket')
   })
   websocketStore.on(WS_EVENT.onerror, () => {
