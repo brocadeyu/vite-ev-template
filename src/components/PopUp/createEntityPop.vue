@@ -214,7 +214,6 @@ const onSave = () => {
   // console.log('saveData', formData)
   formRef.value.validate((valid) => {
     if (valid) {
-      // console.log('校验成功')
       const opt = {
         id: formData.name,
         type: formData.type,
@@ -222,12 +221,13 @@ const onSave = () => {
         path: formData.path.map((_) => [_.pos[0], _.pos[1], 3000]),
         equipment: formData.equipment
       }
-      console.log('opt', opt)
       entityStore.addEntity(opt)
+      //始终以formData.name为id创建新entity，若与props传入name不同，则为编辑模式且更改了name
+      //确定时新增并删除旧的entity
+      if ('name' in props.data && props.data.name !== formData.name) {
+        entityStore.removeEntityById(props.data.name)
+      }
       closePopup()
-    } else {
-      // console.log('校验失败')
-      return false
     }
   })
 }
@@ -336,6 +336,7 @@ onMounted(() => {
     3000
   ]
   if ('name' in props.data) {
+    //编辑
     //IOpenEditEntityPopProps
     formData.name = props.data.name
     // formData.path = props.data.path
@@ -347,6 +348,7 @@ onMounted(() => {
       })
     })
   } else {
+    //新增
     formData.path.push({
       index: 0,
       pos: [
