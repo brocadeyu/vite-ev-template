@@ -322,7 +322,6 @@ const pickPoint = () => {
   })
 }
 onMounted(() => {
-  // console.log('daa', props.data)
   formData.type = props.data.type
   formData.position = [
     Number(props.data.position[0].toFixed(3)),
