@@ -20,30 +20,32 @@ const thoughtStore = useThoughtStore()
 const entityStore = useEntityStore()
 const entityManaRef = ref(null)
 onMounted(() => {
-  entityStore.initEntityStore(thoughtStore.thought.entities) //根据thought初始化entityStore
-  entityManaRef.value.setTreeData(
-    entityStore.entitiesArr.map((_) => {
-      return {
-        id: (_ as any).id,
-        label: (_ as any).id
-      }
+  requestIdleCallback(() => {
+    entityStore.initEntityStore(thoughtStore.thought.entities) //根据thought初始化entityStore
+    entityManaRef.value.setTreeData(
+      entityStore.entitiesArr.map((_) => {
+        return {
+          id: (_ as any).id,
+          label: (_ as any).id
+        }
+      })
+    )
+    entityStore.entitiesArr.forEach((_) => {
+      cesiumStore.cesium.modelMap.addModel(_ as any)
+      cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
     })
-  )
-  entityStore.entitiesArr.forEach((_) => {
-    cesiumStore.cesium.modelMap.addModel(_ as any)
-    cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
-  })
-  websocketStore.connect('ws://localhost:12000/hsdb/101')
-  websocketStore.on(WS_EVENT.onopen, () => {
-    // eslint-disable-next-line no-console
-    console.log('连接websocket')
-  })
-  websocketStore.on(WS_EVENT.onclose, () => {
-    // eslint-disable-next-line no-console
-    console.log('断开websocket')
-  })
-  websocketStore.on(WS_EVENT.onerror, () => {
-    ElMessage.error(`websocket出错!`)
+    websocketStore.connect('ws://localhost:12000/hsdb/101')
+    websocketStore.on(WS_EVENT.onopen, () => {
+      // eslint-disable-next-line no-console
+      console.log('连接websocket')
+    })
+    websocketStore.on(WS_EVENT.onclose, () => {
+      // eslint-disable-next-line no-console
+      console.log('断开websocket')
+    })
+    websocketStore.on(WS_EVENT.onerror, () => {
+      ElMessage.error(`websocket出错!`)
+    })
   })
 })
 onBeforeUnmount(() => {
