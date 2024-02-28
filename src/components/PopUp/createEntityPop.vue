@@ -211,7 +211,6 @@ const closePopup = () => {
   trackLine.destroy()
 }
 const onSave = () => {
-  // console.log('saveData', formData)
   formRef.value.validate((valid) => {
     if (valid) {
       const opt = {
@@ -239,7 +238,6 @@ const editPath = () => {
     type: 'LeftClick',
     id: 'pickEditPathPoint',
     callBack: (e) => {
-      // console.log('单击绘制', JSON.stringify(e.position))
       formData.path.push({
         index: 0,
         pos: [e.position[0], e.position[1]]
@@ -260,16 +258,13 @@ const editPath = () => {
     type: 'MouseMove',
     id: 'getDynamicPoint',
     callBack: (e) => {
-      // console.log('鼠标点位', JSON.stringify(e.position))
       trackLine.updatePointerPosition([e.position[0], e.position[1]] as any)
-      // console.log('trackLine', trackLine)
     }
   })
   cesiumStore.cesium.eventHandler.register({
     type: 'LeftDoubleClick',
     id: 'endEditPath',
     callBack: (e) => {
-      // console.log('结束绘制', JSON.stringify(e.position))
       formData.path.push({
         index: 0,
         pos: [e.position[0], e.position[1]]
@@ -305,7 +300,6 @@ const pickPoint = () => {
     type: 'LeftClick',
     id: 'pickEntityPoint',
     callBack: (e) => {
-      // console.log('点击地图', e)
       formData.position = [e.position[0], e.position[1], 3000]
       cesiumStore.cesium.markMap.markPoint.updatePosition({
         item: dyPoint,
@@ -328,7 +322,7 @@ const pickPoint = () => {
   })
 }
 onMounted(() => {
-  console.log('daa', props.data)
+  // console.log('daa', props.data)
   formData.type = props.data.type
   formData.position = [
     Number(props.data.position[0].toFixed(3)),
@@ -341,7 +335,6 @@ onMounted(() => {
     formData.name = props.data.name
     // formData.path = props.data.path
     props.data.path.forEach((_) => {
-      console.log('ddd', _)
       formData.path.push({
         index: 0,
         pos: [Number(_[0].toFixed(3)), Number(_[1].toFixed(3))]
@@ -364,7 +357,6 @@ onMounted(() => {
     cesiumStore.cesium.viewer,
     trackPointArr.value as any
   )
-  // console.log('dyPoint', dyPoint)
 })
 </script>
 
