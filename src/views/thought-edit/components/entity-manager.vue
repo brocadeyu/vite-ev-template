@@ -120,7 +120,8 @@ const openContextMenu = (e, data: ITreeNodeData) => {
               position: entity.position,
               type: entity.type,
               name: entity.id,
-              path: entity.path
+              path: entity.path,
+              equipment: entity.equipment
             }
           })
         }
@@ -134,6 +135,8 @@ const openContextMenu = (e, data: ITreeNodeData) => {
         onClick: () => {
           const id = data.id
           entityStore.removeEntityById(id)
+          cesiumStore.cesium.modelMap.removeModel({ id })
+          cesiumStore.cesium.trackMap.removeTrack({ id })
         }
       }
     ]
