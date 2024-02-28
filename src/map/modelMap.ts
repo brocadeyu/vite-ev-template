@@ -10,10 +10,13 @@ interface IAddModelOpt {
   type: EntityType
   id: string
 }
+interface IRemoveModelOpt {
+  id: string
+}
 export default class ModelMap {
-  _viewer: Viewer
-  _collection: PrimitiveCollection
-  _map: Map<string, any>
+  private _viewer: Viewer
+  private _collection: PrimitiveCollection
+  private _map: Map<string, any>
   constructor(viewer: Viewer) {
     this._viewer = viewer
     this._collection = new PrimitiveCollection()
@@ -61,5 +64,12 @@ export default class ModelMap {
     })
     this._collection.add(model)
     this._map.set(id, model)
+  }
+  removeModel(opt: IRemoveModelOpt) {
+    const { id } = opt
+    const result = this._map.get(id)
+    if (result) {
+      this._collection.remove(result)
+    }
   }
 }

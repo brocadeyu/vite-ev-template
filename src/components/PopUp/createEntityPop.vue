@@ -221,10 +221,21 @@ const onSave = () => {
         equipment: formData.equipment
       }
       entityStore.addEntity(opt)
+      cesiumStore.cesium.modelMap.addModel({
+        id: formData.name,
+        position: formData.position,
+        type: formData.type
+      })
+      cesiumStore.cesium.trackMap.addTrack({
+        id: formData.name,
+        positionArr: formData.path.map((_) => [_.pos[0], _.pos[1], 3000])
+      })
       //始终以formData.name为id创建新entity，若与props传入name不同，则为编辑模式且更改了name
-      //确定时新增并删除旧的entity
+      //确定时新增并删除旧的entity,model,track
       if ('name' in props.data && props.data.name !== formData.name) {
         entityStore.removeEntityById(props.data.name)
+        cesiumStore.cesium.modelMap.removeModel({ id: props.data.name })
+        cesiumStore.cesium.trackMap.removeTrack({ id: props.data.name })
       }
       closePopup()
     }

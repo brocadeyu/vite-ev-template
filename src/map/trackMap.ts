@@ -4,10 +4,13 @@ interface IAddTrackOpt {
   id: string
   positionArr: number[][]
 }
+interface IRemoveTrackOpt {
+  id: string
+}
 export default class TrackMap {
-  _viewer: Viewer
-  _collection: PrimitiveCollection
-  _map: Map<string, any>
+  private _viewer: Viewer
+  private _collection: PrimitiveCollection
+  private _map: Map<string, any>
   constructor(viewer: Viewer) {
     this._viewer = viewer
     this._collection = new PrimitiveCollection()
@@ -70,5 +73,12 @@ export default class TrackMap {
   }
   setAllVisible(flag: boolean) {
     this._collection.show = flag
+  }
+  removeTrack(opt: IRemoveTrackOpt) {
+    const { id } = opt
+    const result = this._map.get(id)
+    if (result) {
+      this._collection.remove(result)
+    }
   }
 }
