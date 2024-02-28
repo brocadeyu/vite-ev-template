@@ -213,6 +213,14 @@ const closePopup = () => {
 const onSave = () => {
   formRef.value.validate((valid) => {
     if (valid) {
+      if ('name' in props.data) {
+        //编辑
+        entityStore.removeEntityById(props.data.name)
+        cesiumStore.cesium.modelMap.removeModel({ id: props.data.name })
+        cesiumStore.cesium.trackMap.removeTrack({ id: props.data.name })
+      } else {
+        //新增
+      }
       const opt = {
         id: formData.name,
         type: formData.type,
@@ -230,13 +238,6 @@ const onSave = () => {
         id: formData.name,
         positionArr: formData.path.map((_) => [_.pos[0], _.pos[1], 3000])
       })
-      //始终以formData.name为id创建新entity，若与props传入name不同，则为编辑模式且更改了name
-      //确定时新增并删除旧的entity,model,track
-      if ('name' in props.data && props.data.name !== formData.name) {
-        entityStore.removeEntityById(props.data.name)
-        cesiumStore.cesium.modelMap.removeModel({ id: props.data.name })
-        cesiumStore.cesium.trackMap.removeTrack({ id: props.data.name })
-      }
       closePopup()
     }
   })
@@ -343,6 +344,8 @@ onMounted(() => {
     //编辑
     //IOpenEditEntityPopProps
     formData.name = props.data.name
+    // console.log(' props.data.equipment', props.data.equipment)
+    formData.equipment = props.data.equipment
     // formData.path = props.data.path
     props.data.path.forEach((_) => {
       formData.path.push({

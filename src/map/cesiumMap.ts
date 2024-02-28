@@ -41,7 +41,7 @@ export default class CesiumMap {
     this.eventHandler = new EventHandler(this.viewer)
     return this
   }
-  private showAnimate() {
+  showAnimate() {
     this.viewer.camera.setView({
       destination: {
         x: 286850313.5092089,
