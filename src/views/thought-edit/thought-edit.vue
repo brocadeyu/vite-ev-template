@@ -34,6 +34,17 @@ onMounted(() => {
       cesiumStore.cesium.modelMap.addModel(_ as any)
       cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
     })
+    thoughtStore.thought.dataLinkInfo.link.forEach((_) => {
+      _.linkTo.forEach((i: any) => {
+        const deviceArr = i.split('-')
+        const entityOne = entityStore.getEntityById(deviceArr[0])
+        const entityTwo = entityStore.getEntityById(deviceArr[1])
+        cesiumStore.cesium.linkMap.addLink({
+          id: i,
+          positionArr: [entityOne.position, entityTwo.position]
+        })
+      })
+    })
     websocketStore.connect('ws://localhost:12000/hsdb/101')
     websocketStore.on(WS_EVENT.onopen, () => {
       // eslint-disable-next-line no-console
