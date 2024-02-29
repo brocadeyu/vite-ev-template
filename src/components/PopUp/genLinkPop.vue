@@ -22,36 +22,15 @@
                 <el-input placeholder="点名呼叫轮询" :disabled="true" />
               </el-form-item>
               <el-form-item
-                label="中心设备"
-                :rules="[
-                  {
-                    required: true,
-                    message: '中心设备不可为空',
-                    trigger: 'change'
-                  }
-                ]"
-                prop="mainDevice"
-              >
-                <el-select
-                  v-model="formDataZHL.mainDevice"
-                  placeholder="请选择主设备"
-                  no-data-text="请勾选设备列表"
-                >
-                  <el-option
-                    v-for="(item, index) in formDataZHL.targets"
-                    :key="index"
-                    :label="item.id"
-                    :value="item.id"
-                  />
-                </el-select>
-              </el-form-item>
-              <el-form-item
                 label="设备列表"
                 :rules="[
                   {
+                    message: '设备列表不可为空',
+                    trigger: 'change',
                     required: true
                   }
                 ]"
+                prop="targets"
               >
                 <el-table
                   ref="multipleTableRef"
@@ -89,6 +68,30 @@
                   />
                 </el-table>
               </el-form-item>
+              <el-form-item
+                label="中心设备"
+                :rules="[
+                  {
+                    required: true,
+                    message: '中心设备不可为空',
+                    trigger: 'change'
+                  }
+                ]"
+                prop="mainDevice"
+              >
+                <el-select
+                  v-model="formDataZHL.mainDevice"
+                  placeholder="请选择主设备"
+                  no-data-text="请勾选设备列表"
+                >
+                  <el-option
+                    v-for="(item, index) in formDataZHL.targets"
+                    :key="index"
+                    :label="item.id"
+                    :value="item.id"
+                  />
+                </el-select>
+              </el-form-item>
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="90X链" name="90X链">
@@ -104,36 +107,15 @@
                 <el-input placeholder="静态时隙分配" :disabled="true" />
               </el-form-item>
               <el-form-item
-                label="中心设备"
-                :rules="[
-                  {
-                    required: true,
-                    message: '中心设备不可为空',
-                    trigger: 'change'
-                  }
-                ]"
-                prop="mainDevice"
-              >
-                <el-select
-                  v-model="formData90X.mainDevice"
-                  placeholder="请选择主设备"
-                  no-data-text="请勾选设备列表"
-                >
-                  <el-option
-                    v-for="(item, index) in formData90X.targets"
-                    :key="index"
-                    :label="item.id"
-                    :value="item.id"
-                  />
-                </el-select>
-              </el-form-item>
-              <el-form-item
                 label="设备列表"
                 :rules="[
                   {
+                    message: '设备列表不可为空',
+                    trigger: 'change',
                     required: true
                   }
                 ]"
+                prop="targets"
               >
                 <el-table
                   ref="multipleTableRef"
@@ -171,6 +153,30 @@
                   />
                 </el-table>
               </el-form-item>
+              <el-form-item
+                label="中心设备"
+                :rules="[
+                  {
+                    required: true,
+                    message: '中心设备不可为空',
+                    trigger: 'change'
+                  }
+                ]"
+                prop="mainDevice"
+              >
+                <el-select
+                  v-model="formData90X.mainDevice"
+                  placeholder="请选择主设备"
+                  no-data-text="请勾选设备列表"
+                >
+                  <el-option
+                    v-for="(item, index) in formData90X.targets"
+                    :key="index"
+                    :label="item.id"
+                    :value="item.id"
+                  />
+                </el-select>
+              </el-form-item>
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="JIDS链" name="JIDS链">
@@ -186,36 +192,15 @@
                 <el-input placeholder="动态时隙分配" :disabled="true" />
               </el-form-item>
               <el-form-item
-                label="中心设备"
-                :rules="[
-                  {
-                    required: true,
-                    message: '中心设备不可为空',
-                    trigger: 'change'
-                  }
-                ]"
-                prop="mainDevice"
-              >
-                <el-select
-                  v-model="formDataJIDS.mainDevice"
-                  placeholder="请选择主设备"
-                  no-data-text="请勾选设备列表"
-                >
-                  <el-option
-                    v-for="(item, index) in formDataJIDS.targets"
-                    :key="index"
-                    :label="item.id"
-                    :value="item.id"
-                  />
-                </el-select>
-              </el-form-item>
-              <el-form-item
                 label="设备列表"
                 :rules="[
                   {
+                    message: '设备列表不可为空',
+                    trigger: 'change',
                     required: true
                   }
                 ]"
+                prop="targets"
               >
                 <el-table
                   ref="multipleTableRef"
@@ -253,6 +238,30 @@
                   />
                 </el-table>
               </el-form-item>
+              <el-form-item
+                label="中心设备"
+                :rules="[
+                  {
+                    required: true,
+                    message: '中心设备不可为空',
+                    trigger: 'change'
+                  }
+                ]"
+                prop="mainDevice"
+              >
+                <el-select
+                  v-model="formDataJIDS.mainDevice"
+                  placeholder="请选择主设备"
+                  no-data-text="请勾选设备列表"
+                >
+                  <el-option
+                    v-for="(item, index) in formDataJIDS.targets"
+                    :key="index"
+                    :label="item.id"
+                    :value="item.id"
+                  />
+                </el-select>
+              </el-form-item>
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="KU卫通" name="KU卫通">
@@ -268,36 +277,15 @@
                 <el-input placeholder="直连通信" :disabled="true" />
               </el-form-item>
               <el-form-item
-                label="中心设备"
-                :rules="[
-                  {
-                    required: true,
-                    message: '中心设备不可为空',
-                    trigger: 'change'
-                  }
-                ]"
-                prop="mainDevice"
-              >
-                <el-select
-                  v-model="formDataKu.mainDevice"
-                  placeholder="请选择主设备"
-                  no-data-text="请勾选设备列表"
-                >
-                  <el-option
-                    v-for="(item, index) in formDataKu.targets"
-                    :key="index"
-                    :label="item.id"
-                    :value="item.id"
-                  />
-                </el-select>
-              </el-form-item>
-              <el-form-item
                 label="设备列表"
                 :rules="[
                   {
+                    message: '设备列表不可为空',
+                    trigger: 'change',
                     required: true
                   }
                 ]"
+                prop="targets"
               >
                 <el-table
                   ref="multipleTableRef"
@@ -334,6 +322,30 @@
                     label="装备"
                   />
                 </el-table>
+              </el-form-item>
+              <el-form-item
+                label="中心设备"
+                :rules="[
+                  {
+                    required: true,
+                    message: '中心设备不可为空',
+                    trigger: 'change'
+                  }
+                ]"
+                prop="mainDevice"
+              >
+                <el-select
+                  v-model="formDataKu.mainDevice"
+                  placeholder="请选择主设备"
+                  no-data-text="请勾选设备列表"
+                >
+                  <el-option
+                    v-for="(item, index) in formDataKu.targets"
+                    :key="index"
+                    :label="item.id"
+                    :value="item.id"
+                  />
+                </el-select>
               </el-form-item>
             </el-form>
           </el-tab-pane>
@@ -423,19 +435,23 @@ const selectionChangeKu = (e: string[]) => {
 
 const formDataZHL = reactive({
   mainDevice: '',
-  targets: []
+  targets: [],
+  validaTable: []
 })
 const formData90X = reactive({
   mainDevice: '',
-  targets: []
+  targets: [],
+  validaTable: []
 })
 const formDataJIDS = reactive({
   mainDevice: '',
-  targets: []
+  targets: [],
+  validaTable: []
 })
 const formDataKu = reactive({
   mainDevice: '',
-  targets: []
+  targets: [],
+  validaTable: []
 })
 
 const closePopup = () => {
