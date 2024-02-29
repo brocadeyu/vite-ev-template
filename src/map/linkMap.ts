@@ -1,12 +1,18 @@
-import { Viewer, PrimitiveCollection } from 'cesium'
+import { Viewer, PrimitiveCollection, Primitive } from 'cesium'
+import { LinkType } from '@/common/enum'
 import * as Cesium from 'cesium'
 interface IAddLinkOpt {
   id: string //`device1-device2`
   positionArr: number[][]
-  type: string
+  type: LinkType
 }
 interface IRemoveLinkOpt {
   id: string
+}
+
+interface ISetVisibleTypeOpt {
+  type: LinkType
+  flag: boolean
 }
 /**
  * @description 存放链连线
@@ -14,12 +20,18 @@ interface IRemoveLinkOpt {
 export default class LinkMap {
   private _viewer: Viewer
   private _collection: PrimitiveCollection
-  private _map: Map<string, any>
+  private _map: Map<string, Primitive>
+  private _Zmap: Map<string, Primitive>
+  private _9map: Map<string, Primitive>
+  private _Jmap: Map<string, Primitive>
   constructor(viewer: Viewer) {
     this._viewer = viewer
     this._collection = new PrimitiveCollection()
     this._viewer.scene.primitives.add(this._collection)
     this._map = new Map()
+    this._Zmap = new Map()
+    this._9map = new Map()
+    this._Jmap = new Map()
   }
   addLink(opt: IAddLinkOpt) {
     const { id, positionArr, type } = opt
@@ -44,8 +56,20 @@ export default class LinkMap {
 
     this._collection.add(linkPrimitive)
     this._map.set(id, linkPrimitive)
+    const typeMap = this.getCacheFromType(type)
+    typeMap.set(id, linkPrimitive)
   }
-  private getMaterialByType(type) {
+  private getCacheFromType(type: LinkType) {
+    switch (type) {
+      case '综合链':
+        return this._Zmap
+      case '90X链':
+        return this._9map
+      case 'JIDS链':
+        return this._Jmap
+    }
+  }
+  private getMaterialByType(type: LinkType) {
     switch (type) {
       case '综合链':
         return this.getMaterialByColor([1.0, 0.0, 0.0, 0.5])
@@ -82,6 +106,13 @@ export default class LinkMap {
             }
           `
       }
+    })
+  }
+  setVisibleByType(opt: ISetVisibleTypeOpt) {
+    const { type, flag } = opt
+    const typeMap = this.getCacheFromType(type)
+    typeMap.forEach((_: Primitive) => {
+      _.show = flag
     })
   }
   setAllVisible(flag: boolean) {

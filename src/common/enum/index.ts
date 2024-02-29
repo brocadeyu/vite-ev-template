@@ -15,3 +15,12 @@ export enum WS_EVENT {
   validateLink //校验数据链
 }
 export type WSEventType = keyof typeof WS_EVENT
+
+export enum Link_Type {
+  '综合链',
+  '90X链',
+  'JIDS链',
+  'KU卫通'
+}
+
+export type LinkType = keyof typeof Link_Type
