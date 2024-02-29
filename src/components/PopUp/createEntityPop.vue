@@ -60,7 +60,12 @@
                 size="small"
               >
                 <template #append>
-                  <el-button type="primary" size="small" @click="pickPoint">
+                  <el-button
+                    :class="{ 'mark-point-active': isPickPointStatus }"
+                    type="primary"
+                    size="small"
+                    @click="pickPoint"
+                  >
                     <el-icon size="16"><i-ep-location /></el-icon>
                   </el-button>
                 </template>
@@ -113,7 +118,7 @@
           <el-col :span="9">
             <el-form-item>
               <el-button type="primary" size="small" @click="editPath"
-                >{{ isPickStatus ? '标绘' : '标绘'
+                >{{ isPickPointStatus ? '标绘' : '标绘'
                 }}<el-icon :size="16"><i-ep-editPen /></el-icon
               ></el-button>
             </el-form-item>
@@ -194,7 +199,7 @@ const formData = reactive({
     { name: '卫星通信设备', isHas: false, isUse: false }
   ]
 })
-const isPickStatus = ref(false) //是否开启地图选点状态
+const isPickPointStatus = ref(false) //是否开启地图选点状态
 const trackPointArr = computed(() => {
   return formData.path
     .map((_) => {
@@ -246,8 +251,8 @@ const onSave = () => {
 }
 
 const editPath = () => {
-  if (isPickStatus.value) return
-  isPickStatus.value = true
+  if (isPickPointStatus.value) return
+  isPickPointStatus.value = true
   tooltipStore.showTooltip({ text: '单击标绘，右击结束' })
   cesiumStore.cesium.eventHandler.register({
     type: 'LeftClick',
@@ -303,15 +308,15 @@ const editPath = () => {
         type: 'RightClick',
         id: 'endEditPath'
       })
-      isPickStatus.value = false
+      isPickPointStatus.value = false
       tooltipStore.closeToolTip()
     }
   })
 }
 let dyPoint: any
 const pickPoint = () => {
-  if (isPickStatus.value) return
-  isPickStatus.value = true
+  if (isPickPointStatus.value) return
+  isPickPointStatus.value = true
   tooltipStore.showTooltip({ text: '单击地球，选取点位' })
   cesiumStore.cesium.eventHandler.register({
     type: 'LeftClick',
@@ -334,7 +339,7 @@ const pickPoint = () => {
         type: 'LeftClick',
         id: 'pickEntityPoint'
       })
-      isPickStatus.value = false
+      isPickPointStatus.value = false
       tooltipStore.closeToolTip()
     }
   })
@@ -397,6 +402,46 @@ onMounted(() => {
   --el-disabled-border-color: #0d6e71;
   --el-fill-color-light: transparent;
   --el-color-info: white;
+}
+.mark-point-active {
+  position: relative;
+}
+.card-active {
+  border-color: rgb(0, 128, 255);
+  position: relative;
+}
+.mark-point-active::before,
+.mark-point-active::after {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: -7px;
+  right: -7px;
+  bottom: -7px;
+  border: 2px solid gold;
+  transition: all 0.5s;
+  animation: clippath 3s infinite linear;
+  border-radius: 7px;
+}
+
+.mark-point-active:after {
+  animation: clippath 3s infinite -1.5s linear;
+}
+@keyframes clippath {
+  0%,
+  100% {
+    clip-path: inset(0 0 80% 0);
+  }
+
+  25% {
+    clip-path: inset(0 80% 0 0);
+  }
+  50% {
+    clip-path: inset(80% 0 0 0);
+  }
+  75% {
+    clip-path: inset(0 0 0 80%);
+  }
 }
 .entity-form .el-input .el-button {
   display: flex;
