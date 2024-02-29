@@ -1,21 +1,16 @@
 <template>
   <div class="ms-container">
-    <BaseDocker :title="'模型资源'" :height="'200px'" :width="'200px'">
+    <BaseDocker :title="'模型资源'" :height="'220px'" :width="'200px'">
       <template #content>
         <div class="card-container">
           <div
             v-for="(item, index) in modelConfig"
             :key="index"
             class="card-item"
+            :class="{ 'card-active': activeIndex === index }"
             @click="tryAddEntity(item, index)"
           >
-            <img
-              class="card-img"
-              :class="{ 'card-active': activeIndex === index }"
-              :src="item.img"
-              width="60px"
-              height="60px"
-            />
+            <img class="card-img" :src="item.img" width="60px" height="60px" />
             {{ item.type }}
           </div>
         </div>
@@ -105,11 +100,48 @@ const tryAddEntity = (modelInfo, index: number) => {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
 }
 .card-img {
   border: 2px solid #145780;
+  position: relative;
 }
 .card-active {
   border-color: rgb(0, 128, 255);
+  position: relative;
+}
+.card-active::before,
+.card-active::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -5px;
+  border: 2px solid gold;
+  transition: all 0.5s;
+  animation: clippath 3s infinite linear;
+  border-radius: 10px;
+}
+
+.card-active:after {
+  animation: clippath 3s infinite -1.5s linear;
+}
+@keyframes clippath {
+  0%,
+  100% {
+    clip-path: inset(0 0 98% 0);
+  }
+
+  25% {
+    clip-path: inset(0 98% 0 0);
+  }
+  50% {
+    clip-path: inset(98% 0 0 0);
+  }
+  75% {
+    clip-path: inset(0 0 0 98%);
+  }
 }
 </style>
