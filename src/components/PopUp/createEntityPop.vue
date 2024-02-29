@@ -127,7 +127,7 @@
                         @click="editPath"
                         >标绘<el-icon :size="16"><i-ep-Aim /></el-icon
                       ></el-button>
-                      <el-button type="primary" size="small" @click="editPath"
+                      <el-button type="primary" size="small" @click="resetPath"
                         >重置<el-icon :size="16"><i-ep-RefreshRight /></el-icon
                       ></el-button>
                     </div>
@@ -325,6 +325,16 @@ const editPath = () => {
       tooltipStore.closeToolTip()
     }
   })
+}
+const resetPath = () => {
+  formData.path.splice(1)
+  trackLine.updateLinePosition(
+    formData.path
+      .map((_) => {
+        return _.pos
+      })
+      .flat() as any
+  )
 }
 let dyPoint: any
 const pickPoint = () => {
