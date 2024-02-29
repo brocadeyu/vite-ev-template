@@ -43,7 +43,8 @@ onMounted(() => {
         const entityTwo = entityStore.getEntityById(deviceArr[1])
         cesiumStore.cesium.linkMap.addLink({
           id: i,
-          positionArr: [entityOne.position, entityTwo.position]
+          positionArr: [entityOne.position, entityTwo.position],
+          type: _.dataLinkType
         })
       })
     })
