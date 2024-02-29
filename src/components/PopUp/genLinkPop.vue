@@ -11,7 +11,14 @@
         <el-tabs v-model="activeTab" type="border-card">
           <el-tab-pane label="综合链" name="综合链">
             <el-form ref="formRefZHL" :model="formDataZHL">
-              <el-form-item label="通信方式">
+              <el-form-item
+                label="通信方式"
+                :rules="[
+                  {
+                    required: true
+                  }
+                ]"
+              >
                 <el-input placeholder="点名呼叫轮询" :disabled="true" />
               </el-form-item>
               <el-form-item
@@ -38,7 +45,14 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item label="设备列表">
+              <el-form-item
+                label="设备列表"
+                :rules="[
+                  {
+                    required: true
+                  }
+                ]"
+              >
                 <el-table
                   ref="multipleTableRef"
                   :data="devicesList"
@@ -78,11 +92,28 @@
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="90X链" name="90X链">
-            <el-form :model="formData90X">
-              <el-form-item label="通信方式">
+            <el-form ref="formRef90X" :model="formData90X">
+              <el-form-item
+                label="通信方式"
+                :rules="[
+                  {
+                    required: true
+                  }
+                ]"
+              >
                 <el-input placeholder="静态时隙分配" :disabled="true" />
               </el-form-item>
-              <el-form-item label="中心设备">
+              <el-form-item
+                label="中心设备"
+                :rules="[
+                  {
+                    required: true,
+                    message: '中心设备不可为空',
+                    trigger: 'change'
+                  }
+                ]"
+                prop="mainDevice"
+              >
                 <el-select
                   v-model="formData90X.mainDevice"
                   placeholder="请选择主设备"
@@ -96,7 +127,14 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item label="设备列表">
+              <el-form-item
+                label="设备列表"
+                :rules="[
+                  {
+                    required: true
+                  }
+                ]"
+              >
                 <el-table
                   ref="multipleTableRef"
                   :data="devicesList"
@@ -136,11 +174,28 @@
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="JIDS链" name="JIDS链">
-            <el-form :model="formDataJIDS">
-              <el-form-item label="通信方式">
+            <el-form ref="formRefJIDS" :model="formDataJIDS">
+              <el-form-item
+                label="通信方式"
+                :rules="[
+                  {
+                    required: true
+                  }
+                ]"
+              >
                 <el-input placeholder="动态时隙分配" :disabled="true" />
               </el-form-item>
-              <el-form-item label="中心设备">
+              <el-form-item
+                label="中心设备"
+                :rules="[
+                  {
+                    required: true,
+                    message: '中心设备不可为空',
+                    trigger: 'change'
+                  }
+                ]"
+                prop="mainDevice"
+              >
                 <el-select
                   v-model="formDataJIDS.mainDevice"
                   placeholder="请选择主设备"
@@ -154,7 +209,14 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item label="设备列表">
+              <el-form-item
+                label="设备列表"
+                :rules="[
+                  {
+                    required: true
+                  }
+                ]"
+              >
                 <el-table
                   ref="multipleTableRef"
                   :data="devicesList"
@@ -194,11 +256,28 @@
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="KU卫通" name="KU卫通">
-            <el-form :model="formDataKu">
-              <el-form-item label="通信方式">
+            <el-form ref="formRefKU" :model="formDataKu">
+              <el-form-item
+                label="通信方式"
+                :rules="[
+                  {
+                    required: true
+                  }
+                ]"
+              >
                 <el-input placeholder="直连通信" :disabled="true" />
               </el-form-item>
-              <el-form-item label="中心设备">
+              <el-form-item
+                label="中心设备"
+                :rules="[
+                  {
+                    required: true,
+                    message: '中心设备不可为空',
+                    trigger: 'change'
+                  }
+                ]"
+                prop="mainDevice"
+              >
                 <el-select
                   v-model="formDataKu.mainDevice"
                   placeholder="请选择主设备"
@@ -212,7 +291,14 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item label="设备列表">
+              <el-form-item
+                label="设备列表"
+                :rules="[
+                  {
+                    required: true
+                  }
+                ]"
+              >
                 <el-table
                   ref="multipleTableRef"
                   :data="shipDeviceList"
@@ -280,6 +366,9 @@ const entityStore = useEntityStore()
 const websocketStore = useWebSocketStore()
 const { entitiesArr } = storeToRefs(entityStore)
 const formRefZHL = ref<FormInstance>()
+const formRef90X = ref<FormInstance>()
+const formRefJIDS = ref<FormInstance>()
+const formRefKU = ref<FormInstance>()
 withDefaults(
   defineProps<{
     title?: string
@@ -355,11 +444,30 @@ const closePopup = () => {
 const confirmPopup = async () => {
   try {
     await formRefZHL.value.validate((valid) => {
-      if (valid) {
-        console.log('valid')
-      } else {
+      if (!valid) {
         console.log('validFail')
         activeTab.value = '综合链'
+        throw 'error'
+      }
+    })
+    await formRef90X.value.validate((valid) => {
+      if (!valid) {
+        console.log('validFail')
+        activeTab.value = '90X链'
+        throw 'error'
+      }
+    })
+    await formRefJIDS.value.validate((valid) => {
+      if (!valid) {
+        console.log('validFail')
+        activeTab.value = 'JIDS链'
+        throw 'error'
+      }
+    })
+    await formRefKU.value.validate((valid) => {
+      if (!valid) {
+        console.log('validFail')
+        activeTab.value = 'KU卫通'
         throw 'error'
       }
     })
