@@ -155,6 +155,7 @@ import BaseDocker from '@/components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { useEntityStore } from '@/stores/entityStore'
+import { useToolTipStore } from '@/stores/tooltipStore'
 import { onMounted } from 'vue'
 import {
   IOpenAddEntityPopProps,
@@ -204,6 +205,7 @@ const trackPointArr = computed(() => {
 const popupStore = usePopupStore()
 const cesiumStore = useCesiumStore()
 const entityStore = useEntityStore()
+const tooltipStore = useToolTipStore()
 let trackLine: MarkerLine
 const closePopup = () => {
   popupStore.closePop()
@@ -246,6 +248,7 @@ const onSave = () => {
 const editPath = () => {
   if (isPickStatus.value) return
   isPickStatus.value = true
+  tooltipStore.showTooltip({ text: '单击标绘，右击结束' })
   cesiumStore.cesium.eventHandler.register({
     type: 'LeftClick',
     id: 'pickEditPathPoint',
@@ -301,6 +304,7 @@ const editPath = () => {
         id: 'endEditPath'
       })
       isPickStatus.value = false
+      tooltipStore.closeToolTip()
     }
   })
 }
@@ -308,6 +312,7 @@ let dyPoint: any
 const pickPoint = () => {
   if (isPickStatus.value) return
   isPickStatus.value = true
+  tooltipStore.showTooltip({ text: '单击地球，选取点位' })
   cesiumStore.cesium.eventHandler.register({
     type: 'LeftClick',
     id: 'pickEntityPoint',
@@ -330,6 +335,7 @@ const pickPoint = () => {
         id: 'pickEntityPoint'
       })
       isPickStatus.value = false
+      tooltipStore.closeToolTip()
     }
   })
 }

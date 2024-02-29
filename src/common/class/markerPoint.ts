@@ -15,7 +15,7 @@ export default class MarkerPoint {
       billboard: {
         image: LocateImg,
         width: 40,
-        height: 43,
+        height: 41,
         scale: 0.8,
         pixelOffset: new Cesium.Cartesian2(0, -10),
         disableDepthTestDistance: Number.POSITIVE_INFINITY
