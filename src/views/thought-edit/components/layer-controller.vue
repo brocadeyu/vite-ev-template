@@ -81,8 +81,10 @@ const handleNodeCheckChange = (node: any, isChecked: boolean) => {
   const nodeLabel = node.label
   switch (nodeLabel) {
     case '模型':
+      cesiumStore.cesium.modelMap.setAllVisible(isChecked)
       break
     case '轨迹':
+      cesiumStore.cesium.trackMap.setAllVisible(isChecked)
       break
     // case '数据链':
     //   break

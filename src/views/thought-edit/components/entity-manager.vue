@@ -6,13 +6,13 @@
       :width="'200px'"
       :show-footer="true"
     >
-      <template #header>
+      <!-- <template #header>
         <el-checkbox
           v-model="showPath"
           label="轨迹显隐"
           @change="reverseTrackShow"
         />
-      </template>
+      </template> -->
       <template #content>
         <div class="content-tree">
           <el-input

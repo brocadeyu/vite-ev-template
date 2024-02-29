@@ -72,4 +72,7 @@ export default class ModelMap {
       this._collection.remove(result)
     }
   }
+  setAllVisible(flag: boolean) {
+    this._collection.show = flag
+  }
 }
