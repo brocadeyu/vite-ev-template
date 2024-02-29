@@ -378,7 +378,6 @@ onMounted(() => {
     //编辑
     //IOpenEditEntityPopProps
     formData.name = props.data.name
-    // console.log(' props.data.equipment', props.data.equipment)
     formData.equipment = props.data.equipment
     // formData.path = props.data.path
     props.data.path.forEach((_) => {

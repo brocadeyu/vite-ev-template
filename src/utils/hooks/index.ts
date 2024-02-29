@@ -9,7 +9,6 @@ export function useMouse() {
   const isInSide = ref(true)
   // 组合式函数可以随时更改其状态。
   function update(event) {
-    // console.log('event', event)
     x.value = event.pageX
     y.value = event.pageY
     isInSide.value =

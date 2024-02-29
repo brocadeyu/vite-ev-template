@@ -335,22 +335,17 @@ const formDataKu = reactive({
   mainDevice: '',
   targets: []
 })
-const handleSelectionChange = (e) => {
-  // console.log('eee', e)
-}
 
 const closePopup = () => {
   popupStore.closePop()
 }
 const confirmPopup = () => {
-  console.log('调用参数', formDataZHL.targets)
   const param1 = {
     dataLinkType: '综合链',
     // usingKU: this.DataLinkInfo.link[0].usingKU,
     centerTargetId: formDataZHL.mainDevice,
     targets: formDataZHL.targets.map((_) => {
       const entity = entityStore.getEntityById(_.id)
-      console.log('entity', entity)
       return {
         ID: entity.id,
         type: entity.getType(),
@@ -409,12 +404,8 @@ const confirmPopup = () => {
     InteractType: 'baseInter.EntiyInter.VirtualInteract.DataLinkCreate',
     Param: [param1, param2, param3, param4]
   }
-  console.log('d', d)
   websocketStore.sendMessage(d)
 }
-onMounted(() => {
-  // console.log('shipDeviceList', shipDeviceList)
-})
 </script>
 
 <style scoped>

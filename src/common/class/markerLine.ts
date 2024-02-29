@@ -12,7 +12,6 @@ export default class MarkerLine {
       this.linePositionArr[this.linePositionArr.length - 1]
     ]
     this.viewer = viewer
-    console.log('ppp', this.linePositionArr)
     this.redLine = viewer.entities.add({
       polyline: {
         // This callback updates positions each frame.
@@ -33,8 +32,6 @@ export default class MarkerLine {
    * @param p
    */
   updateLinePosition(p) {
-    console.log('pp', p)
-
     this.linePositionArr = p
     if (p.length === 2) {
       this.pointerPosition = [p[p.length - 2], p[p.length - 1]]

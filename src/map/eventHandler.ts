@@ -48,7 +48,6 @@ export default class EventHandler {
         // ) {
         //   clearTimeout(this._timer)
         // }
-        // console.log('eee', e)
         let param = e
         const worldCoords = this.screenCoordinate2World(
           e.position || e.endPosition
@@ -83,13 +82,10 @@ export default class EventHandler {
     eventArr.push({ id, fn: callBack })
   }
   remove(opt: EventParam) {
-    // console.log('remove', opt)
     const { type, id } = opt
     const eventType = this.getCesiumEventType(type)
     const eventArr = this.eventMap.get(eventType)
-    // console.log('eventArr', eventArr)
     let index = eventArr.findIndex((_) => _.id === id)
-    // console.log('index', index)
     if (index !== -1) {
       eventArr.splice(index, 1)
     }
