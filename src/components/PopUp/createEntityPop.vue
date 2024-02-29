@@ -2,8 +2,8 @@
   <base-docker
     :title="title"
     :show-footer="true"
-    :height="'400px'"
-    :width="'450px'"
+    :height="'450px'"
+    :width="'480px'"
     :is-draggable="true"
     :bg="getEntityImgByType(data.type)"
   >
@@ -74,21 +74,20 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="15">
-            <el-form-item :label="`航线 (${formData.path.length}) `">
+          <el-col :span="24">
+            <el-form-item :label="`航线`">
               <el-table
                 size="small"
-                :show-header="false"
                 :scrollbar-always-on="true"
-                height="80"
+                height="125"
                 :data="formData.path"
                 style="
                   --el-table-border-color: none;
-                  --el-table-bg-color: transparent;
+                  --el-table-bg-color: #0b1a38;
                 "
                 :header-cell-style="{
                   fontSize: '12px',
-                  height: '20px',
+                  height: '40px',
                   color: 'white',
                   backgroundColor: '#2b4859',
                   borderBottom: '0.5px #143275 solid'
@@ -106,23 +105,36 @@
                   color: 'white'
                 }"
               >
-                <!-- <el-table-column prop="index" label="序号" /> -->
+                <el-table-column prop="index" label="序号" :align="'center'">
+                  <template #default="scope">
+                    <span>{{ scope.$index + 1 }}</span>
+                  </template>
+                </el-table-column>
                 <el-table-column
                   prop="pos"
-                  label="位置"
-                  width="170"
+                  :label="`位置（${formData.path.length})`"
                   :align="'center'"
-                />
+                  width="120"
+                >
+                </el-table-column>
+                <el-table-column :align="'center'" width="160">
+                  <template #header>
+                    <div style="display: flex">
+                      <el-button
+                        type="primary"
+                        size="small"
+                        :class="{ 'mark-point-active': isPickPathStatus }"
+                        @click="editPath"
+                        >标绘<el-icon :size="16"><i-ep-Aim /></el-icon
+                      ></el-button>
+                      <el-button type="primary" size="small" @click="editPath"
+                        >重置<el-icon :size="16"><i-ep-RefreshRight /></el-icon
+                      ></el-button>
+                    </div>
+                  </template>
+                </el-table-column>
               </el-table> </el-form-item
           ></el-col>
-          <el-col :span="9">
-            <el-form-item>
-              <el-button type="primary" size="small" @click="editPath"
-                >{{ isPickPointStatus ? '标绘' : '标绘'
-                }}<el-icon :size="16"><i-ep-editPen /></el-icon
-              ></el-button>
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
@@ -200,6 +212,7 @@ const formData = reactive({
   ]
 })
 const isPickPointStatus = ref(false) //是否开启地图选点状态
+const isPickPathStatus = ref(false) //是否开启地图选路径状态
 const trackPointArr = computed(() => {
   return formData.path
     .map((_) => {
@@ -252,7 +265,7 @@ const onSave = () => {
 
 const editPath = () => {
   if (isPickPointStatus.value) return
-  isPickPointStatus.value = true
+  isPickPathStatus.value = true
   tooltipStore.showTooltip({ text: '单击标绘，右击结束' })
   cesiumStore.cesium.eventHandler.register({
     type: 'LeftClick',
@@ -308,14 +321,14 @@ const editPath = () => {
         type: 'RightClick',
         id: 'endEditPath'
       })
-      isPickPointStatus.value = false
+      isPickPathStatus.value = false
       tooltipStore.closeToolTip()
     }
   })
 }
 let dyPoint: any
 const pickPoint = () => {
-  if (isPickPointStatus.value) return
+  if (isPickPathStatus.value) return
   isPickPointStatus.value = true
   tooltipStore.showTooltip({ text: '单击地球，选取点位' })
   cesiumStore.cesium.eventHandler.register({
@@ -402,6 +415,9 @@ onMounted(() => {
   --el-disabled-border-color: #0d6e71;
   --el-fill-color-light: transparent;
   --el-color-info: white;
+}
+:deep(.el-table .cell) {
+  overflow: visible;
 }
 .mark-point-active {
   position: relative;
