@@ -35,35 +35,39 @@ export default class TrackMap {
       'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAAgCAYAAABkS8DlAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAADSSURBVHja7NYxEoUgDEDBYM39z2qHtZViwMFxt1FJnF/98ZXWWkRE7LWWOOt5Lsm9q/vsbu9Zdtazs/J19O5bs1XPZrwze/6V31zxbOZs1n905Wt2p3f25GzE7ohv6q3nLQCA3xEAACAAAAABAAAIAABAAAAAAgAAEAAAgAAAAAQAACAAAAABAAAIAABAAAAAAgAAEAAAgAAAAAQAACAAAEAAAAACAAAQAACAAAAABAAAIAAAAAEAAAgAAEAAAAACAAAQAACAAAAA8g4AAAD//wMA4WEFTJOT5UIAAAAASUVORK5CYII='
 
     // 自定义材质
-    const material = new Cesium.Material({
-      translucent: true,
-      fabric: {
-        uniforms: {
-          color: new Cesium.Color(1.0, 1.0, 1.0, 0.5),
-          image: image,
-          speed: 3
-        },
-        source: `
-            czm_material czm_getMaterial(czm_materialInput materialInput) {
-              czm_material material = czm_getDefaultMaterial(materialInput);
-              vec2 st = materialInput.st;
-              float st_map_s = fract(st.s - speed * czm_frameNumber * 0.001);
-              vec4 colorImage = texture(image, vec2(st_map_s, st.t));
-              vec4 fragColor;
-              fragColor.rgb = color.rgb / 1.0;
-              material.alpha = colorImage.a * color.a;
-              material.diffuse = fragColor.rgb;
-              material.emission = fragColor.rgb;
-              return material;
-            }
-          `
-      }
-    })
+    // const material = new Cesium.Material({
+    //   translucent: true,
+    //   fabric: {
+    //     uniforms: {
+    //       color: new Cesium.Color(1.0, 1.0, 1.0, 0.5),
+    //       image: image,
+    //       speed: 3
+    //     },
+    //     source: `
+    //         czm_material czm_getMaterial(czm_materialInput materialInput) {
+    //           czm_material material = czm_getDefaultMaterial(materialInput);
+    //           vec2 st = materialInput.st;
+    //           float st_map_s = fract(st.s - speed * czm_frameNumber * 0.001);
+    //           vec4 colorImage = texture(image, vec2(st_map_s, st.t));
+    //           vec4 fragColor;
+    //           fragColor.rgb = color.rgb / 1.0;
+    //           material.alpha = colorImage.a * color.a;
+    //           material.diffuse = fragColor.rgb;
+    //           material.emission = fragColor.rgb;
+    //           return material;
+    //         }
+    //       `
+    //   }
+    // })
 
     const trackPrimitive = new Cesium.Primitive({
       geometryInstances: [geometryInstance],
       appearance: new Cesium.PolylineMaterialAppearance({
-        material: material
+        material: Cesium.Material.fromType('PolylineGlow', {
+          color: Cesium.Color.YELLOW,
+          glowPower: 0.2,
+          taperPower: 1.0
+        })
       }),
       asynchronous: false
     })
