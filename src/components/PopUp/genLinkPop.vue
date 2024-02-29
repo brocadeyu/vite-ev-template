@@ -8,13 +8,23 @@
   >
     <template #content>
       <div class="gen-content">
-        <el-tabs type="border-card">
-          <el-tab-pane label="综合链">
-            <el-form :model="formDataZHL">
+        <el-tabs v-model="activeTab" type="border-card">
+          <el-tab-pane label="综合链" name="综合链">
+            <el-form ref="formRefZHL" :model="formDataZHL">
               <el-form-item label="通信方式">
                 <el-input placeholder="点名呼叫轮询" :disabled="true" />
               </el-form-item>
-              <el-form-item label="中心设备">
+              <el-form-item
+                label="中心设备"
+                :rules="[
+                  {
+                    required: true,
+                    message: '中心设备不可为空',
+                    trigger: 'change'
+                  }
+                ]"
+                prop="mainDevice"
+              >
                 <el-select
                   v-model="formDataZHL.mainDevice"
                   placeholder="请选择主设备"
@@ -67,7 +77,7 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="90X链">
+          <el-tab-pane label="90X链" name="90X链">
             <el-form :model="formData90X">
               <el-form-item label="通信方式">
                 <el-input placeholder="静态时隙分配" :disabled="true" />
@@ -125,7 +135,7 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="JIDS链">
+          <el-tab-pane label="JIDS链" name="JIDS链">
             <el-form :model="formDataJIDS">
               <el-form-item label="通信方式">
                 <el-input placeholder="动态时隙分配" :disabled="true" />
@@ -183,7 +193,7 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="卫通">
+          <el-tab-pane label="KU卫通" name="KU卫通">
             <el-form :model="formDataKu">
               <el-form-item label="通信方式">
                 <el-input placeholder="直连通信" :disabled="true" />
@@ -264,16 +274,19 @@ import { useEntityStore } from '@/stores/entityStore'
 import { useWebSocketStore } from '@/stores/webSocketStore'
 import { storeToRefs } from 'pinia'
 import { EntityTypeEnum } from '@/common/enum'
+import type { FormInstance } from 'element-plus'
 const popupStore = usePopupStore()
 const entityStore = useEntityStore()
 const websocketStore = useWebSocketStore()
 const { entitiesArr } = storeToRefs(entityStore)
-const props = withDefaults(
+const formRefZHL = ref<FormInstance>()
+withDefaults(
   defineProps<{
     title?: string
   }>(),
   { title: '' }
 )
+const activeTab = ref('综合链')
 //三种链的可选设备列表为所有设备
 const devicesList = computed(() => {
   return entitiesArr.value.map((_) => {
@@ -339,72 +352,86 @@ const formDataKu = reactive({
 const closePopup = () => {
   popupStore.closePop()
 }
-const confirmPopup = () => {
-  const param1 = {
-    dataLinkType: '综合链',
-    // usingKU: this.DataLinkInfo.link[0].usingKU,
-    centerTargetId: formDataZHL.mainDevice,
-    targets: formDataZHL.targets.map((_) => {
-      const entity = entityStore.getEntityById(_.id)
-      return {
-        ID: entity.id,
-        type: entity.getType(),
-        lon: entity.position[0],
-        lat: entity.position[1],
-        alt: entity.position[2]
+const confirmPopup = async () => {
+  try {
+    await formRefZHL.value.validate((valid) => {
+      if (valid) {
+        console.log('valid')
+      } else {
+        console.log('validFail')
+        activeTab.value = '综合链'
+        throw 'error'
       }
     })
+    const param1 = {
+      dataLinkType: '综合链',
+      // usingKU: this.DataLinkInfo.link[0].usingKU,
+      centerTargetId: formDataZHL.mainDevice,
+      targets: formDataZHL.targets.map((_) => {
+        const entity = entityStore.getEntityById(_.id)
+        return {
+          ID: entity.id,
+          type: entity.getType(),
+          lon: entity.position[0],
+          lat: entity.position[1],
+          alt: entity.position[2]
+        }
+      })
+    }
+    const param2 = {
+      dataLinkType: '90X链',
+      // usingKU: this.DataLinkInfo.link[0].usingKU,
+      centerTargetId: formData90X.mainDevice,
+      targets: formData90X.targets.map((_) => {
+        const entity = entityStore.getEntityById(_.id)
+        return {
+          ID: entity.id,
+          type: entity.getType(),
+          lon: entity.position[0],
+          lat: entity.position[1],
+          alt: entity.position[2]
+        }
+      })
+    }
+    const param3 = {
+      dataLinkType: 'JIDS链',
+      // usingKU: this.DataLinkInfo.link[0].usingKU,
+      centerTargetId: formDataJIDS.mainDevice,
+      targets: formDataJIDS.targets.map((_) => {
+        const entity = entityStore.getEntityById(_.id)
+        return {
+          ID: entity.id,
+          type: entity.getType(),
+          lon: entity.position[0],
+          lat: entity.position[1],
+          alt: entity.position[2]
+        }
+      })
+    }
+    const param4 = {
+      dataLinkType: 'KU卫通',
+      // usingKU: this.DataLinkInfo.link[0].usingKU,
+      centerTargetId: formDataKu.mainDevice,
+      targets: formDataKu.targets.map((_) => {
+        const entity = entityStore.getEntityById(_.id)
+        return {
+          ID: entity.id,
+          type: entity.getType(),
+          lon: entity.position[0],
+          lat: entity.position[1],
+          alt: entity.position[2]
+        }
+      })
+    }
+    const d = {
+      InteractType: 'baseInter.EntiyInter.VirtualInteract.DataLinkCreate',
+      Param: [param1, param2, param3, param4]
+    }
+    websocketStore.sendMessage(d)
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log('error', error)
   }
-  const param2 = {
-    dataLinkType: '90X链',
-    // usingKU: this.DataLinkInfo.link[0].usingKU,
-    centerTargetId: formData90X.mainDevice,
-    targets: formData90X.targets.map((_) => {
-      const entity = entityStore.getEntityById(_.id)
-      return {
-        ID: entity.id,
-        type: entity.getType(),
-        lon: entity.position[0],
-        lat: entity.position[1],
-        alt: entity.position[2]
-      }
-    })
-  }
-  const param3 = {
-    dataLinkType: 'JIDS链',
-    // usingKU: this.DataLinkInfo.link[0].usingKU,
-    centerTargetId: formDataJIDS.mainDevice,
-    targets: formDataJIDS.targets.map((_) => {
-      const entity = entityStore.getEntityById(_.id)
-      return {
-        ID: entity.id,
-        type: entity.getType(),
-        lon: entity.position[0],
-        lat: entity.position[1],
-        alt: entity.position[2]
-      }
-    })
-  }
-  const param4 = {
-    dataLinkType: 'KU卫通',
-    // usingKU: this.DataLinkInfo.link[0].usingKU,
-    centerTargetId: formDataKu.mainDevice,
-    targets: formDataKu.targets.map((_) => {
-      const entity = entityStore.getEntityById(_.id)
-      return {
-        ID: entity.id,
-        type: entity.getType(),
-        lon: entity.position[0],
-        lat: entity.position[1],
-        alt: entity.position[2]
-      }
-    })
-  }
-  const d = {
-    InteractType: 'baseInter.EntiyInter.VirtualInteract.DataLinkCreate',
-    Param: [param1, param2, param3, param4]
-  }
-  websocketStore.sendMessage(d)
 }
 </script>
 
