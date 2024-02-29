@@ -51,6 +51,7 @@ const computedStyle = computed(() => ({
   border: 2px solid #119aa0;
   box-sizing: border-box;
   padding: 3px;
+  border-radius: 4px;
   display: flex;
   flex-direction: column;
 }
