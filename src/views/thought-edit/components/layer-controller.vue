@@ -1,6 +1,6 @@
 <template>
   <div class="lc-container">
-    <BaseDocker :title="'图层控制'" :height="'220px'" :width="'200px'">
+    <BaseDocker :title="'图层控制'" :height="'230px'" :width="'200px'">
       <template #content>
         <div class="card-container">
           <el-tree
@@ -12,6 +12,8 @@
               user-select: none;
               background-color: #113751;
               --el-tree-node-hover-bg-color: #0e9aa0;
+              border-radius: 4px;
+              outline: 1px solid #0e9aa0;
               color: white;
             "
             accordion
@@ -120,6 +122,11 @@ const handleNodeCheckChange = (node: any, isChecked: boolean) => {
   width: 100%;
   justify-content: center;
   align-items: center;
+  padding-top: 5px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  padding-left: 2px;
+  box-sizing: border-box;
 }
 
 :deep(.el-tree-node:focus .el-tree-node__content) {
