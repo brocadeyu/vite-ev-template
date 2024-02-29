@@ -4,7 +4,7 @@
       <template #content>
         <div class="card-container">
           <el-tree
-            :data="data"
+            :data="treeData"
             :props="defaultProps"
             style="width: 100%; height: 100%; user-select: none"
             accordion
@@ -13,8 +13,7 @@
             node-key="label"
             default-expand-all
             check-on-click-node
-            @node-click="handleNodeClick"
-            @check-change="handleCurrentChange"
+            @check-change="handleNodeCheckChange"
           />
         </div>
       </template>
@@ -38,8 +37,38 @@ enum NodeLabel {
   'JIDS链',
   'KU卫通'
 }
+const treeData: Tree[] = [
+  {
+    label: '模型'
+  },
+  {
+    label: '轨迹'
+  },
+  {
+    label: '数据链',
+    children: [
+      {
+        label: '综合链'
+      },
+      {
+        label: '90X链'
+      },
+      {
+        label: 'JIDS链'
+      },
+      {
+        label: 'KU卫通'
+      }
+    ]
+  }
+]
+const defaultProps = {
+  children: 'children',
+  label: 'label'
+}
 const cesiumStore = useCesiumStore()
-const handleCurrentChange = (node: any, isChecked: boolean) => {
+
+const handleNodeCheckChange = (node: any, isChecked: boolean) => {
   const nodeLabel = node.label
   switch (nodeLabel) {
     case '模型':
@@ -69,55 +98,6 @@ const handleCurrentChange = (node: any, isChecked: boolean) => {
     case 'KU卫通':
       break
   }
-}
-const handleNodeClick = (data: Tree) => {
-  const nodeLabel = data.label
-  switch (nodeLabel) {
-    case '模型':
-      break
-    case '轨迹':
-      break
-    case '数据链':
-      break
-    case '综合链':
-      break
-    case '90X链':
-      break
-    case 'JIDS链':
-      break
-    case 'KU卫通':
-      break
-  }
-}
-
-const data: Tree[] = [
-  {
-    label: '模型'
-  },
-  {
-    label: '轨迹'
-  },
-  {
-    label: '数据链',
-    children: [
-      {
-        label: '综合链'
-      },
-      {
-        label: '90X链'
-      },
-      {
-        label: 'JIDS链'
-      },
-      {
-        label: 'KU卫通'
-      }
-    ]
-  }
-]
-const defaultProps = {
-  children: 'children',
-  label: 'label'
 }
 </script>
 
