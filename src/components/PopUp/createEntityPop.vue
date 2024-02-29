@@ -277,7 +277,7 @@ const editPath = () => {
     }
   })
   cesiumStore.cesium.eventHandler.register({
-    type: 'LeftDoubleClick',
+    type: 'RightClick',
     id: 'endEditPath',
     callBack: (e) => {
       formData.path.push({
@@ -300,7 +300,7 @@ const editPath = () => {
         id: 'getDynamicPoint'
       })
       cesiumStore.cesium.eventHandler.remove({
-        type: 'LeftDoubleClick',
+        type: 'RightClick',
         id: 'endEditPath'
       })
       isPickStatus.value = false

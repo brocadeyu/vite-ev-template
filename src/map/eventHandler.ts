@@ -1,6 +1,6 @@
 import type { Viewer, ScreenSpaceEventHandler, Cartesian3 } from 'cesium'
 interface EventParam {
-  type: 'LeftClick' | 'LeftDoubleClick' | 'MouseMove'
+  type: 'LeftClick' | 'LeftDoubleClick' | 'MouseMove' | 'RightClick'
   id: string
   callBack?: (
     e:
@@ -42,12 +42,12 @@ export default class EventHandler {
     if (!this.eventMap.get(eventType)) {
       this.eventMap.set(eventType, [])
       this._cesiumScreenHandler.setInputAction((e) => {
-        if (
-          this._timer &&
-          eventType === Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
-        ) {
-          clearTimeout(this._timer)
-        }
+        // if (
+        //   this._timer &&
+        //   eventType === Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
+        // ) {
+        //   clearTimeout(this._timer)
+        // }
         // console.log('eee', e)
         let param = e
         const worldCoords = this.screenCoordinate2World(
@@ -58,22 +58,23 @@ export default class EventHandler {
           [
             Cesium.ScreenSpaceEventType.LEFT_CLICK,
             Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK,
-            Cesium.ScreenSpaceEventType.MOUSE_MOVE
+            Cesium.ScreenSpaceEventType.MOUSE_MOVE,
+            Cesium.ScreenSpaceEventType.RIGHT_CLICK
           ].includes(eventType)
         ) {
           param = { position: cartoCoords }
         }
-        if (eventType === Cesium.ScreenSpaceEventType.LEFT_CLICK) {
-          this._timer = setTimeout(() => {
-            this.eventMap.get(eventType).forEach((_) => {
-              _.fn(param)
-            })
-          }, 200)
-        } else {
-          this.eventMap.get(eventType).forEach((_) => {
-            _.fn(param)
-          })
-        }
+        // if (eventType === Cesium.ScreenSpaceEventType.LEFT_CLICK) {
+        //   this._timer = setTimeout(() => {
+        //     this.eventMap.get(eventType).forEach((_) => {
+        //       _.fn(param)
+        //     })
+        //   }, 200)
+        // } else {
+        this.eventMap.get(eventType).forEach((_) => {
+          _.fn(param)
+        })
+        // }
       }, eventType)
     }
     const eventArr = this.eventMap.get(eventType)
@@ -103,6 +104,9 @@ export default class EventHandler {
         break
       case 'MouseMove':
         return Cesium.ScreenSpaceEventType.MOUSE_MOVE
+        break
+      case 'RightClick':
+        return Cesium.ScreenSpaceEventType.RIGHT_CLICK
         break
     }
   }
