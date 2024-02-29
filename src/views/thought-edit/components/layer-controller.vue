@@ -6,7 +6,14 @@
           <el-tree
             :data="treeData"
             :props="defaultProps"
-            style="width: 100%; height: 100%; user-select: none"
+            style="
+              width: 100%;
+              height: 100%;
+              user-select: none;
+              background-color: #113751;
+              --el-tree-node-hover-bg-color: #0e9aa0;
+              color: white;
+            "
             accordion
             show-checkbox
             :default-checked-keys="['模型', '轨迹', '数据链']"
@@ -113,5 +120,19 @@ const handleNodeCheckChange = (node: any, isChecked: boolean) => {
   width: 100%;
   justify-content: center;
   align-items: center;
+}
+
+:deep(.el-tree-node:focus .el-tree-node__content) {
+  background-color: transparent;
+}
+:deep(.el-tree .el-tree-node__content:hover) {
+  background-color: #0e9aa0 !important;
+}
+:deep(.el-checkbox__input .el-checkbox__inner) {
+  background-color: #113751 !important;
+  border-color: #0e6c71;
+}
+:deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
+  background-color: #113751 !important;
 }
 </style>
