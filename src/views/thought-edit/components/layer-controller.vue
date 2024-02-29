@@ -21,6 +21,7 @@
             :default-checked-keys="['模型', '轨迹', '数据链']"
             node-key="label"
             default-expand-all
+            :expand-on-click-node="false"
             check-on-click-node
             @check-change="handleNodeCheckChange"
           />
