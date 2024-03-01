@@ -371,11 +371,13 @@ import { usePopupStore } from '@/stores/popupStore'
 import { useEntityStore } from '@/stores/entityStore'
 import { useWebSocketStore } from '@/stores/webSocketStore'
 import { storeToRefs } from 'pinia'
-import { EntityTypeEnum } from '@/common/enum'
+import { EntityTypeEnum, WS_EVENT } from '@/common/enum'
 import type { FormInstance } from 'element-plus'
+import { useCesiumStore } from '@/stores/cesiumStore'
 const popupStore = usePopupStore()
 const entityStore = useEntityStore()
 const websocketStore = useWebSocketStore()
+const cesiumStore = useCesiumStore()
 const { entitiesArr } = storeToRefs(entityStore)
 const formRefZHL = ref<FormInstance>()
 const formRef90X = ref<FormInstance>()
@@ -461,28 +463,24 @@ const confirmPopup = async () => {
   try {
     await formRefZHL.value.validate((valid) => {
       if (!valid) {
-        console.log('validFail')
         activeTab.value = '综合链'
         throw 'error'
       }
     })
     await formRef90X.value.validate((valid) => {
       if (!valid) {
-        console.log('validFail')
         activeTab.value = '90X链'
         throw 'error'
       }
     })
     await formRefJIDS.value.validate((valid) => {
       if (!valid) {
-        console.log('validFail')
         activeTab.value = 'JIDS链'
         throw 'error'
       }
     })
     await formRefKU.value.validate((valid) => {
       if (!valid) {
-        console.log('validFail')
         activeTab.value = 'KU卫通'
         throw 'error'
       }
@@ -557,6 +555,24 @@ const confirmPopup = async () => {
     console.log('error', error)
   }
 }
+onMounted(() => {
+  websocketStore.addEventListener(WS_EVENT.createLink, (data) => {
+    console.log('接收到的createLink数据====>', data)
+    cesiumStore.cesium.linkMap.removeAllLink()
+    data.link.forEach((_: any) => {
+      _.linkTo.forEach((i: any) => {
+        const deviceArr = i.split('-')
+        const entityOne = entityStore.getEntityById(deviceArr[0])
+        const entityTwo = entityStore.getEntityById(deviceArr[1])
+        cesiumStore.cesium.linkMap.addLink({
+          id: i,
+          positionArr: [entityOne.position, entityTwo.position],
+          type: _.dataLinkType
+        })
+      })
+    })
+  })
+})
 </script>
 
 <style scoped>

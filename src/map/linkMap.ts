@@ -125,4 +125,11 @@ export default class LinkMap {
       this._collection.remove(result)
     }
   }
+  removeAllLink() {
+    this._collection.removeAll()
+    this._map = new Map()
+    this._Zmap = new Map()
+    this._Jmap = new Map()
+    this._9map = new Map()
+  }
 }

@@ -63,10 +63,8 @@ export default class WebSocketService {
         Object.prototype.toString.call(parseData) === '[object Array]' &&
         'link' in parseData[0]
       ) {
-        console.log('isArray')
         this.eventRegistry.emit(WS_EVENT.createLink, parseData[0])
       }
-      console.log('parseData', parseData)
     } catch (error) {
       console.error('解析WS消息出错:', error)
     }
