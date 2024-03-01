@@ -1,6 +1,11 @@
 <template>
   <div class="ms-container">
-    <BaseDocker :title="'模型资源'" :height="'220px'" :width="'200px'">
+    <BaseDocker
+      :title="'模型资源'"
+      :height="'220px'"
+      :width="'200px'"
+      icon="pointer"
+    >
       <template #content>
         <div class="card-container">
           <div

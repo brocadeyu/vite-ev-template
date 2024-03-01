@@ -12,7 +12,18 @@
     class="bd-warpper"
   >
     <div class="bd-header">
-      <div>{{ props.title }}</div>
+      <div style="display: flex; align-items: center">
+        <el-icon v-if="icon" size="16">
+          <i-ep-pointer v-if="icon === 'pointer'" />
+          <i-ep-view v-if="icon === 'view'" />
+          <i-ep-edit v-if="icon === 'edit'" />
+        </el-icon>
+        <div :class="{ 'show-icon': icon }">
+          {{ props.title }}
+        </div>
+        <component :is="'i-ep-location'" />
+      </div>
+
       <slot name="header"></slot>
     </div>
     <div class="bd-content">
@@ -34,8 +45,9 @@ const props = withDefaults(
     showFooter?: boolean
     isDraggable?: boolean
     bg?: string
+    icon?: string
   }>(),
-  { title: '', showFooter: false, isDraggable: false, bg: '' }
+  { title: '', showFooter: false, isDraggable: false, bg: '', icon: '' }
 )
 
 const computedStyle = computed(() => ({
@@ -72,5 +84,8 @@ const computedStyle = computed(() => ({
 }
 .bd-footer {
   height: 25px;
+}
+.show-icon {
+  margin-left: 5px;
 }
 </style>

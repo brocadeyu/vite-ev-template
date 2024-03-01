@@ -1,10 +1,11 @@
 <template>
   <div class="em-container">
     <BaseDocker
-      :title="'想定管理'"
+      :title="'实体管理'"
       :height="'250px'"
       :width="'200px'"
       :show-footer="true"
+      icon="edit"
     >
       <!-- <template #header>
         <el-checkbox
@@ -50,14 +51,14 @@
       <template #footer>
         <div class="foot-btns">
           <el-button type="primary" size="small" @click="openLinkGenPop"
-            >链生成</el-button
-          >
+            >链生成
+          </el-button>
           <el-button type="primary" size="small" @click="openLinkCheckPop"
-            >链校验</el-button
-          >
+            >链校验
+          </el-button>
           <el-button type="primary" size="small" @click="openWarPlanPop"
-            >计划</el-button
-          >
+            >计划
+          </el-button>
         </div>
       </template>
     </BaseDocker>

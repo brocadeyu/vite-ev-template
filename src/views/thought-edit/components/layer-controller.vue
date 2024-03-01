@@ -1,6 +1,11 @@
 <template>
   <div class="lc-container">
-    <BaseDocker :title="'图层控制'" :height="'230px'" :width="'200px'">
+    <BaseDocker
+      :title="'图层控制'"
+      :height="'230px'"
+      :width="'200px'"
+      icon="view"
+    >
       <template #content>
         <div class="card-container">
           <el-tree
