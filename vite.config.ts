@@ -127,6 +127,7 @@ export default defineConfig(({ command, mode }) => {
       alias: {
         '@': path.resolve(__dirname, './src')
       }
-    }
+    },
+    assetsInclude: ['**/*.gltf']
   }
 })
