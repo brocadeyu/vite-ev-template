@@ -1,30 +1,30 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 import { WS_EVENT } from '@/common/enum'
-
-type WebSocketEventMap = {
-  [event: string]: (data: any) => void
-}
-class EventMap {
-  map: WebSocketEventMap = {}
-  on(event: string | number, listener: (data: any) => void) {
-    this.map[event] = listener
+export type EventHandler = (args: any) => void
+class EventRegistry {
+  private events: Record<number, EventHandler> = {}
+  //注册事件
+  on(eventTypeEnum: number, handler: EventHandler) {
+    this.events[eventTypeEnum] = handler
   }
-  off(event: string | number) {
-    delete this.map[event]
+  //注销事件
+  off(eventTypeEnum: number) {
+    delete this.events[eventTypeEnum]
   }
-  get(event: string | number) {
-    return this.map[event]
+  //触发事件
+  emit(eventTypeEnum: number, args: any) {
+    const handler = this.events[eventTypeEnum]
+    handler && handler(args)
   }
 }
 export default class WebSocketService {
   private socket: WebSocket | null = null
   private url: string
-  private eventMap: EventMap
+  private eventRegistry: EventRegistry = new EventRegistry()
 
   constructor(url: string) {
     this.url = url
-    this.eventMap = new EventMap()
   }
 
   connect(): void {
@@ -34,31 +34,42 @@ export default class WebSocketService {
     this.socket.onerror = this.onError.bind(this)
     this.socket.onmessage = this.onMessage.bind(this)
   }
-  on(event: string | number, listener: (data: any) => void) {
-    this.eventMap.on(event, listener)
+
+  on(eventTypeEnum: number, listener: EventHandler) {
+    this.eventRegistry.on(eventTypeEnum, listener)
   }
-  off(event: string | number) {
-    this.eventMap.off(event)
+
+  off(eventTypeEnum: number) {
+    this.eventRegistry.off(eventTypeEnum)
   }
 
   private onOpen(event: Event): void {
-    const callback = this.eventMap.get(WS_EVENT.onopen)
-    callback && callback()
+    this.eventRegistry.emit(WS_EVENT.onopen)
   }
 
   private onClose(event: CloseEvent): void {
-    const callback = this.eventMap.get(WS_EVENT.onclose)
-    callback && callback()
+    this.eventRegistry.emit(WS_EVENT.onclose)
   }
 
   private onError(event: Event): void {
     console.error('WebSocket error:', event)
-    const callback = this.eventMap.get(WS_EVENT.onerror)
-    callback && callback()
+    this.eventRegistry.emit(WS_EVENT.onerror)
   }
 
   private onMessage(event: MessageEvent): void {
-    console.log('WebSocket message received:', event.data)
+    try {
+      const parseData = JSON.parse(event.data)
+      if (
+        Object.prototype.toString.call(parseData) === '[object Array]' &&
+        'link' in parseData[0]
+      ) {
+        console.log('isArray')
+        this.eventRegistry.emit(WS_EVENT.createLink, parseData[0])
+      }
+      console.log('parseData', parseData)
+    } catch (error) {
+      console.error('解析WS消息出错:', error)
+    }
   }
 
   send(data: object): void {

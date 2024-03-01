@@ -1,9 +1,7 @@
 /* eslint-disable no-console */
-// store/webSocketStore.ts
-
 import { defineStore } from 'pinia'
 import WebSocketService from '@/utils/websocket'
-
+import { EventHandler } from '@/utils/websocket'
 export const useWebSocketStore = defineStore('webSocket', () => {
   const webSocket = ref<WebSocketService | null>(null)
   const connect: (url: string) => void = (url) => {
@@ -17,14 +15,14 @@ export const useWebSocketStore = defineStore('webSocket', () => {
       console.error('WebSocket is not connected.')
     }
   }
-  const on: (event: string | number, listener: (data: any) => void) => void = (
-    event,
-    listener
-  ) => {
-    webSocket.value.on(event, listener)
+  const addEventListener: (
+    eventType: number,
+    listener: EventHandler
+  ) => void = (eventType, listener) => {
+    webSocket.value.on(eventType, listener)
   }
-  const off: (event: string | number) => void = (event) => {
-    webSocket.value.off(event)
+  const removeEventListener: (eventType: number) => void = (eventType) => {
+    webSocket.value.off(eventType)
   }
   const disconnect: () => void = () => {
     if (webSocket.value) {
@@ -37,9 +35,9 @@ export const useWebSocketStore = defineStore('webSocket', () => {
 
   return {
     connect,
-    sendMessage,
     disconnect,
-    on,
-    off
+    sendMessage,
+    addEventListener,
+    removeEventListener
   }
 })
