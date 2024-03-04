@@ -14,12 +14,14 @@ import { WS_EVENT } from '@/common/enum'
 import { useWebSocketStore } from '@/stores/webSocketStore'
 import { onMounted, ref } from 'vue'
 import { useEntityStore } from '@/stores/entityStore'
+import { useLinkStore } from '@/stores/linkStore'
 import { onBeforeUnmount } from 'vue'
 import { ElMessage } from 'element-plus'
 const websocketStore = useWebSocketStore()
 const cesiumStore = useCesiumStore()
 const thoughtStore = useThoughtStore()
 const entityStore = useEntityStore()
+const linkStore = useLinkStore()
 const entityManaRef = ref(null)
 onMounted(() => {
   requestIdleCallback(() => {
@@ -37,6 +39,11 @@ onMounted(() => {
       cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
     })
     thoughtStore.thought.dataLinkInfo.link?.forEach((_) => {
+      const arg = {
+        type: _.dataLinkType,
+        info: _.linkTo
+      }
+      linkStore.setLinkConnectInfo(arg)
       _.linkTo.forEach((i: any) => {
         const deviceArr = i.split('-')
         const entityOne = entityStore.getEntityById(deviceArr[0])
