@@ -15,6 +15,7 @@ import { useWebSocketStore } from '@/stores/webSocketStore'
 import { onMounted, ref } from 'vue'
 import { useEntityStore } from '@/stores/entityStore'
 import { useLinkStore } from '@/stores/linkStore'
+import { useMissionStore } from '@/stores/missionStore'
 import { onBeforeUnmount } from 'vue'
 import { ElMessage } from 'element-plus'
 const websocketStore = useWebSocketStore()
@@ -22,6 +23,7 @@ const cesiumStore = useCesiumStore()
 const thoughtStore = useThoughtStore()
 const entityStore = useEntityStore()
 const linkStore = useLinkStore()
+const missionStore = useMissionStore()
 const entityManaRef = ref(null)
 onMounted(() => {
   requestIdleCallback(() => {
@@ -43,7 +45,7 @@ onMounted(() => {
         type: _.dataLinkType,
         info: _.linkTo
       }
-      linkStore.setLinkConnectInfo(arg)
+      linkStore.setLinkConnectInfo(arg) //设置数据链连接信息
       _.linkTo.forEach((i: any) => {
         const deviceArr = i.split('-')
         const entityOne = entityStore.getEntityById(deviceArr[0])
@@ -55,6 +57,18 @@ onMounted(() => {
         })
       })
     })
+    let staticMission = []
+    let dynamicMission = []
+    thoughtStore.thought.dataLinkInfo.mission?.forEach((_) => {
+      if (_.isAuto) {
+        dynamicMission.push(_)
+      } else {
+        staticMission.push(_)
+      }
+    })
+    missionStore.setMissionByType({ type: '静态', mission: staticMission })
+    missionStore.setMissionByType({ type: '动态', mission: dynamicMission })
+
     websocketStore.connect('ws://localhost:12000/hsdb/101')
     websocketStore.addEventListener(WS_EVENT.onopen, () => {
       // eslint-disable-next-line no-console
