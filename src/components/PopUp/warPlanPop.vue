@@ -8,7 +8,12 @@
   >
     <template #content>
       <div class="mission-content">
-        <el-tabs v-model="activeTab" class="demo-tabs" @tab-click="handleClick">
+        <el-tabs
+          v-if="isGenFlag"
+          v-model="activeTab"
+          class="demo-tabs"
+          @tab-click="handleClick"
+        >
           <el-tab-pane label="静态" name="static">
             <el-scrollbar height="278px">
               <draggable
@@ -104,6 +109,20 @@
             </el-scrollbar>
           </el-tab-pane>
         </el-tabs>
+        <el-empty
+          v-if="!isGenFlag && !isGening"
+          description="点击生成以生成作战计划"
+        >
+          <el-button type="primary" size="small" @click="handleGen"
+            >生成</el-button
+          >
+        </el-empty>
+        <el-skeleton
+          v-if="isGening"
+          :rows="9"
+          animated
+          style="--el-skeleton-color: #5e6570; --el-skeleton-to-color: #235297"
+        />
       </div>
     </template>
     <template #footer>
@@ -111,7 +130,7 @@
         <el-button type="primary" size="small" @click="closePopup"
           >取消
         </el-button>
-        <el-button type="primary" size="small">生成</el-button>
+        <!-- <el-button type="primary" size="small">生成</el-button> -->
         <el-button type="primary" size="small">导入</el-button>
         <el-button type="primary" size="small">保存</el-button>
         <el-button type="primary" size="small">下发</el-button>
@@ -129,12 +148,26 @@ import type { TabsPaneContext } from 'element-plus'
 const popupStore = usePopupStore()
 const missionStore = useMissionStore()
 const activeTab = ref('static')
+
+const isDirtyFlag = ref(false)
+const isGenFlag = ref(false)
+const isGening = ref(false) //是否正在生成
 const staticList = ref([])
 const dynamicList = ref([])
 
 const drag = ref(false)
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   // console.log(tab, event)
+}
+const handleGen = () => {
+  isGening.value = true
+  setTimeout(
+    () => {
+      isGening.value = false
+      isGenFlag.value = true
+    },
+    2000 + 1000 * Math.random()
+  )
 }
 const props = withDefaults(
   defineProps<{
@@ -147,6 +180,8 @@ const closePopup = () => {
   popupStore.closePop()
 }
 onMounted(() => {
+  isGenFlag.value = missionStore.isGenFlag
+  isDirtyFlag.value = missionStore.isDirtyFlag
   staticList.value = missionStore.staticMission
   dynamicList.value = missionStore.dynamicMission
   console.log('静态', staticList.value)
