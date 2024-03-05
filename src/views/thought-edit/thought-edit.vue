@@ -42,10 +42,11 @@ onMounted(() => {
     })
     thoughtStore.thought.dataLinkInfo.link?.forEach((_) => {
       const arg = {
-        type: _.dataLinkType,
-        info: _.linkTo
+        linkTo: _.linkTo,
+        mainDevice: _.centerTargetId,
+        selection: _.selection
       }
-      linkStore.setLinkConnectInfo(arg) //设置数据链连接信息
+      linkStore.setLinkConnectInfo(_.dataLinkType, arg) //设置数据链连接信息
       _.linkTo.forEach((i: any) => {
         const deviceArr = i.split('-')
         const entityOne = entityStore.getEntityById(deviceArr[0])

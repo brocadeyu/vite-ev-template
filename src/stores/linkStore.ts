@@ -6,18 +6,19 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { LinkType } from '@/common/enum'
 interface LinkInfo {
-  targets: string[]
+  linkTo: string[]
   mainDevice: string
+  selection: string[]
 }
-interface ISetLinkArg {
-  type: LinkType
-  info: LinkInfo
-}
+// interface ISetLinkArg {
+//   type: LinkType
+//   info: LinkInfo
+// }
 export const useLinkStore = defineStore('link', () => {
   const linkConnectInfo = ref<Record<LinkType, LinkInfo>>({})
-  const setLinkConnectInfo = (arg: ISetLinkArg) => {
-    const { type, info } = arg
-    linkConnectInfo.value[type] = info
+  const setLinkConnectInfo = (type: LinkType, arg: LinkInfo) => {
+    // const { type, info } = arg
+    linkConnectInfo.value[type] = arg
   }
   return {
     linkConnectInfo,

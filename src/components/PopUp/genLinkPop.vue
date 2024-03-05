@@ -33,7 +33,7 @@
                 prop="targets"
               >
                 <el-table
-                  ref="multipleTableRef"
+                  ref="tableRefZHL"
                   :data="devicesList"
                   height="185"
                   :header-cell-style="{
@@ -118,7 +118,7 @@
                 prop="targets"
               >
                 <el-table
-                  ref="multipleTableRef"
+                  ref="tableRef90X"
                   :data="devicesList"
                   height="185"
                   :header-cell-style="{
@@ -203,7 +203,7 @@
                 prop="targets"
               >
                 <el-table
-                  ref="multipleTableRef"
+                  ref="tableRefJIDS"
                   :data="devicesList"
                   height="185"
                   :header-cell-style="{
@@ -288,7 +288,7 @@
                 prop="targets"
               >
                 <el-table
-                  ref="multipleTableRef"
+                  ref="tableRefKU"
                   :data="shipDeviceList"
                   height="185"
                   :header-cell-style="{
@@ -357,7 +357,11 @@
         <el-button type="primary" size="small" @click="closePopup"
           >取消</el-button
         >
-        <el-button type="primary" size="small" @click="confirmPopup"
+        <el-button
+          type="primary"
+          size="small"
+          :loading="saveLoadStatus"
+          @click="confirmPopup"
           >保存</el-button
         >
       </div>
@@ -374,15 +378,23 @@ import { storeToRefs } from 'pinia'
 import { EntityTypeEnum, WS_EVENT } from '@/common/enum'
 import type { FormInstance } from 'element-plus'
 import { useCesiumStore } from '@/stores/cesiumStore'
+import { useLinkStore } from '@/stores/linkStore'
+import { ElMessage } from 'element-plus'
 const popupStore = usePopupStore()
 const entityStore = useEntityStore()
 const websocketStore = useWebSocketStore()
 const cesiumStore = useCesiumStore()
+const linkStore = useLinkStore()
 const { entitiesArr } = storeToRefs(entityStore)
 const formRefZHL = ref<FormInstance>()
 const formRef90X = ref<FormInstance>()
 const formRefJIDS = ref<FormInstance>()
 const formRefKU = ref<FormInstance>()
+
+const tableRefZHL = ref<FormInstance>()
+const tableRef90X = ref<FormInstance>()
+const tableRefJIDS = ref<FormInstance>()
+const tableRefKU = ref<FormInstance>()
 withDefaults(
   defineProps<{
     title?: string
@@ -390,6 +402,8 @@ withDefaults(
   { title: '' }
 )
 const activeTab = ref('综合链')
+const saveLoadStatus = ref(false)
+let saveTimer = null
 //三种链的可选设备列表为所有设备
 const devicesList = computed(() => {
   return entitiesArr.value.map((_) => {
@@ -437,29 +451,26 @@ const selectionChangeKu = (e: string[]) => {
 
 const formDataZHL = reactive({
   mainDevice: '',
-  targets: [],
-  validaTable: []
+  targets: []
 })
 const formData90X = reactive({
   mainDevice: '',
-  targets: [],
-  validaTable: []
+  targets: []
 })
 const formDataJIDS = reactive({
   mainDevice: '',
-  targets: [],
-  validaTable: []
+  targets: []
 })
 const formDataKu = reactive({
   mainDevice: '',
-  targets: [],
-  validaTable: []
+  targets: []
 })
 
 const closePopup = () => {
   popupStore.closePop()
 }
 const confirmPopup = async () => {
+  saveLoadStatus.value = true
   try {
     await formRefZHL.value.validate((valid) => {
       if (!valid) {
@@ -550,16 +561,93 @@ const confirmPopup = async () => {
       Param: [param1, param2, param3, param4]
     }
     websocketStore.sendMessage(d)
+    saveTimer = setTimeout(() => {
+      saveLoadStatus.value = false
+      ElMessage.error(`超时`)
+    }, 5000)
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log('error', error)
+    saveLoadStatus.value = false
   }
 }
 onMounted(() => {
+  const param1 = linkStore.linkConnectInfo['综合链']
+  param1?.selection.forEach((_) => {
+    tableRefZHL.value.toggleRowSelection(
+      devicesList.value.find((item) => {
+        return _ === item.id
+      }),
+      true
+    )
+  })
+  formDataZHL.mainDevice = param1.mainDevice
+
+  const param2 = linkStore.linkConnectInfo['90X链']
+  param2?.selection.forEach((_) => {
+    tableRef90X.value.toggleRowSelection(
+      devicesList.value.find((item) => {
+        return _ === item.id
+      }),
+      true
+    )
+  })
+  formData90X.mainDevice = param2.mainDevice
+
+  const param3 = linkStore.linkConnectInfo['JIDS链']
+  param3?.selection.forEach((_) => {
+    tableRefJIDS.value.toggleRowSelection(
+      devicesList.value.find((item) => {
+        return _ === item.id
+      }),
+      true
+    )
+  })
+  formDataJIDS.mainDevice = param3.mainDevice
+
+  const param4 = linkStore.linkConnectInfo['KU卫通']
+  param4?.selection.forEach((_) => {
+    tableRefKU.value.toggleRowSelection(
+      shipDeviceList.value.find((item) => {
+        return _ === item.id
+      }),
+      true
+    )
+  })
+  formDataKu.mainDevice = param4?.mainDevice
+
   websocketStore.addEventListener(WS_EVENT.createLink, (data) => {
     console.log('接收到的createLink数据====>', data)
     cesiumStore.cesium.linkMap.removeAllLink()
     data.link.forEach((_: any) => {
+      let arg
+      if (_.dataLinkType === '综合链') {
+        arg = {
+          linkTo: _.linkTo,
+          mainDevice: formDataZHL.mainDevice,
+          selection: formDataZHL.targets.map((item) => item.id)
+        }
+      } else if (_.dataLinkType === '90X链') {
+        arg = {
+          linkTo: _.linkTo,
+          mainDevice: formData90X.mainDevice,
+          selection: formData90X.targets.map((item) => item.id)
+        }
+      } else if (_.dataLinkType === 'JIDS链') {
+        arg = {
+          linkTo: _.linkTo,
+          mainDevice: formDataJIDS.mainDevice,
+          selection: formDataJIDS.targets.map((item) => item.id)
+        }
+      } else if (_.dataLinkType === 'KU卫通') {
+        arg = {
+          linkTo: _.linkTo,
+          mainDevice: formDataKu.mainDevice,
+          selection: formDataKu.targets.map((item) => item.id)
+        }
+      }
+
+      linkStore.setLinkConnectInfo(_.dataLinkType, arg) //设置数据链连接信息
       _.linkTo.forEach((i: any) => {
         const deviceArr = i.split('-')
         const entityOne = entityStore.getEntityById(deviceArr[0])
@@ -571,6 +659,9 @@ onMounted(() => {
         })
       })
     })
+    saveLoadStatus.value = false
+    clearTimeout(saveTimer)
+    closePopup()
   })
 })
 </script>
