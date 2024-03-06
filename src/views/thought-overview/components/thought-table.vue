@@ -33,7 +33,9 @@
       <el-table-column label="想定名称" prop="name"> </el-table-column>
       <el-table-column label="操作">
         <template #default="scope">
-          <el-button type="danger" @click="() => {}"> 删除 </el-button>
+          <el-button type="danger" @click="deleteThoughtItem(scope.row)">
+            删除
+          </el-button>
           <el-button type="primary" @click="toEditView(scope.row)">
             修改
           </el-button>
@@ -59,6 +61,7 @@ import { useThoughtStore } from '@/stores/thougthStore'
 import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { RawThought } from '@/common/interface/thought'
+import { deleteThoughtById } from '@/api/thought'
 const tableData = ref([])
 const showLoading = ref(true)
 const thoughtStore = useThoughtStore()
@@ -82,16 +85,33 @@ const toReplayView: (row: RawThought) => void = (row) => {
     path: `/thought/replay/${row.name}`
   })
 }
-onMounted(async () => {
+
+const deleteThoughtItem: (row: RawThought) => void = async (row) => {
+  const { id } = row
   try {
+    await deleteThoughtById(id)
+    await fetchThoughtList()
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log('error', error)
+  }
+}
+const fetchThoughtList = async () => {
+  try {
+    showLoading.value = true
     const list: any = await getThoughtList()
     setTimeout(() => {
       showLoading.value = false
       tableData.value = list
     }, 500)
+    // console.log(list)
   } catch (error) {
     showLoading.value = false
   }
+}
+
+onMounted(() => {
+  fetchThoughtList()
 })
 </script>
 

@@ -89,6 +89,38 @@ export const saveUpdateThought = (param: saveThoughtParam) =>
         reject(e)
       })
   })
+
+export const deleteThoughtById = (id: number) =>
+  new Promise((resolve, reject) => {
+    http({
+      url: '/assumption/delete',
+      method: 'post',
+      data: {
+        belong: '',
+        filepath: '',
+        id: id,
+        jsonData: '',
+        location: '',
+        name: '',
+        pageInfo: {
+          pageNum: 0,
+          pageSize: 0,
+          totalCount: 0,
+          totalPage: 0
+        },
+        time: ''
+      }
+    })
+      .then((res) => {
+        console.log('res', res)
+        if (res.code === 200) {
+          resolve(res.result)
+        }
+      })
+      .catch((e) => {
+        reject(e)
+      })
+  })
 // export const getThoughtList = () =>
 //   new Promise((resolve, reject) => {
 //     http({
