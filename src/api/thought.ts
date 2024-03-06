@@ -20,31 +20,14 @@ export const getThoughtList = () =>
         reject(e)
       })
   })
-export const updateThought = () =>
+interface saveThoughtParam {
+  jsonData: any
+  name: string
+  id: number
+}
+export const saveCreateThought = (param: saveThoughtParam) =>
   new Promise((resolve, reject) => {
-    http({
-      url: '/assumption/update',
-      method: 'post',
-      data: {
-        pageInfo: {
-          pageNum: 1,
-          pageSize: 100
-        }
-      }
-    })
-      .then((res) => {
-        if (res.code === 200) {
-          resolve(res.result)
-        }
-      })
-      .catch((e) => {
-        reject(e)
-      })
-  })
-
-export const saveCreateThought = (data) =>
-  new Promise((resolve, reject) => {
-    const { jsonData, name } = data
+    const { jsonData, name, id } = param
     http({
       url: '/assumption/insert',
       method: 'post',
@@ -74,6 +57,37 @@ export const saveCreateThought = (data) =>
       })
   })
 
+export const updateThought = (param: saveThoughtParam) =>
+  new Promise((resolve, reject) => {
+    const { id, jsonData, name } = param
+    http({
+      url: '/assumption/update',
+      method: 'post',
+      data: {
+        belong: '',
+        filepath: '',
+        id: id,
+        jsonData: jsonData,
+        location: '',
+        name: name,
+        pageInfo: {
+          pageNum: 0,
+          pageSize: 0,
+          totalCount: 0,
+          totalPage: 0
+        },
+        time: ''
+      }
+    })
+      .then((res) => {
+        if (res.code === 200) {
+          resolve(res.result)
+        }
+      })
+      .catch((e) => {
+        reject(e)
+      })
+  })
 // export const getThoughtList = () =>
 //   new Promise((resolve, reject) => {
 //     http({
