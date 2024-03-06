@@ -648,6 +648,7 @@ onMounted(() => {
       }
 
       linkStore.setLinkConnectInfo(_.dataLinkType, arg) //设置数据链连接信息
+      linkStore.setLinkLinkInfo(_.linklink) //设置数据链linklink信息
       _.linkTo.forEach((i: any) => {
         const deviceArr = i.split('-')
         const entityOne = entityStore.getEntityById(deviceArr[0])

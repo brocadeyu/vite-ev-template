@@ -16,12 +16,18 @@ interface LinkInfo {
 // }
 export const useLinkStore = defineStore('link', () => {
   const linkConnectInfo = ref<Record<LinkType, LinkInfo>>({})
+  const linklink = ref([])
   const setLinkConnectInfo = (type: LinkType, arg: LinkInfo) => {
     // const { type, info } = arg
     linkConnectInfo.value[type] = arg
   }
+  const setLinkLinkInfo = (arg: any[]) => {
+    linklink.value = arg
+  }
   return {
     linkConnectInfo,
-    setLinkConnectInfo
+    setLinkConnectInfo,
+    setLinkLinkInfo,
+    linklink
   }
 })

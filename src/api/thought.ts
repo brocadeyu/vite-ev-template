@@ -57,7 +57,7 @@ export const saveCreateThought = (param: saveThoughtParam) =>
       })
   })
 
-export const updateThought = (param: saveThoughtParam) =>
+export const saveUpdateThought = (param: saveThoughtParam) =>
   new Promise((resolve, reject) => {
     const { id, jsonData, name } = param
     http({
@@ -80,6 +80,7 @@ export const updateThought = (param: saveThoughtParam) =>
       }
     })
       .then((res) => {
+        console.log('res', res)
         if (res.code === 200) {
           resolve(res.result)
         }

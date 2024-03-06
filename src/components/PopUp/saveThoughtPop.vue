@@ -53,8 +53,18 @@ import BaseDocker from '@/components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
 import type { FormInstance } from 'element-plus'
 import { useRoute } from 'vue-router'
+import { useThoughtStore } from '@/stores/thougthStore'
+import { useLinkStore } from '@/stores/linkStore'
+import { useMissionStore } from '@/stores/missionStore'
+import { useEntityStore } from '@/stores/entityStore'
+import { saveCreateThought, saveUpdateThought } from '@/api/thought'
+import router from '@/router'
 const popupStore = usePopupStore()
 const route = useRoute()
+const thoughtStore = useThoughtStore()
+const linkStore = useLinkStore()
+const missionStore = useMissionStore()
+const entityStore = useEntityStore()
 const props = withDefaults(
   defineProps<{
     title?: string
@@ -82,12 +92,77 @@ const onSave = () => {
 }
 const onSaveCreate = () => {
   console.log('新建想定保存')
+  const param = {
+    id: thoughtStore.thought.id
+  }
+  // saveCreateThought
+  console.log('param', param)
 }
-const onSaveUpdate = () => {
-  console.log('更新想定保存')
+const onSaveUpdate = async () => {
+  try {
+    console.log('更新想定保存')
+    console.log(entityStore.entitiesArr)
+    const linkObj = linkStore.linkConnectInfo
+    const jMission = missionStore.staticMission
+    const dMission = missionStore.dynamicMission
+    const drMission = missionStore.importMission
+    let convertLink = []
+    let convertMission = []
+    let convertEntityArr = entityStore.entitiesArr.map((_) => {
+      return {
+        EntityName: _.type,
+        EntityMC: _.id,
+        id: _.id,
+        Pos: [_.position[1], _.position[0], _.position[2]],
+        WorkFre: '150',
+        Ges: [0, 0, 0],
+        SenderPower: '1',
+        AntennaePower: '2',
+        Behaviour: [
+          {
+            Type: _.getType() === 'AIR' ? 'FlyAlongAirPath' : 'AlongThePath',
+            Points: _.path
+          }
+        ],
+        Equipment: _.equipment
+      }
+    })
+    convertMission = convertLink.concat(jMission, dMission, drMission)
+    Object.keys(linkObj).forEach((k) => {
+      const linkItem = linkObj[k]
+      convertLink.push({
+        targetDevices: [],
+        centerTargetId: linkItem.mainDevice,
+        linkTo: linkItem.linkTo,
+        selection: linkItem.selection,
+        dataLinkType: k
+      })
+    })
+    const jsonData = {
+      DataLinkInfo: {
+        link: convertLink,
+        misson: convertMission,
+        linklink: linkStore.linklink
+      },
+      Entity: convertEntityArr,
+      ScenarioName: thoughtStore.thought.name
+    }
+    const param = {
+      id: thoughtStore.thought.id,
+      name: thoughtStore.thought.name,
+      jsonData: jsonData
+    }
+
+    console.log('param', param)
+    await saveUpdateThought(param)
+    popupStore.closePop()
+    router.replace({ path: '/thought/overview' })
+  } catch (error) {
+    console.log('error', error)
+  }
 }
 const formData = reactive({
-  name: ''
+  name: '111'
 })
 const closePopup = () => {
   popupStore.closePop()

@@ -58,6 +58,7 @@ onMounted(() => {
         })
       })
     })
+    linkStore.setLinkLinkInfo(thoughtStore.thought.dataLinkInfo.linklink)
     let staticMission = []
     let dynamicMission = []
     thoughtStore.thought.dataLinkInfo.mission?.forEach((_) => {
