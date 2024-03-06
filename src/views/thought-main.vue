@@ -25,9 +25,18 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePopupStore } from '@/stores/popupStore'
+import { useThoughtStore } from '@/stores/thougthStore'
+import { useLinkStore } from '@/stores/linkStore'
+import { useMissionStore } from '@/stores/missionStore'
+import { useEntityStore } from '@/stores/entityStore'
+import { saveCreateThought, saveUpdateThought } from '@/api/thought'
 const route = useRoute()
 const router = useRouter()
 const popupStore = usePopupStore()
+const thoughtStore = useThoughtStore()
+const linkStore = useLinkStore()
+const missionStore = useMissionStore()
+const entityStore = useEntityStore()
 const computeTitle = computed(() => {
   return route.name as string
 })
@@ -35,11 +44,80 @@ const back = () => {
   router.back()
 }
 const saveThought = () => {
-  popupStore.openPop({
-    title: '保存想定',
-    type: 'saveThought',
-    showMask: true
-  })
+  //保存想定：编辑直接调用接口保存，新建则调用打开弹窗，在弹框内输入名称，后调用保存接口
+  if (route.name === '新建想定') {
+    popupStore.openPop({
+      title: '保存想定',
+      type: 'saveThought',
+      showMask: true
+    })
+  } else if (route.name === '想定编辑') {
+    onSaveUpdate()
+  }
+}
+
+const onSaveUpdate = async () => {
+  try {
+    console.log('更新想定保存')
+    console.log(entityStore.entitiesArr)
+    const linkObj = linkStore.linkConnectInfo
+    const jMission = missionStore.staticMission
+    const dMission = missionStore.dynamicMission
+    const drMission = missionStore.importMission
+    let convertLink = []
+    let convertMission = []
+    let convertEntityArr = entityStore.entitiesArr.map((_) => {
+      return {
+        EntityName: _.type,
+        EntityMC: _.id,
+        id: _.id,
+        Pos: [_.position[1], _.position[0], _.position[2]],
+        WorkFre: '150',
+        Ges: [0, 0, 0],
+        SenderPower: '1',
+        AntennaePower: '2',
+        Behaviour: [
+          {
+            Type: _.getType() === 'AIR' ? 'FlyAlongAirPath' : 'AlongThePath',
+            Points: _.path
+          }
+        ],
+        Equipment: _.equipment
+      }
+    })
+    convertMission = convertLink.concat(jMission, dMission, drMission)
+    Object.keys(linkObj).forEach((k) => {
+      const linkItem = linkObj[k]
+      convertLink.push({
+        targetDevices: [],
+        centerTargetId: linkItem.mainDevice,
+        linkTo: linkItem.linkTo,
+        selection: linkItem.selection,
+        dataLinkType: k
+      })
+    })
+    const jsonData = {
+      DataLinkInfo: {
+        link: convertLink,
+        misson: convertMission,
+        linklink: linkStore.linklink
+      },
+      Entity: convertEntityArr,
+      ScenarioName: thoughtStore.thought.name
+    }
+    const param = {
+      id: thoughtStore.thought.id,
+      name: thoughtStore.thought.name,
+      jsonData: jsonData
+    }
+
+    console.log('param', param)
+    await saveUpdateThought(param)
+    popupStore.closePop()
+    router.replace({ path: '/thought/overview' })
+  } catch (error) {
+    console.log('error', error)
+  }
 }
 </script>
 

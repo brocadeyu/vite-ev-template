@@ -34,7 +34,7 @@ export const saveCreateThought = (param: saveThoughtParam) =>
       data: {
         belong: '',
         filepath: '',
-        id: 0,
+        id: id,
         jsonData: jsonData,
         location: '',
         name: name,

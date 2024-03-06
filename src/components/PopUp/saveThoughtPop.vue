@@ -52,20 +52,19 @@
 import BaseDocker from '@/components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
 import type { FormInstance } from 'element-plus'
-import { useRoute } from 'vue-router'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { useLinkStore } from '@/stores/linkStore'
 import { useMissionStore } from '@/stores/missionStore'
 import { useEntityStore } from '@/stores/entityStore'
-import { saveCreateThought, saveUpdateThought } from '@/api/thought'
+import { saveCreateThought } from '@/api/thought'
+import { ElMessage } from 'element-plus'
 import router from '@/router'
 const popupStore = usePopupStore()
-const route = useRoute()
 const thoughtStore = useThoughtStore()
 const linkStore = useLinkStore()
 const missionStore = useMissionStore()
 const entityStore = useEntityStore()
-const props = withDefaults(
+withDefaults(
   defineProps<{
     title?: string
   }>(),
@@ -82,26 +81,15 @@ const formRef = ref<FormInstance>()
 const onSave = () => {
   formRef.value.validate((valid) => {
     if (valid) {
-      if (route.name === '新建想定') {
-        onSaveCreate()
-      } else if (route.name === '想定编辑') {
-        onSaveUpdate()
-      }
+      onSaveCreate()
     }
   })
 }
-const onSaveCreate = () => {
-  console.log('新建想定保存')
-  const param = {
-    id: thoughtStore.thought.id
-  }
-  // saveCreateThought
-  console.log('param', param)
-}
-const onSaveUpdate = async () => {
+const onSaveCreate = async () => {
   try {
-    console.log('更新想定保存')
-    console.log(entityStore.entitiesArr)
+    if (entityStore.entitiesArr.length === 0) {
+      return ElMessage.warning('请先添加数据')
+    }
     const linkObj = linkStore.linkConnectInfo
     const jMission = missionStore.staticMission
     const dMission = missionStore.dynamicMission
@@ -145,24 +133,25 @@ const onSaveUpdate = async () => {
         linklink: linkStore.linklink
       },
       Entity: convertEntityArr,
-      ScenarioName: thoughtStore.thought.name
+      ScenarioName: formData.name
     }
     const param = {
       id: thoughtStore.thought.id,
-      name: thoughtStore.thought.name,
+      name: formData.name,
       jsonData: jsonData
     }
-
-    console.log('param', param)
-    await saveUpdateThought(param)
+    // console.log('param', param)
+    await saveCreateThought(param)
     popupStore.closePop()
     router.replace({ path: '/thought/overview' })
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log('error', error)
   }
 }
+
 const formData = reactive({
-  name: '111'
+  name: ''
 })
 const closePopup = () => {
   popupStore.closePop()
