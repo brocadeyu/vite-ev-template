@@ -52,7 +52,9 @@
 import BaseDocker from '@/components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
 import type { FormInstance } from 'element-plus'
+import { useRoute } from 'vue-router'
 const popupStore = usePopupStore()
+const route = useRoute()
 const props = withDefaults(
   defineProps<{
     title?: string
@@ -70,11 +72,19 @@ const formRef = ref<FormInstance>()
 const onSave = () => {
   formRef.value.validate((valid) => {
     if (valid) {
-      console.log('合法')
-    } else {
-      console.log('不合法')
+      if (route.name === '新建想定') {
+        onSaveCreate()
+      } else if (route.name === '想定编辑') {
+        onSaveUpdate()
+      }
     }
   })
+}
+const onSaveCreate = () => {
+  console.log('新建想定保存')
+}
+const onSaveUpdate = () => {
+  console.log('更新想定保存')
 }
 const formData = reactive({
   name: ''
