@@ -12,7 +12,8 @@ export enum WS_EVENT {
   onclose, //关闭
   onerror, //错误
   createLink, //创建数据链
-  validateLink //校验数据链
+  validateLink, //校验数据链
+  initialSuccess //初始化加载想定成功
 }
 export type WSEventType = keyof typeof WS_EVENT
 

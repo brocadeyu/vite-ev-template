@@ -13,7 +13,7 @@ class EventRegistry {
     delete this.events[eventTypeEnum]
   }
   //触发事件
-  emit(eventTypeEnum: number, args: any) {
+  emit(eventTypeEnum: number, args?: any) {
     const handler = this.events[eventTypeEnum]
     handler && handler(args)
   }
@@ -64,6 +64,12 @@ export default class WebSocketService {
         'link' in parseData[0]
       ) {
         this.eventRegistry.emit(WS_EVENT.createLink, parseData[0])
+      }
+      if (
+        parseData.InteractType === 'SimStateChange' &&
+        parseData.SimEnigenState === '3'
+      ) {
+        this.eventRegistry.emit(WS_EVENT.initialSuccess)
       }
     } catch (error) {
       console.error('解析WS消息出错:', error)
