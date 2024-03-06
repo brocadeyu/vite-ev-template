@@ -37,6 +37,7 @@ declare module 'vue' {
     IEpLocation: typeof import('~icons/ep/location')['default']
     IEpPointer: typeof import('~icons/ep/pointer')['default']
     IEpRefreshRight: typeof import('~icons/ep/refresh-right')['default']
+    IEpVideoPlay: typeof import('~icons/ep/video-play')['default']
     IEpView: typeof import('~icons/ep/view')['default']
     PopUp: typeof import('./../components/PopUp.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
