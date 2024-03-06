@@ -111,7 +111,7 @@
         </el-tabs>
         <el-empty
           v-if="!isGenFlag && !isGening"
-          description="点击生成以生成作战计划"
+          description="点击生成以加载默认作战计划"
         >
           <el-button type="primary" size="small" @click="handleGen"
             >生成</el-button
@@ -131,9 +131,15 @@
           >取消
         </el-button>
         <!-- <el-button type="primary" size="small">生成</el-button> -->
-        <el-button type="primary" size="small">导入</el-button>
-        <el-button type="primary" size="small">保存</el-button>
-        <el-button type="primary" size="small">下发</el-button>
+        <el-button v-if="isGenFlag" type="primary" size="small">导入</el-button>
+        <el-button
+          v-if="isGenFlag"
+          type="primary"
+          size="small"
+          :disabled="!isDirtyFlag"
+          >保存</el-button
+        >
+        <el-button v-if="isGenFlag" type="primary" size="small">下发</el-button>
       </div>
     </template>
   </BaseDocker>
@@ -145,6 +151,8 @@ import draggable from 'vuedraggable'
 import { usePopupStore } from '@/stores/popupStore'
 import { useMissionStore } from '@/stores/missionStore'
 import type { TabsPaneContext } from 'element-plus'
+import { arraysAreEqual } from '@/common/helper'
+import { storeToRefs } from 'pinia'
 const popupStore = usePopupStore()
 const missionStore = useMissionStore()
 const activeTab = ref('static')
@@ -175,6 +183,22 @@ const props = withDefaults(
   }>(),
   { title: '' }
 )
+const { staticMission, dynamicMission } = storeToRefs(missionStore)
+
+watch(
+  () => staticList.value,
+  (newVal) => {
+    if (!arraysAreEqual(staticMission.value, newVal)) {
+      isDirtyFlag.value = true
+    } else {
+      isDirtyFlag.value = false
+    }
+  },
+  {
+    // immediate: true,
+    deep: true
+  }
+)
 
 const closePopup = () => {
   popupStore.closePop()
@@ -182,10 +206,10 @@ const closePopup = () => {
 onMounted(() => {
   isGenFlag.value = missionStore.isGenFlag
   isDirtyFlag.value = missionStore.isDirtyFlag
-  staticList.value = missionStore.staticMission
-  dynamicList.value = missionStore.dynamicMission
-  console.log('静态', staticList.value)
-  console.log('动态', dynamicList.value)
+  staticList.value = JSON.parse(JSON.stringify(staticMission.value))
+  dynamicList.value = JSON.parse(JSON.stringify(dynamicMission.value))
+  // console.log('静态', staticList.value)
+  // console.log('动态', dynamicList.value)
 })
 </script>
 

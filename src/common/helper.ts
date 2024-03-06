@@ -19,3 +19,17 @@ export const getEntityImgByType: (type: EntityType) => string = (type) => {
       break
   }
 }
+
+// 判断两个数组是否相等的函数
+export function arraysAreEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    console.log('数组长度不相同')
+    return false
+  }
+  for (let i = 0; i < arr1.length; i++) {
+    if (JSON.stringify(arr1[i]) !== JSON.stringify(arr2[i])) {
+      return false
+    }
+  }
+  return true
+}

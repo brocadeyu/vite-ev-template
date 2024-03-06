@@ -27,12 +27,19 @@ export const useMissionStore = defineStore('mission', () => {
         break
     }
   }
+  const getMission = () => {
+    return {
+      staticMission: staticMission.value,
+      dynamicMission: dynamicMission.value
+    }
+  }
   return {
     isGenFlag,
     isDirtyFlag,
     dynamicMission,
     staticMission,
     importMission,
-    setMissionByType
+    setMissionByType,
+    getMission
   }
 })
