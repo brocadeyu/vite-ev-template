@@ -1,4 +1,5 @@
 import type { CustomDataSource, Viewer } from 'cesium'
+import * as Cesium from 'cesium'
 import LocateImg from '@/assets/locate.png'
 export default class MarkerPoint {
   viewer: Viewer
