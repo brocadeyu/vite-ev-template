@@ -41,6 +41,7 @@ declare module 'vue' {
     PopUp: typeof import('./../components/PopUp.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SaveThoughtPop: typeof import('./../components/PopUp/saveThoughtPop.vue')['default']
     ToolTip: typeof import('./../components/ToolTip.vue')['default']
     WarPlanPop: typeof import('./../components/PopUp/warPlanPop.vue')['default']
   }

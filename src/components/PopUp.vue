@@ -7,6 +7,10 @@
     ></createEntityPop>
     <genLinkPop v-if="_type === 'genLink'" :title="_title"></genLinkPop>
     <warPlanPop v-if="_type === 'warPlan'" :title="_title"></warPlanPop>
+    <saveThoughtPop
+      v-if="_type === 'saveThought'"
+      :title="_title"
+    ></saveThoughtPop>
   </div>
 
   <Teleport to="body">
@@ -20,6 +24,7 @@ import { storeToRefs } from 'pinia'
 import createEntityPop from '@/components/PopUp/createEntityPop.vue'
 import genLinkPop from '@/components/PopUp/genLinkPop.vue'
 import warPlanPop from '@/components/PopUp/warPlanPop.vue'
+import saveThoughtPop from './PopUp/saveThoughtPop.vue'
 const popupStore = usePopupStore()
 const { _showMask, _showPop, _title, _type, _data } = storeToRefs(popupStore)
 </script>
@@ -43,5 +48,6 @@ const { _showMask, _showPop, _title, _type, _data } = storeToRefs(popupStore)
   left: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 </style>
