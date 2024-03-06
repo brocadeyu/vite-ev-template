@@ -93,27 +93,4 @@ onBeforeUnmount(() => {
   websocketStore.disconnect()
 })
 </script>
-<style scoped>
-.layout {
-  width: 80vw;
-  height: 80vh;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-.tab {
-  height: 70vh;
-  width: 15vw;
-  background-color: cornflowerblue;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  writing-mode: vertical-lr;
-  writing-mode: tb-rl;
-  font-size: 30px;
-  letter-spacing: 31px;
-  text-indent: 31px;
-  user-select: none;
-  border-radius: 10px;
-}
-</style>
+<style scoped></style>
