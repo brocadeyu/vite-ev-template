@@ -581,7 +581,7 @@ onMounted(() => {
       true
     )
   })
-  formDataZHL.mainDevice = param1.mainDevice
+  param1 && (formDataZHL.mainDevice = param1.mainDevice)
 
   const param2 = linkStore.linkConnectInfo['90X链']
   param2?.selection.forEach((_) => {
@@ -592,7 +592,7 @@ onMounted(() => {
       true
     )
   })
-  formData90X.mainDevice = param2.mainDevice
+  param2 && (formData90X.mainDevice = param2.mainDevice)
 
   const param3 = linkStore.linkConnectInfo['JIDS链']
   param3?.selection.forEach((_) => {
@@ -603,7 +603,7 @@ onMounted(() => {
       true
     )
   })
-  formDataJIDS.mainDevice = param3.mainDevice
+  param3 && (formDataJIDS.mainDevice = param3.mainDevice)
 
   const param4 = linkStore.linkConnectInfo['KU卫通']
   param4?.selection.forEach((_) => {
@@ -614,7 +614,7 @@ onMounted(() => {
       true
     )
   })
-  formDataKu.mainDevice = param4?.mainDevice
+  param4 && (formDataKu.mainDevice = param4?.mainDevice)
 
   websocketStore.addEventListener(WS_EVENT.createLink, (data) => {
     console.log('接收到的createLink数据====>', data)
