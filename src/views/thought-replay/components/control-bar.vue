@@ -1,10 +1,10 @@
 <template>
-  <div class="em-container">
-    <div style="height: 80px; width: 450px; background-color: #ffffff38">
-      <el-button circle size="small">
-        <el-icon :size="18"><i-ep-VideoPlay /></el-icon>
+  <div class="cb-container">
+    <div class="cb-content">
+      <el-button circle size="small" color="transparent">
+        <el-icon :size="24"><i-ep-VideoPlay /></el-icon>
       </el-button>
-      步长：
+      步长:
       <el-select
         v-model="stepSize"
         placeholder="Select"
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-const stepSize = ref('')
+const stepSize = ref('200')
 const stepOptions = [
   {
     value: '200',
@@ -39,9 +39,22 @@ const stepOptions = [
 </script>
 
 <style scoped>
-.em-container {
+.cb-container {
   position: fixed;
   top: 10vh;
   right: 7vw;
+}
+.cb-content {
+  height: 40px;
+  width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #ffffff38;
+  border-radius: 5px;
+  padding: 0 5px;
+}
+.el-button {
+  margin-left: 0px;
 }
 </style>
