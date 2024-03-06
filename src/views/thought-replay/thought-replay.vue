@@ -1,15 +1,19 @@
 <template>
   <CesiumMap></CesiumMap>
   <controlBar></controlBar>
+  <loadingMask ref="loadingMaskRef"></loadingMask>
 </template>
 <script setup lang="ts">
 import controlBar from './components/control-bar.vue'
+import loadingMask from './components/loading-mask.vue'
 import { useWebSocketStore } from '@/stores/webSocketStore'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { WS_EVENT } from '@/common/enum'
 import { ElMessage } from 'element-plus'
+const loadingMaskRef = ref(null)
 const websocketStore = useWebSocketStore()
 const thoughtStore = useThoughtStore()
+
 const initSendMessage = () => {
   const thought = thoughtStore.thought
   let data = {
@@ -35,6 +39,7 @@ onMounted(() => {
   })
   websocketStore.addEventListener(WS_EVENT.initialSuccess, () => {
     console.log('初始化加载想定成功')
+    loadingMaskRef.value.endProgress()
   })
 })
 
