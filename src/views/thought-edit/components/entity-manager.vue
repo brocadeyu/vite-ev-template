@@ -61,7 +61,7 @@
             type="primary"
             size="small"
             color="#119aa0"
-            @click="openLinkCheckPop"
+            @click="sendValidateLink"
             >链校验
           </el-button>
           <el-button
@@ -85,6 +85,8 @@ import { ElTreeV2 } from 'element-plus'
 import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
 import { useEntityStore } from '@/stores/entityStore'
 import { usePopupStore } from '@/stores/popupStore'
+import { useWebSocketStore } from '@/stores/webSocketStore'
+import { useLinkStore } from '@/stores/linkStore'
 import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { EntityType } from '@/common/enum'
@@ -105,6 +107,9 @@ const data = []
 const entityStore = useEntityStore()
 const popupStore = usePopupStore()
 const cesiumStore = useCesiumStore()
+const websocketStore = useWebSocketStore()
+const linkStore = useLinkStore()
+const { entitiesArr } = storeToRefs(entityStore)
 const setTreeData = (data: any) => {
   treeRef.value?.setData(data)
 }
@@ -161,7 +166,46 @@ const openLinkGenPop = () => {
     type: 'genLink'
   })
 }
-const openLinkCheckPop = () => {}
+const sendValidateLink = () => {
+  const convertTargets = entitiesArr.value.map((_) => {
+    const equipts = _.equipment
+      .filter((E) => E.isHas && E.isUse)
+      .map((EE) => EE.name)
+    return {
+      ID: _.id,
+      type: _.getType(),
+      lon: _.position[0],
+      lat: _.position[1],
+      alt: _.position[2],
+      Equipment: equipts
+    }
+  })
+  const convertLink = []
+  const linkObj = linkStore.linkConnectInfo
+  Object.keys(linkObj).forEach((k) => {
+    const linkItem = linkObj[k]
+    convertLink.push({
+      centerTargetId: linkItem.mainDevice,
+      dataLinkType: k,
+      links: linkItem.linkTo
+    })
+  })
+  const convertLinklink = {}
+  linkStore.linklink.forEach((_) => {
+    const key0 = Object.keys(_)[0]
+    convertLinklink[key0] = _[key0]
+  })
+  const data = {
+    InteractType: 'baseInter.EntiyInter.VirtualInteract.DataLinkCheck',
+    Param: {
+      targets: convertTargets,
+      link: convertLink,
+      linklink: convertLinklink
+    }
+  }
+  // console.log('发送校验数据链', data)
+  websocketStore.sendMessage(data)
+}
 const openWarPlanPop = () => {
   popupStore.openPop({
     title: '作战计划',
@@ -174,7 +218,7 @@ const onQueryChanged = (query: string) => {
 const filterMethod = (query: string, node: TreeNode) => {
   return node.label!.includes(query)
 }
-const { entitiesArr } = storeToRefs(entityStore)
+
 watch(
   entitiesArr,
   (newVal) => {
