@@ -7,7 +7,9 @@
       icon="view"
     >
       <template #header>
-        <el-button type="primary" size="small">图表</el-button>
+        <el-button type="primary" size="small" @click="openReplayChart"
+          >图表</el-button
+        >
       </template>
       <template #content>
         <div class="bp-content"></div>
@@ -18,6 +20,14 @@
 
 <script setup lang="ts">
 import BaseDocker from '@/components/BaseDocker.vue'
+import { usePopupStore } from '@/stores/popupStore'
+const popupStore = usePopupStore()
+const openReplayChart = () => {
+  popupStore.openPop({
+    title: '实时监测',
+    type: 'replayChart'
+  })
+}
 </script>
 
 <style scoped>

@@ -11,6 +11,10 @@
       v-if="_type === 'saveThought'"
       :title="_title"
     ></saveThoughtPop>
+    <replayChartPop
+      v-if="_type === 'replayChart'"
+      :title="_title"
+    ></replayChartPop>
   </div>
 
   <Teleport to="body">
@@ -25,6 +29,7 @@ import createEntityPop from '@/components/PopUp/createEntityPop.vue'
 import genLinkPop from '@/components/PopUp/genLinkPop.vue'
 import warPlanPop from '@/components/PopUp/warPlanPop.vue'
 import saveThoughtPop from './PopUp/saveThoughtPop.vue'
+import replayChartPop from './PopUp/replayChartPop.vue'
 const popupStore = usePopupStore()
 const { _showMask, _showPop, _title, _type, _data } = storeToRefs(popupStore)
 </script>

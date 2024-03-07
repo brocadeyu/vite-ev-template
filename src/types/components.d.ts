@@ -41,6 +41,7 @@ declare module 'vue' {
     IEpVideoPlay: typeof import('~icons/ep/video-play')['default']
     IEpView: typeof import('~icons/ep/view')['default']
     PopUp: typeof import('./../components/PopUp.vue')['default']
+    ReplayChartPop: typeof import('./../components/PopUp/replayChartPop.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SaveThoughtPop: typeof import('./../components/PopUp/saveThoughtPop.vue')['default']
