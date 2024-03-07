@@ -2,10 +2,14 @@
   <CesiumMap></CesiumMap>
   <controlBar></controlBar>
   <loadingMask ref="loadingMaskRef"></loadingMask>
+  <battlePanel></battlePanel>
+  <dataPanel></dataPanel>
 </template>
 <script setup lang="ts">
 import controlBar from './components/control-bar.vue'
 import loadingMask from './components/loading-mask.vue'
+import battlePanel from './components/battle-panel.vue'
+import dataPanel from './components/data-panel.vue'
 import { useWebSocketStore } from '@/stores/webSocketStore'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { useEntityStore } from '@/stores/entityStore'
