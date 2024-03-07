@@ -1,8 +1,11 @@
 <template>
   <div class="cb-container">
     <div class="cb-content">
-      <el-button circle size="small" color="transparent">
-        <el-icon :size="24"><i-ep-VideoPlay /></el-icon>
+      <el-button circle size="small" color="transparent" @click="reversePlay">
+        <el-icon :size="24">
+          <i-ep-VideoPause v-if="isPlaying" />
+          <i-ep-VideoPlay v-else />
+        </el-icon>
       </el-button>
       步长:
       <el-select
@@ -10,6 +13,7 @@
         placeholder="Select"
         size="small"
         style="width: 140px"
+        @change="handleStepSizeChange"
       >
         <el-option
           v-for="item in stepOptions"
@@ -25,6 +29,10 @@
 </template>
 
 <script setup lang="ts">
+import { useWebSocketStore } from '@/stores/webSocketStore'
+import { useThoughtStore } from '@/stores/thougthStore'
+const websocketStore = useWebSocketStore()
+const thoughtStore = useThoughtStore()
 const stepSize = ref('200')
 const stepOptions = [
   {
@@ -36,6 +44,59 @@ const stepOptions = [
     label: '1000ms'
   }
 ]
+const isStart = ref(false) //是否开始播放
+const isPlaying = ref(false) //是否播放中
+const reversePlay = () => {
+  isPlaying.value = !isPlaying.value
+  if (isPlaying.value) {
+    !isStart.value && startPlay()
+    isStart.value && continuePlay()
+  } else {
+    pausePlay()
+  }
+  if (!isStart.value) {
+    isStart.value = true
+  }
+}
+const startPlay = () => {
+  const data = {
+    InteractType: 'baseInter.FederationInteract.SimControlInter',
+    StateCtrl: '10',
+    StepTime: stepSize.value
+  }
+  websocketStore.sendMessage(data)
+  // eslint-disable-next-line no-console
+  console.log('开始播放')
+}
+const continuePlay = () => {
+  const data = {
+    InteractType: 'baseInter.FederationInteract.SimControlInter',
+    StateCtrl: '12'
+  }
+  websocketStore.sendMessage(data)
+  // eslint-disable-next-line no-console
+  console.log('继续播放')
+}
+const pausePlay = () => {
+  const thought = thoughtStore.thought
+  const data = {
+    InteractType: 'baseInter.FederationInteract.SimControlInter',
+    StateCtrl: '11',
+    SimFileName: thought.filePath + '/' + thought.name + '.json'
+  }
+  websocketStore.sendMessage(data)
+  // eslint-disable-next-line no-console
+  console.log('暂停播放')
+}
+const handleStepSizeChange = (val) => {
+  const data = {
+    InteractType: 'baseInter.FederationInteract.SimControlInter',
+    StepTime: val
+  }
+  websocketStore.sendMessage(data)
+  // eslint-disable-next-line no-console
+  console.log('设置步长', val)
+}
 </script>
 
 <style scoped>

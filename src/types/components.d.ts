@@ -41,6 +41,7 @@ declare module 'vue' {
     IEpPointer: typeof import('~icons/ep/pointer')['default']
     IEpRefreshRight: typeof import('~icons/ep/refresh-right')['default']
     IEpTickets: typeof import('~icons/ep/tickets')['default']
+    IEpVideoPause: typeof import('~icons/ep/video-pause')['default']
     IEpVideoPlay: typeof import('~icons/ep/video-play')['default']
     IEpView: typeof import('~icons/ep/view')['default']
     PopUp: typeof import('./../components/PopUp.vue')['default']

@@ -25,7 +25,6 @@ const initSendMessage = () => {
   const thought = thoughtStore.thought
   let data = {
     InteractType: 'baseInter.FederationInteract.SimFileSetInteract',
-    // status: 'start',
     SimFileName: thought.filePath + '/' + thought.name + '.json'
   }
   websocketStore.sendMessage(data)
@@ -45,6 +44,7 @@ onMounted(() => {
     ElMessage.error(`websocket出错!`)
   })
   websocketStore.addEventListener(WS_EVENT.initialSuccess, () => {
+    // eslint-disable-next-line no-console
     console.log('初始化加载想定成功')
     loadingMaskRef.value.endProgress()
   })
