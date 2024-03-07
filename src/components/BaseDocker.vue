@@ -17,6 +17,7 @@
           <i-ep-pointer v-if="icon === 'pointer'" />
           <i-ep-view v-if="icon === 'view'" />
           <i-ep-edit v-if="icon === 'edit'" />
+          <i-ep-tickets v-if="icon === 'log'" />
         </el-icon>
         <div :class="{ 'show-icon': icon }">
           {{ props.title }}
