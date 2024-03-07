@@ -9,6 +9,7 @@ interface LinkInfo {
   linkTo: string[]
   mainDevice: string
   selection: string[]
+  targetDevices: any[]
 }
 // interface ISetLinkArg {
 //   type: LinkType

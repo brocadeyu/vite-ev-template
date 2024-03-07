@@ -63,13 +63,19 @@ export default class WebSocketService {
         Object.prototype.toString.call(parseData) === '[object Array]' &&
         'link' in parseData[0]
       ) {
-        this.eventRegistry.emit(WS_EVENT.createLink, parseData[0])
+        return this.eventRegistry.emit(WS_EVENT.createLink, parseData[0])
       }
       if (
         parseData.InteractType === 'SimStateChange' &&
         parseData.SimEnigenState === '3'
       ) {
-        this.eventRegistry.emit(WS_EVENT.initialSuccess)
+        return this.eventRegistry.emit(WS_EVENT.initialSuccess)
+      }
+      if (parseData.InteractType.includes('DataLinkCheckRes')) {
+        return this.eventRegistry.emit(
+          WS_EVENT.validateLinkRes,
+          parseData.Param
+        )
       }
     } catch (error) {
       console.error('解析WS消息出错:', error)

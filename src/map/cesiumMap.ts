@@ -78,14 +78,14 @@ export default class CesiumMap {
     const evLayerManager = new Cesium.EV_LayerManager(this.viewer.scene)
     evLayerManager.add({
       name: 'world_dem_800_mct_65', // 图层名称
-      url: 'http://192.168.0.16:8088', // GIS-Server地址dddddddddddddddddddddddddddddd
+      url: 'http://192.168.0.133:8088', // GIS-Server地址dddddddddddddddddddddddddddddd
       type: Cesium.EV_LayerType.DEM // 图层类型
       // tileType: imageData.tileType,                       //投影类型
       // queryParam: imageData.queryParam                    //请求参数
     })
     evLayerManager.add({
       name: '中国影像15米',
-      url: 'http://192.168.0.16:8088',
+      url: 'http://192.168.0.133:8088',
 
       type: Cesium.EV_LayerType.IMAGE,
       tileType: Cesium.EV_TileAlgorithmType.WGS84,

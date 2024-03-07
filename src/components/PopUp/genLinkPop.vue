@@ -625,35 +625,46 @@ onMounted(() => {
     console.log('接收到的createLink数据====>', data)
     cesiumStore.cesium.linkMap.removeAllLink()
     data.link.forEach((_: any) => {
+      //0处理数据链挂载设备信息
+      _.targetDevices.forEach((item) => {
+        const entity = entityStore.getEntityById(item.ID)
+        item.device.forEach((d) => {
+          const e = entity.equipment.find((i) => d === i.name)
+          e.isHas = true
+          e.isUse = true
+        })
+      })
       let arg
       if (_.dataLinkType === '综合链') {
         arg = {
           linkTo: _.linkTo,
           mainDevice: formDataZHL.mainDevice,
-          selection: formDataZHL.targets.map((item) => item.id)
+          selection: formDataZHL.targets.map((item) => item.id),
+          targetDevices: _.targetDevices
         }
       } else if (_.dataLinkType === '90X链') {
         arg = {
           linkTo: _.linkTo,
           mainDevice: formData90X.mainDevice,
-          selection: formData90X.targets.map((item) => item.id)
+          selection: formData90X.targets.map((item) => item.id),
+          targetDevices: _.targetDevices
         }
       } else if (_.dataLinkType === 'JIDS链') {
         arg = {
           linkTo: _.linkTo,
           mainDevice: formDataJIDS.mainDevice,
-          selection: formDataJIDS.targets.map((item) => item.id)
+          selection: formDataJIDS.targets.map((item) => item.id),
+          targetDevices: _.targetDevices
         }
       } else if (_.dataLinkType === 'KU卫通') {
         arg = {
           linkTo: _.linkTo,
           mainDevice: formDataKu.mainDevice,
-          selection: formDataKu.targets.map((item) => item.id)
+          selection: formDataKu.targets.map((item) => item.id),
+          targetDevices: _.targetDevices
         }
       }
-
       linkStore.setLinkConnectInfo(_.dataLinkType, arg) //设置数据链连接信息
-      linkStore.setLinkLinkInfo(_.linklink) //设置数据链linklink信息
       _.linkTo.forEach((i: any) => {
         const deviceArr = i.split('-')
         const entityOne = entityStore.getEntityById(deviceArr[0])
@@ -663,6 +674,22 @@ onMounted(() => {
           positionArr: [entityOne.position, entityTwo.position],
           type: _.dataLinkType
         })
+      })
+    })
+    linkStore.setLinkLinkInfo(data.linklink) //设置数据链linklink信息
+    //处理linklink信息
+    data.linklink.forEach((_) => {
+      const entityStr = _['综合链'] || _['90X链'] || _['JIDS链']
+      const entityArr = entityStr.split('-')
+      const deviceArr = _.device.split('-')
+      // console.log('entityArr', entityArr, 'deviceArr', deviceArr)
+      entityArr.forEach((i, index) => {
+        const entity = entityStore.getEntityById(i)
+        const e = entity.equipment.find(
+          (eItem) => eItem.name === deviceArr[index]
+        )
+        e.isHas = true
+        e.isUse = true
       })
     })
     saveLoadStatus.value = false

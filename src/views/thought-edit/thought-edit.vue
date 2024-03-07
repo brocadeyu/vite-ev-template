@@ -44,7 +44,8 @@ onMounted(() => {
       const arg = {
         linkTo: _.linkTo,
         mainDevice: _.centerTargetId,
-        selection: _.selection
+        selection: _.selection,
+        targetDevices: _.targetDevices
       }
       linkStore.setLinkConnectInfo(_.dataLinkType, arg) //设置数据链连接信息
       _.linkTo.forEach((i: any) => {
@@ -84,6 +85,9 @@ onMounted(() => {
     })
     websocketStore.addEventListener(WS_EVENT.onerror, () => {
       ElMessage.error(`websocket出错!`)
+    })
+    websocketStore.addEventListener(WS_EVENT.validateLinkRes, (data) => {
+      console.log('校验数据链完整性消息', data)
     })
   })
 })
