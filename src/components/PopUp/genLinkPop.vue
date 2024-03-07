@@ -354,11 +354,16 @@
     </template>
     <template #footer>
       <div class="foot-btns">
-        <el-button type="primary" size="small" @click="closePopup"
+        <el-button
+          type="primary"
+          color="transparent"
+          size="small"
+          @click="closePopup"
           >取消</el-button
         >
         <el-button
           type="primary"
+          color="#119aa0"
           size="small"
           :loading="saveLoadStatus"
           @click="confirmPopup"

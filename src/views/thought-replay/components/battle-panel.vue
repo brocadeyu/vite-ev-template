@@ -7,9 +7,14 @@
       icon="view"
     >
       <template #header>
-        <el-button type="primary" size="small" @click="openReplayChart"
-          >图表</el-button
+        <el-button
+          type="primary"
+          color="#119aa0"
+          size="small"
+          @click="openReplayChart"
         >
+          <el-icon :size="16"><i-ep-PieChart /></el-icon>
+        </el-button>
       </template>
       <template #content>
         <div class="bp-content"></div>

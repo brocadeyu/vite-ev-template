@@ -123,11 +123,16 @@
                       <el-button
                         type="primary"
                         size="small"
+                        color="#119aa0"
                         :class="{ 'mark-point-active': isPickPathStatus }"
                         @click="editPath"
                         >标绘<el-icon :size="16"><i-ep-Aim /></el-icon
                       ></el-button>
-                      <el-button type="primary" size="small" @click="resetPath"
+                      <el-button
+                        type="primary"
+                        size="small"
+                        color="#119aa0"
+                        @click="resetPath"
                         >重置<el-icon :size="16"><i-ep-RefreshRight /></el-icon
                       ></el-button>
                     </div>
@@ -158,10 +163,16 @@
     </template>
     <template #footer>
       <div class="foot-btns">
-        <el-button type="primary" size="small" @click="closePopup"
+        <el-button
+          type="primary"
+          color="transparent"
+          size="small"
+          @click="closePopup"
           >取消</el-button
         >
-        <el-button type="primary" size="small" @click="onSave">保存</el-button>
+        <el-button type="primary" color="#119aa0" size="small" @click="onSave"
+          >保存</el-button
+        >
       </div>
     </template>
   </base-docker>

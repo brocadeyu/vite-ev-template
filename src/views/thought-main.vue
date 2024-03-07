@@ -5,6 +5,7 @@
         v-if="!['数据链模拟', '想定回放'].includes(computeTitle)"
         type="primary"
         size="small"
+        color="#119aa0"
         @click="saveThought"
         >保存</el-button
       >
@@ -12,6 +13,7 @@
         v-if="computeTitle !== '数据链模拟'"
         type="primary"
         size="small"
+        color="#119aa0"
         @click="back"
         >返回</el-button
       >

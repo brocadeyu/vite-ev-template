@@ -113,7 +113,11 @@
           v-if="!isGenFlag && !isGening"
           description="点击生成以加载默认作战计划"
         >
-          <el-button type="primary" size="small" @click="handleGen"
+          <el-button
+            type="primary"
+            size="small"
+            color="#119aa0"
+            @click="handleGen"
             >生成</el-button
           >
         </el-empty>
@@ -127,19 +131,28 @@
     </template>
     <template #footer>
       <div class="foot-btns">
-        <el-button type="primary" size="small" @click="closePopup"
+        <el-button
+          type="primary"
+          color="transparent"
+          size="small"
+          @click="closePopup"
           >取消
         </el-button>
         <!-- <el-button type="primary" size="small">生成</el-button> -->
-        <el-button v-if="isGenFlag" type="primary" size="small">导入</el-button>
+        <el-button v-if="isGenFlag" type="primary" color="#119aa0" size="small"
+          >导入</el-button
+        >
         <el-button
           v-if="isGenFlag"
           type="primary"
           size="small"
+          color="#119aa0"
           :disabled="!isDirtyFlag"
           >保存</el-button
         >
-        <el-button v-if="isGenFlag" type="primary" size="small">下发</el-button>
+        <el-button v-if="isGenFlag" type="primary" color="#119aa0" size="small"
+          >下发</el-button
+        >
       </div>
     </template>
   </BaseDocker>
