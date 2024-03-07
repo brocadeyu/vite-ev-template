@@ -42,6 +42,7 @@ export default class CesiumMap {
     this.trackMap = new TrackMap(this.viewer)
     this.linkMap = new LinkMap(this.viewer)
     this.eventHandler = new EventHandler(this.viewer)
+    this.addMapTiles()
     return this
   }
   showAnimate() {
@@ -72,5 +73,28 @@ export default class CesiumMap {
         duration: 1.3
       })
     }, 500)
+  }
+  addMapTiles() {
+    const evLayerManager = new Cesium.EV_LayerManager(this.viewer.scene)
+    evLayerManager.add({
+      name: 'world_dem_800_mct_65', // 图层名称
+      url: 'http://192.168.0.16:8088', // GIS-Server地址dddddddddddddddddddddddddddddd
+      type: Cesium.EV_LayerType.DEM // 图层类型
+      // tileType: imageData.tileType,                       //投影类型
+      // queryParam: imageData.queryParam                    //请求参数
+    })
+    evLayerManager.add({
+      name: '中国影像15米',
+      url: 'http://192.168.0.16:8088',
+
+      type: Cesium.EV_LayerType.IMAGE,
+      tileType: Cesium.EV_TileAlgorithmType.WGS84,
+      format: 'image/png',
+      imageOption: {
+        type: 'image',
+        minLevel: 0,
+        maxLevel: 20
+      }
+    })
   }
 }

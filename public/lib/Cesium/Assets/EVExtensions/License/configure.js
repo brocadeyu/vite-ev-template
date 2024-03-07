@@ -1,1 +1,1 @@
-http://192.168.0.114:8088/earthview/manager/license
+http://192.168.0.16:8088/earthview/manager/license
