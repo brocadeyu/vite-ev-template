@@ -10,10 +10,16 @@ interface WarMissionLog {
   receiver: string
   sender: string
   timeT: number
+  timeStr: string
+}
+interface DataLog {
+  message: string
+  time: string
+  timeStr: string
 }
 export const useLogStore = defineStore('log', () => {
   const warMissionLog = ref<WarMissionLog[]>([]) //作战任务日志
-  const dataLog = ref([]) //数据日志
+  const dataLog = ref<DataLog[]>([]) //数据日志
 
   const pushWarMissionLog = (data) => {
     warMissionLog.value.push(data)

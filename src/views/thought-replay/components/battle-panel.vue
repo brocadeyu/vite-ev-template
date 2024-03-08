@@ -53,7 +53,7 @@
               <span style="transform: translateX(-18px)">{{
                 node.data.timeStr
               }}</span>
-              <span>{{ `T0+${node.data.timeT}` }}</span>
+              <span>{{ `T0+${node.data.timeT}ms:` }}</span>
               <span style="margin-left: 5px">{{ node.data.label }}</span>
             </template>
           </el-tree-v2>

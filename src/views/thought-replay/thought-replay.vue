@@ -66,6 +66,11 @@ onMounted(() => {
   websocketStore.addEventListener(WS_EVENT.dataMessage, (data) => {
     // eslint-disable-next-line no-console
     console.log('数据日志', data)
+    const message = JSON.parse(data.Message)
+    if (message.length) {
+      const m = message[0].message
+      logStore.pushDataLog({ message: m, timeStr: getNowTimeStr() })
+    }
   })
   websocketStore.addEventListener(WS_EVENT.missionMessage, (data) => {
     // eslint-disable-next-line no-console

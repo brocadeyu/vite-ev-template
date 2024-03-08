@@ -3,7 +3,7 @@
     <BaseDocker
       :title="'数据日志'"
       :height="'230px'"
-      :width="'200px'"
+      :width="'400px'"
       icon="log"
     >
       <template #content>
@@ -32,11 +32,19 @@
               border-radius: 4px;
               height: 100%;
               overflow: hidden;
+              --el-font-size-base: 12px;
             "
             :filter-method="filterMethod"
             :height="150"
             empty-text="暂无数据"
-          />
+          >
+            <template #default="{ node }">
+              <span style="transform: translateX(-18px)">{{
+                node.data.timeStr
+              }}</span>
+              <span>{{ node.data.label }}</span>
+            </template>
+          </el-tree-v2>
         </div>
       </template>
     </BaseDocker>
@@ -47,7 +55,11 @@
 import BaseDocker from '@/components/BaseDocker.vue'
 import { ElTreeV2 } from 'element-plus'
 import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
+import { useLogStore } from '@/stores/logStore'
+import { storeToRefs } from 'pinia'
 const queryStr = ref('')
+const logStore = useLogStore()
+const { dataLog } = storeToRefs(logStore)
 const treeRef = ref<InstanceType<typeof ElTreeV2>>()
 const onQueryChanged = (query: string) => {
   treeRef.value!.filter(query)
@@ -56,11 +68,34 @@ const data = []
 const props = {
   value: 'id',
   label: 'id',
+  timeStr: 'timeStr',
   children: 'children'
 }
 const filterMethod = (query: string, node: TreeNode) => {
   return node.label!.includes(query)
 }
+const setTreeData = (data: any) => {
+  treeRef.value?.setData(data)
+}
+watch(
+  dataLog,
+  (newVal) => {
+    console.log('newVVVVVVV', newVal)
+    setTreeData(
+      newVal.map((_): any => {
+        return {
+          id: _.message,
+          label: _.message,
+          timeStr: _.timeStr
+        }
+      })
+    )
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
 </script>
 
 <style scoped>
