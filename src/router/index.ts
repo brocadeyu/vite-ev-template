@@ -42,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/:catchAll(.*)',
-    redirect: '/thought/overview'
+    redirect: '/login'
   }
 ]
 
