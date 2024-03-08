@@ -14,13 +14,16 @@ import { useWebSocketStore } from '@/stores/webSocketStore'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { useEntityStore } from '@/stores/entityStore'
 import { useCesiumStore } from '@/stores/cesiumStore'
+import { useLogStore } from '@/stores/logStore'
 import { WS_EVENT } from '@/common/enum'
 import { ElMessage } from 'element-plus'
+import { getNowTimeStr } from '@/common/helper'
 const loadingMaskRef = ref(null)
 const websocketStore = useWebSocketStore()
 const thoughtStore = useThoughtStore()
 const entityStore = useEntityStore()
 const cesiumStore = useCesiumStore()
+const logStore = useLogStore()
 const initSendMessage = () => {
   const thought = thoughtStore.thought
   let data = {
@@ -67,10 +70,13 @@ onMounted(() => {
   websocketStore.addEventListener(WS_EVENT.missionMessage, (data) => {
     // eslint-disable-next-line no-console
     console.log('作战任务日志', data)
+    data.Message.forEach((_) => {
+      logStore.pushWarMissionLog({ ..._, timeStr: getNowTimeStr() })
+    })
   })
   websocketStore.addEventListener(WS_EVENT.positonMessage, (data) => {
     // eslint-disable-next-line no-console
-    console.log('推送位置', data)
+    // console.log('推送位置', data)
     const convertPosition = [
       Number(data.Lon),
       Number(data.Lat),

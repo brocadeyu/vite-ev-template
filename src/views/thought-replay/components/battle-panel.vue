@@ -3,7 +3,7 @@
     <BaseDocker
       :title="'作战日志'"
       :height="'230px'"
-      :width="'200px'"
+      :width="'400px'"
       icon="log"
     >
       <template #header>
@@ -43,11 +43,20 @@
               border-radius: 4px;
               height: 100%;
               overflow: hidden;
+              --el-font-size-base: 12px;
             "
             :filter-method="filterMethod"
             :height="150"
             empty-text="暂无数据"
-          />
+          >
+            <template #default="{ node }">
+              <span style="transform: translateX(-18px)">{{
+                node.data.timeStr
+              }}</span>
+              <span>{{ `T0+${node.data.timeT}` }}</span>
+              <span style="margin-left: 5px">{{ node.data.label }}</span>
+            </template>
+          </el-tree-v2>
         </div>
         <!-- </div> -->
       </template>
@@ -60,7 +69,11 @@ import BaseDocker from '@/components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
 import { ElTreeV2 } from 'element-plus'
 import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
+import { useLogStore } from '@/stores/logStore'
+import { storeToRefs } from 'pinia'
 const popupStore = usePopupStore()
+const logStore = useLogStore()
+const { warMissionLog } = storeToRefs(logStore)
 const treeRef = ref<InstanceType<typeof ElTreeV2>>()
 const openReplayChart = () => {
   popupStore.openPop({
@@ -72,15 +85,40 @@ const queryStr = ref('')
 const onQueryChanged = (query: string) => {
   treeRef.value!.filter(query)
 }
+const setTreeData = (data: any) => {
+  treeRef.value?.setData(data)
+}
 const data = []
 const props = {
   value: 'id',
   label: 'id',
+  timeT: 'timeT',
+  timeStr: 'timeStr',
   children: 'children'
 }
 const filterMethod = (query: string, node: TreeNode) => {
   return node.label!.includes(query)
 }
+watch(
+  warMissionLog,
+  (newVal) => {
+    console.log('newVVVVVVV', newVal)
+    setTreeData(
+      newVal.map((_): any => {
+        return {
+          id: (_ as any).message,
+          label: (_ as any).message,
+          timeT: (_ as any).timeT,
+          timeStr: (_ as any).timeStr
+        }
+      })
+    )
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
 </script>
 
 <style scoped>
