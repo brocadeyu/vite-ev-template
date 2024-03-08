@@ -12,8 +12,8 @@ const isloading = ref(false)
 const login = async () => {
   isloading.value = true
 
-  let timeEnd = 2000 //结束时间（ms）
-  let endRate = 150.0 // 终止频率
+  let timeEnd = 1000 //结束时间（ms）
+  let endRate = 1000.0 // 终止频率
   let samplingInterval = 100 //采样间隔（ms）
   for (let index = 1; index <= timeEnd / samplingInterval; index++) {
     const x = index * samplingInterval
@@ -22,6 +22,12 @@ const login = async () => {
     await setRateDelay(y, samplingInterval)
   }
   isloading.value = false
+  for (let index = 1; index <= timeEnd / samplingInterval; index++) {
+    const x = index * samplingInterval
+    const y = -(endRate / (timeEnd * timeEnd)) * x * x + endRate
+    console.log(y, samplingInterval)
+    await setRateDelay(y, samplingInterval)
+  }
   // setTimeout(() => {
   //   router.push({
   //     path: `/thought/overview`
