@@ -11,13 +11,15 @@ export default class GlobalRotate {
     this.viewer = _viewer
     this.previousTime = Date.now()
   }
-  public start() {
-    // this.previousTime = Date.now()
+  public start(rate: number = 1) {
     this.callback = () => {
-      this.viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, 0.0001)
+      this.viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, rate * 0.00007)
     }
     this.viewer.clock.onTick.addEventListener(this.callback)
-    window.viewer = this.viewer
+  }
+  public setRate(rate: number) {
+    this.stop()
+    this.start(rate)
   }
 
   public stop() {

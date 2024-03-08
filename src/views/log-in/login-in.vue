@@ -1,19 +1,40 @@
 <script setup lang="ts">
 import CesiumMap from '@/components/CesiumMap.vue'
+import { useCesiumStore } from '@/stores/cesiumStore'
 import { useRouter } from 'vue-router'
 const router = useRouter()
+const cesiumStore = useCesiumStore()
 const formData = reactive({
   username: 'admin',
   password: '123456'
 })
 const isloading = ref(false)
-const login = () => {
+const login = async () => {
   isloading.value = true
-  setTimeout(() => {
-    router.push({
-      path: `/thought/overview`
-    })
-  }, 500)
+
+  let timeEnd = 2000 //结束时间（ms）
+  let endRate = 150.0 // 终止频率
+  let samplingInterval = 100 //采样间隔（ms）
+  for (let index = 1; index <= timeEnd / samplingInterval; index++) {
+    const x = index * samplingInterval
+    const y = ((endRate - 1) / (timeEnd * timeEnd)) * x * x + 1
+    console.log(y, samplingInterval)
+    await setRateDelay(y, samplingInterval)
+  }
+  isloading.value = false
+  // setTimeout(() => {
+  //   router.push({
+  //     path: `/thought/overview`
+  //   })
+  // }, 500)
+}
+const setRateDelay = async (rate, delay) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      cesiumStore.cesium.globeRoute.setRate(rate)
+      resolve()
+    }, delay)
+  })
 }
 </script>
 <template>
