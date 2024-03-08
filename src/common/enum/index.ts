@@ -13,7 +13,10 @@ export enum WS_EVENT {
   onerror, //错误
   createLink, //创建数据链
   validateLinkRes, //校验数据链
-  initialSuccess //初始化加载想定成功
+  initialSuccess, //初始化加载想定成功
+  missionMessage, //作战任务日志
+  dataMessage, //作战数据日志
+  positonMessage //推送位置数据
 }
 export type WSEventType = keyof typeof WS_EVENT
 

@@ -101,7 +101,7 @@ const onSaveUpdate = async () => {
     const jsonData = {
       DataLinkInfo: {
         link: convertLink,
-        misson: convertMission,
+        mission: convertMission,
         linklink: linkStore.linklink,
         isDistribute: true
       },

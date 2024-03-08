@@ -37,6 +37,11 @@ const sendCloseMessage = () => {
   websocketStore.sendMessage(data)
 }
 onMounted(() => {
+  entityStore.initEntityStore(thoughtStore.thought.entities) //根据thought初始化entityStore
+  entityStore.entitiesArr.forEach((_) => {
+    cesiumStore.cesium.modelMap.addModel(_ as any)
+    // cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
+  })
   websocketStore.connect('ws://localhost:12000/hsdb/101')
   websocketStore.addEventListener(WS_EVENT.onopen, () => {
     // eslint-disable-next-line no-console
@@ -55,10 +60,17 @@ onMounted(() => {
     console.log('初始化加载想定成功')
     loadingMaskRef.value.endProgress()
   })
-  entityStore.initEntityStore(thoughtStore.thought.entities) //根据thought初始化entityStore
-  entityStore.entitiesArr.forEach((_) => {
-    cesiumStore.cesium.modelMap.addModel(_ as any)
-    // cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
+  websocketStore.addEventListener(WS_EVENT.dataMessage, (data) => {
+    // eslint-disable-next-line no-console
+    console.log('数据日志', data)
+  })
+  websocketStore.addEventListener(WS_EVENT.missionMessage, (data) => {
+    // eslint-disable-next-line no-console
+    console.log('作战任务日志', data)
+  })
+  websocketStore.addEventListener(WS_EVENT.positonMessage, (data) => {
+    // eslint-disable-next-line no-console
+    console.log('推送位置', data)
   })
 })
 

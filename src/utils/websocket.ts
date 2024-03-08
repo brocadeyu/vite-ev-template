@@ -77,6 +77,18 @@ export default class WebSocketService {
           parseData.Param
         )
       }
+      if (
+        parseData.InteractType ===
+        'baseInter.EntiyInter.VirtualInteract.MissionMessage'
+      ) {
+        return this.eventRegistry.emit(WS_EVENT.missionMessage, parseData)
+      }
+      if (parseData.InteractType === 'DataLinkInteract') {
+        return this.eventRegistry.emit(WS_EVENT.dataMessage, parseData)
+      }
+      if (parseData.objName && parseData.Lon && parseData.Lat) {
+        return this.eventRegistry.emit(WS_EVENT.positonMessage, parseData)
+      }
     } catch (error) {
       console.error('解析WS消息出错:', error)
     }
