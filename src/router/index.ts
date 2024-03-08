@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
+const login = () => import('@/views/log-in/login-in.vue')
 const thoughtMain = () => import('@/views/thought-main.vue')
 const thoughtOverview = () =>
   import('@/views/thought-overview/thought-overview.vue')
@@ -32,6 +33,12 @@ const routes: Array<RouteRecordRaw> = [
         name: '想定回放'
       }
     ]
+  },
+
+  {
+    path: '/login',
+    component: login,
+    name: '登录'
   },
   {
     path: '/:catchAll(.*)',
