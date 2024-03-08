@@ -14,7 +14,7 @@ export default class GlobalRotate {
   public start() {
     // this.previousTime = Date.now()
     this.callback = () => {
-      this.viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, 0.001)
+      this.viewer.scene.camera.rotate(Cesium.Cartesian3.UNIT_Z, 0.0001)
     }
     this.viewer.clock.onTick.addEventListener(this.callback)
     window.viewer = this.viewer
