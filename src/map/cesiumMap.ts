@@ -54,29 +54,29 @@ export default class CesiumMap {
     return new Promise((resolve) => {
       this.viewer.camera.setView({
         destination: {
-          x: -7567043.4188156845,
-          y: 2460179.909084354,
-          z: 7404553.923847849
+          x: -2775228.521737669,
+          y: 6118815.6230553435,
+          z: 2526085.2443369217
         } as any,
         orientation: {
-          heading: 6.252036678191933,
-          pitch: -0.4564279762936745,
-          roll: 6.283068485602596
+          heading: 4.95312641800974,
+          pitch: -0.16600374861841782,
+          roll: 6.281036009973748
         }
       })
       setTimeout(() => {
         this.viewer.camera.flyTo({
           destination: {
-            x: -7567043.4188156845,
-            y: 2460179.909084354,
-            z: 7404553.923847849
+            x: -2775228.521737669,
+            y: 6118815.6230553435,
+            z: 2526085.2443369217
           } as any,
           orientation: {
-            heading: 6.252073094518096,
-            pitch: -0.6976525918053924,
-            roll: 6.283048473441683
+            heading: 4.953770358299834,
+            pitch: -0.44044659744233394,
+            roll: 6.2808419049263895
           },
-          duration: 3
+          duration: 4
         })
         resolve()
       }, 500)
