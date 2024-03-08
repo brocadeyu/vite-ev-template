@@ -76,7 +76,7 @@ const onSaveUpdate = async () => {
         Pos: [_.position[1], _.position[0], _.position[2]],
         WorkFre: '150',
         Ges: [0, 0, 0],
-        SenderPower: '1',
+        SendPower: '1',
         AntennaePower: '2',
         Behaviour: [
           {
@@ -91,7 +91,7 @@ const onSaveUpdate = async () => {
     Object.keys(linkObj).forEach((k) => {
       const linkItem = linkObj[k]
       convertLink.push({
-        targetDevices: [],
+        targetDevices: linkItem.targetDevices,
         centerTargetId: linkItem.mainDevice,
         linkTo: linkItem.linkTo,
         selection: linkItem.selection,
@@ -102,7 +102,8 @@ const onSaveUpdate = async () => {
       DataLinkInfo: {
         link: convertLink,
         misson: convertMission,
-        linklink: linkStore.linklink
+        linklink: linkStore.linklink,
+        isDistribute: true
       },
       Entity: convertEntityArr,
       ScenarioName: thoughtStore.thought.name

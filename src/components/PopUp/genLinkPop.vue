@@ -379,6 +379,7 @@ import BaseDocker from '@/components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
 import { useEntityStore } from '@/stores/entityStore'
 import { useWebSocketStore } from '@/stores/webSocketStore'
+import { useMissionStore } from '@/stores/missionStore'
 import { storeToRefs } from 'pinia'
 import { EntityTypeEnum, WS_EVENT } from '@/common/enum'
 import type { FormInstance } from 'element-plus'
@@ -389,6 +390,7 @@ const popupStore = usePopupStore()
 const entityStore = useEntityStore()
 const websocketStore = useWebSocketStore()
 const cesiumStore = useCesiumStore()
+const missionStore = useMissionStore()
 const linkStore = useLinkStore()
 const { entitiesArr } = storeToRefs(entityStore)
 const formRefZHL = ref<FormInstance>()
@@ -692,6 +694,17 @@ onMounted(() => {
         e.isUse = true
       })
     })
+    let staticMission = []
+    let dynamicMission = []
+    data.mission?.forEach((_) => {
+      if (_.isAuto) {
+        dynamicMission.push(_)
+      } else {
+        staticMission.push(_)
+      }
+    })
+    missionStore.setMissionByType({ type: '静态', mission: staticMission })
+    missionStore.setMissionByType({ type: '动态', mission: dynamicMission })
     saveLoadStatus.value = false
     clearTimeout(saveTimer)
     closePopup()
