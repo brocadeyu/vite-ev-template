@@ -37,9 +37,10 @@ const login = () => {
         >
           <el-form-item>
             <el-avatar
+              :size="50"
               style="margin: 0 auto; --el-text-color-disabled: #119aa0"
             >
-              <el-icon><i-ep-User /></el-icon>
+              <el-icon :size="20"><i-ep-User /></el-icon>
             </el-avatar>
           </el-form-item>
           <el-form-item label="用户名:">
