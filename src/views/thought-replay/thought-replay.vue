@@ -29,6 +29,13 @@ const initSendMessage = () => {
   }
   websocketStore.sendMessage(data)
 }
+const sendCloseMessage = () => {
+  const data = {
+    InteractType: 'baseInter.FederationInteract.SimControlInter',
+    StateCtrl: '13'
+  }
+  websocketStore.sendMessage(data)
+}
 onMounted(() => {
   websocketStore.connect('ws://localhost:12000/hsdb/101')
   websocketStore.addEventListener(WS_EVENT.onopen, () => {
@@ -56,6 +63,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  sendCloseMessage()
   websocketStore.disconnect()
 })
 </script>

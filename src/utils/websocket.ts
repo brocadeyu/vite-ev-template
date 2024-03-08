@@ -71,7 +71,7 @@ export default class WebSocketService {
       ) {
         return this.eventRegistry.emit(WS_EVENT.initialSuccess)
       }
-      if (parseData.InteractType.includes('DataLinkCheckRes')) {
+      if (parseData.InteractType?.includes('DataLinkCheckRes')) {
         return this.eventRegistry.emit(
           WS_EVENT.validateLinkRes,
           parseData.Param
