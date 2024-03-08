@@ -13,6 +13,13 @@ interface IAddModelOpt {
 interface IRemoveModelOpt {
   id: string
 }
+interface IUpdateModelPosOpt {
+  id: string
+  position: number[]
+  heading?: string
+  pitch?: string
+  roll?: string
+}
 export default class ModelMap {
   private _viewer: Viewer
   private _collection: PrimitiveCollection
@@ -64,6 +71,29 @@ export default class ModelMap {
     })
     this._collection.add(model)
     this._map.set(id, model)
+  }
+  updateModelPosition(opt: IUpdateModelPosOpt) {
+    const { id, position, heading, pitch, roll } = opt
+    let model = this._map.get(id)
+    if (model) {
+      const p = Cesium.Cartesian3.fromDegrees(
+        position[0],
+        position[1],
+        position[2]
+      )
+      let hpRoll = new Cesium.HeadingPitchRoll(heading, pitch, roll)
+      let fixedFrame = Cesium.Transforms.localFrameToFixedFrameGenerator(
+        'north',
+        'west'
+      )
+      model.modelMatrix = Cesium.Transforms.headingPitchRollToFixedFrame(
+        p,
+        hpRoll,
+        Cesium.Ellipsoid.WGS84,
+        fixedFrame,
+        p
+      )
+    }
   }
   removeModel(opt: IRemoveModelOpt) {
     const { id } = opt

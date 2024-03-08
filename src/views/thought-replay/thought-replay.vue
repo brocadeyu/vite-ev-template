@@ -71,6 +71,24 @@ onMounted(() => {
   websocketStore.addEventListener(WS_EVENT.positonMessage, (data) => {
     // eslint-disable-next-line no-console
     console.log('推送位置', data)
+    const convertPosition = [
+      Number(data.Lon),
+      Number(data.Lat),
+      Number(data.Alt)
+    ]
+    const opt = {
+      id: data.objName,
+      position: convertPosition
+    }
+    entityStore.updateEntityPosition(opt)
+    const opt1 = {
+      id: data.objName,
+      position: convertPosition,
+      heading: data.Yaw || '0',
+      pitch: data.Pitch || '0',
+      roll: data.Roll || '0'
+    }
+    cesiumStore.cesium.modelMap.updateModelPosition(opt1)
   })
 })
 

@@ -41,6 +41,13 @@ export const useEntityStore = defineStore('entity', () => {
       delete entities.value[id]
     }
   }
+  const updateEntityPosition = (param) => {
+    const { id, position } = param
+    const target = entities.value[id]
+    if (target) {
+      entities.value[id].position = position
+    }
+  }
 
   return {
     entities,
@@ -49,6 +56,7 @@ export const useEntityStore = defineStore('entity', () => {
     resetEntity,
     addEntity,
     removeEntityById,
-    getEntityById
+    getEntityById,
+    updateEntityPosition
   }
 })
