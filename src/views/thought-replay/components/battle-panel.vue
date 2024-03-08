@@ -3,7 +3,7 @@
     <BaseDocker
       :title="'作战日志'"
       :height="'230px'"
-      :width="'400px'"
+      :width="'700px'"
       icon="log"
     >
       <template #header>
@@ -35,8 +35,10 @@
             :data="data"
             :props="props"
             style="
-              background-color: #113751;
-              --el-tree-node-hover-bg-color: #0e9aa0;
+              /* background-color: #113751; */
+              background-color: black;
+              /* --el-tree-node-hover-bg-color: #0e9aa0; */
+              --el-tree-node-hover-bg-color: #393939;
               color: white;
               margin-top: 5px;
               outline: 1px solid #0e9aa0;
@@ -50,11 +52,15 @@
             empty-text="暂无数据"
           >
             <template #default="{ node }">
-              <span style="transform: translateX(-18px)">{{
-                node.data.timeStr
+              <span style="transform: translateX(-18px); color: #15b1b7"
+                >>{{ node.data.timeStr }}</span
+              >
+              <span style="color: #dbdb32">{{
+                `T0+${node.data.timeT}ms:`
               }}</span>
-              <span>{{ `T0+${node.data.timeT}ms:` }}</span>
-              <span style="margin-left: 5px">{{ node.data.label }}</span>
+              <span style="margin-left: 5px; color: #13d713">{{
+                node.data.label
+              }}</span>
             </template>
           </el-tree-v2>
         </div>
