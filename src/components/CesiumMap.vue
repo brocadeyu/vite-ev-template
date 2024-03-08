@@ -7,10 +7,14 @@ import { onMounted } from 'vue'
 
 import { useCesiumStore } from '@/stores/cesiumStore'
 const cesiumStore = useCesiumStore()
-onMounted(() => {
+onMounted(async () => {
   const el: HTMLElement = document.getElementById('cesiumContainer')
   cesiumStore.initCesiumStore(el)
-  cesiumStore.cesium.showAnimate()
+  cesiumStore.cesium.showAnimate().then(() => {
+    setTimeout(() => {
+      cesiumStore.cesium.globeRoute.start()
+    }, 200)
+  })
 })
 </script>
 

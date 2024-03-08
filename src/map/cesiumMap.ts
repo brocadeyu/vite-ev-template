@@ -5,6 +5,7 @@ import MarkMap from './markMap'
 import EventHandler from './eventHandler'
 import TrackMap from './trackMap'
 import LinkMap from './linkMap'
+import GlobalRotate from './globeRotate'
 import * as Cesium from 'cesium'
 export default class CesiumMap {
   viewer: Viewer
@@ -13,6 +14,7 @@ export default class CesiumMap {
   trackMap: TrackMap
   linkMap: LinkMap
   eventHandler: EventHandler
+  globeRoute: GlobalRotate
   constructor(container: HTMLElement) {
     const opt = {
       mapProjection: new Cesium.GeographicProjection(),
@@ -31,7 +33,8 @@ export default class CesiumMap {
       imageryProvider: new Cesium.SingleTileImageryProvider({
         credit: '底图',
         url: GlobeImg
-      })
+      }),
+      showAnimate: true
     }
     this.viewer = new Viewer(container, opt)
     this.viewer.scene.globe.depthTestAgainstTerrain = false
@@ -41,38 +44,43 @@ export default class CesiumMap {
     this.markMap = new MarkMap(this.viewer)
     this.trackMap = new TrackMap(this.viewer)
     this.linkMap = new LinkMap(this.viewer)
+    this.globeRoute = new GlobalRotate(this.viewer)
     this.eventHandler = new EventHandler(this.viewer)
     this.addMapTiles()
+    window.viewer = this.viewer
     return this
   }
   showAnimate() {
-    this.viewer.camera.setView({
-      destination: {
-        x: 286850313.5092089,
-        y: -105350803.77203512,
-        z: 236040672.12223575
-      } as any,
-      orientation: {
-        heading: 6.187303349122516,
-        pitch: -1.497708627296662,
-        roll: 6.27872411448609
-      }
-    })
-    setTimeout(() => {
-      this.viewer.camera.flyTo({
+    return new Promise((resolve) => {
+      this.viewer.camera.setView({
         destination: {
-          x: -6835837.089677762,
-          y: 19280520.53515957,
-          z: 9537996.04319683
+          x: -7567043.4188156845,
+          y: 2460179.909084354,
+          z: 7404553.923847849
         } as any,
         orientation: {
-          heading: 6.203259646936969,
-          pitch: -1.5004745514729665,
-          roll: 6.281777930582315
-        },
-        duration: 1.3
+          heading: 6.252036678191933,
+          pitch: -0.4564279762936745,
+          roll: 6.283068485602596
+        }
       })
-    }, 500)
+      setTimeout(() => {
+        this.viewer.camera.flyTo({
+          destination: {
+            x: -7567043.4188156845,
+            y: 2460179.909084354,
+            z: 7404553.923847849
+          } as any,
+          orientation: {
+            heading: 6.252073094518096,
+            pitch: -0.6976525918053924,
+            roll: 6.283048473441683
+          },
+          duration: 3
+        })
+        resolve()
+      }, 500)
+    })
   }
   addMapTiles() {
     const evLayerManager = new Cesium.EV_LayerManager(this.viewer.scene)
