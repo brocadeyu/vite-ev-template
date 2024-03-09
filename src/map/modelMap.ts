@@ -46,31 +46,39 @@ export default class ModelMap {
         break
     }
   }
-  addModel(opt: IAddModelOpt) {
-    const { position, type, id } = opt
-    const p = Cesium.Cartesian3.fromDegrees(
-      position[0],
-      position[1],
-      position[2]
-    )
-    const headingPositionRoll = new Cesium.HeadingPitchRoll()
-    const fixedFrameTransform =
-      Cesium.Transforms.localFrameToFixedFrameGenerator('north', 'west')
-    const modelUrl = this.getModelUrlByType(type)
-    let model = Cesium.Model.fromGltf({
-      url: modelUrl,
-      modelMatrix: Cesium.Transforms.headingPitchRollToFixedFrame(
-        p,
-        headingPositionRoll,
-        Cesium.Ellipsoid.WGS84,
-        fixedFrameTransform
-      ),
-      minimumPixelSize: 50,
-      scale: 5,
-      maximumScale: 800
+  async addModel(opt: IAddModelOpt) {
+    return new Promise((resolve) => {
+      const { position, type, id } = opt
+      const p = Cesium.Cartesian3.fromDegrees(
+        position[0],
+        position[1],
+        position[2]
+      )
+      const headingPositionRoll = new Cesium.HeadingPitchRoll()
+      const fixedFrameTransform =
+        Cesium.Transforms.localFrameToFixedFrameGenerator('north', 'west')
+      const modelUrl = this.getModelUrlByType(type)
+      let model = Cesium.Model.fromGltf({
+        url: modelUrl,
+        modelMatrix: Cesium.Transforms.headingPitchRollToFixedFrame(
+          p,
+          headingPositionRoll,
+          Cesium.Ellipsoid.WGS84,
+          fixedFrameTransform
+        ),
+        minimumPixelSize: 50,
+        scale: 5,
+        maximumScale: 800
+      })
+      // console.log('构造promise')
+      // model.readyPromise.then(() => {
+      //   console.log('rrrrresolve')
+
+      // })
+      this._collection.add(model)
+      this._map.set(id, model)
+      resolve()
     })
-    this._collection.add(model)
-    this._map.set(id, model)
   }
   updateModelPosition(opt: IUpdateModelPosOpt) {
     const { id, position, heading, pitch, roll } = opt

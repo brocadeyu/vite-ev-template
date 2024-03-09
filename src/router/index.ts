@@ -89,11 +89,12 @@ router.beforeEach((to, from) => {
     to.path.includes('thought/create')
   ) {
     cesiumStore.cesium.setFrameRateShow(true)
-    cesiumStore.cesium.setAnimateTo({
-      ...AnimateLocation.Close,
-      delay: 1000,
-      duration: 2.5
-    })
+
+    // cesiumStore.cesium.setAnimateTo({
+    //   ...AnimateLocation.Close,
+    //   delay: 500,
+    //   duration: 2.5
+    // })
   } else {
     cesiumStore.cesium.setFrameRateShow(false)
   }

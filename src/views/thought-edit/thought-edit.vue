@@ -27,8 +27,23 @@ const entityStore = useEntityStore()
 const linkStore = useLinkStore()
 const missionStore = useMissionStore()
 const entityManaRef = ref(null)
-onMounted(() => {
-  requestIdleCallback(() => {
+onMounted(async () => {
+  requestIdleCallback(async () => {
+    console.log('初始化开始')
+    await asyncInitEntity()
+    // await asyncInitModelTrack()
+    await Promise.allSettled([
+      asyncInitModelTrack(),
+      asyncInitLink(),
+      asyncInitMission(),
+      asyncInitWS()
+    ])
+    console.log('初始化完成')
+  })
+})
+const asyncInitEntity = async () => {
+  return new Promise((resolve) => {
+    console.log('asyncInitEntity')
     entityStore.initEntityStore(thoughtStore.thought.entities) //根据thought初始化entityStore
     entityManaRef.value.setTreeData(
       entityStore.entitiesArr.map((_) => {
@@ -38,10 +53,24 @@ onMounted(() => {
         }
       })
     )
-    entityStore.entitiesArr.forEach((_) => {
-      cesiumStore.cesium.modelMap.addModel(_ as any)
-      cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
-    })
+    console.log('asyncInitEntity sucess')
+    resolve()
+  })
+}
+const asyncInitModelTrack = async () => {
+  console.log('asyncInitModelTrack')
+  let promiseArr = []
+  entityStore.entitiesArr.forEach((_) => {
+    promiseArr.push(cesiumStore.cesium.modelMap.addModel(_ as any))
+    cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
+  })
+  await Promise.allSettled(promiseArr).then(() => {
+    console.log('asyncInitModelTrack sucess')
+  })
+}
+const asyncInitLink = async () => {
+  return new Promise((resolve) => {
+    console.log('asyncInitLink')
     thoughtStore.thought.dataLinkInfo.link?.forEach((_) => {
       const arg = {
         linkTo: _.linkTo,
@@ -64,6 +93,13 @@ onMounted(() => {
     if (thoughtStore.thought.dataLinkInfo?.linklink) {
       linkStore.setLinkLinkInfo(thoughtStore.thought.dataLinkInfo.linklink)
     }
+    console.log('asyncInitLink sucess')
+    resolve()
+  })
+}
+const asyncInitMission = async () => {
+  return new Promise((resolve) => {
+    console.log('asyncInitMission')
     let staticMission = []
     let dynamicMission = []
     thoughtStore.thought.dataLinkInfo.mission?.forEach((_) => {
@@ -75,7 +111,13 @@ onMounted(() => {
     })
     missionStore.setMissionByType({ type: '静态', mission: staticMission })
     missionStore.setMissionByType({ type: '动态', mission: dynamicMission })
-
+    console.log('asyncInitMission sucess')
+    resolve()
+  })
+}
+const asyncInitWS = async () => {
+  return new Promise((resolve) => {
+    console.log('asyncInitWS')
     websocketStore.connect('ws://localhost:12000/hsdb/101')
     websocketStore.addEventListener(WS_EVENT.onopen, () => {
       // eslint-disable-next-line no-console
@@ -91,8 +133,10 @@ onMounted(() => {
     websocketStore.addEventListener(WS_EVENT.validateLinkRes, (data) => {
       console.log('校验数据链完整性消息', data)
     })
+    console.log('asyncInitWS sucess')
+    resolve()
   })
-})
+}
 onBeforeUnmount(() => {
   entityStore.resetEntity()
   // cesiumStore.resetCesium()
