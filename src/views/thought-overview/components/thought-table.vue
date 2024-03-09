@@ -122,7 +122,8 @@ onMounted(() => {
   height: 100%;
   /* margin-top: 8vh; */
   padding: 30px;
-  background-color: #0b1a39;
+  /* background-color: #0b1a39; */
+  background-color: #0b1a39d1;
   border: 2px solid #119aa0;
   box-sizing: border-box;
 }
