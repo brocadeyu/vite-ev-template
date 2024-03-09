@@ -7,7 +7,7 @@
     :is-draggable="true"
   >
     <template #content>
-      <div class="mission-content"></div>
+      <div ref="gantChartRef" class="mission-content"></div>
     </template>
     <template #footer>
       <div class="foot-btns">
@@ -16,18 +16,8 @@
           color="transparent"
           size="small"
           @click="closePopup"
-          >取消
+          >关闭
         </el-button>
-        <!-- <el-button type="primary" size="small">生成</el-button> -->
-        <el-button v-if="isGenFlag" type="primary" size="small">导入</el-button>
-        <el-button
-          v-if="isGenFlag"
-          type="primary"
-          size="small"
-          :disabled="!isDirtyFlag"
-          >保存</el-button
-        >
-        <el-button v-if="isGenFlag" type="primary" size="small">下发</el-button>
       </div>
     </template>
   </BaseDocker>
@@ -35,69 +25,207 @@
 
 <script setup lang="ts">
 import BaseDocker from '@/components/BaseDocker.vue'
-import draggable from 'vuedraggable'
+import * as echarts from 'echarts'
 import { usePopupStore } from '@/stores/popupStore'
-import { useMissionStore } from '@/stores/missionStore'
-import type { TabsPaneContext } from 'element-plus'
-import { arraysAreEqual } from '@/common/helper'
+import { useLogStore } from '@/stores/logStore'
 import { storeToRefs } from 'pinia'
 const popupStore = usePopupStore()
-const missionStore = useMissionStore()
-const activeTab = ref('static')
-
-const isDirtyFlag = ref(false)
-const isGenFlag = ref(false)
-const isGening = ref(false) //是否正在生成
-const staticList = ref([])
-const dynamicList = ref([])
-
-const drag = ref(false)
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  // console.log(tab, event)
-}
-const handleGen = () => {
-  isGening.value = true
-  setTimeout(
-    () => {
-      isGening.value = false
-      isGenFlag.value = true
-    },
-    2000 + 1000 * Math.random()
-  )
-}
-const props = withDefaults(
+const logStore = useLogStore()
+const { warMissionLog } = storeToRefs(logStore)
+const gantChartRef = ref<HTMLElement>()
+let echartsInstance = null
+withDefaults(
   defineProps<{
     title?: string
   }>(),
   { title: '' }
 )
-const { staticMission, dynamicMission } = storeToRefs(missionStore)
-
-watch(
-  () => staticList.value,
-  (newVal) => {
-    if (!arraysAreEqual(staticMission.value, newVal)) {
-      isDirtyFlag.value = true
-    } else {
-      isDirtyFlag.value = false
-    }
-  },
-  {
-    // immediate: true,
-    deep: true
-  }
-)
-
 const closePopup = () => {
   popupStore._showGant = false
 }
+const initEcharts = () => {
+  echartsInstance = echarts.init(gantChartRef.value)
+}
+const setEchartsData = () => {
+  let deviceList, maxTime, data
+  if (warMissionLog.value.length) {
+    deviceList = [...new Set(warMissionLog.value.map((item) => item.sender))] //去重后设备列表
+    maxTime = Math.max(
+      ...warMissionLog.value.map((item) => {
+        return item.timeT + 20
+      })
+    )
+    data = warMissionLog.value.map((item) => {
+      return {
+        value: [
+          deviceList.indexOf(item.sender),
+          item.timeT,
+          item.timeT + 20,
+          item.message
+        ],
+        itemStyle: { color: '#1abc9c' }
+      }
+    })
+    console.log('data=====', data, maxTime, deviceList)
+  } else {
+    deviceList = []
+    maxTime = 20
+    data = []
+  }
+  const option = {
+    tooltip: {
+      position: function (point, params, dom, rect, size) {
+        // 固定在鼠标右上
+        return [point[0] + 30, point[1] + 30]
+      }
+    },
+    dataZoom: [
+      {
+        type: 'slider',
+        xAxisIndex: 0,
+        filterMode: 'weakFilter',
+        height: 10,
+        bottom: 10,
+        start: 0,
+        end: 999,
+        showDetail: false
+      },
+      {
+        type: 'inside',
+        id: 'insideX',
+        xAxisIndex: 0,
+        filterMode: 'weakFilter',
+        start: 0,
+        end: 30,
+        zoomOnMouseWheel: false,
+        moveOnMouseMove: true
+      },
+      {
+        type: 'slider',
+        yAxisIndex: 0,
+        zoomLock: true,
+        width: 10,
+        top: 30,
+        right: 15,
+        bottom: 30,
+        start: 0,
+        end: 80,
+        handleSize: 0,
+        showDetail: false
+      },
+      {
+        type: 'inside',
+        id: 'insideY',
+        yAxisIndex: 0,
+        start: 0,
+        end: 10,
+        zoomOnMouseWheel: false,
+        moveOnMouseMove: true,
+        moveOnMouseWheel: true
+      }
+    ],
+    grid: {
+      // height: 300,
+      // bottom: 100
+      top: 20,
+      right: 50,
+      left: 80,
+      bottom: 50
+    },
+    xAxis: {
+      type: 'value',
+      min: 0,
+      max: maxTime,
+      scale: true,
+      splitLine: {
+        show: false
+      },
+      axisLine: {
+        show: false
+      }
+    },
+    yAxis: {
+      data: [...deviceList],
+      type: 'category',
+      inverse: true,
+      axisLine: {
+        show: false
+      },
+      axisTick: {
+        show: false
+      },
+      splitLine: { show: false },
+      min: 0,
+      max: 5
+    },
+    series: [
+      // 矩形
+      {
+        type: 'custom',
+        renderItem: function (params, api) {
+          // 数据格式 [2, 3, 4]
+          // 2为y轴索引
+          const categoryIndex = api.value(0)
+          // 3,4为矩形起始 末尾坐标
+          const start = api.coord([api.value(1), categoryIndex])
+          const end = api.coord([api.value(2), categoryIndex])
+          const height = api.size([0, 1])[1] * 0.2
+
+          const rectShape = echarts.graphic.clipRectByRect(
+            {
+              x: start[0],
+              y: start[1] - height / 2,
+              width: end[0] - start[0],
+              height
+            },
+            {
+              x: params.coordSys.x,
+              y: params.coordSys.y,
+              width: params.coordSys.width,
+              height: params.coordSys.height
+            }
+          )
+
+          return (
+            rectShape && {
+              type: 'rect',
+              transition: ['shape'],
+              shape: rectShape,
+              style: api.style()
+            }
+          )
+        },
+        yAxisIndex: 0,
+        itemStyle: {
+          opacity: 0.8
+        },
+        encode: {
+          x: [-1] // 使其不受datazoom控制
+        },
+        data: data
+      }
+    ]
+  }
+  // const option = {
+  //   xAxis: {
+  //     type: 'category',
+  //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  //   },
+  //   yAxis: {
+  //     type: 'value'
+  //   },
+  //   series: [
+  //     {
+  //       data: [150, 230, 224, 218, 135, 147, 260],
+  //       type: 'line'
+  //     }
+  //   ]
+  // }
+  echartsInstance.setOption(option)
+}
 onMounted(() => {
-  isGenFlag.value = missionStore.isGenFlag
-  isDirtyFlag.value = missionStore.isDirtyFlag
-  staticList.value = JSON.parse(JSON.stringify(staticMission.value))
-  dynamicList.value = JSON.parse(JSON.stringify(dynamicMission.value))
-  // console.log('静态', staticList.value)
-  // console.log('动态', dynamicList.value)
+  initEcharts()
+  setEchartsData()
 })
 </script>
 
@@ -111,79 +239,5 @@ onMounted(() => {
   height: 100%;
   padding: 5px;
   box-sizing: border-box;
-}
-::v-deep(.el-tabs__item) {
-  --el-text-color-primary: #245b94;
-}
-::v-deep(.el-tabs__nav-wrap::after) {
-  --el-border-color-light: #133757;
-}
-::v-deep(.el-input-number.is-controls-right .el-input-number__increase) {
-  border-color: #64a7b9;
-  bottom: 0px;
-}
-::v-deep(.el-input-number.is-controls-right .el-input-number__decrease) {
-  border-color: #64a7b9;
-  bottom: 0px;
-}
-::v-deep(.el-tabs .el-tabs__content .el-tab-pane) {
-  height: 100%;
-}
-::v-deep(.el-input-number__decrease) {
-  color: white;
-}
-::v-deep(.el-input-number__increase) {
-  color: white;
-}
-::v-deep(.el-input-number__decrease.is-disabled) {
-  color: #3d4b6c;
-}
-
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
-}
-
-.list-group {
-  /* height: 100%; */
-  /* background-color: #215570; */
-  display: flex;
-  flex-direction: column;
-}
-
-.list-group-item {
-  cursor: move;
-  height: 40px;
-  display: flex;
-}
-.item-left {
-  flex: 1;
-  color: #b9b5b5;
-  margin-left: 5px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-.item-center {
-  flex: 3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.item-right {
-  flex: 7;
-  color: white;
-  /* border: 2px solid beige; */
-  /* border-radius: 4px; */
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 14px;
-  margin: 5px 12px;
-  padding: 10px;
-}
-
-.list-group-item i {
-  cursor: pointer;
 }
 </style>

@@ -17,20 +17,26 @@ interface DataLog {
   time: string
   timeStr: string
 }
-export const useLogStore = defineStore('log', () => {
-  const warMissionLog = ref<WarMissionLog[]>([]) //作战任务日志
-  const dataLog = ref<DataLog[]>([]) //数据日志
+export const useLogStore = defineStore(
+  'log',
+  () => {
+    const warMissionLog = ref<WarMissionLog[]>([]) //作战任务日志
+    const dataLog = ref<DataLog[]>([]) //数据日志
 
-  const pushWarMissionLog = (data) => {
-    warMissionLog.value.push(data)
+    const pushWarMissionLog = (data) => {
+      warMissionLog.value.push(data)
+    }
+    const pushDataLog = (data) => {
+      dataLog.value.push(data)
+    }
+    return {
+      warMissionLog,
+      dataLog,
+      pushWarMissionLog,
+      pushDataLog
+    }
+  },
+  {
+    persist: true
   }
-  const pushDataLog = (data) => {
-    dataLog.value.push(data)
-  }
-  return {
-    warMissionLog,
-    dataLog,
-    pushWarMissionLog,
-    pushDataLog
-  }
-})
+)
