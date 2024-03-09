@@ -54,22 +54,31 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
   const cesiumStore = useCesiumStore()
+  cesiumStore.cesium.globeRoute.stop()
   if (from.path === '/') {
     cesiumStore.cesium.setLookAt(AnimateLocation.Horizon)
   }
   if (to.path === '/thought/overview') {
-    cesiumStore.cesium.setAnimateTo({
-      ...AnimateLocation.Center,
-      delay: 500,
-      duration: 4
-    })
+    cesiumStore.cesium
+      .setAnimateTo({
+        ...AnimateLocation.Center,
+        delay: 200,
+        duration: 2.5
+      })
+      .then(() => {
+        cesiumStore.cesium.globeRoute.start(2.0)
+      })
   }
   if (to.path === '/login') {
-    cesiumStore.cesium.setAnimateTo({
-      ...AnimateLocation.Horizon,
-      delay: 500,
-      duration: 4
-    })
+    cesiumStore.cesium
+      .setAnimateTo({
+        ...AnimateLocation.Horizon,
+        delay: 200,
+        duration: 2
+      })
+      .then(() => {
+        cesiumStore.cesium.globeRoute.start(1.0)
+      })
   }
   if (
     to.path.includes('thought/edit') ||
@@ -79,8 +88,8 @@ router.beforeEach((to, from) => {
     cesiumStore.cesium.setFrameRateShow(true)
     cesiumStore.cesium.setAnimateTo({
       ...AnimateLocation.Close,
-      delay: 500,
-      duration: 4
+      delay: 200,
+      duration: 2.5
     })
   } else {
     cesiumStore.cesium.setFrameRateShow(false)
