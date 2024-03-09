@@ -1,9 +1,11 @@
 <template>
-  <CesiumMap></CesiumMap>
-  <controlBar></controlBar>
-  <loadingMask ref="loadingMaskRef"></loadingMask>
-  <battlePanel></battlePanel>
-  <dataPanel></dataPanel>
+  <div>
+    <!-- <CesiumMap></CesiumMap> -->
+    <controlBar></controlBar>
+    <loadingMask ref="loadingMaskRef"></loadingMask>
+    <battlePanel></battlePanel>
+    <dataPanel></dataPanel>
+  </div>
 </template>
 <script setup lang="ts">
 import controlBar from './components/control-bar.vue'

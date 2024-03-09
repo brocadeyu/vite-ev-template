@@ -1,8 +1,10 @@
 <template>
-  <CesiumMap></CesiumMap>
-  <modelSource></modelSource>
-  <entityManager ref="entityManaRef"></entityManager>
-  <layerController></layerController>
+  <div>
+    <!-- <CesiumMap></CesiumMap> -->
+    <modelSource></modelSource>
+    <entityManager ref="entityManaRef"></entityManager>
+    <layerController></layerController>
+  </div>
 </template>
 <script setup lang="ts">
 import modelSource from './components/model-source.vue'
@@ -93,7 +95,7 @@ onMounted(() => {
 })
 onBeforeUnmount(() => {
   entityStore.resetEntity()
-  cesiumStore.resetCesium()
+  // cesiumStore.resetCesium()
   websocketStore.disconnect()
 })
 </script>

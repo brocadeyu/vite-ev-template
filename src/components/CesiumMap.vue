@@ -10,11 +10,7 @@ const cesiumStore = useCesiumStore()
 onMounted(async () => {
   const el: HTMLElement = document.getElementById('cesiumContainer')
   cesiumStore.initCesiumStore(el)
-  cesiumStore.cesium.showAnimate().then(() => {
-    setTimeout(() => {
-      cesiumStore.cesium.globeRoute.start()
-    }, 200)
-  })
+  // cesiumStore.cesium.setDefaultLookAt()
 })
 </script>
 
@@ -30,5 +26,6 @@ onMounted(async () => {
   align-items: center;
   position: fixed;
   z-index: -1;
+  top: 0;
 }
 </style>

@@ -50,36 +50,62 @@ export default class CesiumMap {
     window.viewer = this.viewer
     return this
   }
+  setDefaultLookAt() {
+    this.viewer.camera.setView({
+      destination: {
+        x: -2775228.521737669,
+        y: 6118815.6230553435,
+        z: 2526085.2443369217
+      } as any,
+      orientation: {
+        heading: 4.953770358299834,
+        pitch: -0.44044659744233394,
+        roll: 6.2808419049263895
+      }
+    })
+  }
   showAnimate() {
     return new Promise((resolve) => {
-      this.viewer.camera.setView({
-        destination: {
-          x: -2775228.521737669,
-          y: 6118815.6230553435,
-          z: 2526085.2443369217
-        } as any,
-        orientation: {
-          heading: 4.95312641800974,
-          pitch: -0.16600374861841782,
-          roll: 6.281036009973748
-        }
-      })
+      // this.viewer.camera.setView({
+      //   destination: {
+      //     x: -2775228.521737669,
+      //     y: 6118815.6230553435,
+      //     z: 2526085.2443369217
+      //   } as any,
+      //   orientation: {
+      //     heading: 4.95312641800974,
+      //     pitch: -0.16600374861841782,
+      //     roll: 6.281036009973748
+      //   }
+      // })
       setTimeout(() => {
         this.viewer.camera.flyTo({
           destination: {
-            x: -2775228.521737669,
-            y: 6118815.6230553435,
-            z: 2526085.2443369217
+            x: -6835837.089677762,
+            y: 19280520.53515957,
+            z: 9537996.04319683
           } as any,
           orientation: {
-            heading: 4.953770358299834,
-            pitch: -0.44044659744233394,
-            roll: 6.2808419049263895
+            heading: 6.203259646936969,
+            pitch: -1.5004745514729665,
+            roll: 6.281777930582315
           },
           duration: 4
         })
         resolve()
       }, 500)
+    })
+  }
+  animateTo({ destination, orientation, duration, delay }) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this.viewer.camera.flyTo({
+          destination: destination as any,
+          orientation: orientation,
+          duration: duration
+        })
+        resolve()
+      }, delay)
     })
   }
   addMapTiles() {

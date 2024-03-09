@@ -2,7 +2,9 @@
 import CesiumMap from '@/components/CesiumMap.vue'
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 const router = useRouter()
+const route = useRoute()
 const cesiumStore = useCesiumStore()
 const formData = reactive({
   username: 'admin',
@@ -12,28 +14,48 @@ const isloading = ref(false)
 const login = async () => {
   isloading.value = true
 
-  let timeEnd = 1000 //结束时间（ms）
-  let endRate = 1000.0 // 终止频率
-  let samplingInterval = 100 //采样间隔（ms）
-  for (let index = 1; index <= timeEnd / samplingInterval; index++) {
-    const x = index * samplingInterval
-    const y = ((endRate - 1) / (timeEnd * timeEnd)) * x * x + 1
-    console.log(y, samplingInterval)
-    await setRateDelay(y, samplingInterval)
-  }
-  isloading.value = false
-  for (let index = 1; index <= timeEnd / samplingInterval; index++) {
-    const x = index * samplingInterval
-    const y = -(endRate / (timeEnd * timeEnd)) * x * x + endRate
-    console.log(y, samplingInterval)
-    await setRateDelay(y, samplingInterval)
-  }
-  // setTimeout(() => {
-  //   router.push({
-  //     path: `/thought/overview`
-  //   })
-  // }, 500)
+  // let timeEnd = 1000 //结束时间（ms）
+  // let endRate = 1000.0 // 终止频率
+  // let samplingInterval = 100 //采样间隔（ms）
+  // for (let index = 1; index <= timeEnd / samplingInterval; index++) {
+  //   const x = index * samplingInterval
+  //   const y = ((endRate - 1) / (timeEnd * timeEnd)) * x * x + 1
+  //   console.log(y, samplingInterval)
+  //   await setRateDelay(y, samplingInterval)
+  // }
+
+  // for (let index = 1; index <= timeEnd / samplingInterval; index++) {
+  //   const x = index * samplingInterval
+  //   const y = -(endRate / (timeEnd * timeEnd)) * x * x + endRate
+  //   console.log(y, samplingInterval)
+  //   await setRateDelay(y, samplingInterval)
+  // }
+  setTimeout(() => {
+    isloading.value = false
+    cesiumStore.cesium.globeRoute.stop()
+    router.replace({
+      path: `/thought/overview`
+    })
+  }, 500)
 }
+onMounted(async () => {
+  console.log('loginMounted')
+  // cesiumStore.cesium.setDefaultLookAt()
+
+  // setTimeout(async () => {
+  //   cesiumStore.cesium.globeRoute.start()
+  //   let timeEnd = 5000 //结束时间（ms）
+  //   let endRate = 1.0 // 终止频率
+  //   let samplingInterval = 400 //采样间隔（ms）
+  //   for (let index = 1; index <= timeEnd / samplingInterval; index++) {
+  //     const x = index * samplingInterval
+  //     const y = ((endRate - 0.1) / (timeEnd * timeEnd)) * x * x + 0.1
+  //     // console.log(y, samplingInterval)
+  //     await setRateDelay(y, samplingInterval)
+  //   }
+  // }, 500)
+  // cesiumStore.cesium.globeRoute.setRate(0.4)
+})
 const setRateDelay = async (rate, delay) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -45,7 +67,7 @@ const setRateDelay = async (rate, delay) => {
 </script>
 <template>
   <div class="login-container">
-    <cesium-map></cesium-map>
+    <!-- <cesium-map></cesium-map> -->
     <div class="login-content">
       <div class="content-left">
         <span>数</span>
