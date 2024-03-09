@@ -3,8 +3,10 @@
     <!-- <CesiumMap></CesiumMap> -->
     <controlBar></controlBar>
     <loadingMask ref="loadingMaskRef"></loadingMask>
-    <battlePanel></battlePanel>
+    <battlePanel @click-chart-btn="showGantChart"></battlePanel>
     <dataPanel></dataPanel>
+    <gantChart></gantChart>
+    <trendChart></trendChart>
   </div>
 </template>
 <script setup lang="ts">
@@ -12,6 +14,8 @@ import controlBar from './components/control-bar.vue'
 import loadingMask from './components/loading-mask.vue'
 import battlePanel from './components/battle-panel.vue'
 import dataPanel from './components/data-panel.vue'
+import gantChart from './components/gant-chart.vue'
+import trendChart from './components/trend-chart.vue'
 import { useWebSocketStore } from '@/stores/webSocketStore'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { useEntityStore } from '@/stores/entityStore'
@@ -26,6 +30,10 @@ const thoughtStore = useThoughtStore()
 const entityStore = useEntityStore()
 const cesiumStore = useCesiumStore()
 const logStore = useLogStore()
+const showGantFlag = ref(false)
+const showGantChart = () => {
+  showGantFlag.value = true
+}
 const initSendMessage = () => {
   const thought = thoughtStore.thought
   let data = {

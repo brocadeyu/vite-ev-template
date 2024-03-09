@@ -6,6 +6,16 @@
       :width="'700px'"
       icon="log"
     >
+      <template #header>
+        <el-button
+          type="primary"
+          color="#119aa0"
+          size="small"
+          @click="openDataChart"
+        >
+          <el-icon :size="16"><i-ep-DataAnalysis /></el-icon>
+        </el-button>
+      </template>
       <template #content>
         <div class="content-tree">
           <el-input
@@ -63,9 +73,11 @@ import BaseDocker from '@/components/BaseDocker.vue'
 import { ElTreeV2 } from 'element-plus'
 import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
 import { useLogStore } from '@/stores/logStore'
+import { usePopupStore } from '@/stores/popupStore'
 import { storeToRefs } from 'pinia'
 const queryStr = ref('')
 const logStore = useLogStore()
+const popupStore = usePopupStore()
 const { dataLog } = storeToRefs(logStore)
 const treeRef = ref<InstanceType<typeof ElTreeV2>>()
 const onQueryChanged = (query: string) => {
@@ -83,6 +95,9 @@ const filterMethod = (query: string, node: TreeNode) => {
 }
 const setTreeData = (data: any) => {
   treeRef.value?.setData(data)
+}
+const openDataChart = () => {
+  popupStore._showLine = true
 }
 watch(
   dataLog,

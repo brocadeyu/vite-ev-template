@@ -11,7 +11,7 @@
           type="primary"
           color="#119aa0"
           size="small"
-          @click="openReplayChart"
+          @click="openGantChart"
         >
           <el-icon :size="16"><i-ep-PieChart /></el-icon>
         </el-button>
@@ -81,12 +81,6 @@ const popupStore = usePopupStore()
 const logStore = useLogStore()
 const { warMissionLog } = storeToRefs(logStore)
 const treeRef = ref<InstanceType<typeof ElTreeV2>>()
-const openReplayChart = () => {
-  popupStore.openPop({
-    title: '实时监测',
-    type: 'replayChart'
-  })
-}
 const queryStr = ref('')
 const onQueryChanged = (query: string) => {
   treeRef.value!.filter(query)
@@ -104,6 +98,9 @@ const props = {
 }
 const filterMethod = (query: string, node: TreeNode) => {
   return node.label!.includes(query)
+}
+const openGantChart = () => {
+  popupStore._showGant = true
 }
 watch(
   warMissionLog,

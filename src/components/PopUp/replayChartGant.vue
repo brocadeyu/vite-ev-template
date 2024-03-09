@@ -89,7 +89,7 @@ watch(
 )
 
 const closePopup = () => {
-  popupStore.closePop()
+  popupStore._showGant = false
 }
 onMounted(() => {
   isGenFlag.value = missionStore.isGenFlag

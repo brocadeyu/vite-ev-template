@@ -21,6 +21,8 @@ export const usePopupStore = defineStore('popup', () => {
   const _showMask = ref(false)
   const _data = ref(null)
   const _type = ref('')
+  const _showGant = ref(false) //显示作战面板甘特图
+  const _showLine = ref(false) //显示数据面板折线图
 
   const openPop = (param: IOpenPop) => {
     const { title, data, showMask, type } = param
@@ -39,5 +41,15 @@ export const usePopupStore = defineStore('popup', () => {
     _data.value = null
     _type.value = ''
   }
-  return { _showPop, _showMask, _title, _data, _type, openPop, closePop }
+  return {
+    _showPop,
+    _showMask,
+    _title,
+    _data,
+    _type,
+    openPop,
+    closePop,
+    _showGant,
+    _showLine
+  }
 })
