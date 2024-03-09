@@ -40,7 +40,6 @@ const login = async () => {
 }
 onMounted(async () => {
   console.log('loginMounted')
-  // cesiumStore.cesium.setDefaultLookAt()
 
   // setTimeout(async () => {
   //   cesiumStore.cesium.globeRoute.start()

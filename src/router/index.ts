@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { useCesiumStore } from '@/stores/cesiumStore'
+import { AnimateLocation } from '@/common/helper'
 import type { RouteRecordRaw } from 'vue-router'
 const login = () => import('@/views/log-in/login-in.vue')
 const thoughtMain = () => import('@/views/thought-main.vue')
@@ -54,16 +55,39 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   const cesiumStore = useCesiumStore()
   if (from.path === '/') {
-    cesiumStore.cesium.setDefaultLookAt()
+    cesiumStore.cesium.setLookAt(AnimateLocation.Horizon)
   }
-  if (to.path.includes('edit') || to.path.includes('replay')) {
+  if (to.path === '/thought/overview') {
+    cesiumStore.cesium.setAnimateTo({
+      ...AnimateLocation.Center,
+      delay: 500,
+      duration: 4
+    })
+  }
+  if (to.path === '/login') {
+    cesiumStore.cesium.setAnimateTo({
+      ...AnimateLocation.Horizon,
+      delay: 500,
+      duration: 4
+    })
+  }
+  if (
+    to.path.includes('thought/edit') ||
+    to.path.includes('thought/replay') ||
+    to.path.includes('thought/create')
+  ) {
     cesiumStore.cesium.setFrameRateShow(true)
+    cesiumStore.cesium.setAnimateTo({
+      ...AnimateLocation.Close,
+      delay: 500,
+      duration: 4
+    })
   } else {
     cesiumStore.cesium.setFrameRateShow(false)
   }
-  console.log(cesiumStore.cesium)
-  console.log('to', to.path)
-  console.log('from', from.path)
+  // console.log(cesiumStore.cesium)
+  // console.log('to', to.path)
+  // console.log('from', from.path)
 
   document.title = to.name as string
 })

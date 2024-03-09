@@ -33,7 +33,6 @@ declare module 'vue' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTree: typeof import('element-plus/es')['ElTree']
-    ElTreeV2: typeof import('element-plus/es')['ElTreeV2']
     GenLinkPop: typeof import('./../components/PopUp/genLinkPop.vue')['default']
     IEpAim: typeof import('~icons/ep/aim')['default']
     IEpEdit: typeof import('~icons/ep/edit')['default']

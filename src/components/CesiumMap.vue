@@ -10,7 +10,6 @@ const cesiumStore = useCesiumStore()
 onMounted(async () => {
   const el: HTMLElement = document.getElementById('cesiumContainer')
   cesiumStore.initCesiumStore(el)
-  // cesiumStore.cesium.setDefaultLookAt()
 })
 </script>
 
