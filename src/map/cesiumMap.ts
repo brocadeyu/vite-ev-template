@@ -38,7 +38,6 @@ export default class CesiumMap {
     }
     this.viewer = new Viewer(container, opt)
     this.viewer.scene.globe.depthTestAgainstTerrain = false
-    this.viewer.scene.debugShowFramesPerSecond = true
     this.viewer.scene.globe.enableLighting = true
     this.modelMap = new ModelMap(this.viewer)
     this.markMap = new MarkMap(this.viewer)
@@ -63,6 +62,9 @@ export default class CesiumMap {
         roll: 6.2808419049263895
       }
     })
+  }
+  setFrameRateShow(flag: boolean) {
+    this.viewer.scene.debugShowFramesPerSecond = flag
   }
   showAnimate() {
     return new Promise((resolve) => {

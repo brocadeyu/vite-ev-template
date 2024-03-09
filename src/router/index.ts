@@ -56,6 +56,11 @@ router.beforeEach((to, from) => {
   if (from.path === '/') {
     cesiumStore.cesium.setDefaultLookAt()
   }
+  if (to.path.includes('edit') || to.path.includes('replay')) {
+    cesiumStore.cesium.setFrameRateShow(true)
+  } else {
+    cesiumStore.cesium.setFrameRateShow(false)
+  }
   console.log(cesiumStore.cesium)
   console.log('to', to.path)
   console.log('from', from.path)
