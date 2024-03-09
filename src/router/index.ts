@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { useCesiumStore } from '@/stores/cesiumStore'
 import type { RouteRecordRaw } from 'vue-router'
 const login = () => import('@/views/log-in/login-in.vue')
 const thoughtMain = () => import('@/views/thought-main.vue')
@@ -34,7 +35,6 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   },
-
   {
     path: '/login',
     component: login,
@@ -51,7 +51,15 @@ const router = createRouter({
   routes: routes
 })
 
-router.beforeEach((to) => {
+router.beforeEach((to, from) => {
+  const cesiumStore = useCesiumStore()
+  if (from.path === '/') {
+    cesiumStore.cesium.setDefaultLookAt()
+  }
+  console.log(cesiumStore.cesium)
+  console.log('to', to.path)
+  console.log('from', from.path)
+
   document.title = to.name as string
 })
 
