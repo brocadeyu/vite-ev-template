@@ -85,4 +85,7 @@ export default class TrackMap {
       this._collection.remove(result)
     }
   }
+  removeAllTrack() {
+    this._collection.removeAll()
+  }
 }

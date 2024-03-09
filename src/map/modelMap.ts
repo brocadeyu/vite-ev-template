@@ -105,4 +105,7 @@ export default class ModelMap {
   setAllVisible(flag: boolean) {
     this._collection.show = flag
   }
+  removeAllModel() {
+    this._collection.removeAll()
+  }
 }

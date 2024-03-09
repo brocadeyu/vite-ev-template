@@ -54,6 +54,9 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
   const cesiumStore = useCesiumStore()
+  requestIdleCallback(() => {
+    cesiumStore.cesium.clearLayerData()
+  })
   cesiumStore.cesium.globeRoute.stop()
   if (from.path === '/') {
     cesiumStore.cesium.setLookAt(AnimateLocation.Horizon)
@@ -88,7 +91,7 @@ router.beforeEach((to, from) => {
     cesiumStore.cesium.setFrameRateShow(true)
     cesiumStore.cesium.setAnimateTo({
       ...AnimateLocation.Close,
-      delay: 200,
+      delay: 1000,
       duration: 2.5
     })
   } else {

@@ -93,4 +93,9 @@ export default class CesiumMap {
       }
     })
   }
+  clearLayerData() {
+    this.linkMap.removeAllLink()
+    this.modelMap.removeAllModel()
+    this.trackMap.removeAllTrack()
+  }
 }
