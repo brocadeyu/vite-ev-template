@@ -83,3 +83,42 @@ export function getNowTimeStr() {
     seconds
   )
 }
+
+export const AnimateLocation = {
+  Horizon: {
+    destination: {
+      x: -2775228.521737669,
+      y: 6118815.6230553435,
+      z: 2526085.2443369217
+    },
+    orientation: {
+      heading: 4.953770358299834,
+      pitch: -0.44044659744233394,
+      roll: 6.2808419049263895
+    }
+  },
+  Center: {
+    destination: {
+      x: -10283936.168192875,
+      y: 19678172.983217508,
+      z: 15100326.347516868
+    },
+    orientation: {
+      heading: 6.199818468187035,
+      pitch: -1.5545666313622242,
+      roll: 0
+    }
+  },
+  Close: {
+    destination: {
+      x: -2922555.274720393,
+      y: 9181825.794211542,
+      z: 4033931.9343445865
+    },
+    orientation: {
+      heading: 6.14736179653006,
+      pitch: -1.2757343430195593,
+      roll: 6.282080793165217
+    }
+  }
+}
