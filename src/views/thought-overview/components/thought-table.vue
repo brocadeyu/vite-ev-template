@@ -72,19 +72,19 @@ const router = useRouter()
 const toCreateView: () => void = () => {
   thoughtStore.initThoughtStore()
   router.push({
-    path: `/thought/create`
+    path: `/dataLink/thought/create`
   })
 }
 const toEditView: (row: RawThought) => void = (row) => {
   thoughtStore.initThoughtStore(row)
   router.push({
-    path: `/thought/edit/${row.name}`
+    path: `/dataLink/thought/edit/${row.name}`
   })
 }
 const toReplayView: (row: RawThought) => void = (row) => {
   thoughtStore.initThoughtStore(row)
   router.push({
-    path: `/thought/replay/${row.name}`
+    path: `/dataLink/thought/replay/${row.name}`
   })
 }
 

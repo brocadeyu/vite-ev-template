@@ -35,6 +35,7 @@ declare module 'vue' {
     ElTree: typeof import('element-plus/es')['ElTree']
     GenLinkPop: typeof import('./../components/PopUp/genLinkPop.vue')['default']
     IEpAim: typeof import('~icons/ep/aim')['default']
+    IEpClose: typeof import('~icons/ep/close')['default']
     IEpDataAnalysis: typeof import('~icons/ep/data-analysis')['default']
     IEpEdit: typeof import('~icons/ep/edit')['default']
     IEpLocation: typeof import('~icons/ep/location')['default']

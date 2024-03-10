@@ -2,48 +2,60 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { AnimateLocation } from '@/common/helper'
 import type { RouteRecordRaw } from 'vue-router'
+const dataLink = () => import('@/views/dataLink/index.vue')
 const login = () => import('@/views/log-in/login-in.vue')
 const thoughtMain = () => import('@/views/thought-main.vue')
 const thoughtOverview = () =>
   import('@/views/thought-overview/thought-overview.vue')
 const thoughtEdit = () => import('@/views/thought-edit/thought-edit.vue')
 const thoughtReplay = () => import('@/views/thought-replay/thought-replay.vue')
-
+const simulateSend = () => import('@/views/simulate-send/simulate-send.vue')
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/thought',
-    component: thoughtMain,
+    path: '/dataLink',
+    component: dataLink,
     children: [
       {
-        path: 'overview',
-        component: thoughtOverview,
-        name: '数据链模拟'
+        path: 'thought',
+        component: thoughtMain,
+        children: [
+          {
+            path: 'overview',
+            component: thoughtOverview,
+            name: '数据链模拟'
+          },
+          {
+            path: 'create',
+            component: thoughtEdit,
+            name: '新建想定'
+          },
+          {
+            path: 'edit/:thoughtName',
+            component: thoughtEdit,
+            name: '想定编辑'
+          },
+          {
+            path: 'replay/:thoughtName',
+            component: thoughtReplay,
+            name: '想定回放'
+          }
+        ]
       },
       {
-        path: 'create',
-        component: thoughtEdit,
-        name: '新建想定'
-      },
-      {
-        path: 'edit/:thoughtName',
-        component: thoughtEdit,
-        name: '想定编辑'
-      },
-      {
-        path: 'replay/:thoughtName',
-        component: thoughtReplay,
-        name: '想定回放'
+        path: 'login',
+        component: login,
+        name: '登录'
       }
     ]
   },
   {
-    path: '/login',
-    component: login,
-    name: '登录'
+    path: '/simulateSend',
+    component: simulateSend,
+    name: '模拟发送'
   },
   {
     path: '/:catchAll(.*)',
-    redirect: '/login'
+    redirect: '/dataLink/login'
   }
 ]
 
@@ -53,17 +65,20 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from) => {
+  // console.log(cesiumStore.cesium)
+  console.log('to', to.path)
+  console.log('from', from.path)
   const cesiumStore = useCesiumStore()
   requestIdleCallback(() => {
-    cesiumStore.cesium.clearLayerData()
+    cesiumStore.cesium?.clearLayerData()
   })
-  cesiumStore.cesium.globeRoute.stop()
+  cesiumStore.cesium?.globeRoute.stop()
   if (from.path === '/') {
-    cesiumStore.cesium.setLookAt(AnimateLocation.Horizon)
+    cesiumStore.cesium?.setLookAt(AnimateLocation.Horizon)
   }
   if (to.path === '/thought/overview') {
     cesiumStore.cesium
-      .setAnimateTo({
+      ?.setAnimateTo({
         ...AnimateLocation.Center,
         delay: 200,
         duration: 2.5
@@ -74,7 +89,7 @@ router.beforeEach((to, from) => {
   }
   if (to.path === '/login') {
     cesiumStore.cesium
-      .setAnimateTo({
+      ?.setAnimateTo({
         ...AnimateLocation.Horizon,
         delay: 200,
         duration: 2
@@ -88,7 +103,7 @@ router.beforeEach((to, from) => {
     to.path.includes('thought/replay') ||
     to.path.includes('thought/create')
   ) {
-    cesiumStore.cesium.setFrameRateShow(true)
+    cesiumStore.cesium?.setFrameRateShow(true)
 
     // cesiumStore.cesium.setAnimateTo({
     //   ...AnimateLocation.Close,
@@ -96,7 +111,7 @@ router.beforeEach((to, from) => {
     //   duration: 2.5
     // })
   } else {
-    cesiumStore.cesium.setFrameRateShow(false)
+    cesiumStore.cesium?.setFrameRateShow(false)
   }
   // console.log(cesiumStore.cesium)
   // console.log('to', to.path)

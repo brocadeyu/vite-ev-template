@@ -1,15 +1,7 @@
 <template>
-  <router-view v-slot="{ Component }">
-    <Transition name="fade" mode="out-in">
-      <component :is="Component" />
-    </Transition>
-  </router-view>
-  <CesiumMap></CesiumMap>
-  <pop-up></pop-up>
+  <router-view> </router-view>
 </template>
-<script setup lang="ts">
-import PopUp from '@/components/PopUp.vue'
-</script>
+<script setup lang="ts"></script>
 <style>
 .fade-enter-active,
 .fade-leave-active {

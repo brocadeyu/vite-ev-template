@@ -34,7 +34,7 @@ const login = async () => {
     isloading.value = false
     cesiumStore.cesium.globeRoute.stop()
     router.replace({
-      path: `/thought/overview`
+      path: `/dataLink/thought/overview`
     })
   }, 500)
 }
