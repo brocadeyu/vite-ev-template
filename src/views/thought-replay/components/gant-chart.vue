@@ -1,5 +1,5 @@
 <template>
-  <div v-if="_showGant" class="gt-contianer">
+  <div class="gt-contianer" :class="{ 'position-hide ': !_showGant }">
     <replayChartPop :title="'链路占用甘特图'"></replayChartPop>
   </div>
 </template>
@@ -22,5 +22,8 @@ const { _showGant } = storeToRefs(popupStore)
   user-select: none;
   left: 50%;
   top: 50%;
+}
+.position-hide {
+  transform: translateY(100vh);
 }
 </style>
