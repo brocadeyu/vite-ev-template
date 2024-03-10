@@ -23,7 +23,7 @@
         />
       </el-select>
       <el-button size="small">生成文档</el-button>
-      <el-button size="small">模拟发送</el-button>
+      <el-button size="small" @click="toSimulateSend">模拟发送</el-button>
     </div>
   </div>
 </template>
@@ -31,8 +31,12 @@
 <script setup lang="ts">
 import { useWebSocketStore } from '@/stores/webSocketStore'
 import { useThoughtStore } from '@/stores/thougthStore'
+import { useEntityStore } from '@/stores/entityStore'
+import { useRouter } from 'vue-router'
 const websocketStore = useWebSocketStore()
 const thoughtStore = useThoughtStore()
+const router = useRouter()
+const entityStore = useEntityStore()
 const stepSize = ref('200')
 const stepOptions = [
   {
@@ -96,6 +100,15 @@ const handleStepSizeChange = (val) => {
   websocketStore.sendMessage(data)
   // eslint-disable-next-line no-console
   console.log('设置步长', val)
+}
+const toSimulateSend = () => {
+  const list = entityStore.entitiesArr.map((_) => _.id)
+  console.log('simulateSend-query-deviceList', list)
+  sessionStorage.setItem('simulateSend-deviceList', JSON.stringify(list))
+  const url = router.resolve({
+    path: '/simulateSend'
+  })
+  window.open(url.href)
 }
 </script>
 
