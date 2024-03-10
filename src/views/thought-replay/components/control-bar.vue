@@ -22,7 +22,7 @@
           :value="item.value"
         />
       </el-select>
-      <el-button size="small">生成文档</el-button>
+      <el-button size="small" @click="sendGenDoc">生成文档</el-button>
       <el-button size="small" @click="toSimulateSend">模拟发送</el-button>
     </div>
   </div>
@@ -100,6 +100,9 @@ const handleStepSizeChange = (val) => {
   websocketStore.sendMessage(data)
   // eslint-disable-next-line no-console
   console.log('设置步长', val)
+}
+const sendGenDoc = () => {
+  console.log('发送生成文档消息')
 }
 const toSimulateSend = () => {
   const list = entityStore.entitiesArr.map((_) => _.id)
