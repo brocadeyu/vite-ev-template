@@ -6,6 +6,25 @@
     :width="'600px'"
     :is-draggable="true"
   >
+    <template #header>
+      <div style="color: gray">
+        链路：
+        <el-select
+          v-model="displayType"
+          type="primary"
+          color="#119aa0"
+          size="small"
+          style="width: 110px"
+        >
+          <el-option
+            v-for="(item, index) in displayTypeOptions"
+            :key="index"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </div>
+    </template>
     <template #content>
       <div ref="lineChartRef" class="mission-content"></div>
     </template>
@@ -33,6 +52,25 @@ const popupStore = usePopupStore()
 const logStore = useLogStore()
 const { dataLog } = storeToRefs(logStore)
 const lineChartRef = ref<HTMLElement>()
+const displayType = ref('综合链')
+const displayTypeOptions = [
+  {
+    label: '综合链',
+    value: '综合链'
+  },
+  {
+    label: '90X链',
+    value: '90X链'
+  },
+  {
+    label: 'JIDS链',
+    value: 'JIDS链'
+  },
+  {
+    label: 'KU卫通',
+    value: 'KU卫通'
+  }
+]
 let echartsInstance = null
 withDefaults(
   defineProps<{
@@ -40,7 +78,10 @@ withDefaults(
   }>(),
   { title: '' }
 )
-
+const stopPropagation = (e) => {
+  console.log('eee', e)
+  e.preventDefault()
+}
 const closePopup = () => {
   popupStore._showLine = false
 }
