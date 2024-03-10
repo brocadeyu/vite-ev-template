@@ -2,8 +2,8 @@
   <div class="ss-container">
     <BaseDocker
       :title="'模拟发送'"
-      :height="'400px'"
-      :width="'800px'"
+      :height="'450px'"
+      :width="'1000px'"
       icon="log"
       :show-footer="true"
     >
@@ -105,6 +105,7 @@
                     v-model="formData.customMessage"
                     placeholder="请输入消息内容"
                     clearable
+                    @change="handleCustomMessageChange"
                   />
                 </el-form-item>
               </el-col>
@@ -115,14 +116,15 @@
                   <el-table
                     :scrollbar-always-on="true"
                     height="125"
-                    :data="[]"
+                    :data="tableData"
                     style="
                       --el-table-border-color: none;
                       --el-table-bg-color: #0b1a38;
+                      width: 100%;
                     "
                     :header-cell-style="{
                       fontSize: '12px',
-                      height: '40px',
+                      height: '20',
                       color: 'white',
                       backgroundColor: '#2b4859',
                       borderBottom: '0.5px #143275 solid'
@@ -140,44 +142,40 @@
                       color: 'white'
                     }"
                   >
-                    <!-- <el-table-column
-                      prop="index"
-                      label="序号"
-                      :align="'center'"
-                    >
-                      <template #default="scope">
-                        <span>{{ scope.$index + 1 }}</span>
-                      </template>
+                    <el-table-column label="00 01" :align="'center'" prop="ZGS">
                     </el-table-column>
                     <el-table-column
-                      prop="pos"
-                      :label="`位置（${formData.path.length})`"
+                      label="02 03 04 05 06"
                       :align="'center'"
-                      width="120"
+                      prop="LBS"
                     >
                     </el-table-column>
-                    <el-table-column :align="'center'" width="160">
-                      <template #header>
-                        <div style="display: flex">
-                          <el-button
-                            type="primary"
-                            size="small"
-                            color="#119aa0"
-                            :class="{ 'mark-point-active': isPickPathStatus }"
-                            @click="editPath"
-                            >标绘<el-icon :size="16"><i-ep-Aim /></el-icon
-                          ></el-button>
-                          <el-button
-                            type="primary"
-                            size="small"
-                            color="#119aa0"
-                            @click="resetPath"
-                            >重置<el-icon :size="16"
-                              ><i-ep-RefreshRight /></el-icon
-                          ></el-button>
-                        </div>
+                    <el-table-column
+                      label="07 08 09"
+                      :align="'center'"
+                      prop="LZBS"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                      label="10 11 12 ... 124 125 126"
+                      :align="'center'"
+                      prop="XXZD"
+                    >
+                      <template #default="scope">
+                        <el-tooltip
+                          :content="binaryMessageLastNum"
+                          :disabled="scope.row.XXZD == '信息字段'"
+                          placement="top"
+                          effect="light"
+                        >
+                          <span>
+                            {{ scope.row.XXZD }}
+                          </span>
+                        </el-tooltip>
                       </template>
-                    </el-table-column> -->
+                    </el-table-column>
+                    <el-table-column label="127" :align="'center'" prop="JOJY">
+                    </el-table-column>
                   </el-table>
                 </el-form-item>
               </el-col>
@@ -201,15 +199,34 @@
 </template>
 <script setup lang="ts">
 import { getSimulateSendDBText } from '@/api/thought'
+import { c10To2 } from '@/common/helper'
 const formData = reactive({
   deviceOne: '',
   deviceTwo: '',
-  customMessage: '',
   textOne: '',
-  textTwo: ''
+  textTwo: '',
+  customMessage: ''
 })
 const deviceOptions = ref([])
 const textOneOptions = ref([])
+const tableData = ref([
+  //表格数据
+  {
+    ZGS: '字格式',
+    LBS: 'Link-16标识',
+    LZBS: 'Link-16字标识',
+    XXZD: '信息字段',
+    JOJY: '奇偶校验'
+  },
+  {
+    ZGS: '10',
+    LBS: '-',
+    LZBS: '-',
+    XXZD: '-',
+    JOJY: '-'
+  }
+])
+const binaryMessageLastNum = ref('') //自定义消息二进制末尾数字
 const textTwoOptions = computed(() => {
   if (textOne.value) {
     const result = [
@@ -257,6 +274,43 @@ const textTwoOptions = computed(() => {
 })
 const dbTextData = ref([])
 const textOne = ref(null)
+const textTwoNum = ref(null)
+const buling = (a, length) => {
+  return a.padStart(length, 0)
+}
+//奇偶校验
+const parityCheck = () => {
+  // console.log(this.tableData[1])
+  if (
+    tableData.value[1].LBS !== '-' &&
+    tableData.value[1].LZBS !== '-' &&
+    tableData.value[1].XXZD !== '-'
+  ) {
+    const validateString =
+      '10' +
+      c10To2(textOne.value.n) +
+      c10To2(textTwoNum.value) +
+      binaryMessageLastNum.value
+    // console.log('validateString', validateString)
+    return checkParity(validateString)
+  } else {
+    return '-'
+  }
+}
+const checkParity = (binaryString) => {
+  // 将二进制字符串转换为数组
+  const binaryArray = binaryString.split('').map(Number)
+
+  // 计算二进制数组中 1 的个数
+  const onesCount = binaryArray.reduce((count, bit) => count + bit, 0)
+  if (onesCount % 2 === 0) {
+    return 0
+  } else {
+    return 1
+  }
+  // 判断奇偶性
+  // return onesCount % 2 === 0 ? "偶校验通过" : "奇校验通过";
+}
 const handleTextOneChange = (val) => {
   // console.log('ddd', this.dbData, val)
   const ws = Number.isNaN(Number(val.substring(val.length - 2))) //判断尾数两位是否都是数字
@@ -267,12 +321,41 @@ const handleTextOneChange = (val) => {
       item.n === val.substring(val.length - (ws ? 1 : 2))
   )
   console.log('textOneChange', formData.textOne, val)
-  // this.tableData[1].LBS = this.buling(this.c10to2(Number(this.textOne.n)), 5)
+  tableData.value[1].LBS = buling(c10To2(Number(textOne.value.n)), 5)
   formData.textTwo = ''
-  // this.tableData[1].LZBS = '-'
-  // this.tableData[1].JOJY = '-'
+  tableData.value[1].LZBS = '-'
+  tableData.value[1].JOJY = '-'
 }
-const handleTextTwoChange = () => {}
+const handleTextTwoChange = (val) => {
+  console.log('textOneChange', val)
+  if (textOne.value) {
+    for (const key in textOne.value) {
+      // console.log(key, this.textOne[key])
+      if (textOne.value[key] === val && key !== 'nname') {
+        tableData.value[1].LZBS = buling(c10To2(Number(key.substring(1, 2))), 3)
+        textTwoNum.value = Number(key.substring(1, 2))
+        // this.tableData[1].JOJY =
+        //   Number(key.substring(1, 2)) & Number(this.textOne.n);
+      }
+    }
+  }
+  tableData.value[1].JOJY = parityCheck()
+}
+const handleCustomMessageChange = (val) => {
+  console.log(val)
+  const encoder = new TextEncoder()
+  const utf8Bytes = encoder.encode(val)
+  let result = ''
+  utf8Bytes.forEach((item) => {
+    result += buling(c10To2(item), 8)
+  })
+  // console.log('rrrr', result)
+  binaryMessageLastNum.value = result
+  tableData.value[1].XXZD = val
+  console.log('tableData', tableData.value)
+  // console.log('UTF-8 二进制数据:', utf8Bytes, '最后一位', this.lastMessageNum)
+  tableData.value[1].JOJY = parityCheck()
+}
 const closeTab = () => {
   window.close()
 }
@@ -334,5 +417,8 @@ onMounted(async () => {
   --el-border-color: #0e9aa0;
   --el-text-color-placeholder: white;
   --el-border-color-hover: #16b0b8;
+}
+.el-form-item {
+  width: 100%;
 }
 </style>

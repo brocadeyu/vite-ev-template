@@ -122,3 +122,45 @@ export const AnimateLocation = {
     }
   }
 }
+//十进制数字转二进制
+export function c10To2(num: number) {
+  // 整数
+  const numInteger = Math.floor(num)
+  // 小数
+  const numDecimal = num - numInteger
+
+  let integers = []
+  if (numInteger === 0) {
+    integers = ['0']
+  } else {
+    let integerVal = numInteger
+    while (integerVal !== 1) {
+      integers.push(integerVal % 2 === 0 ? '0' : '1')
+      integerVal = Math.floor(integerVal / 2)
+    }
+    integers.push('1')
+  }
+  const resInteger = integers.reverse().join('')
+
+  let decimals = []
+  if (numDecimal) {
+    let decimalVal = numDecimal
+    // 最多取49位的长度
+    let count = 49
+    while (decimalVal !== 1 && count > 0) {
+      decimalVal = decimalVal * 2
+      if (decimalVal >= 1) {
+        decimals.push('1')
+        if (decimalVal > 1) {
+          decimalVal = decimalVal - 1
+        }
+      } else {
+        decimals.push('0')
+      }
+      count--
+    }
+  }
+  const resDecimal = decimals.join('')
+
+  return resInteger + (resDecimal ? '.' + resDecimal : '')
+}
