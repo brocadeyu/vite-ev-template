@@ -84,7 +84,10 @@ onMounted(() => {
     }
     const dataLinkState = JSON.parse(data.DataLinkParam)
     if (dataLinkState.length) {
-      logStore.pushStateLog(dataLinkState[0])
+      logStore.pushStateLog({
+        ...dataLinkState[0],
+        time: Number(data.sendTime)
+      })
     }
   })
   websocketStore.addEventListener(WS_EVENT.missionMessage, (data) => {

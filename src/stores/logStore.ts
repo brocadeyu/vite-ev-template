@@ -24,6 +24,7 @@ interface LinkStateLog {
   speed: number
   speedPercent: number
   type: LinkType
+  time: number
 }
 export const useLogStore = defineStore(
   'log',

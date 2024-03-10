@@ -15,6 +15,7 @@
           color="#119aa0"
           size="small"
           style="width: 110px"
+          @change="displaySelectionChange"
         >
           <el-option
             v-for="(item, index) in displayTypeOptions"
@@ -50,7 +51,8 @@ import { useLogStore } from '@/stores/logStore'
 import { storeToRefs } from 'pinia'
 const popupStore = usePopupStore()
 const logStore = useLogStore()
-const { dataLog } = storeToRefs(logStore)
+const { dataLog, linkZHState, link90XState, linkJIDSState, linkKUState } =
+  storeToRefs(logStore)
 const lineChartRef = ref<HTMLElement>()
 const displayType = ref('综合链')
 const displayTypeOptions = [
@@ -78,10 +80,7 @@ withDefaults(
   }>(),
   { title: '' }
 )
-const stopPropagation = (e) => {
-  console.log('eee', e)
-  e.preventDefault()
-}
+
 const closePopup = () => {
   popupStore._showLine = false
 }
@@ -89,7 +88,6 @@ const initEcharts = () => {
   echartsInstance = echarts.init(lineChartRef.value)
 }
 const colors = ['#5470C6', '#91CC75', '#EE6666', '#1E7666']
-let data = []
 // let now = new Date(1997, 9, 3)
 // let oneDay = 24 * 3600 * 1000
 // let value = Math.random() * 1000
@@ -107,7 +105,25 @@ let data = []
 // for (var i = 0; i < 1000; i++) {
 //   data.push(randomData())
 // }
+const displaySelectionChange = () => {
+  setEchartsData()
+}
 const setEchartsData = () => {
+  let data = []
+  switch (displayType.value) {
+    case '综合链':
+      data = linkZHState.value
+      break
+    case '90X链':
+      data = link90XState.value
+      break
+    case 'JIDS链':
+      data = linkJIDSState.value
+      break
+    case 'KU卫通':
+      data = linkKUState.value
+      break
+  }
   const option = {
     color: colors,
     tooltip: {
@@ -220,7 +236,9 @@ const setEchartsData = () => {
         yAxisIndex: 0,
         showSymbol: false,
         smooth: true,
-        data: []
+        data: data.map((_) => {
+          return { name: _.time, value: [_.time, _.delay] }
+        })
       },
       {
         name: '带宽占用率',
@@ -228,7 +246,9 @@ const setEchartsData = () => {
         yAxisIndex: 1,
         showSymbol: false,
         smooth: true,
-        data: []
+        data: data.map((_) => {
+          return { name: _.time, value: [_.time, _.missPercent] }
+        })
       },
       {
         name: '丢包率',
@@ -236,7 +256,9 @@ const setEchartsData = () => {
         yAxisIndex: 2,
         showSymbol: false,
         smooth: true,
-        data: []
+        data: data.map((_) => {
+          return { name: _.time, value: [_.time, _.speed] }
+        })
       },
       {
         name: '速率',
@@ -244,30 +266,37 @@ const setEchartsData = () => {
         yAxisIndex: 3,
         showSymbol: false,
         smooth: true,
-        data: []
+        data: data.map((_) => {
+          return { name: _.time, value: [_.time, _.speedPercent] }
+        })
       }
     ]
   }
-  echartsInstance.setOption(option)
+  echartsInstance?.setOption(option)
 }
-let timer
-let t = 0
-onMounted(() => {
-  initEcharts()
-  setEchartsData()
-  timer = setInterval(() => {
-    data.push({
-      delay: 1 + 1 * Math.random(),
-      missPercent: Math.random(),
-      speed: 1 * Math.random(),
-      speedPercent: Math.random(),
-      time: t
-    })
-    t += 1000
-    if (data.length > 20) {
-      data.shift()
+// let timer
+// let t = 0
+
+watch(
+  dataLog,
+  (newVal) => {
+    console.log('newVVVVVVV', newVal)
+    let data = []
+    switch (displayType.value) {
+      case '综合链':
+        data = linkZHState.value
+        break
+      case '90X链':
+        data = link90XState.value
+        break
+      case 'JIDS链':
+        data = linkJIDSState.value
+        break
+      case 'KU卫通':
+        data = linkKUState.value
+        break
     }
-    echartsInstance.setOption({
+    echartsInstance?.setOption({
       series: [
         {
           name: '时延',
@@ -303,10 +332,67 @@ onMounted(() => {
         }
       ]
     })
-  }, 1000)
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
+onMounted(() => {
+  initEcharts()
+  setEchartsData()
+  // timer = setInterval(() => {
+  //   data.push({
+  //     delay: 1 + 1 * Math.random(),
+  //     missPercent: Math.random(),
+  //     speed: 1 * Math.random(),
+  //     speedPercent: Math.random(),
+  //     time: t
+  //   })
+  //   t += 1000
+  //   if (data.length > 20) {
+  //     data.shift()
+  //   }
+  //   echartsInstance.setOption({
+  //     series: [
+  //       {
+  //         name: '时延',
+  //         type: 'line',
+  //         yAxisIndex: 0,
+  //         data: data.map((_) => {
+  //           return { name: _.time, value: [_.time, _.delay] }
+  //         })
+  //       },
+  //       {
+  //         name: '带宽占用率',
+  //         type: 'line',
+  //         yAxisIndex: 1,
+  //         data: data.map((_) => {
+  //           return { name: _.time, value: [_.time, _.missPercent] }
+  //         })
+  //       },
+  //       {
+  //         name: '丢包率',
+  //         type: 'line',
+  //         yAxisIndex: 2,
+  //         data: data.map((_) => {
+  //           return { name: _.time, value: [_.time, _.speed] }
+  //         })
+  //       },
+  //       {
+  //         name: '速率',
+  //         type: 'line',
+  //         yAxisIndex: 3,
+  //         data: data.map((_) => {
+  //           return { name: _.time, value: [_.time, _.speedPercent] }
+  //         })
+  //       }
+  //     ]
+  //   })
+  // }, 1000)
 })
 onBeforeUnmount(() => {
-  clearInterval(timer)
+  // clearInterval(timer)
 })
 </script>
 
