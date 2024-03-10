@@ -72,7 +72,17 @@ const setEchartsData = () => {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
-        type: 'cross'
+        type: 'cross',
+        label: {
+          formatter: function (params) {
+            if (params.axisDimension === 'y') {
+              return `${Math.round(params.value)}`
+            } else {
+              return `T0+${params.value / 1000 || '0'}s`
+            }
+          },
+          margin: 5
+        }
       }
     },
     grid: {
