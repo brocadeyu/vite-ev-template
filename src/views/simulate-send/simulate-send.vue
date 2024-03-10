@@ -199,6 +199,7 @@
 </template>
 <script setup lang="ts">
 import { getSimulateSendDBText } from '@/api/thought'
+import { getNowTimeStr } from '@/common/helper'
 import { c10To2 } from '@/common/helper'
 const formData = reactive({
   deviceOne: '',
@@ -359,7 +360,32 @@ const handleCustomMessageChange = (val) => {
 const closeTab = () => {
   window.close()
 }
-const sendMessage = () => {}
+const sendMessage = () => {
+  const ws = Number.isNaN(
+    Number(formData.textOne.substring(formData.textOne.length - 2))
+  )
+  const convertTextOne = formData.textOne.substring(
+    0,
+    formData.textOne.length - (ws ? 1 : 2)
+  )
+
+  let d = {
+    InteractType: 'baseInter.EntiyInter.VirtualInteract.SimulateSend',
+    deviceSend: formData.deviceOne,
+    deviceReceive: formData.deviceTwo,
+    textMain: convertTextOne,
+    textSub: formData.textTwo,
+    customMessage: formData.customMessage
+  }
+  // console.log(d)
+  // wss1.send(JSON.stringify(d))
+  // this.$message({
+  //   message: '发送成功',
+  //   type: 'success'
+  // })
+
+  console.log('发送时间', d, getNowTimeStr())
+}
 onMounted(async () => {
   const deviceList: string[] = JSON.parse(
     sessionStorage.getItem('simulateSend-deviceList')
