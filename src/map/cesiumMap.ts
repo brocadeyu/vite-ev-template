@@ -6,6 +6,7 @@ import EventHandler from './eventHandler'
 import TrackMap from './trackMap'
 import LinkMap from './linkMap'
 import GlobalRotate from './globeRotate'
+import MessageMap from './messageMap'
 import * as Cesium from 'cesium'
 export default class CesiumMap {
   viewer: Viewer
@@ -15,6 +16,7 @@ export default class CesiumMap {
   linkMap: LinkMap
   eventHandler: EventHandler
   globeRoute: GlobalRotate
+  messageMap: MessageMap
   constructor(container: HTMLElement) {
     const opt = {
       mapProjection: new Cesium.GeographicProjection(),
@@ -45,6 +47,7 @@ export default class CesiumMap {
     this.linkMap = new LinkMap(this.viewer)
     this.globeRoute = new GlobalRotate(this.viewer)
     this.eventHandler = new EventHandler(this.viewer)
+    this.messageMap = new MessageMap(this.viewer)
     this.addMapTiles()
     window.viewer = this.viewer
     return this

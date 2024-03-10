@@ -105,6 +105,36 @@ onMounted(() => {
     if (message.length) {
       const m = message[0].message
       logStore.pushDataLog({ message: m, timeStr: getNowTimeStr() })
+      const linkMessageArr = message[0].LinkArr
+      if (message[0].MessageType === '广播消息') {
+        const linkType = linkMessageArr[0].dataLinkType
+        linkStore.linkConnectInfo[linkType].linkTo.forEach((linkStr) => {
+          const deviceOne = linkStr.split('-')[0]
+          const deviceTwo = linkStr.split('-')[1]
+          const fromPosition = entityStore.getEntityById(deviceOne).position
+          const toPosition = entityStore.getEntityById(deviceTwo).position
+          const opt = {
+            id: `${deviceOne}-${deviceTwo}-广播消息`,
+            type: linkType,
+            positionArr: [fromPosition, toPosition],
+            isBrodeCast: true
+          }
+          cesiumStore.cesium.messageMap.displayMessageLink(opt)
+        })
+      } else {
+        linkMessageArr.forEach((_) => {
+          const id = `${_.from}-${_.to}`
+          const fromPosition = entityStore.getEntityById(_.from).position
+          const toPosition = entityStore.getEntityById(_.to).position
+          const opt = {
+            id: id,
+            type: _.dataLinkType,
+            positionArr: [fromPosition, toPosition]
+          }
+          console.log('opt', opt)
+          cesiumStore.cesium.messageMap.displayMessageLink(opt)
+        })
+      }
     }
     const dataLinkState = JSON.parse(data.DataLinkParam)
     if (dataLinkState.length) {
