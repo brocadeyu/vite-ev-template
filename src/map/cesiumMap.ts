@@ -32,10 +32,6 @@ export default class CesiumMap {
       navigationHelpButton: false,
       scene3DOnly: true,
       terrainProvider: new Cesium.EllipsoidTerrainProvider(),
-      // imageryProvider: new Cesium.SingleTileImageryProvider({
-      //   credit: '底图',
-      //   url: GlobeImg
-      // }),
       showAnimate: true
     }
     this.viewer = new Viewer(container, opt)
