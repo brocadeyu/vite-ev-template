@@ -5,6 +5,7 @@ interface IAddLinkOpt {
   id: string //`device1-device2`
   positionArr: number[][]
   type: LinkType
+  isReplayMode?: boolean //是否为回放模式，回放模式使用浅色直线连接
 }
 interface IRemoveLinkOpt {
   id: string
@@ -34,7 +35,7 @@ export default class LinkMap {
     this._Jmap = new Map()
   }
   addLink(opt: IAddLinkOpt) {
-    const { id, positionArr, type } = opt
+    const { id, positionArr, type, isReplayMode } = opt
     const geometryInstance = new Cesium.GeometryInstance({
       geometry: new Cesium.PolylineGeometry({
         positions: Cesium.Cartesian3.fromDegreesArrayHeights(
@@ -45,7 +46,7 @@ export default class LinkMap {
       })
     })
 
-    const material = this.getMaterialByType(type)
+    const material = this.getMaterialByType(type, isReplayMode)
     const linkPrimitive = new Cesium.Primitive({
       geometryInstances: [geometryInstance],
       appearance: new Cesium.PolylineMaterialAppearance({
@@ -69,14 +70,31 @@ export default class LinkMap {
         return this._Jmap
     }
   }
-  private getMaterialByType(type: LinkType) {
-    switch (type) {
-      case '综合链':
-        return this.getMaterialByColor([1.0, 0.0, 0.0, 0.5])
-      case '90X链':
-        return this.getMaterialByColor([0.0, 1.0, 0.0, 0.5])
-      case 'JIDS链':
-        return this.getMaterialByColor([0.0, 0.0, 1.0, 0.5])
+  private getMaterialByType(type: LinkType, isReplayMode) {
+    if (isReplayMode) {
+      switch (type) {
+        case '综合链':
+          return Cesium.Material.fromType('Color', {
+            color: new Cesium.Color(1.0, 0.0, 0.0, 0.2)
+          })
+        case '90X链':
+          return Cesium.Material.fromType('Color', {
+            color: new Cesium.Color(0.0, 1.0, 0.0, 0.2)
+          })
+        case 'JIDS链':
+          return Cesium.Material.fromType('Color', {
+            color: new Cesium.Color(0.0, 0.0, 1.0, 0.2)
+          })
+      }
+    } else {
+      switch (type) {
+        case '综合链':
+          return this.getMaterialByColor([1.0, 0.0, 0.0, 0.5])
+        case '90X链':
+          return this.getMaterialByColor([0.0, 1.0, 0.0, 0.5])
+        case 'JIDS链':
+          return this.getMaterialByColor([0.0, 0.0, 1.0, 0.5])
+      }
     }
   }
   private getMaterialByColor(color: number[]) {

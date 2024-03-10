@@ -7,9 +7,11 @@
     <dataPanel></dataPanel>
     <gantChart></gantChart>
     <trendChart></trendChart>
+    <layerController></layerController>
   </div>
 </template>
 <script setup lang="ts">
+import layerController from '../thought-edit/components/layer-controller.vue'
 import controlBar from './components/control-bar.vue'
 import loadingMask from './components/loading-mask.vue'
 import battlePanel from './components/battle-panel.vue'
@@ -20,6 +22,7 @@ import { useWebSocketStore } from '@/stores/webSocketStore'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { useEntityStore } from '@/stores/entityStore'
 import { useCesiumStore } from '@/stores/cesiumStore'
+import { useLinkStore } from '@/stores/linkStore'
 import { useLogStore } from '@/stores/logStore'
 import { WS_EVENT } from '@/common/enum'
 import { ElMessage } from 'element-plus'
@@ -29,6 +32,7 @@ const websocketStore = useWebSocketStore()
 const thoughtStore = useThoughtStore()
 const entityStore = useEntityStore()
 const cesiumStore = useCesiumStore()
+const linkStore = useLinkStore()
 const logStore = useLogStore()
 const showGantFlag = ref(false)
 const showGantChart = () => {
@@ -55,6 +59,26 @@ onMounted(() => {
   entityStore.entitiesArr.forEach((_) => {
     cesiumStore.cesium.modelMap.addModel(_ as any)
     // cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
+  })
+  thoughtStore.thought.dataLinkInfo.link?.forEach((_) => {
+    const arg = {
+      linkTo: _.linkTo,
+      mainDevice: _.centerTargetId,
+      selection: _.selection,
+      targetDevices: _.targetDevices
+    }
+    linkStore.setLinkConnectInfo(_.dataLinkType, arg) //设置数据链连接信息
+    _.linkTo.forEach((i: any) => {
+      const deviceArr = i.split('-')
+      const entityOne = entityStore.getEntityById(deviceArr[0])
+      const entityTwo = entityStore.getEntityById(deviceArr[1])
+      cesiumStore.cesium.linkMap.addLink({
+        id: i,
+        positionArr: [entityOne.position, entityTwo.position],
+        type: _.dataLinkType,
+        isReplayMode: true
+      })
+    })
   })
   websocketStore.connect('ws://localhost:12000/hsdb/101')
   websocketStore.addEventListener(WS_EVENT.onopen, () => {

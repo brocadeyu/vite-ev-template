@@ -3,7 +3,7 @@
     :title="title"
     :show-footer="true"
     :height="'410px'"
-    :width="'600px'"
+    :width="'1000px'"
     :is-draggable="true"
   >
     <template #header>
@@ -215,7 +215,7 @@ const setEchartsData = () => {
       {
         type: 'value',
         name: '速率',
-        offset: 37,
+        offset: 50,
         position: 'left',
         alignTicks: true,
         axisLine: {
