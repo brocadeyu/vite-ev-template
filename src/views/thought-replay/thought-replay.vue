@@ -27,6 +27,7 @@ import { useLogStore } from '@/stores/logStore'
 import { WS_EVENT } from '@/common/enum'
 import { ElMessage } from 'element-plus'
 import { getNowTimeStr } from '@/common/helper'
+import { screenShot } from '@/common/helper'
 const loadingMaskRef = ref(null)
 const websocketStore = useWebSocketStore()
 const thoughtStore = useThoughtStore()
@@ -172,6 +173,21 @@ onMounted(() => {
       roll: data.Roll || '0'
     }
     cesiumStore.cesium.modelMap.updateModelPosition(opt1)
+  })
+  websocketStore.addEventListener(WS_EVENT.startGenDocRes, async () => {
+    const dataLd = await screenShot(document.getElementById('gentChartId'))
+    const dataGt = await screenShot(document.getElementById('gentChartId'))
+    console.log('雷达图', dataLd, '甘特图', dataGt)
+    let data = {
+      InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDocImage',
+      ldImg: dataLd,
+      gtImg: dataGt
+    }
+    // console.log(d)
+    websocketStore.sendMessage(data)
+  })
+  websocketStore.addEventListener(WS_EVENT.genDocSuccess, () => {
+    console.log('文档生成成功！！！')
   })
   bc = new BroadcastChannel('simulateSend')
   bc.onmessage = (e) => {

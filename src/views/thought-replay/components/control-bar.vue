@@ -22,7 +22,7 @@
           :value="item.value"
         />
       </el-select>
-      <el-button size="small" @click="sendGenDoc">生成文档</el-button>
+      <el-button size="small" @click="sendRequestGenDoc">生成文档</el-button>
       <el-button size="small" @click="toSimulateSend">模拟发送</el-button>
     </div>
   </div>
@@ -34,7 +34,7 @@ import { useThoughtStore } from '@/stores/thougthStore'
 import { useEntityStore } from '@/stores/entityStore'
 import { useRouter } from 'vue-router'
 import { screenShot } from '@/common/helper'
-import { WS_EVENT } from '@/common/enum'
+// import { WS_EVENT } from '@/common/enum'
 const websocketStore = useWebSocketStore()
 const thoughtStore = useThoughtStore()
 const router = useRouter()
@@ -122,23 +122,7 @@ const toSimulateSend = () => {
   })
   window.open(url.href)
 }
-onMounted(() => {
-  websocketStore.addEventListener(WS_EVENT.startGenDocRes, async () => {
-    const dataLd = await screenShot(document.getElementById('gentChartId'))
-    const dataGt = await screenShot(document.getElementById('gentChartId'))
-    console.log('雷达图', dataLd, '甘特图', dataGt)
-    let data = {
-      InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDocImage',
-      ldImg: dataLd,
-      gtImg: dataGt
-    }
-    // console.log(d)
-    websocketStore.sendMessage(data)
-  })
-  websocketStore.addEventListener(WS_EVENT.genDocSuccess, () => {
-    console.log('文档生成成功！！！')
-  })
-})
+onMounted(() => {})
 </script>
 
 <style scoped>
