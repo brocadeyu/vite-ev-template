@@ -35,12 +35,12 @@
                     placeholder="请选择"
                     no-data-text="暂无数据"
                   >
-                    <!-- <el-option
-                      v-for="(item, index) in formDataZHL.targets"
+                    <el-option
+                      v-for="(item, index) in deviceOptions"
                       :key="index"
-                      :label="item.id"
-                      :value="item.id"
-                    /> -->
+                      :label="item.label"
+                      :value="item.value"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -51,12 +51,12 @@
                     placeholder="请选择"
                     no-data-text="暂无数据"
                   >
-                    <!-- <el-option
-                      v-for="(item, index) in formDataZHL.targets"
+                    <el-option
+                      v-for="(item, index) in deviceOptions"
                       :key="index"
-                      :label="item.id"
-                      :value="item.id"
-                    /> -->
+                      :label="item.label"
+                      :value="item.value"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -205,15 +205,19 @@ const formData = reactive({
   textOne: '',
   textTwo: ''
 })
+const deviceOptions = ref([])
 const closeTab = () => {
   window.close()
 }
 const sendMessage = () => {}
 onMounted(() => {
-  const deviceList = JSON.parse(
+  const deviceList: string[] = JSON.parse(
     sessionStorage.getItem('simulateSend-deviceList')
   )
   console.log('simulateSend-deviceList', deviceList)
+  deviceOptions.value = deviceList.map((_) => {
+    return { label: _, value: _ }
+  })
 })
 </script>
 
