@@ -64,59 +64,8 @@ const router = createRouter({
   routes: routes
 })
 
-router.beforeEach((to, from) => {
-  // console.log(cesiumStore.cesium)
-  console.log('to', to.path)
-  console.log('from', from.path)
-  const cesiumStore = useCesiumStore()
-  requestIdleCallback(() => {
-    cesiumStore.cesium?.clearLayerData()
-  })
-  cesiumStore.cesium?.globeRoute.stop()
-  if (from.path === '/') {
-    cesiumStore.cesium?.setLookAt(AnimateLocation.Horizon)
-  }
-  if (to.path === '/thought/overview') {
-    cesiumStore.cesium
-      ?.setAnimateTo({
-        ...AnimateLocation.Center,
-        delay: 200,
-        duration: 2.5
-      })
-      .then(() => {
-        cesiumStore.cesium.globeRoute.start(2.0)
-      })
-  }
-  if (to.path === '/login') {
-    cesiumStore.cesium
-      ?.setAnimateTo({
-        ...AnimateLocation.Horizon,
-        delay: 200,
-        duration: 2
-      })
-      .then(() => {
-        cesiumStore.cesium.globeRoute.start(1.0)
-      })
-  }
-  if (
-    to.path.includes('thought/edit') ||
-    to.path.includes('thought/replay') ||
-    to.path.includes('thought/create')
-  ) {
-    cesiumStore.cesium?.setFrameRateShow(true)
-
-    // cesiumStore.cesium.setAnimateTo({
-    //   ...AnimateLocation.Close,
-    //   delay: 500,
-    //   duration: 2.5
-    // })
-  } else {
-    cesiumStore.cesium?.setFrameRateShow(false)
-  }
-  // console.log(cesiumStore.cesium)
-  // console.log('to', to.path)
-  // console.log('from', from.path)
-
+router.beforeEach((to) => {
+  // cesiumStore.cesium?.setFrameRateShow(false)
   document.title = to.name as string
 })
 
