@@ -10,6 +10,7 @@ const cesiumStore = useCesiumStore()
 onMounted(async () => {
   const el: HTMLElement = document.getElementById('cesiumContainer')
   cesiumStore.initCesiumStore(el)
+  console.log('🚀🚀🚀【cesium init success】')
 })
 </script>
 
