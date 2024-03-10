@@ -49,6 +49,7 @@ const sendCloseMessage = () => {
   }
   websocketStore.sendMessage(data)
 }
+let bc: BroadcastChannel = null
 onMounted(() => {
   entityStore.initEntityStore(thoughtStore.thought.entities) //根据thought初始化entityStore
   entityStore.entitiesArr.forEach((_) => {
@@ -111,11 +112,18 @@ onMounted(() => {
     }
     cesiumStore.cesium.modelMap.updateModelPosition(opt1)
   })
+  bc = new BroadcastChannel('simulateSend')
+  bc.onmessage = (e) => {
+    //接受模拟发送标签页面发送的消息，ws发送
+    console.log('接受到的消息', e.data)
+    websocketStore.sendMessage(e.data)
+  }
 })
 
 onBeforeUnmount(() => {
   sendCloseMessage()
   websocketStore.disconnect()
+  bc.close()
 })
 </script>
 <style scoped></style>

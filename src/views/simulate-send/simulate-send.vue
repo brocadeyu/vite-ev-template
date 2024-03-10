@@ -369,7 +369,7 @@ const sendMessage = () => {
     formData.textOne.length - (ws ? 1 : 2)
   )
 
-  let d = {
+  let data = {
     InteractType: 'baseInter.EntiyInter.VirtualInteract.SimulateSend',
     deviceSend: formData.deviceOne,
     deviceReceive: formData.deviceTwo,
@@ -383,9 +383,11 @@ const sendMessage = () => {
   //   message: '发送成功',
   //   type: 'success'
   // })
+  bc.postMessage(data)
 
-  console.log('发送时间', d, getNowTimeStr())
+  console.log('发送时间', data, getNowTimeStr())
 }
+let bc: BroadcastChannel = null
 onMounted(async () => {
   const deviceList: string[] = JSON.parse(
     sessionStorage.getItem('simulateSend-deviceList')
@@ -403,6 +405,10 @@ onMounted(async () => {
       num: item.n
     }
   })
+  bc = new BroadcastChannel('simulateSend')
+})
+onBeforeUnmount(() => {
+  bc.close()
 })
 </script>
 
