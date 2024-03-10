@@ -93,7 +93,7 @@ const setEchartsData = () => {
           formatter: function (params) {
             // return params;
             // console.log(params)
-            return `T0+${String(params)}s`
+            return `T0+${String(params / 1000)}s`
           }
         }
       }
@@ -168,7 +168,7 @@ const setEchartsData = () => {
         type: 'line',
         yAxisIndex: 0,
         showSymbol: false,
-        // smooth: true,
+        smooth: true,
         data: []
       },
       {
@@ -176,7 +176,7 @@ const setEchartsData = () => {
         type: 'line',
         yAxisIndex: 1,
         showSymbol: false,
-        // smooth: true,
+        smooth: true,
         data: []
       },
       {
@@ -184,7 +184,7 @@ const setEchartsData = () => {
         type: 'line',
         yAxisIndex: 2,
         showSymbol: false,
-        // smooth: true,
+        smooth: true,
         data: []
       },
       {
@@ -192,7 +192,7 @@ const setEchartsData = () => {
         type: 'line',
         yAxisIndex: 3,
         showSymbol: false,
-        // smooth: true,
+        smooth: true,
         data: []
       }
     ]
@@ -200,6 +200,7 @@ const setEchartsData = () => {
   echartsInstance.setOption(option)
 }
 let timer
+let t = 0
 onMounted(() => {
   initEcharts()
   setEchartsData()
@@ -209,8 +210,9 @@ onMounted(() => {
       missPercent: Math.random(),
       speed: 1 * Math.random(),
       speedPercent: Math.random(),
-      time: Date.now()
+      time: t
     })
+    t += 1000
     if (data.length > 20) {
       data.shift()
     }
