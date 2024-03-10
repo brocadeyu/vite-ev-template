@@ -69,13 +69,14 @@
                     v-model="formData.textOne"
                     placeholder="请选择"
                     no-data-text="暂无数据"
+                    @change="handleTextOneChange"
                   >
-                    <!-- <el-option
-                      v-for="(item, index) in formDataZHL.targets"
+                    <el-option
+                      v-for="(item, index) in textOneOptions"
                       :key="index"
-                      :label="item.id"
-                      :value="item.id"
-                    /> -->
+                      :label="item.label"
+                      :value="item.value"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -85,13 +86,14 @@
                     v-model="formData.textTwo"
                     placeholder="请选择"
                     no-data-text="暂无数据"
+                    @change="handleTextTwoChange"
                   >
-                    <!-- <el-option
-                      v-for="(item, index) in formDataZHL.targets"
+                    <el-option
+                      v-for="(item, index) in textTwoOptions"
                       :key="index"
-                      :label="item.id"
-                      :value="item.id"
-                    /> -->
+                      :label="item.label"
+                      :value="item.value"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -198,6 +200,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { getSimulateSendDBText } from '@/api/thought'
 const formData = reactive({
   deviceOne: '',
   deviceTwo: '',
@@ -206,17 +209,90 @@ const formData = reactive({
   textTwo: ''
 })
 const deviceOptions = ref([])
+const textOneOptions = ref([])
+const textTwoOptions = computed(() => {
+  if (textOne.value) {
+    const result = [
+      {
+        label: textOne.value.m0 + '0',
+        value: textOne.value.m0,
+        num: '0'
+      },
+      {
+        label: textOne.value.m1 + '1',
+        value: textOne.value.m1,
+        num: '1'
+      },
+      {
+        label: textOne.value.m2 + '2',
+        value: textOne.value.m2,
+        num: '2'
+      },
+      {
+        label: textOne.value.m3 + '3',
+        value: textOne.value.m3,
+        num: '3'
+      },
+      {
+        label: textOne.value.m4 + '4',
+        value: textOne.value.m4,
+        num: '4'
+      },
+      {
+        label: textOne.value.m5 + '5',
+        value: textOne.value.m5,
+        num: '5'
+      },
+      {
+        label: textOne.value.m6 + '6',
+        value: textOne.value.m6,
+        num: '6'
+      },
+      { label: textOne.value.m7 + '7', value: textOne.value.m7, num: '7' }
+    ]
+    return result.filter((item) => !item.label.includes('null'))
+  } else {
+    return []
+  }
+})
+const dbTextData = ref([])
+const textOne = ref(null)
+const handleTextOneChange = (val) => {
+  // console.log('ddd', this.dbData, val)
+  const ws = Number.isNaN(Number(val.substring(val.length - 2))) //判断尾数两位是否都是数字
+  // console.log('ws', ws)
+  textOne.value = dbTextData.value.find(
+    (item) =>
+      item.nname === val.substring(0, val.length - (ws ? 1 : 2)) &&
+      item.n === val.substring(val.length - (ws ? 1 : 2))
+  )
+  console.log('textOneChange', formData.textOne, val)
+  // this.tableData[1].LBS = this.buling(this.c10to2(Number(this.textOne.n)), 5)
+  formData.textTwo = ''
+  // this.tableData[1].LZBS = '-'
+  // this.tableData[1].JOJY = '-'
+}
+const handleTextTwoChange = () => {}
 const closeTab = () => {
   window.close()
 }
 const sendMessage = () => {}
-onMounted(() => {
+onMounted(async () => {
   const deviceList: string[] = JSON.parse(
     sessionStorage.getItem('simulateSend-deviceList')
   )
   console.log('simulateSend-deviceList', deviceList)
   deviceOptions.value = deviceList.map((_) => {
     return { label: _, value: _ }
+  })
+  dbTextData.value = await getSimulateSendDBText()
+  console.log(dbTextData.value)
+  textOneOptions.value = dbTextData.value.map((item) => {
+    return {
+      label: item.nname + item.n,
+      value: item.nname + item.n,
+      num: item.n
+    }
   })
 })
 </script>

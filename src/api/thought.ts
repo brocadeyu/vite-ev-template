@@ -121,18 +121,19 @@ export const deleteThoughtById = (id: number) =>
         reject(e)
       })
   })
-// export const getThoughtList = () =>
-//   new Promise((resolve, reject) => {
-//     http({
-//       url: '/test',
-//       method: 'get'
-//     })
-//       .then((res) => {
-//         if (res.code === 200) {
-//           resolve(res.result)
-//         }
-//       })
-//       .catch((e) => {
-//         reject(e)
-//       })
-//   })
+//获取模拟发送数据库字段
+export const getSimulateSendDBText = () =>
+  new Promise((resolve, reject) => {
+    http({
+      url: '/dataLinkMark/list',
+      method: 'get'
+    })
+      .then((res) => {
+        if (res.code === 200) {
+          resolve(res.result)
+        }
+      })
+      .catch((e) => {
+        reject(e)
+      })
+  })
