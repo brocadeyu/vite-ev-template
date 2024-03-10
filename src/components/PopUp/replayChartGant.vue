@@ -7,7 +7,7 @@
     :is-draggable="true"
   >
     <template #content>
-      <div ref="gantChartRef" class="mission-content"></div>
+      <div id="gentChartId" ref="gantChartRef" class="mission-content"></div>
     </template>
     <template #footer>
       <div class="foot-btns">

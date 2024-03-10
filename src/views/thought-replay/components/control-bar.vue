@@ -33,6 +33,8 @@ import { useWebSocketStore } from '@/stores/webSocketStore'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { useEntityStore } from '@/stores/entityStore'
 import { useRouter } from 'vue-router'
+import { screenShot } from '@/common/helper'
+import { WS_EVENT } from '@/common/enum'
 const websocketStore = useWebSocketStore()
 const thoughtStore = useThoughtStore()
 const router = useRouter()
@@ -101,8 +103,15 @@ const handleStepSizeChange = (val) => {
   // eslint-disable-next-line no-console
   console.log('设置步长', val)
 }
-const sendGenDoc = () => {
+const sendRequestGenDoc = async () => {
   console.log('发送生成文档消息')
+  let data = {
+    InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDoc'
+  }
+  // console.log(data)
+  websocketStore.sendMessage(data)
+  const dataBase64 = await screenShot(document.getElementById('gentChartId'))
+  console.log('输出图片', dataBase64)
 }
 const toSimulateSend = () => {
   const list = entityStore.entitiesArr.map((_) => _.id)
@@ -113,6 +122,23 @@ const toSimulateSend = () => {
   })
   window.open(url.href)
 }
+onMounted(() => {
+  websocketStore.addEventListener(WS_EVENT.startGenDocRes, async () => {
+    const dataLd = await screenShot(document.getElementById('gentChartId'))
+    const dataGt = await screenShot(document.getElementById('gentChartId'))
+    console.log('雷达图', dataLd, '甘特图', dataGt)
+    let data = {
+      InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDocImage',
+      ldImg: dataLd,
+      gtImg: dataGt
+    }
+    // console.log(d)
+    websocketStore.sendMessage(data)
+  })
+  websocketStore.addEventListener(WS_EVENT.genDocSuccess, () => {
+    console.log('文档生成成功！！！')
+  })
+})
 </script>
 
 <style scoped>

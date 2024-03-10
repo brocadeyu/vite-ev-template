@@ -16,7 +16,9 @@ export enum WS_EVENT {
   initialSuccess, //初始化加载想定成功
   missionMessage, //作战任务日志
   dataMessage, //作战数据日志
-  positonMessage //推送位置数据
+  positonMessage, //推送位置数据
+  startGenDocRes, //开始生成文档
+  genDocSuccess //文档生成完成
 }
 export type WSEventType = keyof typeof WS_EVENT
 

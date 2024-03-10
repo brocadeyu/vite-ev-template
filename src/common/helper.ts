@@ -3,6 +3,7 @@ import WZImg from '@/assets/model/wzzsj.png'
 import ZCImg from '@/assets/model/zczsj.png'
 import SHIP052C from '@/assets/model/052c.png'
 import SHIP052D from '@/assets/model/052d.png'
+import html2canvas from 'html2canvas'
 export const getEntityImgByType: (type: EntityType) => string = (type) => {
   switch (type) {
     case '武装直升机':
@@ -163,4 +164,21 @@ export function c10To2(num: number) {
   const resDecimal = decimals.join('')
 
   return resInteger + (resDecimal ? '.' + resDecimal : '')
+}
+
+export async function screenShot(dom: HTMLElement) {
+  return new Promise((resove, reject) => {
+    try {
+      html2canvas(dom)
+        .then((canvas) => {
+          resove(canvas.toDataURL())
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log('截图失败', error)
+        })
+    } catch (error) {
+      reject('error', error)
+    }
+  })
 }

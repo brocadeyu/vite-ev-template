@@ -86,6 +86,18 @@ export default class WebSocketService {
       if (parseData.InteractType === 'DataLinkInteract') {
         return this.eventRegistry.emit(WS_EVENT.dataMessage, parseData)
       }
+      if (
+        parseData.InteractType ===
+        'baseInter.EntiyInter.VirtualInteract.DocData'
+      ) {
+        return this.eventRegistry.emit(WS_EVENT.startGenDocRes, parseData)
+      }
+      if (
+        parseData.InteractType ===
+        'baseInter.EntiyInter.VirtualInteract.CreateDocSuccess'
+      ) {
+        return this.eventRegistry.emit(WS_EVENT.genDocSuccess, parseData)
+      }
       if (parseData.objName && parseData.Lon && parseData.Lat) {
         return this.eventRegistry.emit(WS_EVENT.positonMessage, parseData)
       }
