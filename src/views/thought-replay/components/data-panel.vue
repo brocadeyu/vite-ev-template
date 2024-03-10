@@ -102,7 +102,7 @@ const openDataChart = () => {
 watch(
   dataLog,
   (newVal) => {
-    console.log('newVVVVVVV', newVal)
+    // console.log('newVVVVVVV', newVal)
     setTreeData(
       newVal.map((_): any => {
         return {

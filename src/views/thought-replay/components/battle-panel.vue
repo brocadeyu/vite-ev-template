@@ -105,7 +105,7 @@ const openGantChart = () => {
 watch(
   warMissionLog,
   (newVal) => {
-    console.log('newVVVVVVV', newVal)
+    // console.log('newVVVVVVV', newVal)
     setTreeData(
       newVal.map((_): any => {
         return {
@@ -118,7 +118,7 @@ watch(
     )
   },
   {
-    immediate: true,
+    // immediate: true,
     deep: true
   }
 )

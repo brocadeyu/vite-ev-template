@@ -82,6 +82,10 @@ onMounted(() => {
       const m = message[0].message
       logStore.pushDataLog({ message: m, timeStr: getNowTimeStr() })
     }
+    const dataLinkState = JSON.parse(data.DataLinkParam)
+    if (dataLinkState.length) {
+      logStore.pushStateLog(dataLinkState[0])
+    }
   })
   websocketStore.addEventListener(WS_EVENT.missionMessage, (data) => {
     // eslint-disable-next-line no-console

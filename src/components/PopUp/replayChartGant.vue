@@ -66,7 +66,7 @@ const setEchartsData = () => {
         itemStyle: { color: '#1abc9c' }
       }
     })
-    console.log('data=====', data, maxTime, deviceList)
+    // console.log('data=====', data, maxTime, deviceList)
   } else {
     deviceList = []
     maxTime = 20
