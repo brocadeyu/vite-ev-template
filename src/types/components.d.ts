@@ -43,6 +43,7 @@ declare module 'vue' {
     IEpPieChart: typeof import('~icons/ep/pie-chart')['default']
     IEpPointer: typeof import('~icons/ep/pointer')['default']
     IEpRefreshRight: typeof import('~icons/ep/refresh-right')['default']
+    IEpSwitchButton: typeof import('~icons/ep/switch-button')['default']
     IEpTickets: typeof import('~icons/ep/tickets')['default']
     IEpUser: typeof import('~icons/ep/user')['default']
     IEpVideoPause: typeof import('~icons/ep/video-pause')['default']

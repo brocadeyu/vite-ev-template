@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import type { FormInstance } from 'element-plus'
+import { Right } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 const router = useRouter()
 const loginFormRef = ref<FormInstance>()
@@ -112,6 +113,7 @@ const login = async () => {
               color="#119aa0"
               round
               :loading="isloading"
+              :icon="Right"
               @click="login"
               >登录</el-button
             >

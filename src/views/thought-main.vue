@@ -7,6 +7,7 @@
           type="primary"
           size="small"
           color="#119aa0"
+          :icon="Check"
           @click="saveThought"
           >保存</el-button
         >
@@ -15,10 +16,16 @@
           type="primary"
           size="small"
           color="#119aa0"
+          :icon="Back"
           @click="back"
           >返回</el-button
         >
-        <el-button type="primary" size="small" color="#119aa0" @click="logout"
+        <el-button
+          type="primary"
+          size="small"
+          color="#119aa0"
+          :icon="SwitchButton"
+          @click="logout"
           >退出</el-button
         >
       </div>
@@ -34,6 +41,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { SwitchButton, Back, Check } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePopupStore } from '@/stores/popupStore'
 import { useThoughtStore } from '@/stores/thougthStore'
