@@ -1,10 +1,14 @@
 <template>
   <div class="table-container">
     <div>
-      <el-button type="primary" color="#119aa0" @click="toCreateView"
+      <el-button
+        type="primary"
+        color="#119aa0"
+        :icon="Plus"
+        @click="toCreateView"
         >新建想定</el-button
       >
-      <el-button type="danger">一键删除</el-button>
+      <el-button type="danger" :icon="DeleteFilled">一键删除</el-button>
     </div>
     <el-table
       v-loading="showLoading"
@@ -35,14 +39,22 @@
       <el-table-column label="想定名称" prop="name"> </el-table-column>
       <el-table-column label="操作">
         <template #default="scope">
-          <el-button type="danger" @click="deleteThoughtItem(scope.row)">
+          <el-button
+            type="danger"
+            :icon="Delete"
+            @click="deleteThoughtItem(scope.row)"
+          >
             删除
           </el-button>
-          <el-button type="primary" @click="toEditView(scope.row)">
+          <el-button type="primary" :icon="Edit" @click="toEditView(scope.row)">
             修改
           </el-button>
-          <el-button type="success" @click="() => {}"> 详情 </el-button>
-          <el-button color="#626aef" @click="toReplayView(scope.row)">
+          <!-- <el-button type="success" @click="() => {}"> 详情 </el-button> -->
+          <el-button
+            color="#626aef"
+            :icon="VideoPlay"
+            @click="toReplayView(scope.row)"
+          >
             开始
           </el-button>
         </template>
@@ -58,6 +70,13 @@
 </template>
 
 <script setup lang="ts">
+import {
+  Plus,
+  Delete,
+  DeleteFilled,
+  Edit,
+  VideoPlay
+} from '@element-plus/icons-vue'
 import { getThoughtList } from '@/api/thought'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { useRouter } from 'vue-router'
