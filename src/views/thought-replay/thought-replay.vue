@@ -59,6 +59,7 @@ onMounted(() => {
   entityStore.initEntityStore(thoughtStore.thought.entities) //根据thought初始化entityStore
   entityStore.entitiesArr.forEach((_) => {
     cesiumStore.cesium.modelMap.addModel(_ as any)
+    cesiumStore.cesium.boardMap.addBoard({ id: _.id, position: _.position })
     // cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
   })
   thoughtStore.thought.dataLinkInfo.link?.forEach((_) => {
@@ -173,6 +174,11 @@ onMounted(() => {
       roll: data.Roll || '0'
     }
     cesiumStore.cesium.modelMap.updateModelPosition(opt1)
+    const opt2 = {
+      id: data.objName,
+      position: convertPosition
+    }
+    cesiumStore.cesium.boardMap.updateBoardPosition(opt2)
   })
   websocketStore.addEventListener(WS_EVENT.startGenDocRes, async () => {
     const dataLd = await screenShot(document.getElementById('gentChartId'))

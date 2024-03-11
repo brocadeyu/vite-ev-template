@@ -7,6 +7,7 @@ import TrackMap from './trackMap'
 import LinkMap from './linkMap'
 import GlobalRotate from './globeRotate'
 import MessageMap from './messageMap'
+import BoardMap from './boardMap'
 import * as Cesium from 'cesium'
 export default class CesiumMap {
   viewer: Viewer
@@ -17,6 +18,7 @@ export default class CesiumMap {
   eventHandler: EventHandler
   globeRoute: GlobalRotate
   messageMap: MessageMap
+  boardMap: BoardMap
   constructor(container: HTMLElement) {
     const opt = {
       mapProjection: new Cesium.GeographicProjection(),
@@ -49,6 +51,7 @@ export default class CesiumMap {
     this.globeRoute = new GlobalRotate(this.viewer)
     this.eventHandler = new EventHandler(this.viewer)
     this.messageMap = new MessageMap(this.viewer)
+    this.boardMap = new BoardMap(this.viewer)
     this.addMapTiles()
     window.viewer = this.viewer
     return this
@@ -101,5 +104,6 @@ export default class CesiumMap {
     this.linkMap.removeAllLink()
     this.modelMap.removeAllModel()
     this.trackMap.removeAllTrack()
+    this.boardMap.removeAllLabel()
   }
 }

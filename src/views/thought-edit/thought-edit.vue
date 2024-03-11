@@ -63,6 +63,7 @@ const asyncInitModelTrack = async () => {
   entityStore.entitiesArr.forEach((_) => {
     promiseArr.push(cesiumStore.cesium.modelMap.addModel(_ as any))
     cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
+    cesiumStore.cesium.boardMap.addBoard({ id: _.id, position: _.position })
   })
   await Promise.allSettled(promiseArr).then(() => {
     console.log('asyncInitModelTrack sucess')
