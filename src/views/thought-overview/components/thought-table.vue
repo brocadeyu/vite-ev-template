@@ -40,23 +40,23 @@
       <el-table-column label="操作">
         <template #default="scope">
           <el-button
-            type="danger"
-            :icon="Delete"
-            @click="deleteThoughtItem(scope.row)"
-          >
-            删除
-          </el-button>
-          <el-button type="primary" :icon="Edit" @click="toEditView(scope.row)">
-            修改
-          </el-button>
-          <!-- <el-button type="success" @click="() => {}"> 详情 </el-button> -->
-          <el-button
             color="#626aef"
             :icon="VideoPlay"
             @click="toReplayView(scope.row)"
           >
             开始
           </el-button>
+          <el-button type="primary" :icon="Edit" @click="toEditView(scope.row)">
+            修改
+          </el-button>
+          <el-button
+            type="danger"
+            :icon="Delete"
+            @click="deleteThoughtItem(scope.row)"
+          >
+            删除
+          </el-button>
+          <!-- <el-button type="success" @click="() => {}"> 详情 </el-button> -->
         </template>
       </el-table-column>
       <template #empty>
