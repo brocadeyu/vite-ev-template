@@ -68,7 +68,11 @@ export default class ModelMap {
         ),
         minimumPixelSize: 50,
         scale: 5,
-        maximumScale: 800
+        maximumScale: 700,
+        silhouetteColor: Cesium.Color.YELLOW,
+        silhouetteSize: 3,
+        colorBlendMode: Cesium.ColorBlendMode.REPLACE,
+        color: Cesium.Color.RED
       })
       // console.log('构造promise')
       // model.readyPromise.then(() => {
