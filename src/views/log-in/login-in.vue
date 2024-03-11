@@ -211,7 +211,7 @@ const setRateDelay = async (rate, delay) => {
 }
 
 .content-right {
-  border-radius: 6px;
+  border-radius: 0 6px 6px 0;
   position: absolute;
   right: 0;
   width: 50%;
