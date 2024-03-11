@@ -1,72 +1,48 @@
 <script setup lang="ts">
-import CesiumMap from '@/components/CesiumMap.vue'
-import { useCesiumStore } from '@/stores/cesiumStore'
 import { useRouter } from 'vue-router'
-import { useRoute } from 'vue-router'
+import type { FormInstance } from 'element-plus'
+import { ElMessage } from 'element-plus'
 const router = useRouter()
-const route = useRoute()
-const cesiumStore = useCesiumStore()
+const loginFormRef = ref<FormInstance>()
 const formData = reactive({
   username: 'admin',
   password: '123456'
 })
 const isloading = ref(false)
-const login = async () => {
-  isloading.value = true
-
-  // let timeEnd = 1000 //结束时间（ms）
-  // let endRate = 1000.0 // 终止频率
-  // let samplingInterval = 100 //采样间隔（ms）
-  // for (let index = 1; index <= timeEnd / samplingInterval; index++) {
-  //   const x = index * samplingInterval
-  //   const y = ((endRate - 1) / (timeEnd * timeEnd)) * x * x + 1
-  //   console.log(y, samplingInterval)
-  //   await setRateDelay(y, samplingInterval)
-  // }
-
-  // for (let index = 1; index <= timeEnd / samplingInterval; index++) {
-  //   const x = index * samplingInterval
-  //   const y = -(endRate / (timeEnd * timeEnd)) * x * x + endRate
-  //   console.log(y, samplingInterval)
-  //   await setRateDelay(y, samplingInterval)
-  // }
-  setTimeout(() => {
-    isloading.value = false
-    // cesiumStore.cesium.globeRoute.stop()
-    router.replace({
-      path: `/dataLink/thought/overview`
-    })
-  }, 500)
+const validateUser = (rule: any, value: any, callback: any) => {
+  if (!value) {
+    return callback(new Error('用户名不可为空'))
+  } else {
+    callback()
+  }
 }
-onMounted(async () => {
-  console.log('loginMounted')
-
-  // setTimeout(async () => {
-  //   cesiumStore.cesium.globeRoute.start()
-  //   let timeEnd = 5000 //结束时间（ms）
-  //   let endRate = 1.0 // 终止频率
-  //   let samplingInterval = 400 //采样间隔（ms）
-  //   for (let index = 1; index <= timeEnd / samplingInterval; index++) {
-  //     const x = index * samplingInterval
-  //     const y = ((endRate - 0.1) / (timeEnd * timeEnd)) * x * x + 0.1
-  //     // console.log(y, samplingInterval)
-  //     await setRateDelay(y, samplingInterval)
-  //   }
-  // }, 500)
-  // cesiumStore.cesium.globeRoute.setRate(0.4)
-})
-const setRateDelay = async (rate, delay) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      cesiumStore.cesium.globeRoute.setRate(rate)
-      resolve()
-    }, delay)
+const validatePassword = (rule: any, value: any, callback: any) => {
+  if (!value) {
+    return callback(new Error('密码不可为空'))
+  } else {
+    callback()
+  }
+}
+const login = async () => {
+  await loginFormRef.value.validate((valid) => {
+    if (valid) {
+      isloading.value = true
+      setTimeout(() => {
+        isloading.value = false
+        if (formData.username === 'admin' && formData.password === '123456') {
+          router.replace({
+            path: `/dataLink/thought/overview`
+          })
+        } else {
+          ElMessage.error('用户名或密码错误')
+        }
+      }, 500)
+    }
   })
 }
 </script>
 <template>
   <div class="login-container">
-    <!-- <cesium-map></cesium-map> -->
     <div class="login-content">
       <div class="content-left">
         <span>数</span>
@@ -79,9 +55,11 @@ const setRateDelay = async (rate, delay) => {
       </div>
       <div class="content-right">
         <el-form
+          ref="loginFormRef"
           :model="formData"
           style="--el-text-color-regular: #aab6ce"
           label-width="auto"
+          label-position="left"
         >
           <el-form-item>
             <el-avatar
@@ -91,7 +69,16 @@ const setRateDelay = async (rate, delay) => {
               <el-icon :size="20"><i-ep-User /></el-icon>
             </el-avatar>
           </el-form-item>
-          <el-form-item label="用户名:">
+          <el-form-item
+            label="用户名:"
+            :rules="[
+              {
+                validator: validateUser,
+                trigger: 'change'
+              }
+            ]"
+            prop="username"
+          >
             <el-input
               v-model="formData.username"
               style="width: 200px"
@@ -99,7 +86,16 @@ const setRateDelay = async (rate, delay) => {
               placeholder="请输入用户名"
             />
           </el-form-item>
-          <el-form-item label="密码:">
+          <el-form-item
+            label="密码:"
+            :rules="[
+              {
+                validator: validatePassword,
+                trigger: 'change'
+              }
+            ]"
+            prop="password"
+          >
             <el-input
               v-model="formData.password"
               style="width: 200px"
@@ -144,7 +140,7 @@ const setRateDelay = async (rate, delay) => {
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  background-image: url('../../assets/login.jpg');
+  background-image: url('../../../assets//login.jpg');
   background-repeat: no-repeat;
   background-position: 0% 100%;
   background-size: 50% 100%;
@@ -159,10 +155,7 @@ const setRateDelay = async (rate, delay) => {
   justify-content: center;
   padding: 28px;
   border-radius: 6px;
-  /* animation-delay: 0s;
-  color: #444;
-  text-shadow: 0 0 0 #444;
-  animation: start 1s ease-in-out infinite alternate; */
+  user-select: none;
 }
 .content-left span {
   animation-delay: 0s;
