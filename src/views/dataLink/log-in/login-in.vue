@@ -32,7 +32,7 @@ const login = async () => {
   // }
   setTimeout(() => {
     isloading.value = false
-    cesiumStore.cesium.globeRoute.stop()
+    // cesiumStore.cesium.globeRoute.stop()
     router.replace({
       path: `/dataLink/thought/overview`
     })

@@ -3,7 +3,7 @@ import { useCesiumStore } from '@/stores/cesiumStore'
 import { AnimateLocation } from '@/common/helper'
 import type { RouteRecordRaw } from 'vue-router'
 const dataLink = () => import('@/views/dataLink/index.vue')
-const login = () => import('@/views/log-in/login-in.vue')
+const login = () => import('@/views/dataLink/log-in/login-in.vue')
 const thoughtMain = () => import('@/views/thought-main.vue')
 const thoughtOverview = () =>
   import('@/views/thought-overview/thought-overview.vue')
