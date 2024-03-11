@@ -9,7 +9,7 @@ const thoughtOverview = () =>
   import('@/views/thought-overview/thought-overview.vue')
 const thoughtEdit = () => import('@/views/thought-edit/thought-edit.vue')
 const thoughtReplay = () => import('@/views/thought-replay/thought-replay.vue')
-const simulateSend = () => import('@/views/simulate-send/simulate-send.vue')
+const simulateSend = () => import('@/views/simulateSend/simulate-send.vue')
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/dataLink',
