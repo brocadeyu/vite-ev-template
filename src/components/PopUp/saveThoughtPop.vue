@@ -49,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import BaseDocker from '@/components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
 import type { FormInstance } from 'element-plus'
@@ -133,7 +134,9 @@ const onSaveCreate = async () => {
         linklink: linkStore.linklink
       },
       Entity: convertEntityArr,
-      ScenarioName: formData.name
+      ScenarioName: formData.name,
+      createTime: moment().format(),
+      lastEditTime: ''
     }
     const param = {
       id: thoughtStore.thought.id,

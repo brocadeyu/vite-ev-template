@@ -37,6 +37,24 @@
     >
       <el-table-column type="selection" width="80" />
       <el-table-column label="想定名称" prop="name"> </el-table-column>
+      <el-table-column label="创建时间">
+        <template #default="scope">
+          <span>{{
+            scope.row.jsonData.createTime
+              ? moment(scope.row.jsonData.createTime).format('LLLL')
+              : '-'
+          }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="最后编辑时间">
+        <template #default="scope">
+          <span>{{
+            scope.row.jsonData.lastEditTime
+              ? moment(scope.row.jsonData.lastEditTime).fromNow()
+              : '-'
+          }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template #default="scope">
           <el-button
@@ -81,6 +99,8 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
+import 'moment/dist/locale/zh-cn'
 import {
   Plus,
   Delete,
@@ -136,7 +156,7 @@ const fetchThoughtList = async () => {
       showLoading.value = false
       tableData.value = list
     }, 1500)
-    // console.log(list)
+    console.log(list)
   } catch (error) {
     setTimeout(() => {
       showLoading.value = false
@@ -145,6 +165,7 @@ const fetchThoughtList = async () => {
 }
 
 onMounted(() => {
+  moment.locale('zh-cn')
   fetchThoughtList()
 })
 </script>

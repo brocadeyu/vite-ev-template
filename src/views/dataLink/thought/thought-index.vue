@@ -40,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { computed } from 'vue'
 import { SwitchButton, Back, Check } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -128,7 +129,9 @@ const onSaveUpdate = async () => {
         isDistribute: true
       },
       Entity: convertEntityArr,
-      ScenarioName: thoughtStore.thought.name
+      ScenarioName: thoughtStore.thought.name,
+      createTime: thoughtStore.thought.createTime,
+      lastEditTime: moment().format()
     }
     const param = {
       id: thoughtStore.thought.id,

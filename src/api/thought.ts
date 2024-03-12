@@ -1,4 +1,5 @@
 import http from '@/utils/http'
+import moment from 'moment'
 export const getThoughtList = () =>
   new Promise((resolve, reject) => {
     http({
@@ -76,11 +77,11 @@ export const saveUpdateThought = (param: saveThoughtParam) =>
           totalCount: 0,
           totalPage: 0
         },
-        time: ''
+        time: moment().format()
       }
     })
       .then((res) => {
-        console.log('res', res)
+        // console.log('res', res)
         if (res.code === 200) {
           resolve(res.result)
         }
@@ -112,7 +113,7 @@ export const deleteThoughtById = (id: number) =>
       }
     })
       .then((res) => {
-        console.log('res', res)
+        // console.log('res', res)
         if (res.code === 200) {
           resolve(res.result)
         }
