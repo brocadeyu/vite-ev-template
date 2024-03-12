@@ -163,7 +163,7 @@ const login = async () => {
   animation-delay: 0s;
   color: #fdfdfd;
   text-shadow: 0 0 0 #444;
-  animation: start 5s ease-in-out infinite alternate;
+  animation: start 3s ease-in-out infinite alternate;
 }
 .content-left span:nth-child(1) {
   animation-delay: 0.6s;

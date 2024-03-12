@@ -2,12 +2,14 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 const dataLink = () => import('@/views/dataLink/index.vue')
 const login = () => import('@/views/dataLink/log-in/login-in.vue')
-const thoughtMain = () => import('@/views/thought-main.vue')
+const thoughtIndex = () => import('@/views/dataLink/thought/thought-index.vue')
 const thoughtOverview = () =>
-  import('@/views/thought-overview/thought-overview.vue')
-const thoughtEdit = () => import('@/views/thought-edit/thought-edit.vue')
-const thoughtReplay = () => import('@/views/thought-replay/thought-replay.vue')
-const simulateSend = () => import('@/views/simulateSend/simulate-send.vue')
+  import('@/views/dataLink/thought/thought-overview/thought-overview.vue')
+const thoughtEdit = () =>
+  import('@/views/dataLink/thought/thought-edit/thought-edit.vue')
+const thoughtReplay = () =>
+  import('@/views/dataLink/thought/thought-replay/thought-replay.vue')
+const simulateSend = () => import('@/views/simulateSend/index.vue')
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/dataLink',
@@ -15,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: 'thought',
-        component: thoughtMain,
+        component: thoughtIndex,
         children: [
           {
             path: 'overview',

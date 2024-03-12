@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import modelSource from './components/model-source.vue'
 import entityManager from './components/entity-manager.vue'
-import layerController from '@/views/thought-edit/components/layer-controller.vue'
+import layerController from './components/layer-controller.vue'
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { WS_EVENT } from '@/common/enum'
