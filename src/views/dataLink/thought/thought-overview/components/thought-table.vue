@@ -17,6 +17,7 @@
       :data="tableData"
       style="width: 100%; margin-top: 20px; --el-table-border-color: none"
       height="670"
+      scrollbar-always-on
       :header-cell-style="{
         fontSize: '18px',
         height: '40px',
