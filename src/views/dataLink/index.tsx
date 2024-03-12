@@ -2,7 +2,7 @@ import { resolveDynamicComponent, Transition } from 'vue'
 import CesiumMap from '@/components/CesiumMap.vue'
 import '@/transition.css'
 export default defineComponent({
-  name: 'App',
+  name: 'DataLink',
   setup() {
     const slots = ({ Component }) => (
       <Transition name="fade" mode="out-in">
