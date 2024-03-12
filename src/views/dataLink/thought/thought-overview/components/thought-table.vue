@@ -10,87 +10,93 @@
       >
       <el-button type="danger" :icon="DeleteFilled">一键删除</el-button>
     </div>
-    <el-table
-      v-if="!showLoading"
-      element-loading-text="拼命加载中"
-      element-loading-background="rgba(12, 21, 42, 0.8)"
-      :data="tableData"
-      style="
-        width: 100%;
-        margin-top: 20px;
-        --el-table-border-color: none;
-        --el-table-bg-color: transparent;
-      "
-      height="670"
-      scrollbar-always-on
-      :header-cell-style="{
-        fontSize: '18px',
-        height: '40px',
-        color: 'white',
-        backgroundColor: '#2b4859',
-        borderBottom: '0.5px #143275 solid'
-      }"
-      :cell-style="{
-        color: '#fff',
-        fontSize: '20px',
-        borderBottom: '0.5px #143275 solid'
-      }"
-      :row-style="{
-        fontSize: '20px',
-        height: '60px',
-        backgroundColor: '#0b1a38bf',
-        color: 'white'
-      }"
-    >
-      <el-table-column type="selection" width="80" />
-      <el-table-column label="想定名称" prop="name"> </el-table-column>
-      <el-table-column label="创建时间" sortable>
-        <template #default="scope">
-          <span>{{
-            scope.row.jsonData.createTime
-              ? moment(scope.row.jsonData.createTime).format('LLLL')
-              : '-'
-          }}</span>
+    <div style="height: calc(100% - 52px)">
+      <el-table
+        v-if="!showLoading"
+        element-loading-text="拼命加载中"
+        element-loading-background="rgba(12, 21, 42, 0.8)"
+        :data="tableData"
+        style="
+          width: 100%;
+          margin-top: 20px;
+          --el-table-border-color: none;
+          --el-table-bg-color: transparent;
+        "
+        height="100%"
+        scrollbar-always-on
+        :header-cell-style="{
+          fontSize: '18px',
+          height: '40px',
+          color: 'white',
+          backgroundColor: '#2b4859',
+          borderBottom: '0.5px #143275 solid'
+        }"
+        :cell-style="{
+          color: '#fff',
+          fontSize: '20px',
+          borderBottom: '0.5px #143275 solid'
+        }"
+        :row-style="{
+          fontSize: '20px',
+          height: '60px',
+          backgroundColor: '#0b1a38bf',
+          color: 'white'
+        }"
+      >
+        <el-table-column type="selection" width="80" />
+        <el-table-column label="想定名称" prop="name"> </el-table-column>
+        <el-table-column label="创建时间" sortable>
+          <template #default="scope">
+            <span>{{
+              scope.row.jsonData.createTime
+                ? moment(scope.row.jsonData.createTime).format('LLLL')
+                : '-'
+            }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="最后编辑时间" sortable>
+          <template #default="scope">
+            <span>{{
+              scope.row.jsonData.lastEditTime
+                ? moment(scope.row.jsonData.lastEditTime).fromNow()
+                : '-'
+            }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template #default="scope">
+            <el-button
+              color="#626aef"
+              :icon="VideoPlay"
+              @click="toReplayView(scope.row)"
+            >
+              开始
+            </el-button>
+            <el-button
+              type="primary"
+              :icon="Edit"
+              @click="toEditView(scope.row)"
+            >
+              修改
+            </el-button>
+            <el-button
+              type="danger"
+              :icon="Delete"
+              @click="deleteThoughtItem(scope.row)"
+            >
+              删除
+            </el-button>
+            <!-- <el-button type="success" @click="() => {}"> 详情 </el-button> -->
+          </template>
+        </el-table-column>
+        <template #empty>
+          <el-empty
+            description="暂无数据"
+            style="background-color: transparent"
+          />
         </template>
-      </el-table-column>
-      <el-table-column label="最后编辑时间" sortable>
-        <template #default="scope">
-          <span>{{
-            scope.row.jsonData.lastEditTime
-              ? moment(scope.row.jsonData.lastEditTime).fromNow()
-              : '-'
-          }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作">
-        <template #default="scope">
-          <el-button
-            color="#626aef"
-            :icon="VideoPlay"
-            @click="toReplayView(scope.row)"
-          >
-            开始
-          </el-button>
-          <el-button type="primary" :icon="Edit" @click="toEditView(scope.row)">
-            修改
-          </el-button>
-          <el-button
-            type="danger"
-            :icon="Delete"
-            @click="deleteThoughtItem(scope.row)"
-          >
-            删除
-          </el-button>
-          <!-- <el-button type="success" @click="() => {}"> 详情 </el-button> -->
-        </template>
-      </el-table-column>
-      <template #empty>
-        <el-empty
-          description="暂无数据"
-          style="background-color: transparent"
-        />
-      </template>
-    </el-table>
+      </el-table>
+    </div>
     <el-skeleton
       v-if="showLoading"
       :rows="8"
