@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 const dataLink = () => import('@/views/dataLink/index')
 const login = () => import('@/views/dataLink/log-in/login-in.vue')
-const thoughtIndex = () => import('@/views/dataLink/thought/thought-index.vue')
+const thoughtIndex = () => import('@/views/dataLink/thought/thought-index')
 const thoughtOverview = () =>
   import('@/views/dataLink/thought/thought-overview/thought-overview.vue')
 const thoughtEdit = () =>

@@ -1,8 +1,10 @@
 import { resolveDynamicComponent, Transition } from 'vue'
-import CesiumMap from '@/components/CesiumMap.vue'
+import ThoughtHeader from '@/views/dataLink/thought/components/thought-header.vue'
+import ToolTip from '@/components/ToolTip.vue'
+import PopUp from '@/components/PopUp.vue'
 import '@/transition.css'
 export default defineComponent({
-  name: 'App',
+  name: 'ThoughtIndex',
   setup() {
     const slots = ({ Component }) => (
       <Transition name="fade" mode="out-in">
@@ -10,10 +12,12 @@ export default defineComponent({
       </Transition>
     )
     return () => (
-      <>
-        <CesiumMap />
+      <div>
+        <ThoughtHeader />
+        <ToolTip />
+        <PopUp />
         <RouterView v-slots={slots} />
-      </>
+      </div>
     )
   }
 })
