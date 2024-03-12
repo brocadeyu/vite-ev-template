@@ -146,7 +146,7 @@ const onSaveCreate = async () => {
     // console.log('param', param)
     await saveCreateThought(param)
     popupStore.closePop()
-    router.replace({ path: '/thought/overview' })
+    router.replace({ path: '/dataLink/thought/overview' })
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log('error', error)
