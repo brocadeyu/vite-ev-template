@@ -11,7 +11,7 @@
       <el-button type="danger" :icon="DeleteFilled">一键删除</el-button>
     </div>
     <el-table
-      v-loading="showLoading"
+      v-if="!showLoading"
       element-loading-text="拼命加载中"
       element-loading-background="rgba(12, 21, 42, 0.8)"
       :data="tableData"
@@ -66,6 +66,17 @@
         />
       </template>
     </el-table>
+    <el-skeleton
+      v-if="showLoading"
+      :rows="8"
+      animated
+      :throttle="200"
+      style="
+        --el-skeleton-color: #5e6570;
+        --el-skeleton-to-color: #235297;
+        margin-top: 20px;
+      "
+    />
   </div>
 </template>
 
@@ -124,10 +135,12 @@ const fetchThoughtList = async () => {
     setTimeout(() => {
       showLoading.value = false
       tableData.value = list
-    }, 500)
+    }, 1500)
     // console.log(list)
   } catch (error) {
-    showLoading.value = false
+    setTimeout(() => {
+      showLoading.value = false
+    }, 500)
   }
 }
 
@@ -159,5 +172,8 @@ onMounted(() => {
 }
 :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
   background-color: rgb(47, 99, 244) !important;
+}
+:deep(.el-skeleton__item) {
+  height: 30px;
 }
 </style>

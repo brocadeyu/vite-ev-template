@@ -1,6 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { useCesiumStore } from '@/stores/cesiumStore'
-import { AnimateLocation } from '@/common/helper'
 import type { RouteRecordRaw } from 'vue-router'
 const dataLink = () => import('@/views/dataLink/index.vue')
 const login = () => import('@/views/dataLink/log-in/login-in.vue')
@@ -65,7 +63,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  // cesiumStore.cesium?.setFrameRateShow(false)
   document.title = to.name as string
 })
 
