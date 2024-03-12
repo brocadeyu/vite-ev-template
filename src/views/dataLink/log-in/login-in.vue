@@ -214,7 +214,7 @@ const login = async () => {
   padding: 20px;
   padding-top: 60px;
   box-sizing: border-box;
-  background-color: #0b1a39;
+  background-color: #0b1a39e6;
 }
 .el-form-item {
   margin-bottom: 20px;

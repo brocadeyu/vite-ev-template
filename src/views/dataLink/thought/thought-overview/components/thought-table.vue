@@ -15,7 +15,12 @@
       element-loading-text="拼命加载中"
       element-loading-background="rgba(12, 21, 42, 0.8)"
       :data="tableData"
-      style="width: 100%; margin-top: 20px; --el-table-border-color: none"
+      style="
+        width: 100%;
+        margin-top: 20px;
+        --el-table-border-color: none;
+        --el-table-bg-color: transparent;
+      "
       height="670"
       scrollbar-always-on
       :header-cell-style="{
@@ -33,7 +38,7 @@
       :row-style="{
         fontSize: '20px',
         height: '60px',
-        backgroundColor: '#0b1a38',
+        backgroundColor: '#0b1a38bf',
         color: 'white'
       }"
     >
@@ -178,7 +183,7 @@ onMounted(() => {
   /* margin-top: 8vh; */
   padding: 30px;
   /* background-color: #0b1a39; */
-  background-color: #0b1a39d1;
+  background-color: #0b1a39bd;
   border: 2px solid #119aa0;
   box-sizing: border-box;
 }
