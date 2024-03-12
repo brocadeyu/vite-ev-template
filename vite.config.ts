@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import { viteExternalsPlugin } from 'vite-plugin-externals'
 import AutoImport from 'unplugin-auto-import/vite'
 import Icons from 'unplugin-icons/vite'
@@ -19,6 +20,7 @@ export default defineConfig(({ command, mode }) => {
   return {
     plugins: [
       vue(),
+      vueJsx(),
       eslint(),
       viteExternalsPlugin({
         cesium: 'Cesium'
