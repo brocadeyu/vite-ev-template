@@ -16,6 +16,7 @@
       element-loading-background="rgba(12, 21, 42, 0.8)"
       :data="tableData"
       style="width: 100%; margin-top: 20px; --el-table-border-color: none"
+      height="670"
       :header-cell-style="{
         fontSize: '18px',
         height: '40px',
@@ -37,7 +38,7 @@
     >
       <el-table-column type="selection" width="80" />
       <el-table-column label="想定名称" prop="name"> </el-table-column>
-      <el-table-column label="创建时间">
+      <el-table-column label="创建时间" sortable>
         <template #default="scope">
           <span>{{
             scope.row.jsonData.createTime
@@ -46,7 +47,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="最后编辑时间">
+      <el-table-column label="最后编辑时间" sortable>
         <template #default="scope">
           <span>{{
             scope.row.jsonData.lastEditTime
