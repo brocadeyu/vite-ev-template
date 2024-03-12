@@ -9,6 +9,12 @@ import GlobalRotate from './globeRotate'
 import MessageMap from './messageMap'
 import BoardMap from './boardMap'
 import * as Cesium from 'cesium'
+import MX from '@/assets/skybox/TychoSkymapII.t5_16384x08192_mx.jpg'
+import MY from '@/assets/skybox/TychoSkymapII.t5_16384x08192_my.jpg'
+import MZ from '@/assets/skybox/TychoSkymapII.t5_16384x08192_mz.jpg'
+import PX from '@/assets/skybox/TychoSkymapII.t5_16384x08192_px.jpg'
+import PY from '@/assets/skybox/TychoSkymapII.t5_16384x08192_py.jpg'
+import PZ from '@/assets/skybox/TychoSkymapII.t5_16384x08192_pz.jpg'
 export default class CesiumMap {
   viewer: Viewer
   modelMap: ModelMap
@@ -53,6 +59,16 @@ export default class CesiumMap {
     this.messageMap = new MessageMap(this.viewer)
     this.boardMap = new BoardMap(this.viewer)
     this.addMapTiles()
+    this.viewer.scene.skyBox = new Cesium.SkyBox({
+      sources: {
+        positiveX: PX,
+        negativeX: MX,
+        positiveY: PY,
+        negativeY: MY,
+        positiveZ: PZ,
+        negativeZ: MZ
+      }
+    })
     window.viewer = this.viewer
     return this
   }
