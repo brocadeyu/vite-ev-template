@@ -8,6 +8,7 @@ import LinkMap from './linkMap'
 import GlobalRotate from './globeRotate'
 import MessageMap from './messageMap'
 import BoardMap from './boardMap'
+import ScanMap from './scanMap'
 import * as Cesium from 'cesium'
 import MX from '@/assets/skybox/TychoSkymapII.t5_16384x08192_mx.jpg'
 import MY from '@/assets/skybox/TychoSkymapII.t5_16384x08192_my.jpg'
@@ -25,6 +26,7 @@ export default class CesiumMap {
   globeRoute: GlobalRotate
   messageMap: MessageMap
   boardMap: BoardMap
+  scanMap: ScanMap
   constructor(container: HTMLElement) {
     const opt = {
       mapProjection: new Cesium.GeographicProjection(),
@@ -40,7 +42,8 @@ export default class CesiumMap {
       navigationHelpButton: false,
       scene3DOnly: true,
       terrainProvider: new Cesium.EllipsoidTerrainProvider(),
-      showAnimate: true
+      showAnimate: true,
+      targetFrameRate: 60
     }
     this.viewer = new Viewer(container, opt)
     let imageryProvider = new Cesium.SingleTileImageryProvider({
@@ -58,6 +61,7 @@ export default class CesiumMap {
     this.eventHandler = new EventHandler(this.viewer)
     this.messageMap = new MessageMap(this.viewer)
     this.boardMap = new BoardMap(this.viewer)
+    this.scanMap = new ScanMap(this.viewer)
     this.addMapTiles()
     window.viewer = this.viewer
     return this
@@ -123,5 +127,6 @@ export default class CesiumMap {
     this.modelMap.removeAllModel()
     this.trackMap.removeAllTrack()
     this.boardMap.removeAllLabel()
+    this.scanMap.removeAllScan()
   }
 }
