@@ -47,7 +47,7 @@ export default class ScanMap {
             fabric: {
               type: 'VtxfShader1',
               uniforms: {
-                color: new Cesium.Color(0.0, 1.0, 1.0, 1.0),
+                color: new Cesium.Color(0.0, 1.0, 1.0, 0.5),
                 repeat: 10.0,
                 thickness: 0.3
               },
@@ -82,7 +82,7 @@ export default class ScanMap {
                                 
               }`
             },
-            translucent: false
+            translucent: true
           }),
           faceForward: false,
           closed: true
