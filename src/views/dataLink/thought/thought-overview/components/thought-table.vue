@@ -96,18 +96,18 @@
           />
         </template>
       </el-table>
+      <el-skeleton
+        v-if="showLoading"
+        :rows="8"
+        animated
+        :throttle="200"
+        style="
+          --el-skeleton-color: #5e6570;
+          --el-skeleton-to-color: #235297;
+          margin-top: 20px;
+        "
+      />
     </div>
-    <el-skeleton
-      v-if="showLoading"
-      :rows="8"
-      animated
-      :throttle="200"
-      style="
-        --el-skeleton-color: #5e6570;
-        --el-skeleton-to-color: #235297;
-        margin-top: 20px;
-      "
-    />
   </div>
 </template>
 
