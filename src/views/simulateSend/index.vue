@@ -215,8 +215,8 @@ const tableData = ref([
   //表格数据
   {
     ZGS: '字格式',
-    LBS: 'Link-16标识',
-    LZBS: 'Link-16字标识',
+    LBS: '综合链标识',
+    LZBS: '综合链子标识',
     XXZD: '信息字段',
     JOJY: '奇偶校验'
   },

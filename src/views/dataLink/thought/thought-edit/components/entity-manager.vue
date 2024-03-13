@@ -91,7 +91,7 @@ import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { EntityType } from '@/common/enum'
 import { useCesiumStore } from '@/stores/cesiumStore'
-const showPath = ref(true)
+// const showPath = ref(true)
 const queryStr = ref('')
 const treeRef = ref<InstanceType<typeof ElTreeV2>>()
 const props = {
@@ -114,9 +114,9 @@ const setTreeData = (data: any) => {
   treeRef.value?.setData(data)
 }
 
-const reverseTrackShow = (e: boolean) => {
-  cesiumStore.cesium.trackMap.setAllVisible(e)
-}
+// const reverseTrackShow = (e: boolean) => {
+//   cesiumStore.cesium.trackMap.setAllVisible(e)
+// }
 const openContextMenu = (e, data: ITreeNodeData) => {
   e.preventDefault()
   ContextMenu.showContextMenu({
