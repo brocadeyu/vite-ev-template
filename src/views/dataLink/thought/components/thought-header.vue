@@ -7,6 +7,7 @@
         size="small"
         color="#119aa0"
         :icon="Check"
+        :disabled="!entitiesArr.length"
         @click="saveThought"
         >保存</el-button
       >
@@ -41,6 +42,7 @@ import { useLinkStore } from '@/stores/linkStore'
 import { useMissionStore } from '@/stores/missionStore'
 import { useEntityStore } from '@/stores/entityStore'
 import { saveUpdateThought } from '@/api/thought'
+import { storeToRefs } from 'pinia'
 const route = useRoute()
 const router = useRouter()
 const popupStore = usePopupStore()
@@ -48,6 +50,7 @@ const thoughtStore = useThoughtStore()
 const linkStore = useLinkStore()
 const missionStore = useMissionStore()
 const entityStore = useEntityStore()
+const { entitiesArr } = storeToRefs(entityStore)
 const computeTitle = computed(() => {
   return route.name as string
 })
