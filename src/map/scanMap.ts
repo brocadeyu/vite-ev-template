@@ -27,20 +27,17 @@ export default class ScanMap {
       new Cesium.Cartesian3(0.0, 0.0, length * 0.9),
       new Cesium.Matrix4()
     )
-
-    let cylinderGeometry = new Cesium.CylinderGeometry({
-      length: length * 0.2,
-      topRadius: 0.0,
-      bottomRadius: length * 200.0,
-      vertexFormat:
-        Cesium.MaterialAppearance.MaterialSupport.TEXTURED.vertexFormat
+    let ellipseGeometry = new Cesium.EllipseGeometry({
+      center: positionOnEllipsoid,
+      semiMajorAxis: 300000.0,
+      semiMinorAxis: 300000.0
     })
     let redCone = new Cesium.GeometryInstance({
-      geometry: cylinderGeometry,
+      geometry: ellipseGeometry,
       modelMatrix: modelMatrix
     })
     let radar = this._collection.add(
-      new Cesium.Primitive({
+      new Cesium.GroundPrimitive({
         geometryInstances: [redCone],
         appearance: new Cesium.MaterialAppearance({
           material: new Cesium.Material({
