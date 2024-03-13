@@ -59,6 +59,10 @@ export default class CesiumMap {
     this.messageMap = new MessageMap(this.viewer)
     this.boardMap = new BoardMap(this.viewer)
     this.addMapTiles()
+    window.viewer = this.viewer
+    return this
+  }
+  addSkyBox() {
     this.viewer.scene.skyBox = new Cesium.SkyBox({
       sources: {
         positiveX: PX,
@@ -69,8 +73,6 @@ export default class CesiumMap {
         negativeZ: MZ
       }
     })
-    window.viewer = this.viewer
-    return this
   }
   setLookAt({ destination, orientation }) {
     this.viewer.camera.setView({

@@ -133,7 +133,7 @@ const onSaveUpdate = async () => {
     console.log('param', param)
     await saveUpdateThought(param)
     popupStore.closePop()
-    router.replace({ path: '/thought/overview' })
+    router.replace({ path: '/dataLink/thought/overview' })
   } catch (error) {
     console.log('error', error)
   }

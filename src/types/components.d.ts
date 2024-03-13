@@ -43,7 +43,6 @@ declare module 'vue' {
     IEpPieChart: typeof import('~icons/ep/pie-chart')['default']
     IEpPointer: typeof import('~icons/ep/pointer')['default']
     IEpRefreshRight: typeof import('~icons/ep/refresh-right')['default']
-    IEpSwitchButton: typeof import('~icons/ep/switch-button')['default']
     IEpTickets: typeof import('~icons/ep/tickets')['default']
     IEpUser: typeof import('~icons/ep/user')['default']
     IEpVideoPause: typeof import('~icons/ep/video-pause')['default']
@@ -52,14 +51,10 @@ declare module 'vue' {
     PopUp: typeof import('./../components/PopUp.vue')['default']
     ReplayChartGant: typeof import('./../components/PopUp/replayChartGant.vue')['default']
     ReplayChartLine: typeof import('./../components/PopUp/replayChartLine.vue')['default']
-    ReplayChartPop: (typeof import('../components/PopUp/replayChartGant.vue'))['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SaveThoughtPop: typeof import('./../components/PopUp/saveThoughtPop.vue')['default']
     ToolTip: typeof import('./../components/ToolTip.vue')['default']
     WarPlanPop: typeof import('./../components/PopUp/warPlanPop.vue')['default']
-  }
-  export interface ComponentCustomProperties {
-    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }
