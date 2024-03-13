@@ -42,6 +42,12 @@ export default class BoardMap {
       label.position = Cesium.Cartesian3.fromDegrees(...position)
     }
   }
+  removeLabelById(id: string) {
+    const label = this._map.get(id)
+    if (label) {
+      this._collection.remove(label)
+    }
+  }
   removeAllLabel() {
     this._collection.removeAll()
     this._map = new Map()
