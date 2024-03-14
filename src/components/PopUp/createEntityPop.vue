@@ -389,7 +389,7 @@ onMounted(() => {
     //编辑
     //IOpenEditEntityPopProps
     formData.name = props.data.name
-    formData.equipment = props.data.equipment
+    formData.equipment = JSON.parse(JSON.stringify(props.data.equipment))
     // formData.path = props.data.path
     props.data.path.forEach((_) => {
       formData.path.push({
