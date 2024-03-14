@@ -66,6 +66,15 @@
                         placeholder="Please input"
                       />
                     </div>
+                    <div class="item-btn">
+                      <el-button
+                        type="danger"
+                        size="small"
+                        @click="deleteItem(element, 's')"
+                      >
+                        <el-icon :size="12"><i-ep-Delete /></el-icon
+                      ></el-button>
+                    </div>
                   </div>
                 </template>
               </draggable>
@@ -112,6 +121,15 @@
                         "
                         placeholder="Please input"
                       />
+                    </div>
+                    <div class="item-btn">
+                      <el-button
+                        type="danger"
+                        size="small"
+                        @click="deleteItem(element, 'd')"
+                      >
+                        <el-icon :size="12"><i-ep-Delete /></el-icon
+                      ></el-button>
                     </div>
                   </div>
                 </template>
@@ -208,6 +226,14 @@ const handleGen = () => {
     },
     2000 + 1000 * Math.random()
   )
+}
+const deleteItem: (e: any, type: 's' | 'd') => void = (e, type) => {
+  let arr = type === 's' ? staticList.value : dynamicList.value
+  let valueToRemove = e
+  let index = arr.indexOf(valueToRemove)
+  if (index !== -1) {
+    arr.splice(index, 1)
+  }
 }
 const openConfirm = () => {
   if (isGen.value === false || isDown.value) return closePopup()
@@ -371,8 +397,20 @@ onMounted(() => {
   justify-content: flex-start;
   align-items: center;
   font-size: 14px;
-  margin: 5px 12px;
+  /* margin: 5px 12px; */
   padding: 10px;
+}
+.item-btn {
+  width: 50px;
+  color: white;
+  /* border: 2px solid beige; */
+  /* border-radius: 4px; */
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 14px;
+  /* margin: 5px 12px; */
+  /* padding: 10px; */
 }
 
 .list-group-item i {
