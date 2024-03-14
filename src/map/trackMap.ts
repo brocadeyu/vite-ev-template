@@ -38,7 +38,7 @@ export default class TrackMap {
       translucent: true,
       fabric: {
         uniforms: {
-          color: new Cesium.Color(1.0, 1.0, 1.0, 0.5),
+          color: new Cesium.Color(1.0, 1.0, 0.0, 0.5),
           image: image,
           speed: 3
         },
@@ -50,9 +50,9 @@ export default class TrackMap {
               vec4 colorImage = texture(image, vec2(st_map_s, st.t));
               vec4 fragColor;
               fragColor.rgb = color.rgb / 1.0;
-              material.alpha = colorImage.a;
-              material.diffuse = colorImage.rgb;
-              //material.emission = colorImage.rgb;
+              material.alpha = color.a;
+              material.diffuse = color.rgb;
+              material.emission = color.rgb;
               return material;
             }
           `
