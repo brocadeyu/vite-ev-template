@@ -252,6 +252,7 @@ const onSave = () => {
         entityStore.removeEntityById(props.data.name)
         cesiumStore.cesium.modelMap.removeModel({ id: props.data.name })
         cesiumStore.cesium.trackMap.removeTrack({ id: props.data.name })
+        cesiumStore.cesium.scanMap.removeScanById(props.data.name)
       } else {
         //新增
       }
@@ -272,6 +273,13 @@ const onSave = () => {
         id: formData.name,
         positionArr: formData.path.map((_) => [_.pos[0], _.pos[1], 3000])
       })
+      let wt = formData.equipment.find((_) => _.name === '卫星通信设备')
+      if (wt.isHas && wt.isUse) {
+        cesiumStore.cesium.scanMap.addScan({
+          id: formData.name,
+          position: formData.position
+        })
+      }
       closePopup()
     }
   })

@@ -114,6 +114,12 @@ export default class ScanMap {
     )
     this._map.set(id, radar)
   }
+  removeScanById(id) {
+    const scan = this._map.get(id)
+    if (scan) {
+      this._collection.remove(scan)
+    }
+  }
   removeAllScan() {
     this._collection.removeAll()
     this._map = new Map()
