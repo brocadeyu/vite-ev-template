@@ -157,7 +157,7 @@
           type="primary"
           size="small"
           color="#119aa0"
-          :disabled="!isDiff"
+          :disabled="false"
           @click="handleSave"
           >保存</el-button
         >
@@ -266,10 +266,10 @@ watch(
       )
     ) {
       console.log('数组不相等')
-      isDiff.value = true
+      isDown.value = false
     } else {
       console.log('数组相等')
-      isDiff.value = true
+      isDown.value = true
     }
     console.log('ddddd', isDiff.value)
   },
