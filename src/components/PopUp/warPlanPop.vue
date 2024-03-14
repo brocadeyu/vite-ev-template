@@ -1,3 +1,4 @@
+<!-- eslint-disable camelcase -->
 <template>
   <BaseDocker
     :title="title"
@@ -34,7 +35,10 @@
                 ghost-class="ghost"
               >
                 <template #item="{ element }">
-                  <div class="list-group-item">
+                  <div
+                    class="list-group-item"
+                    :class="{ 'import-item': element.isfight }"
+                  >
                     <div class="item-left">T0+:</div>
                     <div class="item-center">
                       <el-input-number
@@ -167,7 +171,12 @@
           >取消
         </el-button> -->
         <!-- <el-button type="primary" size="small">生成</el-button> -->
-        <el-button v-if="isGen" type="primary" color="#119aa0" size="small"
+        <el-button
+          v-if="isGen"
+          type="primary"
+          color="#119aa0"
+          size="small"
+          @click="handleImport"
           >导入</el-button
         >
         <el-button
@@ -193,6 +202,7 @@
 </template>
 
 <script setup lang="ts">
+import { useFileDialog } from '@vueuse/core'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import BaseDocker from '@/components/BaseDocker.vue'
 import draggable from 'vuedraggable'
@@ -227,7 +237,46 @@ const handleGen = () => {
     2000 + 1000 * Math.random()
   )
 }
+const handleImport = async () => {
+  try {
+    const opt = {
+      types: [
+        {
+          description: 'json',
+          accept: {
+            'application/json': ['.json']
+          }
+        }
+      ],
+      excludeAcceptAllOption: true,
+      multiple: false
+    }
+    const [fileHandle] = await window.showOpenFilePicker(opt)
+    const fileData = await fileHandle.getFile()
+    let reader = new FileReader()
+    reader.readAsText(fileData, 'UTF-8')
+    reader.onload = (e) => {
+      // eslint-disable-next-line camelcase
+      let file_string = e.target.result
+      // eslint-disable-next-line camelcase
+      const jsonData = JSON.parse(`${file_string}`)
+      console.log('导入文件内容', jsonData)
+      // this.DataLinkInfo.link[this.dataLinkUseCur].mission.push(...jsonData);
+
+      jsonData.forEach((_) => {
+        if (_.isAuto) {
+          dynamicList.value.push({ ..._, isfight: true })
+        } else {
+          staticList.value.push({ ..._, isfight: true })
+        }
+      })
+    }
+  } catch (error) {
+    // console.log('error', error)
+  }
+}
 const deleteItem: (e: any, type: 's' | 'd') => void = (e, type) => {
+  console.log(e)
   let arr = type === 's' ? staticList.value : dynamicList.value
   let valueToRemove = e
   let index = arr.indexOf(valueToRemove)
@@ -373,6 +422,10 @@ onMounted(() => {
   cursor: move;
   height: 40px;
   display: flex;
+  margin-top: 5px;
+}
+.import-item {
+  background-color: #227276;
 }
 .item-left {
   flex: 1;
