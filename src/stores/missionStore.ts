@@ -10,7 +10,8 @@ interface ISetMissionOpt {
 }
 export const useMissionStore = defineStore('mission', () => {
   const isGenFlag = ref(false) //是否生成标志，实际为是否显示，默认不显示，点击生成操作后，才会显示
-  const isDirtyFlag = ref(false) //脏标志，当前计划是否为旧的
+  //const isDirtyFlag = ref(false) //脏标志，当前计划是否为旧的
+  const isDown = ref(false) //是否下发
   const dynamicMission = ref([])
   const staticMission = ref([])
   const importMission = ref([])
@@ -34,8 +35,8 @@ export const useMissionStore = defineStore('mission', () => {
     }
   }
   return {
+    isDown,
     isGenFlag,
-    isDirtyFlag,
     dynamicMission,
     staticMission,
     importMission,

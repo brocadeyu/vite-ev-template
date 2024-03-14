@@ -2,7 +2,7 @@
   <BaseDocker
     :title="title"
     :show-footer="true"
-    :height="'435px'"
+    :height="'445px'"
     :width="'450px'"
     :is-draggable="true"
   >
@@ -22,7 +22,7 @@
                 <el-input placeholder="点名呼叫轮询" :disabled="true" />
               </el-form-item>
               <el-form-item
-                label="设备列表"
+                label="关联实体"
                 :rules="[
                   {
                     message: '设备列表不可为空',
@@ -107,7 +107,7 @@
                 <el-input placeholder="静态时隙分配" :disabled="true" />
               </el-form-item>
               <el-form-item
-                label="设备列表"
+                label="关联实体"
                 :rules="[
                   {
                     message: '设备列表不可为空',
@@ -192,7 +192,7 @@
                 <el-input placeholder="动态时隙分配" :disabled="true" />
               </el-form-item>
               <el-form-item
-                label="设备列表"
+                label="关联实体"
                 :rules="[
                   {
                     message: '设备列表不可为空',
@@ -277,7 +277,7 @@
                 <el-input placeholder="直连通信" :disabled="true" />
               </el-form-item>
               <el-form-item
-                label="设备列表"
+                label="关联实体"
                 :rules="[
                   {
                     message: '设备列表不可为空',

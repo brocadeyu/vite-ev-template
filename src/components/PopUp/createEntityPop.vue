@@ -219,7 +219,10 @@ const formData = reactive({
     { name: '对空超短波电台', isHas: false, isUse: false },
     { name: '对海超短波电台', isHas: false, isUse: false },
     { name: '微波电台', isHas: false, isUse: false },
-    { name: '卫星通信设备', isHas: false, isUse: false }
+    { name: '卫星通信设备', isHas: false, isUse: false },
+    { name: '综合链设备', isHas: false, isUse: false },
+    { name: '90X链设备', isHas: false, isUse: false },
+    { name: 'JIDS链设备', isHas: false, isUse: false }
   ]
 })
 const isPickPointStatus = ref(false) //是否开启地图选点状态

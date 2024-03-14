@@ -70,7 +70,7 @@ const computedStyle = computed(() => ({
 }
 .bd-header {
   font-size: 15px;
-  height: 25px;
+  min-height: 25px;
   display: flex;
   align-items: center;
   padding-left: 6px;

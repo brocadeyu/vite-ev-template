@@ -6,10 +6,20 @@
     :width="'600px'"
     :is-draggable="true"
   >
+    <template #header>
+      <el-button
+        type="primary"
+        color="#119aa0"
+        size="small"
+        @click="openConfirm"
+      >
+        <el-icon :size="16"><i-ep-Close /></el-icon>
+      </el-button>
+    </template>
     <template #content>
       <div class="mission-content">
         <el-tabs
-          v-if="isGenFlag"
+          v-if="isGen"
           v-model="activeTab"
           class="demo-tabs"
           @tab-click="handleClick"
@@ -29,7 +39,7 @@
                     <div class="item-center">
                       <el-input-number
                         v-model="element.time"
-                        :min="1"
+                        :min="0"
                         :max="9999"
                         size="small"
                         style="
@@ -76,7 +86,7 @@
                     <div class="item-center">
                       <el-input-number
                         v-model="element.time"
-                        :min="1"
+                        :min="0"
                         :max="9999"
                         size="small"
                         controls-position="right"
@@ -110,7 +120,7 @@
           </el-tab-pane>
         </el-tabs>
         <el-empty
-          v-if="!isGenFlag && !isGening"
+          v-if="!isGen && !isGening"
           description="点击生成以加载默认作战计划"
         >
           <el-button
@@ -131,26 +141,32 @@
     </template>
     <template #footer>
       <div class="foot-btns">
-        <el-button
+        <!-- <el-button
           type="primary"
           color="transparent"
           size="small"
           @click="closePopup"
           >取消
-        </el-button>
+        </el-button> -->
         <!-- <el-button type="primary" size="small">生成</el-button> -->
-        <el-button v-if="isGenFlag" type="primary" color="#119aa0" size="small"
+        <el-button v-if="isGen" type="primary" color="#119aa0" size="small"
           >导入</el-button
         >
         <el-button
-          v-if="isGenFlag"
+          v-if="isGen"
           type="primary"
           size="small"
           color="#119aa0"
-          :disabled="!isDirtyFlag"
+          :disabled="!isDiff"
+          @click="handleSave"
           >保存</el-button
         >
-        <el-button v-if="isGenFlag" type="primary" color="#119aa0" size="small"
+        <el-button
+          v-if="isGen"
+          type="primary"
+          color="#119aa0"
+          size="small"
+          @click="handleDown"
           >下发</el-button
         >
       </div>
@@ -159,6 +175,7 @@
 </template>
 
 <script setup lang="ts">
+import { ElMessage, ElMessageBox } from 'element-plus'
 import BaseDocker from '@/components/BaseDocker.vue'
 import draggable from 'vuedraggable'
 import { usePopupStore } from '@/stores/popupStore'
@@ -170,8 +187,10 @@ const popupStore = usePopupStore()
 const missionStore = useMissionStore()
 const activeTab = ref('static')
 
-const isDirtyFlag = ref(false)
-const isGenFlag = ref(false)
+const isDiff = ref(false)
+const { isGenFlag, isDown } = storeToRefs(missionStore)
+const isGen = ref(false)
+const oldIsGen = ref(false)
 const isGening = ref(false) //是否正在生成
 const staticList = ref([])
 const dynamicList = ref([])
@@ -185,10 +204,45 @@ const handleGen = () => {
   setTimeout(
     () => {
       isGening.value = false
-      isGenFlag.value = true
+      isGen.value = true
     },
     2000 + 1000 * Math.random()
   )
+}
+const openConfirm = () => {
+  if (isGen.value === false || isDown.value) return closePopup()
+  ElMessageBox.confirm('还未下发作战任务，确认退出吗？', 'Warning', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+    title: '警告'
+  })
+    .then(() => {
+      closePopup()
+    })
+    .catch(() => {})
+}
+//保存
+const handleSave = () => {
+  isGenFlag.value = true
+  isDown.value = false
+  staticMission.value = JSON.parse(JSON.stringify(staticList.value))
+  dynamicMission.value = JSON.parse(JSON.stringify(dynamicList.value))
+  ElMessage({
+    type: 'success',
+    grouping: true,
+    message: '保存成功'
+  })
+}
+//下发
+const handleDown = () => {
+  handleSave()
+  isDown.value = true
+  ElMessage({
+    type: 'success',
+    grouping: true,
+    message: '下发成功'
+  })
 }
 const props = withDefaults(
   defineProps<{
@@ -201,14 +255,26 @@ const { staticMission, dynamicMission } = storeToRefs(missionStore)
 watch(
   () => staticList.value,
   (newVal) => {
-    if (!arraysAreEqual(staticMission.value, newVal)) {
-      isDirtyFlag.value = true
+    console.log(
+      toRaw(newVal),
+      Array.from(staticMission.value.map((_) => toRaw(_)))
+    )
+    if (
+      !arraysAreEqual(
+        Array.from(staticMission.value.map((_) => toRaw(_))),
+        toRaw(newVal)
+      )
+    ) {
+      console.log('数组不相等')
+      isDiff.value = true
     } else {
-      isDirtyFlag.value = false
+      console.log('数组相等')
+      isDiff.value = true
     }
+    console.log('ddddd', isDiff.value)
   },
   {
-    // immediate: true,
+    immediate: true,
     deep: true
   }
 )
@@ -217,8 +283,9 @@ const closePopup = () => {
   popupStore.closePop()
 }
 onMounted(() => {
-  isGenFlag.value = missionStore.isGenFlag
-  isDirtyFlag.value = missionStore.isDirtyFlag
+  oldIsGen.value = missionStore.isGenFlag
+  isGen.value = missionStore.isGenFlag
+  //isDiff.value = missionStore.isDiff
   staticList.value = JSON.parse(JSON.stringify(staticMission.value))
   dynamicList.value = JSON.parse(JSON.stringify(dynamicMission.value))
   // console.log('静态', staticList.value)
