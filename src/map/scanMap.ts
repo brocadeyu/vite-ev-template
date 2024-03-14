@@ -49,32 +49,58 @@ export default class ScanMap {
                 thickness: 0.3
               },
               source: `
+             
               uniform vec4 color;
               uniform float repeat;
               uniform float thickness;
+              vec3 hsb2rgb(vec3 hsb) {
+                  float hue = hsb.x;
+                  float saturation = hsb.y;
+                  float brightness = hsb.z;
+                  
+                  float chroma = brightness * saturation;
+                  float hueScaled = hue * 6.0;
+                  float x = chroma * (1.0 - abs(mod(hueScaled, 2.0) - 1.0));
+                  float m = brightness - chroma;
+                  
+                  vec3 rgb;
+                  
+                  if (hueScaled >= 0.0 && hueScaled < 1.0) {
+                      rgb = vec3(chroma, x, 0.0);
+                  } else if (hueScaled >= 1.0 && hueScaled < 2.0) {
+                      rgb = vec3(x, chroma, 0.0);
+                  } else if (hueScaled >= 2.0 && hueScaled < 3.0) {
+                      rgb = vec3(0.0, chroma, x);
+                  } else if (hueScaled >= 3.0 && hueScaled < 4.0) {
+                      rgb = vec3(0.0, x, chroma);
+                  } else if (hueScaled >= 4.0 && hueScaled < 5.0) {
+                      rgb = vec3(x, 0.0, chroma);
+                  } else {
+                      rgb = vec3(chroma, 0.0, x);
+                  }
+                  
+                  return rgb + vec3(m);
+              }
               czm_material czm_getMaterial(czm_materialInput materialInput)
               {
               czm_material material = czm_getDefaultMaterial(materialInput);
               float sp = 1.0/repeat;
               vec2 st = materialInput.st;
-              float dis = distance(st, vec2(0.5));
+              float dis1 = distance(st, vec2(0.5));
+              vec2 iResolution = vec2(1.0,1.0);
+              vec2 p = (2.0*st.xy-iResolution.xy)/iResolution.y;
               float time = fract(czm_frameNumber/100.0);//0=>1 1s
-              float m = mod(dis - czm_frameNumber/3000.0, sp);
-              //float a = step(sp*(1.0-thickness), m);
-              float lineOuter = 1.0*time;
-              float lineInner = 0.0;
-              if(time >0.5){
-              lineInner = 2.0*time -1.0;
-              }
-              float a;
-              if(dis<lineOuter && dis>lineInner){
-              a = 1.0;
-              }else{
-              a = 0.0;
-              }
-              //a = smoothstep(0.2,0.8,a);
-              material.diffuse = color.rgb;
-              material.alpha = a * color.a;
+              float r = length(p) * 0.9;
+	            vec3 color = hsb2rgb(vec3(0.24, 0.7, 0.4));
+              float a = pow(r, 2.0);
+              float b = sin(r * 0.8 - 1.6);
+              float c = sin(r - 0.010);
+              float s = sin(a - time * 3.0 + b) * c;
+              color *= abs(1.0 / (s * 10.8)) - 0.01;
+              if(dis1>0.4)discard;
+	            vec4 fragColor = vec4(color, 1.);
+              material.diffuse = color;
+              material.alpha = 0.2;
               return material;
                                 
               }`
