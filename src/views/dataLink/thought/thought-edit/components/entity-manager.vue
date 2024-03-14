@@ -3,7 +3,7 @@
     <BaseDocker
       :title="'实体管理'"
       :height="'250px'"
-      :width="'200px'"
+      :width="'232px'"
       :show-footer="true"
       icon="edit"
     >
@@ -55,21 +55,21 @@
             size="small"
             color="#119aa0"
             @click="openLinkGenPop"
-            >链生成
+            >批量挂载
           </el-button>
           <el-button
             type="primary"
             size="small"
             color="#119aa0"
             @click="sendValidateLink"
-            >链校验
+            >链路校验
           </el-button>
           <el-button
             type="primary"
             size="small"
             color="#119aa0"
             @click="openWarPlanPop"
-            >计划
+            >作战计划
           </el-button>
         </div>
       </template>
@@ -266,5 +266,9 @@ defineExpose({
 }
 .foot-btns {
   display: flex;
+  justify-content: space-between;
+  .el-button {
+    margin-left: 0;
+  }
 }
 </style>
