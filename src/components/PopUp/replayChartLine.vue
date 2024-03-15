@@ -235,7 +235,7 @@ const setEchartsData = () => {
         type: 'line',
         yAxisIndex: 0,
         showSymbol: false,
-        smooth: true,
+        // smooth: true,
         data: data.map((_) => {
           return { name: _.time, value: [_.time, _.delay] }
         })
@@ -245,7 +245,7 @@ const setEchartsData = () => {
         type: 'line',
         yAxisIndex: 1,
         showSymbol: false,
-        smooth: true,
+        // smooth: true,
         data: data.map((_) => {
           return { name: _.time, value: [_.time, _.missPercent] }
         })
@@ -255,7 +255,7 @@ const setEchartsData = () => {
         type: 'line',
         yAxisIndex: 2,
         showSymbol: false,
-        smooth: true,
+        // smooth: true,
         data: data.map((_) => {
           return { name: _.time, value: [_.time, _.speed] }
         })
@@ -265,7 +265,7 @@ const setEchartsData = () => {
         type: 'line',
         yAxisIndex: 3,
         showSymbol: false,
-        smooth: true,
+        // smooth: true,
         data: data.map((_) => {
           return { name: _.time, value: [_.time, _.speedPercent] }
         })

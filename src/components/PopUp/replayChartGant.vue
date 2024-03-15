@@ -223,6 +223,16 @@ const setEchartsData = () => {
   // }
   echartsInstance.setOption(option)
 }
+watch(
+  warMissionLog,
+  () => {
+    console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww')
+    setEchartsData()
+  },
+  {
+    deep: true
+  }
+)
 onMounted(() => {
   initEcharts()
   setEchartsData()
