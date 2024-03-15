@@ -252,6 +252,7 @@ const onSave = () => {
         entityStore.removeEntityById(props.data.name)
         cesiumStore.cesium.modelMap.removeModel({ id: props.data.name })
         cesiumStore.cesium.trackMap.removeTrack({ id: props.data.name })
+        cesiumStore.cesium.boardMap.removeLabelById(props.data.name)
         cesiumStore.cesium.scanMap.removeScanById(props.data.name)
       } else {
         //新增
@@ -268,6 +269,10 @@ const onSave = () => {
         id: formData.name,
         position: formData.position,
         type: formData.type
+      })
+      cesiumStore.cesium.boardMap.addBoard({
+        id: formData.name,
+        position: formData.position
       })
       cesiumStore.cesium.trackMap.addTrack({
         id: formData.name,
