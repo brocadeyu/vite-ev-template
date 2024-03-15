@@ -2,7 +2,7 @@
   <base-docker
     :title="title"
     :show-footer="true"
-    :height="'450px'"
+    :height="'480px'"
     :width="'480px'"
     :is-draggable="true"
     :bg="getEntityImgByType(data.type)"

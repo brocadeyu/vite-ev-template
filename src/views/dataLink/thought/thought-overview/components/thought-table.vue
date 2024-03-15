@@ -174,7 +174,7 @@ const fetchThoughtList = async (loading = true) => {
       showLoading.value = false
       tableData.value = list
     }
-    console.log(list)
+    // console.log(list)
   } catch (error) {
     setTimeout(() => {
       showLoading.value = false
