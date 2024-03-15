@@ -207,6 +207,8 @@ onBeforeUnmount(() => {
   sendCloseMessage()
   websocketStore.disconnect()
   bc.close()
+  entityStore.resetEntity()
+  linkStore.resetLink()
 })
 </script>
 <style scoped></style>
