@@ -276,7 +276,7 @@ const handleImport = async () => {
   }
 }
 const deleteItem: (e: any, type: 's' | 'd') => void = (e, type) => {
-  console.log(e)
+  // console.log(e)
   let arr = type === 's' ? staticList.value : dynamicList.value
   let valueToRemove = e
   let index = arr.indexOf(valueToRemove)
@@ -330,23 +330,22 @@ const { staticMission, dynamicMission } = storeToRefs(missionStore)
 watch(
   () => staticList.value,
   (newVal) => {
-    console.log(
-      toRaw(newVal),
-      Array.from(staticMission.value.map((_) => toRaw(_)))
-    )
+    // console.log(
+    //   toRaw(newVal),
+    //   Array.from(staticMission.value.map((_) => toRaw(_)))
+    // )
     if (
       !arraysAreEqual(
         Array.from(staticMission.value.map((_) => toRaw(_))),
         toRaw(newVal)
       )
     ) {
-      console.log('数组不相等')
+      // console.log('数组不相等')
       isDown.value = false
     } else {
-      console.log('数组相等')
+      // console.log('数组相等')
       isDown.value = true
     }
-    console.log('ddddd', isDiff.value)
   },
   {
     immediate: true,

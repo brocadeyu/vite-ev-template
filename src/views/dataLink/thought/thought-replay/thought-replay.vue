@@ -102,7 +102,7 @@ onMounted(() => {
   })
   websocketStore.addEventListener(WS_EVENT.dataMessage, (data) => {
     // eslint-disable-next-line no-console
-    console.log('数据日志', data)
+    // console.log('数据日志', data)
     const message = JSON.parse(data.Message)
     if (message.length) {
       const m = message[0].message
@@ -133,7 +133,6 @@ onMounted(() => {
             type: _.dataLinkType,
             positionArr: [fromPosition, toPosition]
           }
-          console.log('opt', opt)
           cesiumStore.cesium.messageMap.displayMessageLink(opt)
         })
       }
@@ -148,7 +147,7 @@ onMounted(() => {
   })
   websocketStore.addEventListener(WS_EVENT.missionMessage, (data) => {
     // eslint-disable-next-line no-console
-    console.log('作战任务日志', data)
+    // console.log('作战任务日志', data)
     data.Message.forEach((_) => {
       logStore.pushWarMissionLog({ ..._, timeStr: getNowTimeStr() })
     })
@@ -183,7 +182,7 @@ onMounted(() => {
   websocketStore.addEventListener(WS_EVENT.startGenDocRes, async () => {
     const dataLd = await screenShot(document.getElementById('gentChartId'))
     const dataGt = await screenShot(document.getElementById('gentChartId'))
-    console.log('雷达图', dataLd, '甘特图', dataGt)
+    // console.log('雷达图', dataLd, '甘特图', dataGt)
     let data = {
       InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDocImage',
       ldImg: dataLd,
@@ -193,12 +192,12 @@ onMounted(() => {
     websocketStore.sendMessage(data)
   })
   websocketStore.addEventListener(WS_EVENT.genDocSuccess, () => {
-    console.log('文档生成成功！！！')
+    // console.log('文档生成成功！！！')
   })
   bc = new BroadcastChannel('simulateSend')
   bc.onmessage = (e) => {
     //接受模拟发送标签页面发送的消息，ws发送
-    console.log('接受到的消息', e.data)
+    // console.log('接受到的消息', e.data)
     websocketStore.sendMessage(e.data)
   }
 })

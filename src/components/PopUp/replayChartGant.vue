@@ -226,7 +226,6 @@ const setEchartsData = () => {
 watch(
   warMissionLog,
   () => {
-    console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww')
     setEchartsData()
   },
   {

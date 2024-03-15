@@ -28,7 +28,7 @@ export default class MessageMap {
   }
   displayMessageLink(opt: DisplayMessageLinkOpt) {
     const { id, positionArr, type, isBrodeCast } = opt
-    console.log('id, positionArr, type', id, positionArr, type)
+    // console.log('id, positionArr, type', id, positionArr, type)
     const geometryInstance = new Cesium.GeometryInstance({
       geometry: new Cesium.PolylineGeometry({
         positions: Cesium.Cartesian3.fromDegreesArrayHeights(
@@ -40,7 +40,7 @@ export default class MessageMap {
     })
 
     const material = this.getMaterialByType(type, isBrodeCast)
-    console.log('meterial', material)
+    // console.log('meterial', material)
     const linkPrimitive = new Cesium.Primitive({
       geometryInstances: [geometryInstance],
       appearance: new Cesium.PolylineMaterialAppearance({
