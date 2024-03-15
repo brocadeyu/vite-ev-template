@@ -51,9 +51,9 @@ onMounted(async () => {
 })
 onBeforeRouteUpdate((to) => {
   cesiumStore.cesium.globeRoute.stop()
-  requestIdleCallback(() => {
-    cesiumStore.cesium?.clearLayerData()
-  })
+  // requestIdleCallback(() => {
+  cesiumStore.cesium?.clearLayerData()
+  // })
   // console.log('to', to.name, 'from', from.name)
   if (to.name === '登录') {
     cesiumStore.cesium

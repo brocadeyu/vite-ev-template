@@ -20,7 +20,7 @@
                   }
                 ]"
               >
-                <el-input placeholder="点名呼叫轮询" :disabled="true" />
+                <el-input placeholder="静态时隙分配" :disabled="true" />
               </el-form-item>
               <el-form-item
                 label="关联实体"
@@ -105,7 +105,7 @@
                   }
                 ]"
               >
-                <el-input placeholder="静态时隙分配" :disabled="true" />
+                <el-input placeholder="点名呼叫轮询" :disabled="true" />
               </el-form-item>
               <el-form-item
                 label="关联实体"

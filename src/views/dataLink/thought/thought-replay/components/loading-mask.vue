@@ -36,9 +36,9 @@ const endProgress = () => {
     showMask.value = false
   }, 500)
 }
-setTimeout(() => {
-  endProgress()
-}, 5000)
+// setTimeout(() => {
+//   endProgress()
+// }, 5000)
 defineExpose({
   endProgress
 })
