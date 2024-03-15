@@ -52,4 +52,7 @@ export default class BoardMap {
     this._collection.removeAll()
     this._map = new Map()
   }
+  setAllVisible(flag: boolean) {
+    this._collection.show = flag
+  }
 }

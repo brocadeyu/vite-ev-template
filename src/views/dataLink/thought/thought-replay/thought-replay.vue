@@ -47,6 +47,24 @@ const initSendMessage = () => {
   }
   websocketStore.sendMessage(data)
 }
+const setLayerVisible = () => {
+  cesiumStore.cesium.modelMap.setAllVisible(true)
+  cesiumStore.cesium.boardMap.setAllVisible(true)
+  cesiumStore.cesium.trackMap.setAllVisible(true)
+  cesiumStore.cesium.linkMap.setVisibleByType({
+    type: '综合链',
+    flag: true
+  })
+  cesiumStore.cesium.linkMap.setVisibleByType({
+    type: '90X链',
+    flag: true
+  })
+  cesiumStore.cesium.linkMap.setVisibleByType({
+    type: 'JIDS链',
+    flag: true
+  })
+  cesiumStore.cesium.scanMap.setAllVisible(true)
+}
 const sendCloseMessage = () => {
   const data = {
     InteractType: 'baseInter.FederationInteract.SimControlInter',
@@ -82,6 +100,7 @@ onMounted(() => {
       })
     })
   })
+  setLayerVisible()
   websocketStore.connect('ws://localhost:12000/hsdb/101')
   websocketStore.addEventListener(WS_EVENT.onopen, () => {
     // eslint-disable-next-line no-console

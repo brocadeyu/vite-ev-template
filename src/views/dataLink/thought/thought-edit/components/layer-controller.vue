@@ -23,7 +23,7 @@
             "
             accordion
             show-checkbox
-            :default-checked-keys="['模型', '轨迹', '数据链']"
+            :default-checked-keys="['模型', '标牌', '轨迹', '数据链']"
             node-key="label"
             default-expand-all
             :expand-on-click-node="false"
@@ -45,6 +45,7 @@ interface Tree {
 }
 enum NodeLabel {
   '模型',
+  '标牌',
   '轨迹',
   '数据链',
   '综合链',
@@ -55,6 +56,9 @@ enum NodeLabel {
 const treeData: Tree[] = [
   {
     label: '模型'
+  },
+  {
+    label: '标牌'
   },
   {
     label: '轨迹'
@@ -89,11 +93,12 @@ const handleNodeCheckChange = (node: any, isChecked: boolean) => {
     case '模型':
       cesiumStore.cesium.modelMap.setAllVisible(isChecked)
       break
+    case '标牌':
+      cesiumStore.cesium.boardMap.setAllVisible(isChecked)
+      break
     case '轨迹':
       cesiumStore.cesium.trackMap.setAllVisible(isChecked)
       break
-    // case '数据链':
-    //   break
     case '综合链':
       cesiumStore.cesium.linkMap.setVisibleByType({
         type: '综合链',
@@ -113,6 +118,7 @@ const handleNodeCheckChange = (node: any, isChecked: boolean) => {
       })
       break
     case 'KU卫通':
+      cesiumStore.cesium.scanMap.setAllVisible(isChecked)
       break
   }
 }

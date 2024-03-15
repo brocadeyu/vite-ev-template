@@ -37,7 +37,9 @@ onMounted(async () => {
       asyncInitLink(),
       asyncInitMission(),
       asyncInitWS()
-    ])
+    ]).then(() => {
+      setLayerVisible()
+    })
     console.log('初始化完成')
   })
 })
@@ -141,6 +143,24 @@ const asyncInitWS = async () => {
     // console.log('asyncInitWS sucess')
     resolve()
   })
+}
+const setLayerVisible = () => {
+  cesiumStore.cesium.modelMap.setAllVisible(true)
+  cesiumStore.cesium.boardMap.setAllVisible(true)
+  cesiumStore.cesium.trackMap.setAllVisible(true)
+  cesiumStore.cesium.linkMap.setVisibleByType({
+    type: '综合链',
+    flag: true
+  })
+  cesiumStore.cesium.linkMap.setVisibleByType({
+    type: '90X链',
+    flag: true
+  })
+  cesiumStore.cesium.linkMap.setVisibleByType({
+    type: 'JIDS链',
+    flag: true
+  })
+  cesiumStore.cesium.scanMap.setAllVisible(true)
 }
 onBeforeUnmount(() => {
   entityStore.resetEntity()
