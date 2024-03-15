@@ -155,20 +155,25 @@ const deleteThoughtItem: (row: RawThought) => void = async (row) => {
   const { id } = row
   try {
     await deleteThoughtById(id)
-    await fetchThoughtList()
+    await fetchThoughtList(false)
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log('error', error)
   }
 }
-const fetchThoughtList = async () => {
+const fetchThoughtList = async (loading = true) => {
   try {
     showLoading.value = true
     const list: any = await getThoughtList()
-    setTimeout(() => {
+    if (loading) {
+      setTimeout(() => {
+        showLoading.value = false
+        tableData.value = list
+      }, 1500)
+    } else {
       showLoading.value = false
       tableData.value = list
-    }, 1500)
+    }
     console.log(list)
   } catch (error) {
     setTimeout(() => {
