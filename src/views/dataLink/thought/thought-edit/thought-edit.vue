@@ -144,6 +144,7 @@ const asyncInitWS = async () => {
 }
 onBeforeUnmount(() => {
   entityStore.resetEntity()
+  linkStore.resetLink()
   // cesiumStore.resetCesium()
   websocketStore.disconnect()
 })

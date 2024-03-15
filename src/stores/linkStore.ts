@@ -25,10 +25,15 @@ export const useLinkStore = defineStore('link', () => {
   const setLinkLinkInfo = (arg: any[]) => {
     linklink.value = arg
   }
+  const resetLink = () => {
+    linkConnectInfo.value = {}
+    linklink.value = []
+  }
   return {
     linkConnectInfo,
     setLinkConnectInfo,
     setLinkLinkInfo,
-    linklink
+    linklink,
+    resetLink
   }
 })

@@ -1,3 +1,4 @@
+<!-- eslint-disable no-debugger -->
 <template>
   <BaseDocker
     :title="title"
@@ -580,7 +581,7 @@ const confirmPopup = async () => {
 }
 onMounted(() => {
   const param1 = linkStore.linkConnectInfo['综合链']
-  param1?.selection.forEach((_) => {
+  param1?.selection?.forEach((_) => {
     tableRefZHL.value.toggleRowSelection(
       devicesList.value.find((item) => {
         return _ === item.id
@@ -591,7 +592,7 @@ onMounted(() => {
   param1 && (formDataZHL.mainDevice = param1.mainDevice)
 
   const param2 = linkStore.linkConnectInfo['90X链']
-  param2?.selection.forEach((_) => {
+  param2?.selection?.forEach((_) => {
     tableRef90X.value.toggleRowSelection(
       devicesList.value.find((item) => {
         return _ === item.id
@@ -602,7 +603,7 @@ onMounted(() => {
   param2 && (formData90X.mainDevice = param2.mainDevice)
 
   const param3 = linkStore.linkConnectInfo['JIDS链']
-  param3?.selection.forEach((_) => {
+  param3?.selection?.forEach((_) => {
     tableRefJIDS.value.toggleRowSelection(
       devicesList.value.find((item) => {
         return _ === item.id
@@ -613,7 +614,7 @@ onMounted(() => {
   param3 && (formDataJIDS.mainDevice = param3.mainDevice)
 
   const param4 = linkStore.linkConnectInfo['KU卫通']
-  param4?.selection.forEach((_) => {
+  param4?.selection?.forEach((_) => {
     tableRefKU.value.toggleRowSelection(
       shipDeviceList.value.find((item) => {
         return _ === item.id
