@@ -2,7 +2,7 @@
   <div class="lc-container">
     <BaseDocker
       :title="'图层控制'"
-      :height="'230px'"
+      :height="'250px'"
       :width="'200px'"
       icon="view"
     >
