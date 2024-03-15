@@ -209,6 +209,7 @@ onBeforeUnmount(() => {
   bc.close()
   entityStore.resetEntity()
   linkStore.resetLink()
+  logStore.resetLog()
 })
 </script>
 <style scoped></style>

@@ -42,8 +42,15 @@ export const useLogStore = defineStore(
     const pushDataLog = (data) => {
       dataLog.value.push(data)
     }
+    const resetLog = () => {
+      warMissionLog.value = []
+      dataLog.value = []
+      linkZHState.value = []
+      link90XState.value = []
+      linkJIDSState.value = []
+      linkKUState.value = []
+    }
     const pushStateLog = (data: LinkStateLog) => {
-      console.log('ddddddddddd', data)
       switch (data.type) {
         case '综合链':
           linkZHState.value.push(data)
@@ -68,7 +75,8 @@ export const useLogStore = defineStore(
       linkKUState,
       pushWarMissionLog,
       pushDataLog,
-      pushStateLog
+      pushStateLog,
+      resetLog
     }
   },
   {
