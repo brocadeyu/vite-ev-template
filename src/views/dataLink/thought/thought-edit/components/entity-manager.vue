@@ -156,6 +156,7 @@ const openContextMenu = (e, data: ITreeNodeData) => {
           cesiumStore.cesium.modelMap.removeModel({ id })
           cesiumStore.cesium.boardMap.removeLabelById(id)
           cesiumStore.cesium.trackMap.removeTrack({ id })
+          cesiumStore.cesium.scanMap.removeScanById(id)
         }
       }
     ]
