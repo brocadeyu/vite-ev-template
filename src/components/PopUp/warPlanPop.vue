@@ -176,6 +176,14 @@
           type="primary"
           color="#119aa0"
           size="small"
+          @click="handleOutput"
+          >导出</el-button
+        >
+        <el-button
+          v-if="isGen"
+          type="primary"
+          color="#119aa0"
+          size="small"
           @click="handleImport"
           >导入</el-button
         >
@@ -202,7 +210,6 @@
 </template>
 
 <script setup lang="ts">
-import { useFileDialog } from '@vueuse/core'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import BaseDocker from '@/components/BaseDocker.vue'
 import draggable from 'vuedraggable'
@@ -236,6 +243,14 @@ const handleGen = () => {
     },
     2000 + 1000 * Math.random()
   )
+}
+const handleOutput = async () => {
+  let link = document.createElement('a')
+  link.download = 'plan.json'
+  link.href =
+    'data:text/plain,' +
+    JSON.stringify([].concat(staticList.value, dynamicList.value))
+  link.click()
 }
 const handleImport = async () => {
   try {
