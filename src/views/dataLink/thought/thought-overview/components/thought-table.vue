@@ -8,7 +8,7 @@
         @click="toCreateView"
         >新建想定</el-button
       >
-      <el-button type="danger" :icon="DeleteFilled">一键删除</el-button>
+      <!-- <el-button type="danger" :icon="DeleteFilled">一键删除</el-button> -->
     </div>
     <div style="height: calc(100% - 52px)">
       <el-table
@@ -43,9 +43,9 @@
           color: 'white'
         }"
       >
-        <el-table-column type="selection" width="80" />
+        <!-- <el-table-column type="selection" width="80" /> -->
         <el-table-column label="想定名称" prop="name"> </el-table-column>
-        <el-table-column label="创建时间" sortable>
+        <el-table-column label="创建时间">
           <template #default="scope">
             <span>{{
               scope.row.jsonData.createTime
@@ -54,7 +54,7 @@
             }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="最后编辑时间" sortable>
+        <el-table-column label="最后编辑时间">
           <template #default="scope">
             <span>{{
               scope.row.jsonData.lastEditTime

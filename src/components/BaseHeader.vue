@@ -23,7 +23,8 @@ defineProps<{ title: string }>()
   height: 8vh;
   background-image: url('../assets/header/header.png');
   background-repeat: no-repeat;
-  background-position: 25% 100%;
+  /* background-position: 0% 100%; */
+  transform: translateY(-1px);
   background-color: transparent;
 }
 .header-title {
