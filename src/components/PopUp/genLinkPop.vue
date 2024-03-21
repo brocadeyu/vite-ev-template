@@ -4,13 +4,13 @@
     :title="title"
     :show-footer="true"
     :height="'445px'"
-    :width="'450px'"
+    :width="'505px'"
     :is-draggable="true"
   >
     <template #content>
       <div class="gen-content">
         <el-tabs v-model="activeTab" type="border-card">
-          <el-tab-pane label="综合链" name="综合链">
+          <el-tab-pane label="综合链设备" name="综合链">
             <el-form ref="formRefZHL" :model="formDataZHL">
               <el-form-item
                 label="通信方式"
@@ -95,7 +95,7 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="90X链" name="90X链">
+          <el-tab-pane label="90X链设备" name="90X链">
             <el-form ref="formRef90X" :model="formData90X">
               <el-form-item
                 label="通信方式"
@@ -180,7 +180,7 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="JIDS链" name="JIDS链">
+          <el-tab-pane label="JIDS链设备" name="JIDS链">
             <el-form ref="formRefJIDS" :model="formDataJIDS">
               <el-form-item
                 label="通信方式"
@@ -265,7 +265,7 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="KU卫通" name="KU卫通">
+          <el-tab-pane label="KU卫通设备" name="KU卫通">
             <el-form ref="formRefKU" :model="formDataKu">
               <el-form-item
                 label="通信方式"
