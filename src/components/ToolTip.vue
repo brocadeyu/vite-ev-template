@@ -30,7 +30,8 @@ const top = computed(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(137, 135, 135);
+  background-color: #0b1a39;
+  border: 2px solid #119aa0;
   font-size: 16px;
   color: white;
   border-radius: 5px;
