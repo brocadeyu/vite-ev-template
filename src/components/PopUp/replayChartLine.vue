@@ -140,6 +140,19 @@ const setEchartsData = () => {
           },
           margin: 5
         }
+      },
+      formatter: function (params) {
+        let result =
+          params[0].axisValueLabel + ':' + params[0].data.message + '<br />'
+        params.forEach(function (item) {
+          result +=
+            item.marker +
+            item.seriesName +
+            ': ' +
+            item.data.value[1].toFixed(3) +
+            ' <br />'
+        })
+        return result
       }
     },
     grid: {
@@ -237,7 +250,7 @@ const setEchartsData = () => {
         showSymbol: false,
         // smooth: true,
         data: data.map((_) => {
-          return { name: _.time, value: [_.time, _.delay] }
+          return { name: _.time, value: [_.time, _.delay], message: _.message }
         })
       },
       {
@@ -247,7 +260,11 @@ const setEchartsData = () => {
         showSymbol: false,
         // smooth: true,
         data: data.map((_) => {
-          return { name: _.time, value: [_.time, _.missPercent] }
+          return {
+            name: _.time,
+            value: [_.time, _.missPercent],
+            message: _.message
+          }
         })
       },
       {
@@ -257,7 +274,7 @@ const setEchartsData = () => {
         showSymbol: false,
         // smooth: true,
         data: data.map((_) => {
-          return { name: _.time, value: [_.time, _.speed] }
+          return { name: _.time, value: [_.time, _.speed], message: _.message }
         })
       },
       {
@@ -267,7 +284,11 @@ const setEchartsData = () => {
         showSymbol: false,
         // smooth: true,
         data: data.map((_) => {
-          return { name: _.time, value: [_.time, _.speedPercent] }
+          return {
+            name: _.time,
+            value: [_.time, _.speedPercent],
+            message: _.message
+          }
         })
       }
     ]

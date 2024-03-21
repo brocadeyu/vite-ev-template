@@ -25,6 +25,7 @@ interface LinkStateLog {
   speedPercent: number
   type: LinkType
   time: number
+  message: string
 }
 export const useLogStore = defineStore(
   'log',
@@ -80,6 +81,6 @@ export const useLogStore = defineStore(
     }
   },
   {
-    // persist: true
+    persist: true
   }
 )

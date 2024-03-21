@@ -158,9 +158,19 @@ onMounted(() => {
     }
     const dataLinkState = JSON.parse(data.DataLinkParam)
     if (dataLinkState.length) {
+      const str1 = message[0].message.split(':')[1]
+      const str2 = str1.split('：')[0]
+      const str3 = str2.split(',')
+      let str4 = ''
+      if (str3.length === 2) {
+        str4 = `${str3[0]},${str3[1]}`
+      } else {
+        str4 = `${str3[0]}`
+      }
       logStore.pushStateLog({
         ...dataLinkState[0],
-        time: Number(data.sendTime)
+        time: Number(data.sendTime),
+        message: str4.split('，')[0]
       })
     }
   })
