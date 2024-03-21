@@ -300,8 +300,7 @@ const setEchartsData = () => {
 
 watch(
   dataLog,
-  (newVal) => {
-    console.log('newVVVVVVV', newVal)
+  () => {
     let data = []
     switch (displayType.value) {
       case '综合链':
