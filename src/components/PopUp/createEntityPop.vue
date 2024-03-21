@@ -441,6 +441,7 @@ onMounted(() => {
 .entity-form {
   padding: 15px;
   color: white;
+  --el-text-color-regular: rgb(232, 232, 232);
 }
 .entity-form .el-input {
   /* --el-input-width: 110px; */
