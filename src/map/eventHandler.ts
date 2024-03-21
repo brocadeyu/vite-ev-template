@@ -42,16 +42,11 @@ export default class EventHandler {
     if (!this.eventMap.get(eventType)) {
       this.eventMap.set(eventType, [])
       this._cesiumScreenHandler.setInputAction((e) => {
-        // if (
-        //   this._timer &&
-        //   eventType === Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
-        // ) {
-        //   clearTimeout(this._timer)
-        // }
         let param = e
         const worldCoords = this.screenCoordinate2World(
           e.position || e.endPosition
         )
+        if (!worldCoords) return
         const cartoCoords = this.worldCoordinate2Carto(worldCoords)
         if (
           [
@@ -63,17 +58,10 @@ export default class EventHandler {
         ) {
           param = { position: cartoCoords }
         }
-        // if (eventType === Cesium.ScreenSpaceEventType.LEFT_CLICK) {
-        //   this._timer = setTimeout(() => {
-        //     this.eventMap.get(eventType).forEach((_) => {
-        //       _.fn(param)
-        //     })
-        //   }, 200)
-        // } else {
+
         this.eventMap.get(eventType).forEach((_) => {
           _.fn(param)
         })
-        // }
       }, eventType)
     }
     const eventArr = this.eventMap.get(eventType)
