@@ -15,10 +15,10 @@ export default class MarkerPoint {
       position: Cesium.Cartesian3.fromDegrees(position[0], position[1]),
       billboard: {
         image: LocateImg,
-        width: 40,
-        height: 41,
-        scale: 0.8,
-        pixelOffset: new Cesium.Cartesian2(0, -10),
+        width: 42,
+        height: 40,
+        scale: 1.0,
+        pixelOffset: new Cesium.Cartesian2(0, -15),
         disableDepthTestDistance: Number.POSITIVE_INFINITY
       }
     })
