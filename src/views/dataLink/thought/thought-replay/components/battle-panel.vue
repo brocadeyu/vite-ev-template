@@ -3,7 +3,7 @@
     <BaseDocker
       :title="'作战日志'"
       :height="'230px'"
-      :width="'400px'"
+      :width="'650px'"
       icon="log"
     >
       <template #header>
