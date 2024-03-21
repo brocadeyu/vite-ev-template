@@ -164,7 +164,7 @@ const openContextMenu = (e, data: ITreeNodeData) => {
 }
 const openLinkGenPop = () => {
   popupStore.openPop({
-    title: '批量挂载数据链设备',
+    title: '批量挂载设备',
     type: 'genLink'
   })
 }
