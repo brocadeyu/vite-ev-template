@@ -157,7 +157,11 @@
           v-if="isGening"
           :rows="9"
           animated
-          style="--el-skeleton-color: #5e6570; --el-skeleton-to-color: #235297"
+          style="
+            --el-skeleton-color: #5e6570;
+            --el-skeleton-to-color: #235297;
+            margin-top: 15px;
+          "
         />
       </div>
     </template>
