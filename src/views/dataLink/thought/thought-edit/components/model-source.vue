@@ -124,7 +124,7 @@ const tryAddEntity = (modelInfo, index: number) => {
   left: -10px;
   right: -10px;
   bottom: -5px;
-  border: 2px solid gold;
+  border: 2px solid #00f3fe;
   transition: all 0.5s;
   animation: clippath 3s infinite linear;
   border-radius: 10px;

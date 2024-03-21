@@ -470,7 +470,7 @@ onMounted(() => {
   left: -7px;
   right: -7px;
   bottom: -7px;
-  border: 2px solid gold;
+  border: 2px solid #00f3fe;
   transition: all 0.5s;
   animation: clippath 3s infinite linear;
   border-radius: 7px;
