@@ -262,7 +262,7 @@ const setEchartsData = () => {
         data: data.map((_) => {
           return {
             name: _.time,
-            value: [_.time, _.missPercent],
+            value: [_.time, _.speedPercent],
             message: _.message
           }
         })
@@ -274,7 +274,11 @@ const setEchartsData = () => {
         showSymbol: false,
         // smooth: true,
         data: data.map((_) => {
-          return { name: _.time, value: [_.time, _.speed], message: _.message }
+          return {
+            name: _.time,
+            value: [_.time, _.missPercent],
+            message: _.message
+          }
         })
       },
       {
@@ -286,7 +290,7 @@ const setEchartsData = () => {
         data: data.map((_) => {
           return {
             name: _.time,
-            value: [_.time, _.speedPercent],
+            value: [_.time, _.speed],
             message: _.message
           }
         })
@@ -331,7 +335,7 @@ watch(
           type: 'line',
           yAxisIndex: 1,
           data: data.map((_) => {
-            return { name: _.time, value: [_.time, _.missPercent] }
+            return { name: _.time, value: [_.time, _.speedPercent] }
           })
         },
         {
@@ -339,7 +343,7 @@ watch(
           type: 'line',
           yAxisIndex: 2,
           data: data.map((_) => {
-            return { name: _.time, value: [_.time, _.speed] }
+            return { name: _.time, value: [_.time, _.missPercent] }
           })
         },
         {
@@ -347,7 +351,7 @@ watch(
           type: 'line',
           yAxisIndex: 3,
           data: data.map((_) => {
-            return { name: _.time, value: [_.time, _.speedPercent] }
+            return { name: _.time, value: [_.time, _.speed] }
           })
         }
       ]
