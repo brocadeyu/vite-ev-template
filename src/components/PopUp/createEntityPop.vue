@@ -184,6 +184,7 @@ import { usePopupStore } from '@/stores/popupStore'
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { useEntityStore } from '@/stores/entityStore'
 import { useToolTipStore } from '@/stores/tooltipStore'
+import { useLinkStore } from '@/stores/linkStore'
 import { onMounted } from 'vue'
 import {
   IOpenAddEntityPopProps,
@@ -238,6 +239,7 @@ const popupStore = usePopupStore()
 const cesiumStore = useCesiumStore()
 const entityStore = useEntityStore()
 const tooltipStore = useToolTipStore()
+const linkStore = useLinkStore()
 let trackLine: MarkerLine
 const closePopup = () => {
   popupStore.closePop()
@@ -284,7 +286,42 @@ const onSave = () => {
           id: formData.name,
           position: formData.position
         })
+        linkStore.linkConnectInfo['KU卫通'].selection.push(formData.name)
+      } else {
+        cesiumStore.cesium.scanMap.removeScanById(formData.name)
+        linkStore.linkConnectInfo['KU卫通'].selection =
+          linkStore.linkConnectInfo['KU卫通'].selection.filter(
+            (_) => _ !== formData.name
+          )
       }
+      let zhl = formData.equipment.find((_) => _.name === '综合链设备')
+      if (zhl?.isHas && zhl?.isUse) {
+        linkStore.linkConnectInfo['综合链'].selection.push(formData.name)
+      } else {
+        linkStore.linkConnectInfo['综合链'].selection =
+          linkStore.linkConnectInfo['综合链'].selection.filter(
+            (_) => _ !== formData.name
+          )
+      }
+      let l90x = formData.equipment.find((_) => _.name === '90X链设备')
+      if (l90x?.isHas && l90x?.isUse) {
+        linkStore.linkConnectInfo['90X链'].selection.push(formData.name)
+      } else {
+        linkStore.linkConnectInfo['90X链'].selection =
+          linkStore.linkConnectInfo['90X链'].selection.filter(
+            (_) => _ !== formData.name
+          )
+      }
+      let jids = formData.equipment.find((_) => _.name === 'JIDS链设备')
+      if (jids?.isHas && jids?.isUse) {
+        linkStore.linkConnectInfo['JIDS链'].selection.push(formData.name)
+      } else {
+        linkStore.linkConnectInfo['JIDS链'].selection =
+          linkStore.linkConnectInfo['JIDS链'].selection.filter(
+            (_) => _ !== formData.name
+          )
+      }
+
       closePopup()
     }
   })

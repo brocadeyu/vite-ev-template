@@ -635,6 +635,7 @@ onMounted(() => {
   websocketStore.addEventListener(WS_EVENT.createLink, (data) => {
     console.log('接收到的createLink数据====>', data)
     cesiumStore.cesium.linkMap.removeAllLink()
+    cesiumStore.cesium.scanMap.removeAllScan()
     entitiesArr.value.forEach((_) => {
       //重置装备开启状态
       _.setEquipmentAllClose()
@@ -701,6 +702,10 @@ onMounted(() => {
           .forEach((_) => {
             const entity = entityStore.getEntityById(_)
             entity.setEquipmentActive('卫星通信设备')
+            cesiumStore.cesium.scanMap.addScan({
+              id: _,
+              position: entity.position
+            })
           })
       }
       linkStore.setLinkConnectInfo(_.dataLinkType, arg) //设置数据链连接信息
