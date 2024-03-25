@@ -41,6 +41,7 @@ declare module 'vue' {
     IEpDelete: typeof import('~icons/ep/delete')['default']
     IEpEdit: typeof import('~icons/ep/edit')['default']
     IEpFullScreen: typeof import('~icons/ep/full-screen')['default']
+    IEpLink: typeof import('~icons/ep/link')['default']
     IEpLocation: typeof import('~icons/ep/location')['default']
     IEpPieChart: typeof import('~icons/ep/pie-chart')['default']
     IEpPointer: typeof import('~icons/ep/pointer')['default']

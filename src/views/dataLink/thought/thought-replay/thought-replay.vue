@@ -5,6 +5,7 @@
     <loadingMask ref="loadingMaskRef"></loadingMask>
     <battlePanel @click-chart-btn="showGantChart"></battlePanel>
     <dataPanel></dataPanel>
+    <networkDevice></networkDevice>
     <gantChart></gantChart>
     <trendChart></trendChart>
     <layerController></layerController>
@@ -18,6 +19,7 @@ import battlePanel from './components/battle-panel.vue'
 import dataPanel from './components/data-panel.vue'
 import gantChart from './components/gant-chart.vue'
 import trendChart from './components/trend-chart.vue'
+import networkDevice from './components/network-device.vue'
 import { useWebSocketStore } from '@/stores/webSocketStore'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { useEntityStore } from '@/stores/entityStore'
