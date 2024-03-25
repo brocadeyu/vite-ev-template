@@ -423,6 +423,11 @@ onMounted(() => {
       ]
     })
   }
+  if (['武装直升机', '侦察直升机'].includes(props.data.type)) {
+    formData.equipment = formData.equipment.filter(
+      (_) => _.name !== '卫星通信设备'
+    )
+  }
   dyPoint = cesiumStore.cesium.markMap.markPoint.addItem({
     position: [props.data.position[0], props.data.position[1]]
   })
