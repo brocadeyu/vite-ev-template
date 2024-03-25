@@ -51,7 +51,7 @@ export default class MessageMap {
     this.getCollectionFromType(type).add(linkPrimitive)
     setTimeout(() => {
       this.getCollectionFromType(type).remove(linkPrimitive)
-    }, 1000)
+    }, 2500)
   }
   private getCollectionFromType(type: LinkType) {
     switch (type) {
@@ -108,7 +108,7 @@ export default class MessageMap {
         uniforms: {
           color: new Cesium.Color(...color),
           image: image,
-          speed: 3
+          speed: 6
         },
         source: `
             czm_material czm_getMaterial(czm_materialInput materialInput) {
