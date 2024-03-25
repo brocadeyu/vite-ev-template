@@ -182,3 +182,28 @@ export async function screenShot(dom: HTMLElement) {
     }
   })
 }
+
+export function decimalToDMS(decimal) {
+  let degrees = Math.abs(Math.trunc(decimal))
+  let minutes = Math.abs(Math.trunc((decimal - degrees) * 60))
+  let seconds = Math.abs(((decimal - degrees) * 60 - minutes) * 60)
+  let direction = ''
+
+  if (decimal >= 0) {
+    direction += degrees !== 0 ? 'N' : ''
+  } else {
+    direction += 'S'
+    degrees = -degrees
+  }
+
+  if (degrees === 0) {
+    if (minutes >= 0) {
+      direction += minutes !== 0 ? 'E' : ''
+    } else {
+      direction += 'W'
+      minutes = -minutes
+    }
+  }
+
+  return degrees + '° ' + minutes + "' " + seconds.toFixed(2) + '" ' + direction
+}
