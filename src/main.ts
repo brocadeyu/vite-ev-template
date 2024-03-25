@@ -6,6 +6,7 @@ import ContextMenu from '@imengyu/vue3-context-menu'
 import '@/assets/icon/iconfont.js'
 import router from './router'
 import 'normalize.css/normalize.css'
+import '@/assets/font/font.css'
 import App from './App'
 import directives from '@/utils/directives'
 const app = createApp(App)
