@@ -46,4 +46,17 @@ export default class Entity {
         break
     }
   }
+  setEquipmentActive(type) {
+    const target = this.equipment.find((_) => _.name === type)
+    if (target) {
+      target.isHas = true
+      target.isUse = true
+    }
+  }
+  setEquipmentAllClose() {
+    this.equipment.forEach((_) => {
+      _.isHas = false
+      _.isUse = false
+    })
+  }
 }

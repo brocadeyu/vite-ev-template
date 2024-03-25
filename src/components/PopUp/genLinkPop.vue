@@ -588,6 +588,8 @@ onMounted(() => {
       }),
       true
     )
+    const entity = entityStore.getEntityById(_)
+    entity.setEquipmentActive('综合链设备')
   })
   param1 && (formDataZHL.mainDevice = param1.mainDevice)
 
@@ -599,6 +601,8 @@ onMounted(() => {
       }),
       true
     )
+    const entity = entityStore.getEntityById(_)
+    entity.setEquipmentActive('90X链设备')
   })
   param2 && (formData90X.mainDevice = param2.mainDevice)
 
@@ -610,6 +614,8 @@ onMounted(() => {
       }),
       true
     )
+    const entity = entityStore.getEntityById(_)
+    entity.setEquipmentActive('JIDS链设备')
   })
   param3 && (formDataJIDS.mainDevice = param3.mainDevice)
 
@@ -621,12 +627,18 @@ onMounted(() => {
       }),
       true
     )
+    const entity = entityStore.getEntityById(_)
+    entity.setEquipmentActive('卫星通信设备')
   })
   param4 && (formDataKu.mainDevice = param4?.mainDevice)
 
   websocketStore.addEventListener(WS_EVENT.createLink, (data) => {
     console.log('接收到的createLink数据====>', data)
     cesiumStore.cesium.linkMap.removeAllLink()
+    entitiesArr.value.forEach((_) => {
+      //重置装备开启状态
+      _.setEquipmentAllClose()
+    })
     data.link.forEach((_: any) => {
       //0处理数据链挂载设备信息
       _.targetDevices.forEach((item) => {
@@ -645,6 +657,12 @@ onMounted(() => {
           selection: formDataZHL.targets.map((item) => item.id),
           targetDevices: _.targetDevices
         }
+        formDataZHL.targets
+          .map((item) => item.id)
+          .forEach((_) => {
+            const entity = entityStore.getEntityById(_)
+            entity.setEquipmentActive('综合链设备')
+          })
       } else if (_.dataLinkType === '90X链') {
         arg = {
           linkTo: _.linkTo,
@@ -652,6 +670,12 @@ onMounted(() => {
           selection: formData90X.targets.map((item) => item.id),
           targetDevices: _.targetDevices
         }
+        formData90X.targets
+          .map((item) => item.id)
+          .forEach((_) => {
+            const entity = entityStore.getEntityById(_)
+            entity.setEquipmentActive('90X链设备')
+          })
       } else if (_.dataLinkType === 'JIDS链') {
         arg = {
           linkTo: _.linkTo,
@@ -659,6 +683,12 @@ onMounted(() => {
           selection: formDataJIDS.targets.map((item) => item.id),
           targetDevices: _.targetDevices
         }
+        formDataJIDS.targets
+          .map((item) => item.id)
+          .forEach((_) => {
+            const entity = entityStore.getEntityById(_)
+            entity.setEquipmentActive('JIDS链设备')
+          })
       } else if (_.dataLinkType === 'KU卫通') {
         arg = {
           linkTo: _.linkTo,
@@ -666,6 +696,12 @@ onMounted(() => {
           selection: formDataKu.targets.map((item) => item.id),
           targetDevices: _.targetDevices
         }
+        formDataKu.targets
+          .map((item) => item.id)
+          .forEach((_) => {
+            const entity = entityStore.getEntityById(_)
+            entity.setEquipmentActive('卫星通信设备')
+          })
       }
       linkStore.setLinkConnectInfo(_.dataLinkType, arg) //设置数据链连接信息
       _.linkTo.forEach((i: any) => {
