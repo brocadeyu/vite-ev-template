@@ -636,6 +636,7 @@ onMounted(() => {
     console.log('接收到的createLink数据====>', data)
     cesiumStore.cesium.linkMap.removeAllLink()
     cesiumStore.cesium.scanMap.removeAllScan()
+    cesiumStore.cesium.checkLineMap.removeAllCheckLine()
     entitiesArr.value.forEach((_) => {
       //重置装备开启状态
       _.setEquipmentAllClose()

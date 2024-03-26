@@ -9,6 +9,7 @@ import GlobalRotate from './globeRotate'
 import MessageMap from './messageMap'
 import BoardMap from './boardMap'
 import ScanMap from './scanMap'
+import CheckLineMap from './checkLineMap'
 import * as Cesium from 'cesium'
 import MX from '@/assets/skybox/TychoSkymapII.t5_16384x08192_mx.jpg'
 import MY from '@/assets/skybox/TychoSkymapII.t5_16384x08192_my.jpg'
@@ -27,6 +28,7 @@ export default class CesiumMap {
   messageMap: MessageMap
   boardMap: BoardMap
   scanMap: ScanMap
+  checkLineMap: CheckLineMap
   constructor(container: HTMLElement) {
     const opt = {
       mapProjection: new Cesium.GeographicProjection(),
@@ -62,6 +64,7 @@ export default class CesiumMap {
     this.messageMap = new MessageMap(this.viewer)
     this.boardMap = new BoardMap(this.viewer)
     this.scanMap = new ScanMap(this.viewer)
+    this.checkLineMap = new CheckLineMap(this.viewer)
     this.addMapTiles()
     window.viewer = this.viewer
     return this
@@ -126,5 +129,6 @@ export default class CesiumMap {
     this.trackMap.removeAllTrack()
     this.boardMap.removeAllLabel()
     this.scanMap.removeAllScan()
+    this.checkLineMap.removeAllCheckLine()
   }
 }

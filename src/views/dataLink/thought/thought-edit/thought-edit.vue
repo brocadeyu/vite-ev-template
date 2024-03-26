@@ -136,7 +136,32 @@ const asyncInitWS = async () => {
       ElMessage.error(`websocket出错!`)
     })
     websocketStore.addEventListener(WS_EVENT.validateLinkRes, (data) => {
-      console.log('校验数据链结果：', data)
+      cesiumStore.cesium.checkLineMap.removeAllCheckLine()
+      cesiumStore.cesium.linkMap.setVisibleAllId()
+      const filterData = data.filter((_) => !_.isLinkLink)
+      // console.log('校验数据链结果：', filterData)
+      if (filterData.length) {
+        ElMessage.warning('链路断链')
+        filterData.forEach((_) => {
+          const deviceArr = _.link.split('-')
+          const entityOne = entityStore.getEntityById(deviceArr[0])
+          const entityTwo = entityStore.getEntityById(deviceArr[1])
+          cesiumStore.cesium.linkMap.setVisibleById({
+            id: `${deviceArr[0]}-${deviceArr[1]}`,
+            flag: false
+          })
+          cesiumStore.cesium.linkMap.setVisibleById({
+            id: `${deviceArr[1]}-${deviceArr[0]}`,
+            flag: false
+          })
+          cesiumStore.cesium.checkLineMap.addCheckLine({
+            id: _,
+            positionArr: [entityOne.position, entityTwo.position]
+          })
+        })
+      } else {
+        ElMessage.success('链路通畅')
+      }
     })
     // console.log('asyncInitWS sucess')
     resolve()

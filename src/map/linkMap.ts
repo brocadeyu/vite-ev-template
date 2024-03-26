@@ -15,6 +15,10 @@ interface ISetVisibleTypeOpt {
   type: LinkType
   flag: boolean
 }
+interface ISetVisibleByIdOpt {
+  id: string
+  flag: boolean
+}
 /**
  * @description 存放链连线
  */
@@ -131,6 +135,18 @@ export default class LinkMap {
     const typeMap = this.getCacheFromType(type)
     typeMap.forEach((_: Primitive) => {
       _.show = flag
+    })
+  }
+  setVisibleById(opt: ISetVisibleByIdOpt) {
+    const { id, flag } = opt
+    const result = this._map.get(id)
+    if (result) {
+      result.show = flag
+    }
+  }
+  setVisibleAllId() {
+    this._map.forEach((_) => {
+      _.show = true
     })
   }
   setAllVisible(flag: boolean) {
