@@ -67,13 +67,11 @@ const asyncInitModelTrack = async () => {
     cesiumStore.cesium.trackMap.addTrack({ id: _.id, positionArr: _.path })
     cesiumStore.cesium.boardMap.addBoard({ id: _.id, position: _.position })
     let wt = _.equipment.find((_) => _.name === '卫星通信设备')
-    if (wt.isHas && wt.isUse) {
+    if (wt?.isHas && wt?.isUse) {
       cesiumStore.cesium.scanMap.addScan({ id: _.id, position: _.position })
     }
   })
-  await Promise.allSettled(promiseArr).then(() => {
-    // console.log('asyncInitModelTrack sucess')
-  })
+  await Promise.allSettled(promiseArr)
 }
 const asyncInitLink = async () => {
   return new Promise((resolve) => {
@@ -138,7 +136,7 @@ const asyncInitWS = async () => {
       ElMessage.error(`websocket出错!`)
     })
     websocketStore.addEventListener(WS_EVENT.validateLinkRes, (data) => {
-      console.log('校验数据链完整性消息', data)
+      console.log('校验数据链结果：', data)
     })
     // console.log('asyncInitWS sucess')
     resolve()

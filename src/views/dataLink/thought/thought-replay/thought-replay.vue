@@ -229,6 +229,7 @@ onMounted(() => {
   bc.onmessage = (e) => {
     //接受模拟发送标签页面发送的消息，ws发送
     // console.log('接受到的消息', e.data)
+    console.log('发送模拟发送信息', e.data)
     websocketStore.sendMessage(e.data)
   }
 })
