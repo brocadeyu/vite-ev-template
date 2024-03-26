@@ -116,6 +116,8 @@ const asyncInitMission = async () => {
     })
     missionStore.setMissionByType({ type: '静态', mission: staticMission })
     missionStore.setMissionByType({ type: '动态', mission: dynamicMission })
+    missionStore.isGenFlag =
+      thoughtStore.thought.dataLinkInfo?.isDistribute || false
     // console.log('asyncInitMission sucess')
     resolve()
   })

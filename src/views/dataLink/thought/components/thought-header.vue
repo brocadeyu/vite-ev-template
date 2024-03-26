@@ -120,7 +120,7 @@ const onSaveUpdate = async () => {
         link: convertLink,
         mission: convertMission,
         linklink: linkStore.linklink,
-        isDistribute: true
+        isDistribute: missionStore.isGenFlag
       },
       Entity: convertEntityArr,
       ScenarioName: thoughtStore.thought.name,

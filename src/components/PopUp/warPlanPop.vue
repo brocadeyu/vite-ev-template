@@ -244,6 +244,7 @@ const handleGen = () => {
     () => {
       isGening.value = false
       isGen.value = true
+      isGenFlag.value = true
     },
     2000 + 1000 * Math.random()
   )
