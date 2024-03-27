@@ -44,6 +44,7 @@ export function getNowTimeStr() {
   let hour = date.getHours() // 时
   let minutes = date.getMinutes() // 分
   let seconds = date.getSeconds() //秒
+  let mill = date.getMilliseconds() //毫秒
   let weekArr = [
     '星期一',
     '星期二',
@@ -81,7 +82,9 @@ export function getNowTimeStr() {
     sign2 +
     minutes +
     sign2 +
-    seconds
+    seconds +
+    sign2 +
+    mill
   )
 }
 

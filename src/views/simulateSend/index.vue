@@ -397,14 +397,14 @@ const handleTextOneChange = (val) => {
       item.nname === val.substring(0, val.length - (ws ? 1 : 2)) &&
       item.n === val.substring(val.length - (ws ? 1 : 2))
   )
-  console.log('textOneChange', formData.textOne, val)
+  // console.log('textOneChange', formData.textOne, val)
   tableData.value[1].LBS = buling(c10To2(Number(textOne.value.n)), 5)
   formData.textTwo = ''
   tableData.value[1].LZBS = '-'
   tableData.value[1].JOJY = '-'
 }
 const handleTextTwoChange = (val) => {
-  console.log('textOneChange', val)
+  // console.log('textOneChange', val)
   if (textOne.value) {
     for (const key in textOne.value) {
       // console.log(key, this.textOne[key])
@@ -429,7 +429,7 @@ const handleCustomMessageChange = (val) => {
   // console.log('rrrr', result)
   binaryMessageLastNum.value = result
   tableData.value[1].XXZD = val
-  console.log('tableData', tableData.value)
+  // console.log('tableData', tableData.value)
   // console.log('UTF-8 二进制数据:', utf8Bytes, '最后一位', this.lastMessageNum)
   tableData.value[1].JOJY = parityCheck()
 }
@@ -468,12 +468,12 @@ onMounted(async () => {
   const deviceList: string[] = JSON.parse(
     sessionStorage.getItem('simulateSend-deviceList')
   )
-  console.log('simulateSend-deviceList', deviceList)
+  // console.log('simulateSend-deviceList', deviceList)
   deviceOptions.value = deviceList.map((_) => {
     return { label: _, value: _ }
   })
   dbTextData.value = await getSimulateSendDBText()
-  console.log(dbTextData.value)
+  // console.log(dbTextData.value)
   textOneOptions.value = dbTextData.value.map((item) => {
     return {
       label: item.nname + item.n,
