@@ -13,22 +13,22 @@
               <img :src="Air" />
             </div>
             <div class="item-text">武装直升机</div>
-            <div class="item-num">5</div>
+            <div class="item-num">{{ num1 }}</div>
           </div>
           <div class="nd-item">
             <div class="item-img"><img :src="Air" /></div>
             <div class="item-text">侦察直升机</div>
-            <div class="item-num">5</div>
+            <div class="item-num">{{ num2 }}</div>
           </div>
           <div class="nd-item">
             <div class="item-img"><img :src="Ship" /></div>
             <div class="item-text">中国052C型驱逐舰</div>
-            <div class="item-num">5</div>
+            <div class="item-num">{{ num3 }}</div>
           </div>
           <div class="nd-item">
             <div class="item-img"><img :src="Ship" /></div>
             <div class="item-text">中国052D型驱逐舰</div>
-            <div class="item-num">5</div>
+            <div class="item-num">{{ num4 }}</div>
           </div>
         </div>
       </template>
@@ -40,6 +40,22 @@
 import BaseDocker from '@/components/BaseDocker.vue'
 import Air from '@/assets/air.png'
 import Ship from '@/assets/ship.png'
+import { storeToRefs } from 'pinia'
+import { useEntityStore } from '@/stores/entityStore'
+const entityStore = useEntityStore()
+const { entitiesArr } = storeToRefs(entityStore)
+const num1 = computed(() => {
+  return entitiesArr.value.filter((_) => _.type === '武装直升机').length
+})
+const num2 = computed(() => {
+  return entitiesArr.value.filter((_) => _.type === '侦察直升机').length
+})
+const num3 = computed(() => {
+  return entitiesArr.value.filter((_) => _.type === '中国052C型驱逐舰').length
+})
+const num4 = computed(() => {
+  return entitiesArr.value.filter((_) => _.type === '中国052D型驱逐舰').length
+})
 </script>
 
 <style scoped>
