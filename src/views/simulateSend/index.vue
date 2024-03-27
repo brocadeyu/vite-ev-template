@@ -108,9 +108,62 @@
                     clearable
                     @change="handleCustomMessageChange"
                   />
+                  <!-- <el-select
+                    v-model="formData.customMessage"
+                    placeholder="请选择"
+                    no-data-text="暂无数据"
+                    @change="handleCustomMessageChange"
+                  >
+                    <el-option
+                      v-for="(item, index) in customMessageTypeOptions"
+                      :key="index"
+                      :label="item.label"
+                      :value="item.value"
+                    />
+                  </el-select> -->
                 </el-form-item>
               </el-col>
             </el-row>
+            <!-- <el-row>
+              <el-col :span="12">
+                <el-form-item label="时间"></el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="位置姿态数据"></el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="速度"></el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="目标ID"></el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="弹目距离"></el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="雷达类型"></el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="雷达俯仰角"></el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="雷达开机时间"></el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="方位波束宽度"></el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="雷达搜索方位角"></el-form-item>
+              </el-col>
+            </el-row> -->
             <el-row>
               <el-col :span="24">
                 <el-form-item :label="`原始消息预览`">
@@ -211,6 +264,10 @@ const formData = reactive({
 })
 const deviceOptions = ref([])
 const textOneOptions = ref([])
+const messageWZ = reactive({}) //武装直升机消息内容
+const messageZC = reactive({}) //武装直升机消息内容
+const messageC = reactive({}) //武装直升机消息内容
+const messageD = reactive({}) //武装直升机消息内容
 const tableData = ref([
   //表格数据
   {
@@ -274,6 +331,24 @@ const textTwoOptions = computed(() => {
     return []
   }
 })
+const customMessageTypeOptions = [
+  {
+    label: '武装直升机',
+    value: '武装直升机'
+  },
+  {
+    label: '侦察直升机',
+    value: '侦察直升机'
+  },
+  {
+    label: '中国052C型驱逐舰',
+    value: '中国052C型驱逐舰'
+  },
+  {
+    label: '中国052D型驱逐舰',
+    value: '中国052D型驱逐舰'
+  }
+]
 const dbTextData = ref([])
 const textOne = ref(null)
 const textTwoNum = ref(null)
