@@ -142,6 +142,7 @@ const setEchartsData = () => {
         }
       },
       formatter: function (params) {
+        // console.log('params', params)
         let result =
           params[0].axisValueLabel + ':' + params[0].data.message + '<br />'
         params.forEach(function (item) {
@@ -250,7 +251,11 @@ const setEchartsData = () => {
         showSymbol: false,
         // smooth: true,
         data: data.map((_) => {
-          return { name: _.time, value: [_.time, _.delay], message: _.message }
+          return {
+            name: _.time,
+            value: [_.time, _.delay],
+            message: _.message
+          }
         })
       },
       {
@@ -305,6 +310,7 @@ const setEchartsData = () => {
 watch(
   dataLog,
   () => {
+    // nextTick(() => {
     let data = []
     switch (displayType.value) {
       case '综合链':
@@ -327,7 +333,11 @@ watch(
           type: 'line',
           yAxisIndex: 0,
           data: data.map((_) => {
-            return { name: _.time, value: [_.time, _.delay] }
+            return {
+              name: _.time,
+              value: [_.time, _.delay],
+              message: _.message
+            }
           })
         },
         {
@@ -335,7 +345,11 @@ watch(
           type: 'line',
           yAxisIndex: 1,
           data: data.map((_) => {
-            return { name: _.time, value: [_.time, _.speedPercent] }
+            return {
+              name: _.time,
+              value: [_.time, _.speedPercent],
+              message: ''
+            }
           })
         },
         {
@@ -343,7 +357,11 @@ watch(
           type: 'line',
           yAxisIndex: 2,
           data: data.map((_) => {
-            return { name: _.time, value: [_.time, _.missPercent] }
+            return {
+              name: _.time,
+              value: [_.time, _.missPercent],
+              message: ''
+            }
           })
         },
         {
@@ -351,11 +369,12 @@ watch(
           type: 'line',
           yAxisIndex: 3,
           data: data.map((_) => {
-            return { name: _.time, value: [_.time, _.speed] }
+            return { name: _.time, value: [_.time, _.speed], message: '' }
           })
         }
       ]
     })
+    // })
   },
   {
     // immediate: true,
