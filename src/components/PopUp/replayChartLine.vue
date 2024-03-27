@@ -160,7 +160,42 @@ const setEchartsData = () => {
       right: '20%'
     },
     legend: {
-      data: ['时延', '带宽占用率', '丢包率', '速率']
+      inactiveBorderColor: 'gray',
+      inactiveColor: 'gray',
+      icon: 'circle',
+      itemStyle: {
+        // color: '#0b1a39'
+      },
+      data: [
+        {
+          name: '时延',
+          textStyle: {
+            //图例文字的样式
+            color: '#5470C6'
+          }
+        },
+        {
+          name: '带宽占用率',
+          textStyle: {
+            //图例文字的样式
+            color: '#91CC75'
+          }
+        },
+        {
+          name: '丢包率',
+          textStyle: {
+            //图例文字的样式
+            color: '#EE6666'
+          }
+        },
+        {
+          name: '速率',
+          textStyle: {
+            //图例文字的样式
+            color: '#1E7666'
+          }
+        }
+      ]
     },
     xAxis: [
       {
