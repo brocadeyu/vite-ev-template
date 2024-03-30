@@ -175,14 +175,42 @@
           >取消
         </el-button> -->
         <!-- <el-button type="primary" size="small">生成</el-button> -->
-        <el-button
+        <!-- <el-button
           v-if="isGen"
           type="primary"
           color="#119aa0"
           size="small"
           @click="handleOutput"
           >导出</el-button
+        > -->
+        <el-popover
+          v-if="isGen"
+          placement="bottom"
+          title=""
+          :width="150"
+          trigger="click"
+          content=""
         >
+          <el-button
+            type="primary"
+            color="#119aa0"
+            size="small"
+            @click="handleOutput('word')"
+            >Word</el-button
+          >
+          <el-button
+            type="primary"
+            color="#119aa0"
+            size="small"
+            @click="handleOutput('json')"
+            >JSON</el-button
+          >
+          <template #reference>
+            <el-button type="primary" color="#119aa0" size="small"
+              >导出</el-button
+            >
+          </template>
+        </el-popover>
         <el-button
           v-if="isGen"
           type="primary"
@@ -249,7 +277,15 @@ const handleGen = () => {
     2000 + 1000 * Math.random()
   )
 }
-const handleOutput = async () => {
+const handleOutput = (type: string) => {
+  if (type === 'word') {
+    outPutWord()
+  } else {
+    outPutJSON()
+  }
+}
+const outPutWord = async () => {}
+const outPutJSON = async () => {
   let link = document.createElement('a')
   link.download = 'plan.json'
   link.href =
