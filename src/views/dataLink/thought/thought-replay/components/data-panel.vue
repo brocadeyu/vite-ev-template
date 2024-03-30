@@ -68,12 +68,18 @@
                   >>{{ node.data.timeStr }}</span
                 >
                 <span style="color: #dbdb32"
-                  >{{ node.data.label.split(':')[0] }}:</span
+                  >{{
+                    node.data.label.includes('#')
+                      ? node.data.label.split('#')[0]
+                      : node.data.label.split(':')[0]
+                  }}:</span
                 >
                 <span style="margin-left: 5px; color: #13d713">{{
-                  node.data.label.split(':').length === 2
-                    ? node.data.label.split(':')[1]
-                    : `${node.data.label.split(':')[1]}${node.data.label.split(':')[2]}`
+                  node.data.label.includes('#')
+                    ? node.data.label.split('#')[1]
+                    : node.data.label.split(':').length === 2
+                      ? node.data.label.split(':')[1]
+                      : `${node.data.label.split(':')[1]}${node.data.label.split(':')[2]}`
                 }}</span>
               </template>
             </el-tree-v2>

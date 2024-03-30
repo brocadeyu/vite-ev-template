@@ -126,6 +126,7 @@ onMounted(() => {
     // console.log('数据日志', data)
     const message = JSON.parse(data.Message)
     if (message.length) {
+      console.log('mmmm', message[0])
       const m = message[0].message
       logStore.pushDataLog({ message: m, timeStr: getNowTimeStr() })
       const linkMessageArr = message[0].LinkArr
@@ -144,7 +145,19 @@ onMounted(() => {
           }
           cesiumStore.cesium.messageMap.displayMessageLink(opt)
         })
-      } else {
+        const sender = m.split(':')[1].split('广播')[0]
+        linkStore.linkConnectInfo[linkType].selection.forEach((_) => {
+          if (_ !== sender) {
+            const s1 = sender
+            const s2 = _
+            const t = m.split(':')[0].split('+')[1].split('ms')[0]
+            logStore.pushDataLog({
+              message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的广播战术命令，${m.split('，')[1]}`,
+              timeStr: getNowTimeStr()
+            })
+          }
+        })
+      } else if (message[0].MessageType === '点播消息') {
         linkMessageArr.forEach((_) => {
           const id = `${_.from}-${_.to}`
           const fromPosition = entityStore.getEntityById(_.from).position
@@ -155,6 +168,33 @@ onMounted(() => {
             positionArr: [fromPosition, toPosition]
           }
           cesiumStore.cesium.messageMap.displayMessageLink(opt)
+        })
+        const s1 = message[0].link[0]
+        const s2 = message[0].link[message[0].link.length - 1]
+        const t = m.split(':')[0].split('+')[1].split('ms')[0]
+        logStore.pushDataLog({
+          message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
+          timeStr: getNowTimeStr()
+        })
+      } else {
+        //卫星消息
+        linkMessageArr.forEach((_) => {
+          const id = `${_.from}-${_.to}`
+          const fromPosition = entityStore.getEntityById(_.from).position
+          const toPosition = entityStore.getEntityById(_.to).position
+          const opt = {
+            id: id,
+            type: _.dataLinkType,
+            positionArr: [fromPosition, toPosition]
+          }
+          cesiumStore.cesium.messageMap.displayMessageLink(opt)
+        })
+        const s1 = message[0].link[0]
+        const s2 = message[0].link[message[0].link.length - 1]
+        const t = m.split(':')[0].split('+')[1].split('ms')[0]
+        logStore.pushDataLog({
+          message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
+          timeStr: getNowTimeStr()
         })
       }
     }
