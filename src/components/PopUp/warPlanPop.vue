@@ -250,6 +250,7 @@ import { useMissionStore } from '@/stores/missionStore'
 import type { TabsPaneContext } from 'element-plus'
 import { arraysAreEqual } from '@/common/helper'
 import { storeToRefs } from 'pinia'
+import genDoc from '@/utils/genWord'
 const popupStore = usePopupStore()
 const missionStore = useMissionStore()
 const activeTab = ref('static')
@@ -284,7 +285,12 @@ const handleOutput = (type: string) => {
     outPutJSON()
   }
 }
-const outPutWord = async () => {}
+const outPutWord = async () => {
+  await genDoc({
+    sList: staticList.value,
+    dList: dynamicList.value
+  })
+}
 const outPutJSON = async () => {
   let link = document.createElement('a')
   link.download = 'plan.json'
