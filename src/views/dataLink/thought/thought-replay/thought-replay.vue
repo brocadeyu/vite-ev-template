@@ -180,6 +180,12 @@ onMounted(() => {
     // eslint-disable-next-line no-console
     // console.log('作战任务日志', data)
     data.Message.forEach((_) => {
+      if (_.isAuto) {
+        ElMessage.success({
+          message: `${_.sender}入网`
+          // duration: 1500
+        })
+      }
       logStore.pushWarMissionLog({ ..._, timeStr: getNowTimeStr() })
     })
   })
