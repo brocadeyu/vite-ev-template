@@ -126,7 +126,7 @@ onMounted(() => {
     // console.log('数据日志', data)
     const message = JSON.parse(data.Message)
     if (message.length) {
-      console.log('mmmm', message[0])
+      // console.log('mmmm', message[0])
       const m = message[0].message
       logStore.pushDataLog({ message: m, timeStr: getNowTimeStr() })
       const linkMessageArr = message[0].LinkArr
