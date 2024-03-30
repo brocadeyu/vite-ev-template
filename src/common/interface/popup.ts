@@ -9,6 +9,7 @@ export interface IOpenEditEntityPopProps {
   name: string
   position: number[]
   type: EntityType
+  fakeType: any
   path: any
   equipment: []
 }

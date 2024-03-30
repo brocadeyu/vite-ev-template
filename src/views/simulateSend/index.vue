@@ -461,7 +461,7 @@ const sendMessage = () => {
   // })
   bc.postMessage(data)
 
-  console.log('发送时间', data, getNowTimeStr())
+  console.log('发送时间', getNowTimeStr())
 }
 let bc: BroadcastChannel = null
 onMounted(async () => {

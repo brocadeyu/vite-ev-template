@@ -3,6 +3,8 @@ import * as Cesium from 'cesium'
 
 import FLIGHT from '@/assets/model/Mi171ZC.gltf'
 import SHIP from '@/assets/model/052DQZJZC.gltf'
+import LightShip from '@/assets/model/light-ship.glb'
+import H6k from '@/assets/model/H-6k.glb'
 import { EntityType } from '@/common/enum'
 
 interface IAddModelOpt {
@@ -33,7 +35,7 @@ export default class ModelMap {
   getModelUrlByType(type: EntityType) {
     switch (type) {
       case '武装直升机':
-        return FLIGHT
+        return H6k
         break
       case '侦察直升机':
         return FLIGHT
@@ -58,6 +60,8 @@ export default class ModelMap {
       const fixedFrameTransform =
         Cesium.Transforms.localFrameToFixedFrameGenerator('north', 'west')
       const modelUrl = this.getModelUrlByType(type)
+      // let scale = Cesium.Matrix4.fromScale(new Cesium.Cartesian3(20, 20, 20))
+      // Cesium.Matrix4.multiply(fixedFrameTransform, scale, fixedFrameTransform)
       let model = Cesium.Model.fromGltf({
         url: modelUrl,
         modelMatrix: Cesium.Transforms.headingPitchRollToFixedFrame(
@@ -66,9 +70,9 @@ export default class ModelMap {
           Cesium.Ellipsoid.WGS84,
           fixedFrameTransform
         ),
-        minimumPixelSize: 50,
-        scale: 5,
-        maximumScale: 700,
+        minimumPixelSize: type === '武装直升机' ? 50 : 50,
+        scale: 50,
+        maximumScale: type === '武装直升机' ? 700000 : 700,
         silhouetteColor: Cesium.Color.YELLOW,
         silhouetteSize: 3,
         colorBlendMode: Cesium.ColorBlendMode.REPLACE,

@@ -10,14 +10,14 @@
         <div class="nd-content">
           <div class="nd-item">
             <div class="item-img">
-              <img :src="Air" />
+              <img :src="Air6K" />
             </div>
-            <div class="item-text">武装直升机</div>
+            <div class="item-text">h-6k轰炸机</div>
             <div class="item-num">{{ num1 }}</div>
           </div>
           <div class="nd-item">
             <div class="item-img"><img :src="Air" /></div>
-            <div class="item-text">侦察直升机</div>
+            <div class="item-text">预警直升机</div>
             <div class="item-num">{{ num2 }}</div>
           </div>
           <div class="nd-item">
@@ -40,6 +40,7 @@
 import BaseDocker from '@/components/BaseDocker.vue'
 import Air from '@/assets/air.png'
 import Ship from '@/assets/ship.png'
+import Air6K from '@/assets/air6k.png'
 import { storeToRefs } from 'pinia'
 import { useEntityStore } from '@/stores/entityStore'
 const entityStore = useEntityStore()

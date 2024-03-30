@@ -16,7 +16,7 @@
             @click="tryAddEntity(item, index)"
           >
             <img class="card-img" :src="item.img" width="60px" height="60px" />
-            {{ item.type }}
+            {{ item.fakeType }}
           </div>
         </div>
       </template>
@@ -31,6 +31,7 @@ import WZImg from '@/assets/model/wzzsj.png'
 import ZCImg from '@/assets/model/zczsj.png'
 import SHIP052C from '@/assets/model/052c.png'
 import SHIP052D from '@/assets/model/052d.png'
+import H6k from '@/assets/model/h6k.jpg'
 
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { usePopupStore } from '@/stores/popupStore'
@@ -38,21 +39,43 @@ import { useToolTipStore } from '@/stores/tooltipStore'
 const modelConfig = ref([
   {
     type: '武装直升机',
-    img: WZImg
+    img: H6k,
+    fakeType: 'h-6k轰炸机'
   },
   {
     type: '侦察直升机',
-    img: ZCImg
+    fakeType: '预警直升机',
+    img: WZImg
   },
   {
     type: '中国052C型驱逐舰',
+    fakeType: '中国052C型驱逐舰',
     img: SHIP052C
   },
   {
     type: '中国052D型驱逐舰',
+    fakeType: '中国052D型驱逐舰',
     img: SHIP052D
   }
 ])
+// const modelConfig = ref([
+//   {
+//     type: 'h-6k轰炸机',
+//     img: H6k
+//   },
+//   {
+//     type: '预警直升机',
+//     img: WZImg
+//   },
+//   {
+//     type: '中国052C型驱逐舰',
+//     img: SHIP052C
+//   },
+//   {
+//     type: '中国052D型驱逐舰',
+//     img: SHIP052D
+//   }
+// ])
 const activeIndex = ref<number>(-1)
 const cesiumStore = useCesiumStore()
 const popupStore = usePopupStore()
@@ -68,7 +91,11 @@ const tryAddEntity = (modelInfo, index: number) => {
       popupStore.openPop({
         title: '添加实体',
         type: 'createEntity',
-        data: { position: e.position, type: modelInfo.type }
+        data: {
+          position: e.position,
+          type: modelInfo.type,
+          fakeType: modelInfo.fakeType
+        }
       })
       cesiumStore.cesium.eventHandler.remove({
         type: 'LeftClick',

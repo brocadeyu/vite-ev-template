@@ -18,7 +18,7 @@
           <el-col :span="12">
             <el-form-item label="类型">
               <el-input
-                v-model="formData.type"
+                v-model="formData.fakeType"
                 disabled
                 clearable
                 size="small"
@@ -212,6 +212,7 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
 const formRef = ref<FormInstance>()
 const formData = reactive({
   type: '' as EntityType,
+  fakeType: '',
   name: '',
   position: [],
   path: [],
@@ -431,8 +432,29 @@ const pickPoint = () => {
     }
   })
 }
+const getFakeTypeFromType = (type: EntityType) => {
+  let result = ''
+  switch (type) {
+    case '武装直升机':
+      result = 'h-6k轰炸机'
+      break
+    case '侦察直升机':
+      result = '预警直升机'
+      break
+
+    case '中国052C型驱逐舰':
+      result = '中国052C型驱逐舰'
+      break
+
+    case '中国052D型驱逐舰':
+      result = '中国052D型驱逐舰'
+      break
+  }
+  return result
+}
 onMounted(() => {
   formData.type = props.data.type
+  formData.fakeType = getFakeTypeFromType(props.data.type)
   formData.position = [
     Number(props.data.position[0].toFixed(3)),
     Number(props.data.position[1].toFixed(3)),
