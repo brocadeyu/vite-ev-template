@@ -75,6 +75,9 @@ const sendCloseMessage = () => {
   websocketStore.sendMessage(data)
 }
 let bc: BroadcastChannel = null
+onBeforeMount(() => {
+  websocketStore.connect('ws://localhost:12000/hsdb/101')
+})
 onMounted(() => {
   entityStore.initEntityStore(thoughtStore.thought.entities) //根据thought初始化entityStore
   entityStore.entitiesArr.forEach((_) => {
@@ -103,7 +106,7 @@ onMounted(() => {
     })
   })
   setLayerVisible()
-  websocketStore.connect('ws://localhost:12000/hsdb/101')
+
   websocketStore.addEventListener(WS_EVENT.onopen, () => {
     // eslint-disable-next-line no-console
     console.log('连接websocket')
@@ -268,9 +271,7 @@ onMounted(() => {
     // console.log(d)
     websocketStore.sendMessage(data)
   })
-  websocketStore.addEventListener(WS_EVENT.genDocSuccess, () => {
-    // console.log('文档生成成功！！！')
-  })
+
   bc = new BroadcastChannel('simulateSend')
   bc.onmessage = (e) => {
     //接受模拟发送标签页面发送的消息，ws发送

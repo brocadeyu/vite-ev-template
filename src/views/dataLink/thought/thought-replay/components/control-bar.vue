@@ -34,7 +34,11 @@ import { useThoughtStore } from '@/stores/thougthStore'
 import { useEntityStore } from '@/stores/entityStore'
 import { useRouter } from 'vue-router'
 import { screenShot } from '@/common/helper'
+import { ElLoading } from 'element-plus'
+import { WS_EVENT } from '@/common/enum'
 // import { WS_EVENT } from '@/common/enum'
+let loadingInstance = null
+
 const websocketStore = useWebSocketStore()
 const thoughtStore = useThoughtStore()
 const router = useRouter()
@@ -104,6 +108,7 @@ const handleStepSizeChange = (val) => {
   console.log('设置步长', val)
 }
 const sendRequestGenDoc = async () => {
+  loadingInstance = ElLoading.service({ fullscreen: true, text: '生成文档中' })
   console.log('发送生成文档消息')
   let data = {
     InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDoc'
@@ -122,7 +127,17 @@ const toSimulateSend = () => {
   })
   window.open(url.href)
 }
-onMounted(() => {})
+onMounted(() => {
+  websocketStore.addEventListener(WS_EVENT.genDocSuccess, () => {
+    console.log('文档生成成功！！！')
+    if (loadingInstance) {
+      nextTick(() => {
+        // Loading should be closed asynchronously
+        loadingInstance.close()
+      })
+    }
+  })
+})
 </script>
 
 <style scoped>
