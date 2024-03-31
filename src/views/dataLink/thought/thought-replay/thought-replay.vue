@@ -289,10 +289,24 @@ onMounted(() => {
     }
     console.log(data2)
     websocketStore.sendMessage(data2)
+    const randNum = Math.random()
+
+    // 根据概率分布选择描述
+    let description
+    if (randNum < 0.5) {
+      description =
+        '通信稳定可靠，适用于对实时性和稳定性要求极高的应用等关键领域。用户体验流畅，传输数据的完整性和准确性得到有效保障'
+    } else if (randNum < 0.8) {
+      description =
+        '通信表现一般，对于大部分普通应用而言能够满足基本需求，但在高负载情况下可能出现一定程度的延迟或数据丢失，对某些对通信质量要求较高的应用可能不够理想'
+    } else {
+      description =
+        '通信不稳定，容易受到外部环境影响或者网络拥塞的影响，可能导致连接不可靠，数据传输中断或者丢失严重，用户体验较差，对于大多数实时性或大容量数据传输的应用来说，性能不可接受'
+    }
     let data3 = {
       InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDocImage3',
       KUImg: batchImg['KUImg'],
-      commentStr: 'xxxxxxxxxxxxxxxx'
+      commentStr: description
     }
     console.log(data3)
     websocketStore.sendMessage(data3)
