@@ -12,7 +12,12 @@
         v-model="stepSize"
         placeholder="Select"
         size="small"
-        style="width: 140px"
+        style="
+          width: 140px;
+          --el-fill-color-blank: transparent;
+          --el-text-color-regular: white;
+        "
+        color="#119aa0"
         @change="handleStepSizeChange"
       >
         <el-option
@@ -22,8 +27,12 @@
           :value="item.value"
         />
       </el-select>
-      <el-button size="small" @click="sendRequestGenDoc">生成文档</el-button>
-      <el-button size="small" @click="toSimulateSend">模拟发送</el-button>
+      <el-button size="small" color="#119aa0" @click="sendRequestGenDoc"
+        >生成文档</el-button
+      >
+      <el-button size="small" color="#119aa0" @click="toSimulateSend"
+        >模拟发送</el-button
+      >
     </div>
   </div>
 </template>
@@ -152,9 +161,10 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: #ffffff38;
+  background-color: #35ecfe6e;
   border-radius: 5px;
   padding: 0 5px;
+  color: white;
 }
 .el-button {
   margin-left: 0px;
