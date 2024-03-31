@@ -183,6 +183,13 @@
           @click="handleOutput"
           >导出</el-button
         > -->
+        <el-button
+          v-if="isGen"
+          type="danger"
+          size="small"
+          @click="handleClearAll"
+          >清空</el-button
+        >
         <el-popover
           v-if="isGen"
           placement="bottom"
@@ -277,6 +284,13 @@ const handleGen = () => {
     },
     2000 + 1000 * Math.random()
   )
+}
+const handleClearAll = () => {
+  if (activeTab.value === 'static') {
+    staticList.value = []
+  } else {
+    dynamicList.value = []
+  }
 }
 const handleOutput = (type: string) => {
   if (type === 'word') {
