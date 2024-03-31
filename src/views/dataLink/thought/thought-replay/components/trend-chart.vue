@@ -1,5 +1,5 @@
 <template>
-  <div v-if="_showLine" class="tc-contianer">
+  <div class="tc-contianer" :class="{ 'position-hide ': !_showLine }">
     <replayChartLine :title="'数据日志折线图'"></replayChartLine>
   </div>
 </template>
@@ -22,5 +22,8 @@ const { _showLine } = storeToRefs(popupStore)
   user-select: none;
   left: 50%;
   top: 50%;
+}
+.position-hide {
+  transform: translateY(100vh);
 }
 </style>
