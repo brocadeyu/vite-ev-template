@@ -169,13 +169,30 @@ export function c10To2(num: number) {
 
   return resInteger + (resDecimal ? '.' + resDecimal : '')
 }
+function compressAndConvertToBase64(canvas, quality) {
+  // 创建一个新的Canvas元素
+  let tempCanvas = document.createElement('canvas')
+  let tempCtx = tempCanvas.getContext('2d')
+
+  // 调整新Canvas的尺寸
+  tempCanvas.width = canvas.width
+  tempCanvas.height = canvas.height
+
+  // 在新Canvas上绘制原始图片
+  tempCtx.drawImage(canvas, 0, 0, tempCanvas.width, tempCanvas.height)
+
+  // 将新Canvas转换为base64格式的图片
+  let base64Data = tempCanvas.toDataURL('image/jpeg', quality)
+
+  return base64Data
+}
 
 export async function screenShot(dom: HTMLElement) {
   return new Promise((resove, reject) => {
     try {
       html2canvas(dom)
         .then((canvas) => {
-          resove(canvas.toDataURL())
+          resove(compressAndConvertToBase64(canvas, 0.5))
         })
         .catch((error) => {
           // eslint-disable-next-line no-console
