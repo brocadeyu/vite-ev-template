@@ -108,7 +108,7 @@ const handleStepSizeChange = (val) => {
   console.log('设置步长', val)
 }
 const sendRequestGenDoc = async () => {
-  // loadingInstance = ElLoading.service({ fullscreen: true, text: '生成文档中' })
+  loadingInstance = ElLoading.service({ fullscreen: true, text: '生成文档中' })
   console.log('发送生成文档消息')
   let data = {
     InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDoc'
@@ -133,7 +133,7 @@ onMounted(() => {
     if (loadingInstance) {
       nextTick(() => {
         // Loading should be closed asynchronously
-        // loadingInstance.close()
+        loadingInstance.close()
       })
     }
   })
