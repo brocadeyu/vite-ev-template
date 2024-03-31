@@ -27,7 +27,7 @@
       </div>
     </template>
     <template #content>
-      <div ref="lineChartRef" class="mission-content"></div>
+      <div id="lineChartId" ref="lineChartRef" class="mission-content"></div>
     </template>
     <template #footer>
       <div class="foot-btns">
@@ -49,6 +49,7 @@ import * as echarts from 'echarts'
 import { usePopupStore } from '@/stores/popupStore'
 import { useLogStore } from '@/stores/logStore'
 import { storeToRefs } from 'pinia'
+import { screenShot } from '@/common/helper'
 const popupStore = usePopupStore()
 const logStore = useLogStore()
 const { dataLog, linkZHState, link90XState, linkJIDSState, linkKUState } =
@@ -80,13 +81,106 @@ withDefaults(
   }>(),
   { title: '' }
 )
-
+watch(displayType, () => {
+  let data = []
+  switch (displayType.value) {
+    case '综合链':
+      data = linkZHState.value
+      break
+    case '90X链':
+      data = link90XState.value
+      break
+    case 'JIDS链':
+      data = linkJIDSState.value
+      break
+    case 'KU卫通':
+      data = linkKUState.value
+      break
+  }
+  echartsInstance?.setOption({
+    series: [
+      {
+        name: '时延',
+        type: 'line',
+        yAxisIndex: 0,
+        data: data.map((_) => {
+          return {
+            name: _.time,
+            value: [_.time, _.delay],
+            message: _.message
+          }
+        })
+      },
+      {
+        name: '带宽占用率',
+        type: 'line',
+        yAxisIndex: 1,
+        data: data.map((_) => {
+          return {
+            name: _.time,
+            value: [_.time, _.speedPercent],
+            message: ''
+          }
+        })
+      },
+      {
+        name: '丢包率',
+        type: 'line',
+        yAxisIndex: 2,
+        data: data.map((_) => {
+          return {
+            name: _.time,
+            value: [_.time, _.missPercent],
+            message: ''
+          }
+        })
+      },
+      {
+        name: '速率',
+        type: 'line',
+        yAxisIndex: 3,
+        data: data.map((_) => {
+          return { name: _.time, value: [_.time, _.speed], message: '' }
+        })
+      }
+    ]
+  })
+})
 const closePopup = () => {
   popupStore._showLine = false
 }
 const initEcharts = () => {
   echartsInstance = echarts.init(lineChartRef.value)
 }
+const getImgDelay = async (type: string) => {
+  displayType.value = type
+  return new Promise((resolve) => {
+    // displayType.value = type
+    setTimeout(async () => {
+      const img1 = await screenShot(document.getElementById('lineChartId'))
+      resolve(img1)
+    }, 500)
+  })
+}
+const getBatchShootCut = async () => {
+  let temp = displayType.value
+  const zhl = await getImgDelay('综合链')
+  const x = await getImgDelay('90X链')
+  const jids = await getImgDelay('JIDS链')
+  const ku = await getImgDelay('KU卫通')
+  displayType.value = temp
+  // const img1 = await screenShot(document.getElementById('lineChartId'))
+  // console.log('img1', img1)
+  return {
+    ZHLImg: zhl,
+    '90XImg': x,
+    JIDSImg: jids,
+    KUImg: ku
+  }
+}
+defineExpose({
+  getBatchShootCut
+})
 const colors = ['#5470C6', '#91CC75', '#EE6666', '#1E7666']
 // let now = new Date(1997, 9, 3)
 // let oneDay = 24 * 3600 * 1000
@@ -106,7 +200,7 @@ const colors = ['#5470C6', '#91CC75', '#EE6666', '#1E7666']
 //   data.push(randomData())
 // }
 const displaySelectionChange = () => {
-  setEchartsData()
+  // setEchartsData()
 }
 const setEchartsData = () => {
   let data = []

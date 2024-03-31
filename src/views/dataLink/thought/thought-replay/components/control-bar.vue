@@ -115,8 +115,8 @@ const sendRequestGenDoc = async () => {
   }
   // console.log(data)
   websocketStore.sendMessage(data)
-  const dataBase64 = await screenShot(document.getElementById('gentChartId'))
-  console.log('输出图片', dataBase64)
+  // const dataBase64 = await screenShot(document.getElementById('gentChartId'))
+  // console.log('输出图片', dataBase64)
 }
 const toSimulateSend = () => {
   const list = entityStore.entitiesArr.map((_) => _.id)

@@ -7,7 +7,7 @@
     <dataPanel></dataPanel>
     <networkDevice></networkDevice>
     <gantChart></gantChart>
-    <trendChart></trendChart>
+    <trendChart ref="trendRef"></trendChart>
     <layerController></layerController>
   </div>
 </template>
@@ -31,6 +31,7 @@ import { ElMessage } from 'element-plus'
 import { getNowTimeStr } from '@/common/helper'
 import { screenShot } from '@/common/helper'
 const loadingMaskRef = ref(null)
+const trendRef = ref(null)
 const websocketStore = useWebSocketStore()
 const thoughtStore = useThoughtStore()
 const entityStore = useEntityStore()
@@ -259,17 +260,42 @@ onMounted(() => {
     }
     cesiumStore.cesium.boardMap.updateBoardPosition(opt2)
   })
+  //   {
+  //   "gtImg":"...",
+  //   "ZHLImg":"...",
+  //   "90XImg":"...",
+  //   "JIDSImg":"...",
+  //   "KUImg":"...",
+  //   "commentStr":"..."
+  // }
   websocketStore.addEventListener(WS_EVENT.startGenDocRes, async () => {
-    const dataLd = await screenShot(document.getElementById('gentChartId'))
+    // const dataLd = await screenShot(document.getElementById('gentChartId'))
     const dataGt = await screenShot(document.getElementById('gentChartId'))
     // console.log('雷达图', dataLd, '甘特图', dataGt)
-    let data = {
-      InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDocImage',
-      ldImg: dataLd,
-      gtImg: dataGt
+    // $refs.childRef.$refs.grandchildRef.grandchildMethod();
+    const batchImg = await trendRef.value.getBatch()
+    // console.log('ddddddd', ls)
+    let data1 = {
+      InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDocImage1',
+      gtImg: dataGt,
+      ZHLImg: batchImg['ZHLImg']
     }
-    // console.log(d)
-    websocketStore.sendMessage(data)
+    console.log(data1)
+    websocketStore.sendMessage(data1)
+    let data2 = {
+      InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDocImage2',
+      '90XImg': batchImg['90XImg'],
+      JIDSImg: batchImg['JIDSImg']
+    }
+    console.log(data2)
+    websocketStore.sendMessage(data2)
+    let data3 = {
+      InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDocImage3',
+      KUImg: batchImg['KUImg'],
+      commentStr: 'xxxxxxxxxxxxxxxx'
+    }
+    console.log(data3)
+    websocketStore.sendMessage(data3)
   })
 
   bc = new BroadcastChannel('simulateSend')
