@@ -7,14 +7,18 @@
     :is-draggable="true"
   >
     <template #header>
-      <div style="color: gray">
+      <div style="color: white">
         链路：
         <el-select
           v-model="displayType"
           type="primary"
           color="#119aa0"
           size="small"
-          style="width: 110px"
+          style="
+            width: 110px;
+            --el-fill-color-blank: transparent;
+            --el-text-color-regular: white;
+          "
           @change="displaySelectionChange"
         >
           <el-option
