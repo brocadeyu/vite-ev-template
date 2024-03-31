@@ -529,4 +529,7 @@ onBeforeUnmount(() => {
 .el-form-item {
   width: 100%;
 }
+.el-table {
+  --el-table-row-hover-bg-color: rgb(28, 62, 113);
+}
 </style>
