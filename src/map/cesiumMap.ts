@@ -54,7 +54,7 @@ export default class CesiumMap {
     this.viewer.imageryLayers.addImageryProvider(imageryProvider)
 
     this.viewer.scene.globe.depthTestAgainstTerrain = false
-    this.viewer.scene.globe.enableLighting = true
+    // this.viewer.scene.globe.enableLighting = true
     this.modelMap = new ModelMap(this.viewer)
     this.markMap = new MarkMap(this.viewer)
     this.trackMap = new TrackMap(this.viewer)

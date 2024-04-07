@@ -45,9 +45,9 @@ onMounted(async () => {
   } else {
     cesiumStore.cesium.setFrameRateShow(false)
   }
-  setTimeout(() => {
-    cesiumStore.cesium.addSkyBox()
-  }, 5000)
+  // setTimeout(() => {
+  //   cesiumStore.cesium.addSkyBox()
+  // }, 5000)
 })
 onBeforeRouteUpdate((to) => {
   cesiumStore.cesium.globeRoute.stop()

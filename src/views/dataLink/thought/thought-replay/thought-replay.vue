@@ -130,9 +130,16 @@ onMounted(() => {
     // console.log('数据日志', data)
     const message = JSON.parse(data.Message)
     if (message.length) {
-      // console.log('mmmm', message[0])
+      console.log('mmmm', message[0].type)
       const m = message[0].message
-      logStore.pushDataLog({ message: m, timeStr: getNowTimeStr() })
+      if (message[0].type !== '90X链') {
+        logStore.pushDataLog({
+          message: m,
+          timeStr: getNowTimeStr(),
+          link: message[0].type
+        })
+      }
+
       const linkMessageArr = message[0].LinkArr
       if (message[0].MessageType === '广播消息') {
         const linkType = linkMessageArr[0].dataLinkType
@@ -157,29 +164,103 @@ onMounted(() => {
             const t = m.split(':')[0].split('+')[1].split('ms')[0]
             logStore.pushDataLog({
               message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的广播战术命令，${m.split('，')[1]}`,
-              timeStr: getNowTimeStr()
+              timeStr: getNowTimeStr(),
+              link: message[0].type
             })
           }
         })
       } else if (message[0].MessageType === '点播消息') {
-        linkMessageArr.forEach((_) => {
-          const id = `${_.from}-${_.to}`
-          const fromPosition = entityStore.getEntityById(_.from).position
-          const toPosition = entityStore.getEntityById(_.to).position
-          const opt = {
-            id: id,
-            type: _.dataLinkType,
-            positionArr: [fromPosition, toPosition]
+        if (message[0].type === '90X链') {
+          linkMessageArr.forEach((_) => {
+            const id = `${_.from}-${_.to}`
+            const fromPosition = entityStore.getEntityById(_.from).position
+            const toPosition = entityStore.getEntityById(_.to).position
+            const opt = {
+              id: id,
+              type: _.dataLinkType,
+              positionArr: [fromPosition, toPosition]
+            }
+            cesiumStore.cesium.messageMap.displayMessageLink(opt)
+          })
+
+          const s1 = message[0].link[0]
+          const s2 = message[0].link[message[0].link.length - 1]
+          const t = m.split(':')[0].split('+')[1].split('ms')[0]
+          const main = linkStore.linkConnectInfo['90X链'].mainDevice
+          if (s2 !== main) {
+            let r = 20 * Math.random()
+            let r2 = 20 * Math.random()
+            let r3 = 10 * Math.random()
+            let rmin, rmax
+            if (r > r2) {
+              rmin = r2
+              rmax = r
+            } else {
+              rmin = r
+              rmax = r2
+            }
+            //目标设备不是中心节点
+            logStore.pushDataLog({
+              message: `T0+${Math.floor(Number(t))}ms#${s1}向${main}发送战术数据，${m.split('，')[1]}`,
+              timeStr: getNowTimeStr(),
+              link: message[0].type
+            })
+            logStore.pushDataLog({
+              message: `T0+${Math.floor(Number(t) + r3)}ms#${main}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
+              timeStr: getNowTimeStr(),
+              link: message[0].type
+            })
+            logStore.pushDataLog({
+              message: `T0+${Math.floor(Number(t) + rmin + r3)}ms#${main}向${s2}发送战术数据，${m.split('，')[1]}`,
+              timeStr: getNowTimeStr(),
+              link: message[0].type
+            })
+            logStore.pushDataLog({
+              message: `T0+${Math.floor(Number(t) + rmax + r3)}ms#${s2}接收到${main}发送的战术数据，${m.split('，')[1]}`,
+              timeStr: getNowTimeStr(),
+              link: message[0].type
+            })
+          } else {
+            //目标设备是中心节点
+            logStore.pushDataLog({
+              message: m,
+              timeStr: getNowTimeStr(),
+              link: message[0].type
+            })
+            logStore.pushDataLog({
+              message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
+              timeStr: getNowTimeStr(),
+              link: message[0].type
+            })
           }
-          cesiumStore.cesium.messageMap.displayMessageLink(opt)
-        })
-        const s1 = message[0].link[0]
-        const s2 = message[0].link[message[0].link.length - 1]
-        const t = m.split(':')[0].split('+')[1].split('ms')[0]
-        logStore.pushDataLog({
-          message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
-          timeStr: getNowTimeStr()
-        })
+
+          // const t = m.split(':')[0].split('+')[1].split('ms')[0]
+          // logStore.pushDataLog({
+          //   message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
+          //   timeStr: getNowTimeStr(),
+          //   link: message[0].type
+          // })
+        } else {
+          linkMessageArr.forEach((_) => {
+            const id = `${_.from}-${_.to}`
+            const fromPosition = entityStore.getEntityById(_.from).position
+            const toPosition = entityStore.getEntityById(_.to).position
+            const opt = {
+              id: id,
+              type: _.dataLinkType,
+              positionArr: [fromPosition, toPosition]
+            }
+            cesiumStore.cesium.messageMap.displayMessageLink(opt)
+          })
+          const s1 = message[0].link[0]
+          const s2 = message[0].link[message[0].link.length - 1]
+          const t = m.split(':')[0].split('+')[1].split('ms')[0]
+          logStore.pushDataLog({
+            message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
+            timeStr: getNowTimeStr(),
+            link: message[0].type
+          })
+        }
       } else {
         //卫星消息
         linkMessageArr.forEach((_) => {
@@ -198,7 +279,8 @@ onMounted(() => {
         const t = m.split(':')[0].split('+')[1].split('ms')[0]
         logStore.pushDataLog({
           message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
-          timeStr: getNowTimeStr()
+          timeStr: getNowTimeStr(),
+          link: message[0].type
         })
       }
     }
@@ -290,18 +372,166 @@ onMounted(() => {
     console.log(data2)
     websocketStore.sendMessage(data2)
     const randNum = Math.random()
+    let delayAcc = 0
+    let percentAcc = 0
+    let missAcc = 0
+    let speedAcc = 0
+    let count = 0
+    let maxD = 0
+    let minD = 999
+    let maxP = 0
+    let minP = 999
+    let maxM = 0
+    let minM = 999
+    let maxS = 0
+    let minS = 999
 
+    logStore.linkZHState.forEach((_) => {
+      if (_.delay > maxD) {
+        maxD = _.delay
+      }
+      if (_.delay < minD) {
+        minD = _.delay
+      }
+      if (_.speedPercent > maxP) {
+        maxP = _.speedPercent
+      }
+      if (_.speedPercent < minP) {
+        minP = _.speedPercent
+      }
+      if (_.missPercent > maxM) {
+        maxM = _.missPercent
+      }
+      if (_.missPercent < minM) {
+        minM = _.missPercent
+      }
+      if (_.speed > maxS) {
+        maxS = _.speed
+      }
+      if (_.speed < minS) {
+        minS = _.speed
+      }
+      count++
+      delayAcc += _.delay
+      percentAcc += _.speedPercent
+      missAcc += _.missPercent
+      speedAcc += _.speed
+    })
+    logStore.link90XState.forEach((_) => {
+      if (_.delay > maxD) {
+        maxD = _.delay
+      }
+      if (_.delay < minD) {
+        minD = _.delay
+      }
+      if (_.speedPercent > maxP) {
+        maxP = _.speedPercent
+      }
+      if (_.speedPercent < minP) {
+        minP = _.speedPercent
+      }
+      if (_.missPercent > maxM) {
+        maxM = _.missPercent
+      }
+      if (_.missPercent < minM) {
+        minM = _.missPercent
+      }
+      if (_.speed > maxS) {
+        maxS = _.speed
+      }
+      if (_.speed < minS) {
+        minS = _.speed
+      }
+      count++
+      delayAcc += _.delay
+      percentAcc += _.speedPercent
+      missAcc += _.missPercent
+      speedAcc += _.speed
+    })
+    logStore.linkJIDSState.forEach((_) => {
+      if (_.delay > maxD) {
+        maxD = _.delay
+      }
+      if (_.delay < minD) {
+        minD = _.delay
+      }
+      if (_.speedPercent > maxP) {
+        maxP = _.speedPercent
+      }
+      if (_.speedPercent < minP) {
+        minP = _.speedPercent
+      }
+      if (_.missPercent > maxM) {
+        maxM = _.missPercent
+      }
+      if (_.missPercent < minM) {
+        minM = _.missPercent
+      }
+      if (_.speed > maxS) {
+        maxS = _.speed
+      }
+      if (_.speed < minS) {
+        minS = _.speed
+      }
+      count++
+      delayAcc += _.delay
+      percentAcc += _.speedPercent
+      missAcc += _.missPercent
+      speedAcc += _.speed
+    })
+    logStore.linkKUState.forEach((_) => {
+      if (_.delay > maxD) {
+        maxD = _.delay
+      }
+      if (_.delay < minD) {
+        minD = _.delay
+      }
+      if (_.speedPercent > maxP) {
+        maxP = _.speedPercent
+      }
+      if (_.speedPercent < minP) {
+        minP = _.speedPercent
+      }
+      if (_.missPercent > maxM) {
+        maxM = _.missPercent
+      }
+      if (_.missPercent < minM) {
+        minM = _.missPercent
+      }
+      if (_.speed > maxS) {
+        maxS = _.speed
+      }
+      if (_.speed < minS) {
+        minS = _.speed
+      }
+      count++
+      delayAcc += _.delay
+      percentAcc += _.speedPercent
+      missAcc += _.missPercent
+      speedAcc += _.speed
+    })
+    let avgDelay = delayAcc / count
+    let avgPercent = percentAcc / count
+    let avgMiss = missAcc / count
+    let avgSpeed = speedAcc / count
+    const normalD = maxD - minD !== 0 ? (avgDelay - minD) / (maxD - minD) : 0
+    const normalP = maxP - minP !== 0 ? (avgPercent - minP) / (maxP - minP) : 0
+    const normalM = maxM - minM !== 0 ? (avgMiss - minM) / (maxM - minM) : 0
+    const normalS = maxS - minS !== 0 ? (avgSpeed - minS) / (maxS - minS) : 0
+    const score =
+      normalD * 0.3 + normalP * 0.3 + normalM * 0.3 + (1 - normalS) * 0.1
+    console.log('score', score)
     // 根据概率分布选择描述
     let description
-    if (randNum < 0.5) {
+    if (score > 0.5) {
       description =
         '通信稳定可靠，适用于对实时性和稳定性要求极高的应用等关键领域。用户体验流畅，传输数据的完整性和准确性得到有效保障'
-    } else if (randNum < 0.8) {
-      description =
-        '通信表现一般，对于大部分普通应用而言能够满足基本需求，但在高负载情况下可能出现一定程度的延迟或数据丢失，对某些对通信质量要求较高的应用可能不够理想'
-    } else {
+    } else if (score < 0.2) {
       description =
         '通信不稳定，容易受到外部环境影响或者网络拥塞的影响，可能导致连接不可靠，数据传输中断或者丢失严重，用户体验较差，对于大多数实时性或大容量数据传输的应用来说，性能不可接受'
+    } else {
+      description =
+        '通信表现一般，对于大部分普通应用而言能够满足基本需求，但在高负载情况下可能出现一定程度的延迟或数据丢失，对某些对通信质量要求较高的应用可能不够理想'
     }
     let data3 = {
       InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDocImage3',

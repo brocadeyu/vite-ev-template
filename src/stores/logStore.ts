@@ -17,6 +17,7 @@ interface DataLog {
   message: string
   time: string
   timeStr: string
+  link: string
 }
 interface LinkStateLog {
   delay: number
