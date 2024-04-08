@@ -2,7 +2,7 @@
   <base-docker
     :title="title"
     :show-footer="true"
-    :height="'480px'"
+    :height="'500px'"
     :width="'480px'"
     :is-draggable="true"
     :bg="getEntityImgByType(data.type)"
@@ -159,6 +159,366 @@
               </div> </el-form-item
           ></el-col>
         </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="电台参数">
+              <el-button
+                type="primary"
+                color="#119aa0"
+                size="small"
+                @click="showParamSet"
+                >设置</el-button
+              >
+            </el-form-item></el-col
+          >
+          <el-dialog
+            v-model="dialogFormVisible"
+            title="电台参数设置"
+            width="700"
+            align-center
+            :show-close="false"
+            style="--el-bg-color: #448fa2; --el-input-bg-color: white"
+          >
+            <el-form :model="form">
+              综合链
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="工作频率" :label-width="formLabelWidth">
+                    <el-input
+                      v-model="form.name"
+                      autosize
+                      autocomplete="off"
+                      style="--el-input-bg-color: white"
+                    /> </el-form-item
+                ></el-col>
+                <el-col :span="12">
+                  <el-form-item label="出联方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="定频" value="定频" />
+                      <el-option label="跳频" value="跳频" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="调制方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="8PSK" value="8PSK" />
+                      <el-option label="16QAM" value="16QAM" />
+                      <el-option label="32QAM" value="32QAM" />
+                      <el-option label="64QAM" value="64QAM" />
+                    </el-select> </el-form-item
+                ></el-col>
+                <el-col :span="12">
+                  <el-form-item label="传输速率" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option
+                        label="短波定频1120~4053bps"
+                        value="短波定频1120~4053bps"
+                      />
+                      <el-option
+                        label="短波跳频500~2200bps"
+                        value="短波跳频500~2200bps"
+                      />
+                      <el-option
+                        label="超短波定频12667bps"
+                        value="超短波定频12667bps"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12"
+                  ><el-form-item label="工作模式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="TDMA-时分多址" value="TDMA-时分多址" />
+                      <el-option label="动态TDMA" value="动态TDMA" />
+                    </el-select> </el-form-item
+                ></el-col>
+                <el-col :span="12"
+                  ><el-form-item label="消息格式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="F序列" value="8PSK" />
+                      <el-option label="FJ序列" value="FJ序列" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+            </el-form>
+            <el-form :model="form">
+              90X链
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="工作频率" :label-width="formLabelWidth">
+                    <el-input
+                      v-model="form.name"
+                      autosize
+                      autocomplete="off"
+                      style="--el-input-bg-color: white"
+                    /> </el-form-item
+                ></el-col>
+                <el-col :span="12">
+                  <el-form-item label="出联方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="定频" value="定频" />
+                      <el-option label="跳频" value="跳频" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="调制方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="8PSK" value="8PSK" />
+                      <el-option label="16QAM" value="16QAM" />
+                      <el-option label="32QAM" value="32QAM" />
+                      <el-option label="64QAM" value="64QAM" />
+                    </el-select> </el-form-item
+                ></el-col>
+                <el-col :span="12">
+                  <el-form-item label="传输速率" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option
+                        label="短波定频1120~4053bps"
+                        value="短波定频1120~4053bps"
+                      />
+                      <el-option
+                        label="短波跳频500~2200bps"
+                        value="短波跳频500~2200bps"
+                      />
+                      <el-option
+                        label="超短波定频12667bps"
+                        value="超短波定频12667bps"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12"
+                  ><el-form-item label="工作模式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="TDMA-时分多址" value="TDMA-时分多址" />
+                      <el-option label="动态TDMA" value="动态TDMA" />
+                    </el-select> </el-form-item
+                ></el-col>
+                <el-col :span="12"
+                  ><el-form-item label="消息格式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="F序列" value="8PSK" />
+                      <el-option label="FJ序列" value="FJ序列" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+            </el-form>
+            <el-form :model="form">
+              JIDS链
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="工作频率" :label-width="formLabelWidth">
+                    <el-input
+                      v-model="form.name"
+                      autosize
+                      autocomplete="off"
+                      style="--el-input-bg-color: white"
+                    /> </el-form-item
+                ></el-col>
+                <el-col :span="12">
+                  <el-form-item label="出联方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="定频" value="定频" />
+                      <el-option label="跳频" value="跳频" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="调制方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="8PSK" value="8PSK" />
+                      <el-option label="16QAM" value="16QAM" />
+                      <el-option label="32QAM" value="32QAM" />
+                      <el-option label="64QAM" value="64QAM" />
+                    </el-select> </el-form-item
+                ></el-col>
+                <el-col :span="12">
+                  <el-form-item label="传输速率" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option
+                        label="短波定频1120~4053bps"
+                        value="短波定频1120~4053bps"
+                      />
+                      <el-option
+                        label="短波跳频500~2200bps"
+                        value="短波跳频500~2200bps"
+                      />
+                      <el-option
+                        label="超短波定频12667bps"
+                        value="超短波定频12667bps"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12"
+                  ><el-form-item label="工作模式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="TDMA-时分多址" value="TDMA-时分多址" />
+                      <el-option label="动态TDMA" value="动态TDMA" />
+                    </el-select> </el-form-item
+                ></el-col>
+                <el-col :span="12"
+                  ><el-form-item label="消息格式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="F序列" value="8PSK" />
+                      <el-option label="FJ序列" value="FJ序列" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+            </el-form>
+            <el-form :model="form">
+              短波、超短波、微波
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="工作频率" :label-width="formLabelWidth">
+                    <el-input
+                      v-model="form.name"
+                      autosize
+                      autocomplete="off"
+                      style="--el-input-bg-color: white"
+                    /> </el-form-item
+                ></el-col>
+                <el-col :span="12">
+                  <el-form-item label="出联方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="定频" value="定频" />
+                      <el-option label="跳频" value="跳频" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="调制方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="8PSK" value="8PSK" />
+                      <el-option label="16QAM" value="16QAM" />
+                      <el-option label="32QAM" value="32QAM" />
+                      <el-option label="64QAM" value="64QAM" />
+                    </el-select> </el-form-item
+                ></el-col>
+                <el-col :span="12">
+                  <el-form-item label="传输速率" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option
+                        label="短波定频1120~4053bps"
+                        value="短波定频1120~4053bps"
+                      />
+                      <el-option
+                        label="短波跳频500~2200bps"
+                        value="短波跳频500~2200bps"
+                      />
+                      <el-option
+                        label="超短波定频12667bps"
+                        value="超短波定频12667bps"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12"
+                  ><el-form-item label="工作模式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="TDMA-时分多址" value="TDMA-时分多址" />
+                      <el-option label="动态TDMA" value="动态TDMA" />
+                    </el-select> </el-form-item
+                ></el-col>
+                <el-col :span="12"
+                  ><el-form-item label="消息格式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="form.region"
+                      placeholder="Please select a zone"
+                    >
+                      <el-option label="F序列" value="8PSK" />
+                      <el-option label="FJ序列" value="FJ序列" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+            </el-form>
+            <template #footer>
+              <div class="dialog-footer">
+                <el-button size="small" @click="dialogFormVisible = false"
+                  >取消</el-button
+                >
+                <el-button
+                  type="primary"
+                  size="small"
+                  @click="dialogFormVisible = false"
+                >
+                  保存
+                </el-button>
+              </div>
+            </template>
+          </el-dialog>
+        </el-row>
       </el-form>
     </template>
     <template #footer>
@@ -209,6 +569,18 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
     callback()
   }
 }
+const dialogFormVisible = ref(false)
+const formLabelWidth = '140px'
+const form = reactive({
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: ''
+})
 const formRef = ref<FormInstance>()
 const formData = reactive({
   type: '' as EntityType,
@@ -326,6 +698,9 @@ const onSave = () => {
       closePopup()
     }
   })
+}
+const showParamSet = () => {
+  dialogFormVisible.value = true
 }
 
 const editPath = () => {
