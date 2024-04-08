@@ -78,7 +78,7 @@ const saveThought = () => {
 const onSaveUpdate = async () => {
   try {
     console.log('更新想定保存')
-    console.log(entityStore.entitiesArr)
+    // console.log(entityStore.entitiesArr)
     const linkObj = linkStore.linkConnectInfo
     const jMission = missionStore.staticMission
     const dMission = missionStore.dynamicMission
@@ -95,10 +95,11 @@ const onSaveUpdate = async () => {
         Ges: [0, 0, 0],
         SendPower: '1',
         AntennaePower: '2',
+        Speed: '30',
         Behaviour: [
           {
             Type: _.getType() === 'AIR' ? 'FlyAlongAirPath' : 'AlongThePath',
-            Points: _.path
+            Points: _.path.map((i) => [...i, _.getType() === 'AIR' ? 200 : 30])
           }
         ],
         Equipment: _.equipment
