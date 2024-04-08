@@ -382,7 +382,7 @@ const setEchartsData = () => {
         type: 'line',
         yAxisIndex: 0,
         showSymbol: false,
-        // smooth: true,
+        smooth: true,
         data: data.map((_) => {
           return {
             name: _.time,
@@ -396,7 +396,7 @@ const setEchartsData = () => {
         type: 'line',
         yAxisIndex: 1,
         showSymbol: false,
-        // smooth: true,
+        smooth: true,
         data: data.map((_) => {
           return {
             name: _.time,
@@ -410,7 +410,7 @@ const setEchartsData = () => {
         type: 'line',
         yAxisIndex: 2,
         showSymbol: false,
-        // smooth: true,
+        smooth: true,
         data: data.map((_) => {
           return {
             name: _.time,
@@ -424,7 +424,7 @@ const setEchartsData = () => {
         type: 'line',
         yAxisIndex: 3,
         showSymbol: false,
-        // smooth: true,
+        smooth: true,
         data: data.map((_) => {
           return {
             name: _.time,
