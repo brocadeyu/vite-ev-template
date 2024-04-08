@@ -480,30 +480,30 @@ const closePopup = () => {
 const confirmPopup = async () => {
   saveLoadStatus.value = true
   try {
-    await formRefZHL.value.validate((valid) => {
-      if (!valid) {
-        activeTab.value = '综合链'
-        throw 'error'
-      }
-    })
-    await formRef90X.value.validate((valid) => {
-      if (!valid) {
-        activeTab.value = '90X链'
-        throw 'error'
-      }
-    })
-    await formRefJIDS.value.validate((valid) => {
-      if (!valid) {
-        activeTab.value = 'JIDS链'
-        throw 'error'
-      }
-    })
-    await formRefKU.value.validate((valid) => {
-      if (!valid) {
-        activeTab.value = 'KU卫通'
-        throw 'error'
-      }
-    })
+    // await formRefZHL.value.validate((valid) => {
+    //   if (!valid) {
+    //     activeTab.value = '综合链'
+    //     throw 'error'
+    //   }
+    // })
+    // await formRef90X.value.validate((valid) => {
+    //   if (!valid) {
+    //     activeTab.value = '90X链'
+    //     throw 'error'
+    //   }
+    // })
+    // await formRefJIDS.value.validate((valid) => {
+    //   if (!valid) {
+    //     activeTab.value = 'JIDS链'
+    //     throw 'error'
+    //   }
+    // })
+    // await formRefKU.value.validate((valid) => {
+    //   if (!valid) {
+    //     activeTab.value = 'KU卫通'
+    //     throw 'error'
+    //   }
+    // })
     const param1 = {
       dataLinkType: '综合链',
       // usingKU: this.DataLinkInfo.link[0].usingKU,
@@ -710,33 +710,37 @@ onMounted(() => {
           })
       }
       linkStore.setLinkConnectInfo(_.dataLinkType, arg) //设置数据链连接信息
-      _.linkTo.forEach((i: any) => {
-        const deviceArr = i.split('-')
-        const entityOne = entityStore.getEntityById(deviceArr[0])
-        const entityTwo = entityStore.getEntityById(deviceArr[1])
-        cesiumStore.cesium.linkMap.addLink({
-          id: i,
-          positionArr: [entityOne.position, entityTwo.position],
-          type: _.dataLinkType
+      _.linkTo.length &&
+        _.linkTo?.forEach((i: any) => {
+          const deviceArr = i.split('-')
+          const entityOne = entityStore.getEntityById(deviceArr[0])
+          const entityTwo = entityStore.getEntityById(deviceArr[1])
+          cesiumStore.cesium.linkMap.addLink({
+            id: i,
+            positionArr: [entityOne.position, entityTwo.position],
+            type: _.dataLinkType
+          })
         })
-      })
     })
     linkStore.setLinkLinkInfo(data.linklink) //设置数据链linklink信息
     //处理linklink信息
-    data.linklink.forEach((_) => {
-      const entityStr = _['综合链'] || _['90X链'] || _['JIDS链']
-      const entityArr = entityStr.split('-')
-      const deviceArr = _.device.split('-')
-      // console.log('entityArr', entityArr, 'deviceArr', deviceArr)
-      entityArr.forEach((i, index) => {
-        const entity = entityStore.getEntityById(i)
-        const e = entity.equipment.find(
-          (eItem) => eItem.name === deviceArr[index]
-        )
-        e.isHas = true
-        e.isUse = true
+    data.linklink.length &&
+      data.linklink?.forEach((_) => {
+        const entityStr = _['综合链'] || _['90X链'] || _['JIDS链']
+        if (entityStr) {
+          const entityArr = entityStr.split('-')
+          const deviceArr = _.device.split('-')
+          // console.log('entityArr', entityArr, 'deviceArr', deviceArr)
+          entityArr.forEach((i, index) => {
+            const entity = entityStore.getEntityById(i)
+            const e = entity.equipment.find(
+              (eItem) => eItem.name === deviceArr[index]
+            )
+            e.isHas = true
+            e.isUse = true
+          })
+        }
       })
-    })
     let staticMission = []
     let dynamicMission = []
     data.mission?.forEach((_) => {
