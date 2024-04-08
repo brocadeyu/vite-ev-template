@@ -130,7 +130,7 @@ onMounted(() => {
     // console.log('数据日志', data)
     const message = JSON.parse(data.Message)
     if (message.length) {
-      console.log('mmmm', message[0].type)
+      // console.log('mmmm', message[0].type)
       const m = message[0].message
       if (message[0].type !== '90X链') {
         logStore.pushDataLog({
