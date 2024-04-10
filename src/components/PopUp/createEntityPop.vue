@@ -183,8 +183,8 @@
               --el-input-text-color: black;
             "
           >
-            <el-form v-if="zhlActive">
-              综合链
+            <el-form v-if="zhlActive" class="area">
+              <div class="textOne">综合链</div>
               <el-row>
                 <el-col :span="8">
                   <el-form-item label="短波频率" :label-width="formLabelWidth">
@@ -221,23 +221,37 @@
                 ></el-col>
               </el-row>
               <el-row>
-                <el-col :span="24">
-                  <el-form-item label="传输速率" :label-width="formLabelWidth">
-                    短波定频
+                <el-col :span="8">
+                  <el-form-item
+                    label="传输速率-短波定频"
+                    :label-width="formLabelWidth"
+                  >
                     <el-input-number
                       v-model="paramsForm.cssldp"
                       :min="1120"
                       :max="4053"
                       controls-position="right"
                     />
-                    短波跳频
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item
+                    label="传输速率-短波跳频"
+                    :label-width="formLabelWidth"
+                  >
                     <el-input-number
                       v-model="paramsForm.cssltp"
                       :min="500"
                       :max="2200"
                       controls-position="right"
                     />
-                    超短波定频
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item
+                    label="传输速率-超短波定频"
+                    :label-width="formLabelWidth"
+                  >
                     <el-input-number
                       v-model="paramsForm.csslcdb"
                       :min="12667"
@@ -285,8 +299,8 @@
                 ></el-col>
               </el-row>
             </el-form>
-            <el-form v-if="xActive">
-              90X链
+            <el-form v-if="xActive" class="area">
+              <div class="textOne">90X链</div>
               <el-row>
                 <el-col :span="8">
                   <el-form-item label="短波频率" :label-width="formLabelWidth">
@@ -324,8 +338,10 @@
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="调制方式" :label-width="formLabelWidth">
-                    短波
+                  <el-form-item
+                    label="调制方式-短波"
+                    :label-width="formLabelWidth"
+                  >
                     <el-select
                       v-model="paramsForm.tzfs1db"
                       placeholder="Please select a zone"
@@ -333,8 +349,13 @@
                     >
                       <el-option label="SSB-Π/4DQPSK" value="SSB-Π/4DQPSK" />
                       <el-option label="SSB-8PSK" value="SSB-8PSK" />
-                    </el-select>
-                    超短波
+                    </el-select> </el-form-item
+                ></el-col>
+                <el-col :span="12">
+                  <el-form-item
+                    label="调制方式-超短波"
+                    :label-width="formLabelWidth"
+                  >
                     <el-select
                       v-model="paramsForm.tzfs1cdb"
                       placeholder="Please select a zone"
@@ -346,16 +367,24 @@
                 ></el-col>
               </el-row>
               <el-row>
-                <el-col :span="24">
-                  <el-form-item label="传输速率" :label-width="formLabelWidth">
-                    短波
+                <el-col :span="12">
+                  <el-form-item
+                    label="传输速率-短波"
+                    :label-width="formLabelWidth"
+                  >
                     <el-input-number
                       v-model="paramsForm.cssldp1"
                       :min="1200"
                       :max="1200"
                       controls-position="right"
                     />
-                    超短波
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item
+                    label="传输速率-超短波"
+                    :label-width="formLabelWidth"
+                  >
                     <el-input-number
                       v-model="paramsForm.csslcdb1"
                       :min="2250"
@@ -390,8 +419,8 @@
                 ></el-col>
               </el-row>
             </el-form>
-            <el-form v-if="jidsActive">
-              JIDS链
+            <el-form v-if="jidsActive" class="area">
+              <div class="textOne">JIDS链</div>
               <el-row>
                 <el-col :span="8">
                   <el-form-item
@@ -474,8 +503,8 @@
                 ></el-col>
               </el-row>
             </el-form>
-            <el-form v-if="kuActive">
-              卫星通信
+            <el-form v-if="kuActive" class="area">
+              <div class="textOne">卫星通信</div>
               <el-row>
                 <el-col :span="8">
                   <el-form-item label="卫星编号" :label-width="formLabelWidth">
@@ -570,8 +599,8 @@
                 ></el-col>
               </el-row>
             </el-form>
-            <el-form v-if="dbActive">
-              短波
+            <el-form v-if="dbActive" class="area">
+              <div class="textOne">短波</div>
               <el-row>
                 <el-col :span="8">
                   <el-form-item label="短波频率" :label-width="formLabelWidth">
@@ -689,8 +718,8 @@
                 ></el-col>
               </el-row>
             </el-form>
-            <el-form v-if="cdbActive">
-              超短波
+            <el-form v-if="cdbActive" class="area">
+              <div class="textOne">超短波</div>
               <el-row>
                 <el-col :span="8">
                   <el-form-item label="短波频率" :label-width="formLabelWidth">
@@ -809,8 +838,8 @@
                 ></el-col>
               </el-row>
             </el-form>
-            <el-form v-if="wbActive">
-              微波
+            <el-form v-if="wbActive" class="area">
+              <div class="textOne">微波</div>
               <el-row>
                 <el-col :span="8">
                   <el-form-item label="短波频率" :label-width="formLabelWidth">
@@ -1424,10 +1453,13 @@ onMounted(() => {
   color: black;
 }
 :deep(.el-dialog .el-dialog__title) {
-  color: black;
+  color: white;
 }
 :deep(.el-dialog .el-input__wrapper) {
   background-color: white;
+}
+:deep(.el-dialog .el-select) {
+  width: 150px;
 }
 .mark-point-active {
   position: relative;
@@ -1493,5 +1525,19 @@ onMounted(() => {
 }
 :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
   background-color: rgb(47, 99, 244) !important;
+}
+.area {
+  border: 2px solid white;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+.textOne {
+  width: 50px;
+  transform: translateY(-8px) translateX(10px);
+  background-color: #2b6c7c;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
 </style>
