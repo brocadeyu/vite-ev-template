@@ -173,7 +173,7 @@
           >
           <el-dialog
             v-model="dialogFormVisible"
-            title="电台参数设置"
+            title="参数设置"
             width="1000"
             align-center
             :show-close="false"
