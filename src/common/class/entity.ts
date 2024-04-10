@@ -19,13 +19,15 @@ export default class Entity {
   position: number[]
   path: []
   equipment: []
+  params: any
   constructor(opt: IAddEntityOpt) {
-    const { id, type, position, path, equipment } = opt
+    const { id, type, position, path, equipment, params } = opt
     this.id = id
     this.type = type
     this.position = position
     this.path = path
     this.equipment = equipment
+    this.params = params
   }
   getType() {
     return this.type.includes('直升机') ? 'AIR' : 'SHIP'

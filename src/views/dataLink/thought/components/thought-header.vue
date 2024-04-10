@@ -99,10 +99,11 @@ const onSaveUpdate = async () => {
         Behaviour: [
           {
             Type: _.getType() === 'AIR' ? 'FlyAlongAirPath' : 'AlongThePath',
-            Points: _.path.map((i) => [...i, _.getType() === 'AIR' ? 200 : 30])
+            Points: _.path.map((i) => [...i, _.getType() === 'AIR' ? 500 : 30])
           }
         ],
-        Equipment: _.equipment
+        Equipment: _.equipment,
+        Params: _.params //电台参数
       }
     })
     convertMission = convertLink.concat(jMission, dMission, drMission)

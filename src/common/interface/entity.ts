@@ -5,6 +5,7 @@ export interface IAddEntityOpt {
   position: number[]
   path: any[]
   equipment: any[]
+  params: any
 }
 
 /**
@@ -18,4 +19,5 @@ export interface RawEntity {
   AntennaePower: string
   Behaviour: []
   Equipment: []
+  Params: any
 }

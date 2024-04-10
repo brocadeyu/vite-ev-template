@@ -16,7 +16,8 @@ export const useEntityStore = defineStore('entity', () => {
         type: _.EntityName,
         position: [_.Pos[1], _.Pos[0], _.Pos[2]],
         equipment: _.Equipment,
-        path: convertPath
+        path: convertPath,
+        params: _.Params
       }
       const t = new Entity(opt)
       entities.value[_.id] = t
