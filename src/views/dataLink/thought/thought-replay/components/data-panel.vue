@@ -74,7 +74,9 @@
                       : node.data.label.split(':')[0]
                   }}:</span
                 >
-                <span style="margin-left: 5px; color: #13d713"
+                <span
+                  v-if="!node.data.label.includes('$')"
+                  style="margin-left: 5px; color: #13d713"
                   >{{ node.data.link }},{{
                     node.data.label.includes('#')
                       ? node.data.label.split('#')[1]
@@ -83,6 +85,22 @@
                         : `${node.data.label.split(':')[1]}${node.data.label.split(':')[2]}`
                   }}</span
                 >
+                <span v-else style="margin-left: 5px; color: #13d713"
+                  >{{ node.data.link }},{{
+                    node.data.label.split('#')[1].split('$')[0]
+                  }}
+                  <span
+                    style="color: red"
+                    @click="
+                      clickDownloadFile(
+                        node.data.label.split('#')[1].split('$')[1]
+                      )
+                    "
+                    >{{
+                      getFileName(node.data.label.split('#')[1].split('$')[1])
+                    }}</span
+                  >
+                </span>
               </template>
             </el-tree-v2>
           </div>
@@ -113,6 +131,30 @@ const onQueryChanged = (query: string) => {
 }
 const goFullScreen = () => {
   toggle()
+}
+const getFileName = (m) => {
+  const file = window.fileMap.get(m)
+  return file.name
+}
+const clickDownloadFile = (m) => {
+  console.log('下载mmmmmmmmmmm', m)
+  const file = window.fileMap.get(m)
+  if (!file) return
+  const blob = new Blob([file], { type: file.type })
+  // 创建一个链接元素
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(blob)
+  a.download = file.name
+
+  // 将链接元素添加到文档中
+  document.body.appendChild(a)
+
+  // 模拟点击下载链接
+  a.click()
+
+  // 清理
+  URL.revokeObjectURL(a.href)
+  a.remove()
 }
 const data = []
 const props = {

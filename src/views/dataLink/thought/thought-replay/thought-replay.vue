@@ -75,6 +75,7 @@ const sendCloseMessage = () => {
   }
   websocketStore.sendMessage(data)
 }
+window.fileMap = new Map()
 let bc: BroadcastChannel = null
 onBeforeMount(() => {
   websocketStore.connect('ws://localhost:12000/hsdb/101')
@@ -170,96 +171,218 @@ onMounted(() => {
           }
         })
       } else if (message[0].MessageType === '点播消息') {
-        if (message[0].type === '90X链') {
-          linkMessageArr.forEach((_) => {
-            const id = `${_.from}-${_.to}`
-            const fromPosition = entityStore.getEntityById(_.from).position
-            const toPosition = entityStore.getEntityById(_.to).position
-            const opt = {
-              id: id,
-              type: _.dataLinkType,
-              positionArr: [fromPosition, toPosition]
-            }
-            cesiumStore.cesium.messageMap.displayMessageLink(opt)
-          })
+        if (!m.includes('数据量')) {
+          console.log('自定义消息')
+          if (message[0].type === '90X链') {
+            linkMessageArr.forEach((_) => {
+              const id = `${_.from}-${_.to}`
+              const fromPosition = entityStore.getEntityById(_.from).position
+              const toPosition = entityStore.getEntityById(_.to).position
+              const opt = {
+                id: id,
+                type: _.dataLinkType,
+                positionArr: [fromPosition, toPosition]
+              }
+              cesiumStore.cesium.messageMap.displayMessageLink(opt)
+            })
 
-          const s1 = message[0].link[0]
-          const s2 = message[0].link[message[0].link.length - 1]
-          const t = m.split(':')[0].split('+')[1].split('ms')[0]
-          const main = linkStore.linkConnectInfo['90X链'].mainDevice
-          if (s2 !== main) {
-            let r = 20 * Math.random()
-            let r2 = 20 * Math.random()
-            let r3 = 10 * Math.random()
-            let rmin, rmax
-            if (r > r2) {
-              rmin = r2
-              rmax = r
+            const s1 = message[0].link[0]
+            const s2 = message[0].link[message[0].link.length - 1]
+            const t = m.split(':')[0].split('+')[1].split('ms')[0]
+            const main = linkStore.linkConnectInfo['90X链'].mainDevice
+            if (s2 !== main) {
+              let r = 20 * Math.random()
+              let r2 = 20 * Math.random()
+              let r3 = 10 * Math.random()
+              let rmin, rmax
+              if (r > r2) {
+                rmin = r2
+                rmax = r
+              } else {
+                rmin = r
+                rmax = r2
+              }
+              //目标设备不是中心节点
+              logStore.pushDataLog({
+                message: `T0+${Math.floor(Number(t))}ms#${s1}向${main}发送战术数据，${m.split('战术数据')[1]}`,
+                timeStr: getNowTimeStr(),
+                link: message[0].type
+              })
+              logStore.pushDataLog({
+                message: `T0+${Math.floor(Number(t) + r3)}ms#${main}接收到${s1}发送的战术数据，${m.split('战术数据')[1]}`,
+                timeStr: getNowTimeStr(),
+                link: message[0].type
+              })
+              logStore.pushDataLog({
+                message: `T0+${Math.floor(Number(t) + rmin + r3)}ms#${main}向${s2}发送战术数据，${m.split('战术数据')[1]}`,
+                timeStr: getNowTimeStr(),
+                link: message[0].type
+              })
+              logStore.pushDataLog({
+                message: `T0+${Math.floor(Number(t) + rmax + r3)}ms#${s2}接收到${main}发送的战术数据，${m.split('战术数据')[1]}`,
+                timeStr: getNowTimeStr(),
+                link: message[0].type
+              })
+              for (let key of window.fileMap.keys()) {
+                if (m.includes(key)) {
+                  logStore.pushDataLog({
+                    message: `T0+${Math.floor(Number(t) + rmax + r3)}ms#${s2}接收到${s1}发送的文件$${key}`,
+                    timeStr: getNowTimeStr(),
+                    link: message[0].type
+                  })
+                }
+              }
             } else {
-              rmin = r
-              rmax = r2
+              //目标设备是中心节点
+              logStore.pushDataLog({
+                message: m,
+                timeStr: getNowTimeStr(),
+                link: message[0].type
+              })
+              logStore.pushDataLog({
+                message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('战术数据')[1]}`,
+                timeStr: getNowTimeStr(),
+                link: message[0].type
+              })
+              for (let key of window.fileMap.keys()) {
+                if (m.includes(key)) {
+                  logStore.pushDataLog({
+                    message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的文件$${key}`,
+                    timeStr: getNowTimeStr(),
+                    link: message[0].type
+                  })
+                }
+              }
             }
-            //目标设备不是中心节点
-            logStore.pushDataLog({
-              message: `T0+${Math.floor(Number(t))}ms#${s1}向${main}发送战术数据，${m.split('，')[1]}`,
-              timeStr: getNowTimeStr(),
-              link: message[0].type
-            })
-            logStore.pushDataLog({
-              message: `T0+${Math.floor(Number(t) + r3)}ms#${main}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
-              timeStr: getNowTimeStr(),
-              link: message[0].type
-            })
-            logStore.pushDataLog({
-              message: `T0+${Math.floor(Number(t) + rmin + r3)}ms#${main}向${s2}发送战术数据，${m.split('，')[1]}`,
-              timeStr: getNowTimeStr(),
-              link: message[0].type
-            })
-            logStore.pushDataLog({
-              message: `T0+${Math.floor(Number(t) + rmax + r3)}ms#${s2}接收到${main}发送的战术数据，${m.split('，')[1]}`,
-              timeStr: getNowTimeStr(),
-              link: message[0].type
-            })
+
+            // const t = m.split(':')[0].split('+')[1].split('ms')[0]
+            // logStore.pushDataLog({
+            //   message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
+            //   timeStr: getNowTimeStr(),
+            //   link: message[0].type
+            // })
           } else {
-            //目标设备是中心节点
+            linkMessageArr.forEach((_) => {
+              const id = `${_.from}-${_.to}`
+              const fromPosition = entityStore.getEntityById(_.from).position
+              const toPosition = entityStore.getEntityById(_.to).position
+              const opt = {
+                id: id,
+                type: _.dataLinkType,
+                positionArr: [fromPosition, toPosition]
+              }
+              cesiumStore.cesium.messageMap.displayMessageLink(opt)
+            })
+            const s1 = message[0].link[0]
+            const s2 = message[0].link[message[0].link.length - 1]
+            const t = m.split(':')[0].split('+')[1].split('ms')[0]
             logStore.pushDataLog({
-              message: m,
+              message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据${m.split('战术数据')[1]}`,
               timeStr: getNowTimeStr(),
               link: message[0].type
             })
+            for (let key of window.fileMap.keys()) {
+              if (m.includes(key)) {
+                logStore.pushDataLog({
+                  message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的文件$${key}`,
+                  timeStr: getNowTimeStr(),
+                  link: message[0].type
+                })
+              }
+            }
+          }
+        } else {
+          if (message[0].type === '90X链') {
+            linkMessageArr.forEach((_) => {
+              const id = `${_.from}-${_.to}`
+              const fromPosition = entityStore.getEntityById(_.from).position
+              const toPosition = entityStore.getEntityById(_.to).position
+              const opt = {
+                id: id,
+                type: _.dataLinkType,
+                positionArr: [fromPosition, toPosition]
+              }
+              cesiumStore.cesium.messageMap.displayMessageLink(opt)
+            })
+
+            const s1 = message[0].link[0]
+            const s2 = message[0].link[message[0].link.length - 1]
+            const t = m.split(':')[0].split('+')[1].split('ms')[0]
+            const main = linkStore.linkConnectInfo['90X链'].mainDevice
+            if (s2 !== main) {
+              let r = 20 * Math.random()
+              let r2 = 20 * Math.random()
+              let r3 = 10 * Math.random()
+              let rmin, rmax
+              if (r > r2) {
+                rmin = r2
+                rmax = r
+              } else {
+                rmin = r
+                rmax = r2
+              }
+              //目标设备不是中心节点
+              logStore.pushDataLog({
+                message: `T0+${Math.floor(Number(t))}ms#${s1}向${main}发送战术数据，${m.split('，')[1]}`,
+                timeStr: getNowTimeStr(),
+                link: message[0].type
+              })
+              logStore.pushDataLog({
+                message: `T0+${Math.floor(Number(t) + r3)}ms#${main}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
+                timeStr: getNowTimeStr(),
+                link: message[0].type
+              })
+              logStore.pushDataLog({
+                message: `T0+${Math.floor(Number(t) + rmin + r3)}ms#${main}向${s2}发送战术数据，${m.split('，')[1]}`,
+                timeStr: getNowTimeStr(),
+                link: message[0].type
+              })
+              logStore.pushDataLog({
+                message: `T0+${Math.floor(Number(t) + rmax + r3)}ms#${s2}接收到${main}发送的战术数据，${m.split('，')[1]}`,
+                timeStr: getNowTimeStr(),
+                link: message[0].type
+              })
+            } else {
+              //目标设备是中心节点
+              logStore.pushDataLog({
+                message: m,
+                timeStr: getNowTimeStr(),
+                link: message[0].type
+              })
+              logStore.pushDataLog({
+                message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
+                timeStr: getNowTimeStr(),
+                link: message[0].type
+              })
+            }
+
+            // const t = m.split(':')[0].split('+')[1].split('ms')[0]
+            // logStore.pushDataLog({
+            //   message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
+            //   timeStr: getNowTimeStr(),
+            //   link: message[0].type
+            // })
+          } else {
+            linkMessageArr.forEach((_) => {
+              const id = `${_.from}-${_.to}`
+              const fromPosition = entityStore.getEntityById(_.from).position
+              const toPosition = entityStore.getEntityById(_.to).position
+              const opt = {
+                id: id,
+                type: _.dataLinkType,
+                positionArr: [fromPosition, toPosition]
+              }
+              cesiumStore.cesium.messageMap.displayMessageLink(opt)
+            })
+            const s1 = message[0].link[0]
+            const s2 = message[0].link[message[0].link.length - 1]
+            const t = m.split(':')[0].split('+')[1].split('ms')[0]
             logStore.pushDataLog({
               message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
               timeStr: getNowTimeStr(),
               link: message[0].type
             })
           }
-
-          // const t = m.split(':')[0].split('+')[1].split('ms')[0]
-          // logStore.pushDataLog({
-          //   message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
-          //   timeStr: getNowTimeStr(),
-          //   link: message[0].type
-          // })
-        } else {
-          linkMessageArr.forEach((_) => {
-            const id = `${_.from}-${_.to}`
-            const fromPosition = entityStore.getEntityById(_.from).position
-            const toPosition = entityStore.getEntityById(_.to).position
-            const opt = {
-              id: id,
-              type: _.dataLinkType,
-              positionArr: [fromPosition, toPosition]
-            }
-            cesiumStore.cesium.messageMap.displayMessageLink(opt)
-          })
-          const s1 = message[0].link[0]
-          const s2 = message[0].link[message[0].link.length - 1]
-          const t = m.split(':')[0].split('+')[1].split('ms')[0]
-          logStore.pushDataLog({
-            message: `T0+${Math.floor(Number(t) + 30 * Math.random())}ms#${s2}接收到${s1}发送的战术数据，${m.split('，')[1]}`,
-            timeStr: getNowTimeStr(),
-            link: message[0].type
-          })
         }
       } else {
         //卫星消息
@@ -283,6 +406,18 @@ onMounted(() => {
           link: message[0].type
         })
       }
+
+      // fileMap.forEach((_) => {
+      //   console.log('kkkkkk', _)
+      //   if (m.includes(_)) {
+      //     console.log('55555555555555555')
+      //     logStore.pushDataLog({
+      //       message: `接收到文件`,
+      //       timeStr: getNowTimeStr(),
+      //       link: message[0].type
+      //     })
+      //   }
+      // })
     }
     const dataLinkState = JSON.parse(data.DataLinkParam)
     if (dataLinkState.length) {
@@ -548,6 +683,26 @@ onMounted(() => {
     // console.log('接受到的消息', e.data)
     console.log('发送模拟发送信息', e.data)
     websocketStore.sendMessage(e.data)
+    if (e.data.file) {
+      const file = e.data.file
+      const message = e.data.message
+      window.fileMap.set(message, file)
+      // const blob = new Blob([file], { type: file.type })
+      // // 创建一个链接元素
+      // const a = document.createElement('a')
+      // a.href = URL.createObjectURL(blob)
+      // a.download = file.name
+
+      // // 将链接元素添加到文档中
+      // document.body.appendChild(a)
+
+      // // 模拟点击下载链接
+      // a.click()
+
+      // // 清理
+      // URL.revokeObjectURL(a.href)
+      // a.remove()
+    }
   }
 })
 

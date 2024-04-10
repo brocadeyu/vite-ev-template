@@ -123,6 +123,36 @@
                   </el-select> -->
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item label="文件选取">
+                  <el-button
+                    type="primary"
+                    color="#119aa0"
+                    size="small"
+                    @click="handleUploadFile"
+                  >
+                    选取
+                  </el-button>
+                  <div
+                    v-if="fileName"
+                    style="
+                      margin-left: 20px;
+                      outline: 1px solid white;
+                      border-radius: 4px;
+                      padding-left: 10px;
+                      padding-right: 10px;
+                      user-select: none;
+                    "
+                  >
+                    {{ fileName }}
+                    <span
+                      style="color: red; height: 100%; cursor: pointer"
+                      @click="clearFile"
+                      >X</span
+                    >
+                  </div>
+                </el-form-item>
+              </el-col>
             </el-row>
             <!-- <el-row>
               <el-col :span="12">
@@ -349,6 +379,54 @@ const customMessageTypeOptions = [
     value: '中国052D型驱逐舰'
   }
 ]
+const fileName = ref('')
+let fileDataRaw = null
+const clearFile = () => {
+  fileName.value = ''
+  fileDataRaw = null
+}
+const handleUploadFile = async () => {
+  try {
+    const opt = {
+      types: [
+        {
+          description: 'json',
+          accept: {
+            'application/json': ['.json']
+          }
+        }
+      ],
+      excludeAcceptAllOption: true,
+      multiple: false
+    }
+    const [fileHandle] = await window.showOpenFilePicker(opt)
+    const fileData = await fileHandle.getFile()
+    fileDataRaw = fileData
+    fileName.value = fileData.name
+    console.log('文件名', fileData.name)
+    // let reader = new FileReader()
+    // reader.readAsText(fileData, 'UTF-8')
+    // reader.onload = (e) => {
+    //   console.log('eeeeee', e)
+    //   // eslint-disable-next-line camelcase
+    //   let file_string = e.target.result
+    //   // eslint-disable-next-line camelcase
+    //   const jsonData = JSON.parse(`${file_string}`)
+    //   console.log('导入文件内容', jsonData)
+    //   // // this.DataLinkInfo.link[this.dataLinkUseCur].mission.push(...jsonData);
+
+    //   // jsonData.forEach((_) => {
+    //   //   if (_.isAuto) {
+    //   //     dynamicList.value.push({ ..._, isfight: true })
+    //   //   } else {
+    //   //     staticList.value.push({ ..._, isfight: true })
+    //   //   }
+    //   // })
+    // }
+  } catch (error) {
+    // console.log('error', error)
+  }
+}
 const dbTextData = ref([])
 const textOne = ref(null)
 const textTwoNum = ref(null)
@@ -459,6 +537,9 @@ const sendMessage = () => {
   //   message: '发送成功',
   //   type: 'success'
   // })
+  if (fileDataRaw) {
+    bc.postMessage({ file: fileDataRaw, message: formData.customMessage })
+  }
   bc.postMessage(data)
 
   console.log('发送时间', getNowTimeStr())
