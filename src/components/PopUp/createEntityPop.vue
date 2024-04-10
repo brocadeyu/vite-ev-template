@@ -283,61 +283,83 @@
                 ></el-col>
               </el-row>
             </el-form>
-            <!-- <el-form :model="form">
+            <el-form v-if="xActive">
               90X链
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="工作频率" :label-width="formLabelWidth">
-                    <el-input
-                      v-model="form.name"
-                      autosize
-                      autocomplete="off"
-                      style="--el-input-bg-color: white"
+                  <el-form-item label="短波频率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.db1"
+                      :min="15"
+                      :max="30"
+                      controls-position="right"
                     /> </el-form-item
                 ></el-col>
                 <el-col :span="12">
+                  <el-form-item
+                    label="超短波频率"
+                    :label-width="formLabelWidth"
+                  >
+                    <el-input-number
+                      v-model="paramsForm.cdb1"
+                      :min="225"
+                      :max="400"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
                   <el-form-item label="出联方式" :label-width="formLabelWidth">
                     <el-select
-                      v-model="form.region"
+                      v-model="paramsForm.clfs1"
                       placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                      disabled
                     >
                       <el-option label="定频" value="定频" />
                       <el-option label="跳频" value="跳频" />
                     </el-select> </el-form-item
                 ></el-col>
-              </el-row>
-              <el-row>
                 <el-col :span="12">
                   <el-form-item label="调制方式" :label-width="formLabelWidth">
+                    短波
                     <el-select
-                      v-model="form.region"
+                      v-model="paramsForm.tzfs1db"
                       placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
                     >
-                      <el-option label="8PSK" value="8PSK" />
-                      <el-option label="16QAM" value="16QAM" />
-                      <el-option label="32QAM" value="32QAM" />
-                      <el-option label="64QAM" value="64QAM" />
+                      <el-option label="SSB-Π/4DQPSK" value="SSB-Π/4DQPSK" />
+                      <el-option label="SSB-8PSK" value="SSB-8PSK" />
+                    </el-select>
+                    超短波
+                    <el-select
+                      v-model="paramsForm.tzfs1cdb"
+                      placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                      disabled
+                    >
+                      <el-option label="FM-8PSK" value="FM-8PSK" />
                     </el-select> </el-form-item
                 ></el-col>
-                <el-col :span="12">
+              </el-row>
+              <el-row>
+                <el-col :span="24">
                   <el-form-item label="传输速率" :label-width="formLabelWidth">
-                    <el-select
-                      v-model="form.region"
-                      placeholder="Please select a zone"
-                    >
-                      <el-option
-                        label="短波定频1120~4053bps"
-                        value="短波定频1120~4053bps"
-                      />
-                      <el-option
-                        label="短波跳频500~2200bps"
-                        value="短波跳频500~2200bps"
-                      />
-                      <el-option
-                        label="超短波定频12667bps"
-                        value="超短波定频12667bps"
-                      />
-                    </el-select>
+                    短波
+                    <el-input-number
+                      v-model="paramsForm.cssldp1"
+                      :min="1200"
+                      :max="1200"
+                      controls-position="right"
+                    />
+                    超短波
+                    <el-input-number
+                      v-model="paramsForm.csslcdb1"
+                      :min="2250"
+                      :max="2250"
+                      controls-position="right"
+                    />
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -345,80 +367,86 @@
                 <el-col :span="12"
                   ><el-form-item label="工作模式" :label-width="formLabelWidth">
                     <el-select
-                      v-model="form.region"
+                      v-model="paramsForm.gzms1"
                       placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                      disabled
                     >
-                      <el-option label="TDMA-时分多址" value="TDMA-时分多址" />
-                      <el-option label="动态TDMA" value="动态TDMA" />
+                      <el-option label="点名轮询呼叫" value="点名轮询呼叫" />
                     </el-select> </el-form-item
                 ></el-col>
                 <el-col :span="12"
                   ><el-form-item label="消息格式" :label-width="formLabelWidth">
                     <el-select
-                      v-model="form.region"
+                      v-model="paramsForm.xxgs1"
                       placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                      disabled
                     >
-                      <el-option label="F序列" value="8PSK" />
-                      <el-option label="FJ序列" value="FJ序列" />
+                      <el-option label="M系列" value="M系列" />
                     </el-select> </el-form-item
                 ></el-col>
               </el-row>
-            </el-form> -->
-            <!-- <el-form :model="form">
+            </el-form>
+            <el-form v-if="jidsActive">
               JIDS链
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="工作频率" :label-width="formLabelWidth">
-                    <el-input
-                      v-model="form.name"
-                      autosize
-                      autocomplete="off"
-                      style="--el-input-bg-color: white"
+                  <el-form-item
+                    label="超短波频率"
+                    :label-width="formLabelWidth"
+                  >
+                    <el-input-number
+                      v-model="paramsForm.cdb2"
+                      :min="960"
+                      :max="1215"
+                      controls-position="right"
                     /> </el-form-item
                 ></el-col>
+              </el-row>
+              <el-row>
                 <el-col :span="12">
                   <el-form-item label="出联方式" :label-width="formLabelWidth">
                     <el-select
-                      v-model="form.region"
+                      v-model="paramsForm.clfs2"
                       placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
                     >
                       <el-option label="定频" value="定频" />
                       <el-option label="跳频" value="跳频" />
                     </el-select> </el-form-item
                 ></el-col>
-              </el-row>
-              <el-row>
                 <el-col :span="12">
                   <el-form-item label="调制方式" :label-width="formLabelWidth">
                     <el-select
-                      v-model="form.region"
+                      v-model="paramsForm.tzfs2"
                       placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                      disabled
                     >
-                      <el-option label="8PSK" value="8PSK" />
-                      <el-option label="16QAM" value="16QAM" />
-                      <el-option label="32QAM" value="32QAM" />
-                      <el-option label="64QAM" value="64QAM" />
-                    </el-select> </el-form-item
-                ></el-col>
-                <el-col :span="12">
-                  <el-form-item label="传输速率" :label-width="formLabelWidth">
-                    <el-select
-                      v-model="form.region"
-                      placeholder="Please select a zone"
-                    >
-                      <el-option
-                        label="短波定频1120~4053bps"
-                        value="短波定频1120~4053bps"
-                      />
-                      <el-option
-                        label="短波跳频500~2200bps"
-                        value="短波跳频500~2200bps"
-                      />
-                      <el-option
-                        label="超短波定频12667bps"
-                        value="超短波定频12667bps"
-                      />
+                      <el-option label="MSK" value="MSK" />
                     </el-select>
+                    <!-- 超短波
+                    <el-select
+                      v-model="paramsForm.tzfs1cdb"
+                      placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                      disabled
+                    >
+                      <el-option label="FM-8PSK" value="FM-8PSK" />
+                    </el-select> -->
+                  </el-form-item></el-col
+                >
+              </el-row>
+              <el-row>
+                <el-col :span="24">
+                  <el-form-item label="传输速率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.cssl2"
+                      :min="28800"
+                      :max="238000"
+                      controls-position="right"
+                    />
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -426,42 +454,42 @@
                 <el-col :span="12"
                   ><el-form-item label="工作模式" :label-width="formLabelWidth">
                     <el-select
-                      v-model="form.region"
+                      v-model="paramsForm.gzms2"
                       placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                      disabled
                     >
                       <el-option label="TDMA-时分多址" value="TDMA-时分多址" />
-                      <el-option label="动态TDMA" value="动态TDMA" />
                     </el-select> </el-form-item
                 ></el-col>
                 <el-col :span="12"
                   ><el-form-item label="消息格式" :label-width="formLabelWidth">
                     <el-select
-                      v-model="form.region"
+                      v-model="paramsForm.xxgs1"
                       placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                      disabled
                     >
-                      <el-option label="F序列" value="8PSK" />
-                      <el-option label="FJ序列" value="FJ序列" />
+                      <el-option label="J序列" value="J序列" />
                     </el-select> </el-form-item
                 ></el-col>
               </el-row>
-            </el-form> -->
-            <!-- <el-form :model="form">
-              短波、超短波、微波
+            </el-form>
+            <el-form v-if="kuActive">
+              卫星通信
               <el-row>
                 <el-col :span="12">
-                  <el-form-item label="工作频率" :label-width="formLabelWidth">
-                    <el-input
-                      v-model="form.name"
-                      autosize
-                      autocomplete="off"
-                      style="--el-input-bg-color: white"
-                    /> </el-form-item
+                  <el-form-item label="卫星编号" :label-width="formLabelWidth">
+                    <el-input v-model="paramsForm.wxbh" /> </el-form-item
                 ></el-col>
+              </el-row>
+              <el-row>
                 <el-col :span="12">
                   <el-form-item label="出联方式" :label-width="formLabelWidth">
                     <el-select
-                      v-model="form.region"
+                      v-model="paramsForm.clfs3"
                       placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
                     >
                       <el-option label="定频" value="定频" />
                       <el-option label="跳频" value="跳频" />
@@ -469,64 +497,451 @@
                 ></el-col>
               </el-row>
               <el-row>
-                <el-col :span="12">
-                  <el-form-item label="调制方式" :label-width="formLabelWidth">
-                    <el-select
-                      v-model="form.region"
-                      placeholder="Please select a zone"
-                    >
-                      <el-option label="8PSK" value="8PSK" />
-                      <el-option label="16QAM" value="16QAM" />
-                      <el-option label="32QAM" value="32QAM" />
-                      <el-option label="64QAM" value="64QAM" />
-                    </el-select> </el-form-item
-                ></el-col>
-                <el-col :span="12">
-                  <el-form-item label="传输速率" :label-width="formLabelWidth">
-                    <el-select
-                      v-model="form.region"
-                      placeholder="Please select a zone"
-                    >
-                      <el-option
-                        label="短波定频1120~4053bps"
-                        value="短波定频1120~4053bps"
-                      />
-                      <el-option
-                        label="短波跳频500~2200bps"
-                        value="短波跳频500~2200bps"
-                      />
-                      <el-option
-                        label="超短波定频12667bps"
-                        value="超短波定频12667bps"
-                      />
-                    </el-select>
+                <el-col :span="24">
+                  <el-form-item label="工作频率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.gzpl"
+                      :min="1000"
+                      :max="9999999999"
+                      controls-position="right"
+                    />
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col :span="12"
-                  ><el-form-item label="工作模式" :label-width="formLabelWidth">
+                  ><el-form-item label="极化方式" :label-width="formLabelWidth">
                     <el-select
-                      v-model="form.region"
+                      v-model="paramsForm.jhfs"
                       placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                      disabled
                     >
-                      <el-option label="TDMA-时分多址" value="TDMA-时分多址" />
-                      <el-option label="动态TDMA" value="动态TDMA" />
+                      <el-option label="H" value="H" />
+                      <el-option label="V" value="V" />
                     </el-select> </el-form-item
                 ></el-col>
                 <el-col :span="12"
-                  ><el-form-item label="消息格式" :label-width="formLabelWidth">
+                  ><el-form-item
+                    label="上下行标志"
+                    :label-width="formLabelWidth"
+                  >
                     <el-select
-                      v-model="form.region"
+                      v-model="paramsForm.sxx"
                       placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                      disabled
                     >
-                      <el-option label="F序列" value="8PSK" />
-                      <el-option label="FJ序列" value="FJ序列" />
+                      <el-option label="U-上行" value="U-上行" />
+                      <el-option label="D-下行" value="D-下行" />
                     </el-select> </el-form-item
                 ></el-col>
               </el-row>
-            </el-form> -->
-            <template #footer>
+              <el-row>
+                <el-col :span="12"
+                  ><el-form-item label="调制方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="paramsForm.tzfs3"
+                      placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                      disabled
+                    >
+                      <el-option label="2FSK" value="2FSK" />
+                      <el-option label="MSK" value="MSK" />
+                      <el-option label="BPSK" value="BPSK" />
+                      <el-option label="QPSK" value="QPSK" />
+                      <el-option label="BPSK" value="BPSK" />
+                      <el-option label="16QAM" value="16QAM" />
+                      <el-option label="32QAM" value="32QAM" />
+                    </el-select> </el-form-item
+                ></el-col>
+                <el-col :span="12"
+                  ><el-form-item label="采样率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.cyl"
+                      :min="1000"
+                      :max="9999999999"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12"
+                  ><el-form-item label="调制速率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.tzsl"
+                      :min="1000"
+                      :max="9999999999"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+              </el-row>
+            </el-form>
+            <el-form v-if="dbActive">
+              短波
+              <el-row>
+                <el-col :span="8">
+                  <el-form-item label="短波频率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.gzpldb"
+                      :min="1.5"
+                      :max="30"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+                <el-col :span="8">
+                  <el-form-item
+                    label="超短波频率"
+                    :label-width="formLabelWidth"
+                  >
+                    <el-input-number
+                      v-model="paramsForm.gzplcdb"
+                      :min="30"
+                      :max="3000"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+                <el-col :span="8">
+                  <el-form-item label="微波频率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.gzplwb"
+                      :min="1000"
+                      :max="3000"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="出联方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="paramsForm.clfsdb"
+                      placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                    >
+                      <el-option label="定频" value="定频" />
+                      <el-option label="跳频" value="跳频" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="24">
+                  <el-form-item label="短波带宽" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.dkdb"
+                      :min="2.4"
+                      :max="50"
+                      controls-position="right"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item
+                    label="超短波带宽"
+                    :label-width="formLabelWidth"
+                  >
+                    <el-input-number
+                      v-model="paramsForm.dkcdb"
+                      :min="3"
+                      :max="300"
+                      controls-position="right"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="微波带宽" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.dkwb"
+                      :min="1"
+                      :max="10"
+                      controls-position="right"
+                    />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12"
+                  ><el-form-item label="调制方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="paramsForm.tzfsdb"
+                      placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                    >
+                      <el-option label="AM" value="AM" />
+                      <el-option label="FM" value="FM" />
+                      <el-option label="2FSK" value="2FSK" />
+                      <el-option label="MSK" value="MSK" />
+                      <el-option label="BPSK" value="BPSK" />
+                      <el-option label="QPSK" value="QPSK" />
+                      <el-option label="BPSK" value="BPSK" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12"
+                  ><el-form-item label="调制速率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.tzsldb"
+                      :min="1000"
+                      :max="9999999999"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+                <el-col :span="12"
+                  ><el-form-item label="采样率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.cyldb"
+                      :min="1000"
+                      :max="9999999999"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+              </el-row>
+            </el-form>
+            <el-form v-if="cdbActive">
+              超短波
+              <el-row>
+                <el-col :span="8">
+                  <el-form-item label="短波频率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.gzpldb1"
+                      :min="1.5"
+                      :max="30"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+                <el-col :span="8">
+                  <el-form-item
+                    label="超短波频率"
+                    :label-width="formLabelWidth"
+                  >
+                    <el-input-number
+                      v-model="paramsForm.gzplcdb1"
+                      :min="30"
+                      :max="3000"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+                <el-col :span="8">
+                  <el-form-item label="微波频率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.gzplwb1"
+                      :min="1000"
+                      :max="3000"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="出联方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="paramsForm.clfscdb"
+                      placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                    >
+                      <el-option label="定频" value="定频" />
+                      <el-option label="跳频" value="跳频" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="24">
+                  <el-form-item label="短波带宽" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.dkdb1"
+                      :min="2.4"
+                      :max="50"
+                      controls-position="right"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item
+                    label="超短波带宽"
+                    :label-width="formLabelWidth"
+                  >
+                    <el-input-number
+                      v-model="paramsForm.dkcdb1"
+                      :min="3"
+                      :max="300"
+                      controls-position="right"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="微波带宽" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.dkwb1"
+                      :min="1"
+                      :max="10"
+                      controls-position="right"
+                    />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12"
+                  ><el-form-item label="调制方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="paramsForm.tzfscdb"
+                      placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                    >
+                      <el-option label="AM" value="AM" />
+                      <el-option label="FM" value="FM" />
+                      <el-option label="2FSK" value="2FSK" />
+                      <el-option label="MSK" value="MSK" />
+                      <el-option label="BPSK" value="BPSK" />
+                      <el-option label="QPSK" value="QPSK" />
+                      <el-option label="BPSK" value="BPSK" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12"
+                  ><el-form-item label="调制速率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.tzslcdb"
+                      :min="1000"
+                      :max="9999999999"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+                <el-col :span="12"
+                  ><el-form-item label="采样率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.cylcdb"
+                      :min="1000"
+                      :max="9999999999"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+              </el-row>
+            </el-form>
+            <el-form v-if="wbActive">
+              微波
+              <el-row>
+                <el-col :span="8">
+                  <el-form-item label="短波频率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.gzpldb2"
+                      :min="1.5"
+                      :max="30"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+                <el-col :span="8">
+                  <el-form-item
+                    label="超短波频率"
+                    :label-width="formLabelWidth"
+                  >
+                    <el-input-number
+                      v-model="paramsForm.gzplcdb2"
+                      :min="30"
+                      :max="3000"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+                <el-col :span="8">
+                  <el-form-item label="微波频率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.gzplwb2"
+                      :min="1000"
+                      :max="3000"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="出联方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="paramsForm.clfswb"
+                      placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                    >
+                      <el-option label="定频" value="定频" />
+                      <el-option label="跳频" value="跳频" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="24">
+                  <el-form-item label="短波带宽" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.dkdb2"
+                      :min="2.4"
+                      :max="50"
+                      controls-position="right"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item
+                    label="超短波带宽"
+                    :label-width="formLabelWidth"
+                  >
+                    <el-input-number
+                      v-model="paramsForm.dkcdb2"
+                      :min="3"
+                      :max="300"
+                      controls-position="right"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="微波带宽" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.dkwb2"
+                      :min="1"
+                      :max="10"
+                      controls-position="right"
+                    />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12"
+                  ><el-form-item label="调制方式" :label-width="formLabelWidth">
+                    <el-select
+                      v-model="paramsForm.tzfswb"
+                      placeholder="Please select a zone"
+                      style="--el-text-color-regular: black"
+                    >
+                      <el-option label="AM" value="AM" />
+                      <el-option label="FM" value="FM" />
+                      <el-option label="2FSK" value="2FSK" />
+                      <el-option label="MSK" value="MSK" />
+                      <el-option label="BPSK" value="BPSK" />
+                      <el-option label="QPSK" value="QPSK" />
+                      <el-option label="BPSK" value="BPSK" />
+                    </el-select> </el-form-item
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12"
+                  ><el-form-item label="调制速率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.tzslwb"
+                      :min="1000"
+                      :max="9999999999"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+                <el-col :span="12"
+                  ><el-form-item label="采样率" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.cylwb"
+                      :min="1000"
+                      :max="9999999999"
+                      controls-position="right"
+                    /> </el-form-item
+                ></el-col>
+              </el-row>
+            </el-form>
+
+            <!-- <template #footer>
               <div class="dialog-footer">
                 <el-button size="small" @click="dialogFormVisible = false"
                   >取消</el-button
@@ -539,7 +954,7 @@
                   保存
                 </el-button>
               </div>
-            </template>
+            </template> -->
           </el-dialog>
         </el-row>
       </el-form>
@@ -595,6 +1010,7 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
 const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 const paramsForm = ref({
+  //综合链
   db: 10,
   cdb: 300,
   clfs: '定频',
@@ -604,30 +1020,65 @@ const paramsForm = ref({
   csslcdb: 12667,
   gzms: 'TDMA-时分多址',
   xxgs: '8PSK',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: ''
-})
-import type { CSSProperties } from 'vue'
-interface Mark {
-  style: CSSProperties
-  label: string
-}
-const formatTooltip = (num: number) => {
-  return `${num}Mhz`
-}
-type Marks = Record<number, Mark | string>
-const marks1 = reactive<Marks>({
-  3: '3MHz',
-  30: '30MHz'
-})
-const marks2 = reactive<Marks>({
-  225: '225MHz',
-  600: '600MHz'
+  //90X链
+  db1: 15,
+  cdb1: 300,
+  clfs1: '定频',
+  tzfs1db: 'SSB-Π/4DQPSK',
+  tzfs1cdb: 'FM-8PSK',
+  cssldp1: 1200,
+  csslcdb1: 2250,
+  gzms1: '点名轮询呼叫',
+  xxgs1: 'M系列',
+  //JIDS链
+  cdb2: 960,
+  clfs2: '定频',
+  tzfs2: 'MSK',
+  cssl2: 28800,
+  gzms2: 'TDMA-时分多址',
+  xxgs2: 'J序列',
+  //卫星通信
+  wxbh: '',
+  clfs3: '定频',
+  gzpl: 1000,
+  jhfs: 'H',
+  sxx: 'U-上行',
+  tzfs3: '2FSK',
+  cyl: 1000,
+  tzsl: 1000,
+  //短波
+  gzpldb: 1.5,
+  gzplcdb: 30,
+  gzplwb: 1000,
+  clfsdb: '定频',
+  dkdb: 2.4,
+  dkcdb: 3,
+  dkwb: 1,
+  tzfsdb: 'AM',
+  tzsldb: 1000,
+  cyldb: 1000,
+  //超短波
+  gzpldb1: 1.5,
+  gzplcdb1: 30,
+  gzplwb1: 1000,
+  clfscdb: '定频',
+  dkdb1: 2.4,
+  dkcdb1: 3,
+  dkwb1: 1,
+  tzfscdb: 'AM',
+  tzslcdb: 1000,
+  cylcdb: 1000,
+  //微波
+  gzpldb2: 1.5,
+  gzplcdb2: 30,
+  gzplwb2: 1000,
+  clfswb: '定频',
+  dkdb2: 2.4,
+  dkcdb2: 3,
+  dkwb2: 1,
+  tzfswb: 'AM',
+  tzslwb: 1000,
+  cylwb: 1000
 })
 const formRef = ref<FormInstance>()
 const formData = reactive({
@@ -661,7 +1112,11 @@ const jidsActive = computed(() => {
 })
 const kuActive = computed(() => {
   const e = formData.equipment.find((_) => _.name === '卫星通信设备')
-  return e.isHas
+  if (e) {
+    return e.isHas
+  } else {
+    return false
+  }
 })
 const dbActive = computed(() => {
   const e = formData.equipment.find((_) => _.name === '短波电台')
