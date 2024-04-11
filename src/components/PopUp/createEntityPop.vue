@@ -174,7 +174,7 @@
           <el-dialog
             v-model="dialogFormVisible"
             title="参数设置"
-            width="1000"
+            width="1200"
             align-center
             :show-close="false"
             style="
@@ -193,8 +193,9 @@
                       :min="3"
                       :max="30"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    /><span class="unit-text">MHz</span>
+                  </el-form-item></el-col
+                >
                 <el-col :span="8">
                   <el-form-item
                     label="超短波频率"
@@ -205,8 +206,9 @@
                       :min="225"
                       :max="600"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    /><span class="unit-text">MHz</span>
+                  </el-form-item></el-col
+                >
                 <el-col :span="8">
                   <el-form-item label="出联方式" :label-width="formLabelWidth">
                     <el-select
@@ -231,7 +233,7 @@
                       :min="1120"
                       :max="4053"
                       controls-position="right"
-                    />
+                    /><span class="unit-text">bps</span>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -244,7 +246,7 @@
                       :min="500"
                       :max="2200"
                       controls-position="right"
-                    />
+                    /><span class="unit-text">bps</span>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -257,7 +259,7 @@
                       :min="12667"
                       :max="12667"
                       controls-position="right"
-                    />
+                    /><span class="unit-text">bps</span>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -309,8 +311,9 @@
                       :min="15"
                       :max="30"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    /><span class="unit-text">MHz</span>
+                  </el-form-item></el-col
+                >
                 <el-col :span="8">
                   <el-form-item
                     label="超短波频率"
@@ -321,8 +324,10 @@
                       :min="225"
                       :max="400"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    />
+                    <span class="unit-text">MHz</span></el-form-item
+                  ></el-col
+                >
                 <el-col :span="8">
                   <el-form-item label="出联方式" :label-width="formLabelWidth">
                     <el-select
@@ -377,7 +382,7 @@
                       :min="1200"
                       :max="1200"
                       controls-position="right"
-                    />
+                    /><span class="unit-text">bps</span>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -390,7 +395,7 @@
                       :min="2250"
                       :max="2250"
                       controls-position="right"
-                    />
+                    /><span class="unit-text">bps</span>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -432,8 +437,9 @@
                       :min="960"
                       :max="1215"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    /><span class="unit-text">MHz</span>
+                  </el-form-item></el-col
+                >
                 <el-col :span="8">
                   <el-form-item label="出联方式" :label-width="formLabelWidth">
                     <el-select
@@ -476,7 +482,7 @@
                       :min="28800"
                       :max="238000"
                       controls-position="right"
-                    />
+                    /><span class="unit-text">bps</span>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8"
@@ -528,7 +534,7 @@
                       :min="1000"
                       :max="9999999999"
                       controls-position="right"
-                    />
+                    /><span class="unit-text">MHz</span>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -586,8 +592,9 @@
                       :min="1000"
                       :max="9999999999"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    /><span class="unit-text">KHz</span>
+                  </el-form-item></el-col
+                >
                 <el-col :span="8"
                   ><el-form-item label="调制速率" :label-width="formLabelWidth">
                     <el-input-number
@@ -595,8 +602,9 @@
                       :min="1000"
                       :max="9999999999"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    /><span class="unit-text">KHz</span>
+                  </el-form-item></el-col
+                >
               </el-row>
             </el-form>
             <el-form v-if="dbActive" class="area">
@@ -609,32 +617,20 @@
                       :min="1.5"
                       :max="30"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    /><span class="unit-text">MHz</span>
+                  </el-form-item></el-col
+                >
                 <el-col :span="8">
-                  <el-form-item
-                    label="超短波频率"
-                    :label-width="formLabelWidth"
-                  >
+                  <el-form-item label="短波带宽" :label-width="formLabelWidth">
                     <el-input-number
-                      v-model="paramsForm.gzplcdb"
-                      :min="30"
-                      :max="3000"
+                      v-model="paramsForm.dkdb"
+                      :min="2.4"
+                      :max="50"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    /><span class="unit-text">KHz</span>
+                  </el-form-item>
+                </el-col>
                 <el-col :span="8">
-                  <el-form-item label="微波频率" :label-width="formLabelWidth">
-                    <el-input-number
-                      v-model="paramsForm.gzplwb"
-                      :min="1000"
-                      :max="3000"
-                      controls-position="right"
-                    /> </el-form-item
-                ></el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="12">
                   <el-form-item label="出联方式" :label-width="formLabelWidth">
                     <el-select
                       v-model="paramsForm.clfsdb"
@@ -645,41 +641,6 @@
                       <el-option label="跳频" value="跳频" />
                     </el-select> </el-form-item
                 ></el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="8">
-                  <el-form-item label="短波带宽" :label-width="formLabelWidth">
-                    <el-input-number
-                      v-model="paramsForm.dkdb"
-                      :min="2.4"
-                      :max="50"
-                      controls-position="right"
-                    />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item
-                    label="超短波带宽"
-                    :label-width="formLabelWidth"
-                  >
-                    <el-input-number
-                      v-model="paramsForm.dkcdb"
-                      :min="3"
-                      :max="300"
-                      controls-position="right"
-                    />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="微波带宽" :label-width="formLabelWidth">
-                    <el-input-number
-                      v-model="paramsForm.dkwb"
-                      :min="1"
-                      :max="10"
-                      controls-position="right"
-                    />
-                  </el-form-item>
-                </el-col>
               </el-row>
               <el-row>
                 <el-col :span="8"
@@ -705,8 +666,9 @@
                       :min="1000"
                       :max="9999999999"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    /><span class="unit-text">KHz</span>
+                  </el-form-item></el-col
+                >
                 <el-col :span="8"
                   ><el-form-item label="采样率" :label-width="formLabelWidth">
                     <el-input-number
@@ -714,22 +676,15 @@
                       :min="1000"
                       :max="9999999999"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    />
+                    <span class="unit-text">KHz</span></el-form-item
+                  ></el-col
+                >
               </el-row>
             </el-form>
             <el-form v-if="cdbActive" class="area">
               <div class="textOne">超短波</div>
               <el-row>
-                <el-col :span="8">
-                  <el-form-item label="短波频率" :label-width="formLabelWidth">
-                    <el-input-number
-                      v-model="paramsForm.gzpldb1"
-                      :min="1.5"
-                      :max="30"
-                      controls-position="right"
-                    /> </el-form-item
-                ></el-col>
                 <el-col :span="8">
                   <el-form-item
                     label="超短波频率"
@@ -740,20 +695,23 @@
                       :min="30"
                       :max="3000"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    /><span class="unit-text">MHz</span>
+                  </el-form-item></el-col
+                >
                 <el-col :span="8">
-                  <el-form-item label="微波频率" :label-width="formLabelWidth">
+                  <el-form-item
+                    label="超短波带宽"
+                    :label-width="formLabelWidth"
+                  >
                     <el-input-number
-                      v-model="paramsForm.gzplwb1"
-                      :min="1000"
-                      :max="3000"
+                      v-model="paramsForm.dkcdb1"
+                      :min="3"
+                      :max="300"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="12">
+                    /><span class="unit-text">KHz</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
                   <el-form-item label="出联方式" :label-width="formLabelWidth">
                     <el-select
                       v-model="paramsForm.clfscdb"
@@ -765,42 +723,6 @@
                     </el-select> </el-form-item
                 ></el-col>
               </el-row>
-              <el-row>
-                <el-col :span="8">
-                  <el-form-item label="短波带宽" :label-width="formLabelWidth">
-                    <el-input-number
-                      v-model="paramsForm.dkdb1"
-                      :min="2.4"
-                      :max="50"
-                      controls-position="right"
-                    />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item
-                    label="超短波带宽"
-                    :label-width="formLabelWidth"
-                  >
-                    <el-input-number
-                      v-model="paramsForm.dkcdb1"
-                      :min="3"
-                      :max="300"
-                      controls-position="right"
-                    />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="微波带宽" :label-width="formLabelWidth">
-                    <el-input-number
-                      v-model="paramsForm.dkwb1"
-                      :min="1"
-                      :max="10"
-                      controls-position="right"
-                    />
-                  </el-form-item>
-                </el-col>
-              </el-row>
-
               <el-row>
                 <el-col :span="8"
                   ><el-form-item label="调制方式" :label-width="formLabelWidth">
@@ -825,8 +747,9 @@
                       :min="1000"
                       :max="9999999999"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    /><span class="unit-text">KHz</span>
+                  </el-form-item></el-col
+                >
                 <el-col :span="8"
                   ><el-form-item label="采样率" :label-width="formLabelWidth">
                     <el-input-number
@@ -834,34 +757,15 @@
                       :min="1000"
                       :max="9999999999"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    />
+                    <span class="unit-text">KHz</span></el-form-item
+                  ></el-col
+                >
               </el-row>
             </el-form>
             <el-form v-if="wbActive" class="area">
               <div class="textOne">微波</div>
               <el-row>
-                <el-col :span="8">
-                  <el-form-item label="短波频率" :label-width="formLabelWidth">
-                    <el-input-number
-                      v-model="paramsForm.gzpldb2"
-                      :min="1.5"
-                      :max="30"
-                      controls-position="right"
-                    /> </el-form-item
-                ></el-col>
-                <el-col :span="8">
-                  <el-form-item
-                    label="超短波频率"
-                    :label-width="formLabelWidth"
-                  >
-                    <el-input-number
-                      v-model="paramsForm.gzplcdb2"
-                      :min="30"
-                      :max="3000"
-                      controls-position="right"
-                    /> </el-form-item
-                ></el-col>
                 <el-col :span="8">
                   <el-form-item label="微波频率" :label-width="formLabelWidth">
                     <el-input-number
@@ -869,11 +773,21 @@
                       :min="1000"
                       :max="3000"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="12">
+                    />
+                    <span class="unit-text">MHz</span></el-form-item
+                  ></el-col
+                >
+                <el-col :span="8">
+                  <el-form-item label="微波带宽" :label-width="formLabelWidth">
+                    <el-input-number
+                      v-model="paramsForm.dkwb2"
+                      :min="1"
+                      :max="10"
+                      controls-position="right"
+                    /><span class="unit-text">KHz</span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
                   <el-form-item label="出联方式" :label-width="formLabelWidth">
                     <el-select
                       v-model="paramsForm.clfswb"
@@ -885,42 +799,6 @@
                     </el-select> </el-form-item
                 ></el-col>
               </el-row>
-              <el-row>
-                <el-col :span="8">
-                  <el-form-item label="短波带宽" :label-width="formLabelWidth">
-                    <el-input-number
-                      v-model="paramsForm.dkdb2"
-                      :min="2.4"
-                      :max="50"
-                      controls-position="right"
-                    />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item
-                    label="超短波带宽"
-                    :label-width="formLabelWidth"
-                  >
-                    <el-input-number
-                      v-model="paramsForm.dkcdb2"
-                      :min="3"
-                      :max="300"
-                      controls-position="right"
-                    />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="微波带宽" :label-width="formLabelWidth">
-                    <el-input-number
-                      v-model="paramsForm.dkwb2"
-                      :min="1"
-                      :max="10"
-                      controls-position="right"
-                    />
-                  </el-form-item>
-                </el-col>
-              </el-row>
-
               <el-row>
                 <el-col :span="8"
                   ><el-form-item label="调制方式" :label-width="formLabelWidth">
@@ -945,8 +823,10 @@
                       :min="1000"
                       :max="9999999999"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    />
+                    <span class="unit-text">KHz</span></el-form-item
+                  ></el-col
+                >
                 <el-col :span="8"
                   ><el-form-item label="采样率" :label-width="formLabelWidth">
                     <el-input-number
@@ -954,8 +834,9 @@
                       :min="1000"
                       :max="9999999999"
                       controls-position="right"
-                    /> </el-form-item
-                ></el-col>
+                    /><span class="unit-text">KHz</span>
+                  </el-form-item></el-col
+                >
               </el-row>
             </el-form>
 
@@ -1026,7 +907,7 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
   }
 }
 const dialogFormVisible = ref(false)
-const formLabelWidth = '140px'
+const formLabelWidth = '150px'
 const paramsForm = ref({
   //综合链
   db: 10,
@@ -1427,6 +1308,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.unit-text {
+  margin-left: 10px;
+}
 .foot-btns {
   display: flex;
   justify-content: flex-end;
