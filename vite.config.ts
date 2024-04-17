@@ -13,6 +13,7 @@ import simpleHtmlPlugin from 'vite-plugin-simple-html'
 import eslint from 'vite-plugin-eslint'
 import gltf from 'vite-plugin-gltf'
 import glsl from 'vite-plugin-glsl'
+import ViteRestart from 'vite-plugin-restart'
 export default defineConfig(({ command, mode }) => {
   // const env = loadEnv(mode, process.cwd(), '')
   // console.log(env)
@@ -116,7 +117,10 @@ export default defineConfig(({ command, mode }) => {
       Icons({
         autoInstall: true
       }),
-      ElementPlus({})
+      ElementPlus({}),
+      ViteRestart({
+        restart: ['.env.development', 'vite.config.ts']
+      })
     ],
     server: {
       port: 5177,
