@@ -11,6 +11,7 @@ declare module 'vue' {
     BaseHeader: typeof import('./../components/BaseHeader.vue')['default']
     CesiumMap: typeof import('./../components/CesiumMap.vue')['default']
     CreateEntityPop: typeof import('./../components/PopUp/createEntityPop.vue')['default']
+    DeviceMonitorPop: typeof import('./../components/PopUp/deviceMonitorPop.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']

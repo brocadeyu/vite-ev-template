@@ -33,6 +33,9 @@
       <el-button size="small" color="#119aa0" @click="toSimulateSend"
         >模拟发送</el-button
       >
+      <el-button size="small" color="#119aa0" @click="openDeviceMonitorView"
+        >设备监控</el-button
+      >
     </div>
   </div>
 </template>
@@ -41,6 +44,7 @@
 import { useWebSocketStore } from '@/stores/webSocketStore'
 import { useThoughtStore } from '@/stores/thougthStore'
 import { useEntityStore } from '@/stores/entityStore'
+import { usePopupStore } from '@/stores/popupStore'
 import { useRouter } from 'vue-router'
 import { screenShot } from '@/common/helper'
 import { ElLoading } from 'element-plus'
@@ -52,6 +56,7 @@ const websocketStore = useWebSocketStore()
 const thoughtStore = useThoughtStore()
 const router = useRouter()
 const entityStore = useEntityStore()
+const popupStore = usePopupStore()
 const stepSize = ref('200')
 const stepOptions = [
   {
@@ -136,6 +141,12 @@ const toSimulateSend = () => {
   })
   window.open(url.href)
 }
+const openDeviceMonitorView = () => {
+  popupStore.openPop({
+    title: '设备监控',
+    type: 'deviceMonitor'
+  })
+}
 onMounted(() => {
   websocketStore.addEventListener(WS_EVENT.genDocSuccess, () => {
     console.log('文档生成成功！！！')
@@ -157,7 +168,7 @@ onMounted(() => {
 }
 .cb-content {
   height: 40px;
-  width: 400px;
+  width: 450px;
   display: flex;
   align-items: center;
   justify-content: space-around;
