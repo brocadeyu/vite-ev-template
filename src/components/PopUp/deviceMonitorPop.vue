@@ -3,7 +3,7 @@
   <BaseDocker
     :title="title"
     :show-footer="true"
-    :height="'635px'"
+    :height="'675px'"
     :width="'1200px'"
     :is-draggable="true"
   >
@@ -14,7 +14,7 @@
     </template>
     <template #content>
       <div class="mission-content">
-        <div style="height: calc(100% - 30px)">
+        <div style="height: calc(100%)">
           <el-table
             element-loading-text="拼命加载中"
             element-loading-background="rgba(12, 21, 42, 0.8)"
@@ -29,7 +29,7 @@
             scrollbar-always-on
             :header-cell-style="{
               fontSize: '18px',
-              height: '40px',
+              height: '30px',
               color: 'white',
               backgroundColor: '#2b4859',
               borderBottom: '0.5px #143275 solid'
@@ -41,7 +41,7 @@
             }"
             :row-style="{
               fontSize: '20px',
-              height: '60px',
+              height: '50px',
               backgroundColor: '#0b1a38bf',
               color: 'white'
             }"
@@ -106,6 +106,69 @@ const tableData = ref([
     platName: '飞机2',
     online: true,
     updateTime: '2024'
+  },
+  {
+    deviceId: 'daaa-aaa-aa--aa',
+    deviceName: '短波电台',
+    platName: '飞机2',
+    online: true,
+    updateTime: '2024'
+  },
+  {
+    deviceId: 'daaa-aaa-aa--aa',
+    deviceName: '短波电台',
+    platName: '飞机2',
+    online: true,
+    updateTime: '2024'
+  },
+  {
+    deviceId: 'daaa-aaa-aa--aa',
+    deviceName: '短波电台',
+    platName: '飞机2',
+    online: true,
+    updateTime: '2024'
+  },
+  {
+    deviceId: 'daaa-aaa-aa--aa',
+    deviceName: '短波电台',
+    platName: '飞机2',
+    online: true,
+    updateTime: '2024'
+  },
+  {
+    deviceId: 'daaa-aaa-aa--aa',
+    deviceName: '短波电台',
+    platName: '飞机2',
+    online: true,
+    updateTime: '2024'
+  },
+  {
+    deviceId: 'daaa-aaa-aa--aa',
+    deviceName: '短波电台',
+    platName: '飞机2',
+    online: true,
+    updateTime: '2024'
+  },
+  {
+    deviceId: 'daaa-aaa-aa--aa',
+    deviceName: '短波电台',
+    platName: '飞机2',
+    online: true,
+    updateTime: '2024'
+  },
+  {
+    deviceId: 'daaa-aaa-aa--aa',
+    deviceName: '短波电台',
+    platName: '飞机2',
+    online: true,
+    updateTime: '2024'
+  },
+  {
+    deviceId: 'daaa-aaa-aa--aa',
+    deviceName: '短波电台',
+    platName: '飞机2',
+    online: true,
+    updateTime: '2024'
   }
 ])
 </script>
@@ -117,7 +180,7 @@ const tableData = ref([
   margin-right: 2px;
 }
 .mission-content {
-  height: 540px;
+  height: 545px;
   padding: 5px;
   padding-top: 0;
   box-sizing: border-box;
