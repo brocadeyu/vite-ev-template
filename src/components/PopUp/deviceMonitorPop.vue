@@ -3,8 +3,8 @@
   <BaseDocker
     :title="title"
     :show-footer="true"
-    :height="'410px'"
-    :width="'600px'"
+    :height="'600px'"
+    :width="'900px'"
     :is-draggable="true"
   >
     <template #header>
@@ -13,7 +13,84 @@
       </el-button>
     </template>
     <template #content>
-      <div class="mission-content"></div>
+      <div class="mission-content">
+        <div style="height: calc(100% - 30px)">
+          <el-table
+            element-loading-text="拼命加载中"
+            element-loading-background="rgba(12, 21, 42, 0.8)"
+            :data="tableData"
+            style="
+              width: 100%;
+              margin-top: 20px;
+              --el-table-border-color: none;
+              --el-table-bg-color: transparent;
+            "
+            height="100%"
+            scrollbar-always-on
+            :header-cell-style="{
+              fontSize: '18px',
+              height: '40px',
+              color: 'white',
+              backgroundColor: '#2b4859',
+              borderBottom: '0.5px #143275 solid'
+            }"
+            :cell-style="{
+              color: '#fff',
+              fontSize: '20px',
+              borderBottom: '0.5px #143275 solid'
+            }"
+            :row-style="{
+              fontSize: '20px',
+              height: '60px',
+              backgroundColor: '#0b1a38bf',
+              color: 'white'
+            }"
+          >
+            <el-table-column label="装备名称" prop="platName">
+            </el-table-column>
+            <el-table-column label="在线状态" prop="online">
+              <template #default="scope">
+                <span v-if="scope.row.online">
+                  <i class="dotClass" style="background-color: springgreen"></i>
+                </span>
+                <span v-else>
+                  <i class="dotClass" style="background-color: red"></i>
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column label="搭载设备" prop="devices">
+              <template #default="scope">
+                <el-popover
+                  effect="light"
+                  trigger="hover"
+                  placement="top"
+                  width="auto"
+                >
+                  <template #default>
+                    <div
+                      v-for="(item, index) in scope.row.devices"
+                      :key="index"
+                    >
+                      ID: {{ item.id }},装备名：{{ item.name }}
+                    </div>
+                  </template>
+                  <template #reference>
+                    <el-tag>详情</el-tag>
+                  </template>
+                </el-popover>
+              </template>
+            </el-table-column>
+            <el-table-column label="更新时间" prop="updateTime">
+            </el-table-column>
+            <template #empty>
+              <el-empty
+                description="暂无数据"
+                style="background-color: transparent"
+              />
+            </template>
+          </el-table>
+        </div>
+      </div>
     </template>
     <template #footer>
       <div class="foot-btns">
@@ -39,8 +116,11 @@
 <script setup lang="ts">
 import BaseDocker from '@/components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
+import { useMonitorStore } from '@/stores/monitorStore'
 import { storeToRefs } from 'pinia'
 const popupStore = usePopupStore()
+const monitorStore = useMonitorStore()
+const { monitorData } = storeToRefs(monitorStore)
 const props = withDefaults(
   defineProps<{
     title?: string
@@ -50,6 +130,23 @@ const props = withDefaults(
 const closePop = () => {
   popupStore.closePop()
 }
+const tableData = ref([
+  {
+    platName: '飞机2',
+    online: true,
+    updateTime: '2024',
+    devices: [
+      {
+        id: '1111111111',
+        name: '短波电台'
+      },
+      {
+        id: '22222222',
+        name: '超短波电台'
+      }
+    ]
+  }
+])
 </script>
 
 <style scoped>
@@ -62,5 +159,15 @@ const closePop = () => {
   height: 100%;
   padding: 5px;
   box-sizing: border-box;
+}
+.dotClass {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: block;
+  margin-left: 10px;
+}
+.el-table {
+  --el-table-row-hover-bg-color: rgb(28, 62, 113);
 }
 </style>

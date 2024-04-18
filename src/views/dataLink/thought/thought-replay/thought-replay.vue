@@ -26,6 +26,7 @@ import { useEntityStore } from '@/stores/entityStore'
 import { useCesiumStore } from '@/stores/cesiumStore'
 import { useLinkStore } from '@/stores/linkStore'
 import { useLogStore } from '@/stores/logStore'
+import { useMonitorStore } from '@/stores/monitorStore'
 import { WS_EVENT } from '@/common/enum'
 import { ElMessage } from 'element-plus'
 import { getNowTimeStr } from '@/common/helper'
@@ -38,6 +39,7 @@ const entityStore = useEntityStore()
 const cesiumStore = useCesiumStore()
 const linkStore = useLinkStore()
 const logStore = useLogStore()
+const monitorStore = useMonitorStore()
 const showGantFlag = ref(false)
 const showGantChart = () => {
   showGantFlag.value = true
@@ -675,6 +677,28 @@ onMounted(() => {
     }
     console.log(data3)
     websocketStore.sendMessage(data3)
+  })
+
+  websocketStore.addEventListener(WS_EVENT.monitorData, (data) => {
+    console.log('监控数据', data)
+    let result = []
+    data.online.forEach((_) => {
+      result.push({
+        platName: _.platName,
+        updateTime: _.updateTime,
+        online: true,
+        devices: _.Devices
+      })
+    })
+    data.offline.forEach((_) => {
+      result.push({
+        platName: _.platName,
+        updateTime: _.updateTime,
+        online: false,
+        devices: _.Devices
+      })
+    })
+    monitorStore.setMonitorData(result)
   })
 
   bc = new BroadcastChannel('simulateSend')

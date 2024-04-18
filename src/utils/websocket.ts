@@ -98,6 +98,11 @@ export default class WebSocketService {
       ) {
         return this.eventRegistry.emit(WS_EVENT.genDocSuccess, parseData)
       }
+      if (
+        parseData.InteractType === 'baseInter.FederationInteract.DevicesMonitor'
+      ) {
+        return this.eventRegistry.emit(WS_EVENT.monitorData, parseData)
+      }
       if (parseData.objName && parseData.Lon && parseData.Lat) {
         return this.eventRegistry.emit(WS_EVENT.positonMessage, parseData)
       }

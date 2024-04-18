@@ -18,7 +18,8 @@ export enum WS_EVENT {
   dataMessage, //作战数据日志
   positonMessage, //推送位置数据
   startGenDocRes, //开始生成文档
-  genDocSuccess //文档生成完成
+  genDocSuccess, //文档生成完成
+  monitorData //设备监控数据
 }
 export type WSEventType = keyof typeof WS_EVENT
 
