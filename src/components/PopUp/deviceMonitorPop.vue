@@ -3,8 +3,8 @@
   <BaseDocker
     :title="title"
     :show-footer="true"
-    :height="'600px'"
-    :width="'900px'"
+    :height="'635px'"
+    :width="'1200px'"
     :is-draggable="true"
   >
     <template #header>
@@ -46,7 +46,11 @@
               color: 'white'
             }"
           >
-            <el-table-column label="装备名称" prop="platName">
+            <el-table-column label="装备名称" prop="deviceId">
+            </el-table-column>
+            <el-table-column label="装备编号" prop="deviceName">
+            </el-table-column>
+            <el-table-column label="所属平台" prop="platName">
             </el-table-column>
             <el-table-column label="在线状态" prop="online">
               <template #default="scope">
@@ -56,28 +60,6 @@
                 <span v-else>
                   <i class="dotClass" style="background-color: red"></i>
                 </span>
-              </template>
-            </el-table-column>
-            <el-table-column label="搭载设备" prop="devices">
-              <template #default="scope">
-                <el-popover
-                  effect="light"
-                  trigger="hover"
-                  placement="top"
-                  width="auto"
-                >
-                  <template #default>
-                    <div
-                      v-for="(item, index) in scope.row.devices"
-                      :key="index"
-                    >
-                      ID: {{ item.id }},装备名：{{ item.name }}
-                    </div>
-                  </template>
-                  <template #reference>
-                    <el-tag>详情</el-tag>
-                  </template>
-                </el-popover>
               </template>
             </el-table-column>
             <el-table-column label="更新时间" prop="updateTime">
@@ -94,20 +76,7 @@
     </template>
     <template #footer>
       <div class="foot-btns">
-        <el-button type="primary" color="#119aa0" size="small" @click="() => {}"
-          >导入</el-button
-        >
-        <el-button
-          type="primary"
-          size="small"
-          color="#119aa0"
-          :disabled="false"
-          @click="() => {}"
-          >保存</el-button
-        >
-        <el-button type="primary" color="#119aa0" size="small" @click="() => {}"
-          >下发</el-button
-        >
+        <el-pagination background layout="prev, pager, next" :total="1000" />
       </div>
     </template>
   </BaseDocker>
@@ -132,19 +101,11 @@ const closePop = () => {
 }
 const tableData = ref([
   {
+    deviceId: 'daaa-aaa-aa--aa',
+    deviceName: '短波电台',
     platName: '飞机2',
     online: true,
-    updateTime: '2024',
-    devices: [
-      {
-        id: '1111111111',
-        name: '短波电台'
-      },
-      {
-        id: '22222222',
-        name: '超短波电台'
-      }
-    ]
+    updateTime: '2024'
   }
 ])
 </script>
@@ -156,8 +117,9 @@ const tableData = ref([
   margin-right: 2px;
 }
 .mission-content {
-  height: 100%;
+  height: 540px;
   padding: 5px;
+  padding-top: 0;
   box-sizing: border-box;
 }
 .dotClass {
@@ -169,5 +131,8 @@ const tableData = ref([
 }
 .el-table {
   --el-table-row-hover-bg-color: rgb(28, 62, 113);
+}
+::v-deep(.bd-footer) {
+  height: 33px;
 }
 </style>

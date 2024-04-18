@@ -683,19 +683,25 @@ onMounted(() => {
     console.log('监控数据', data)
     let result = []
     data.online.forEach((_) => {
-      result.push({
-        platName: _.platName,
-        updateTime: _.updateTime,
-        online: true,
-        devices: _.Devices
+      _.Devices.forEach((d) => {
+        result.push({
+          platName: _.platName,
+          updateTime: _.updateTime,
+          online: true,
+          deviceName: d.name,
+          deviceId: d.id
+        })
       })
     })
     data.offline.forEach((_) => {
-      result.push({
-        platName: _.platName,
-        updateTime: _.updateTime,
-        online: false,
-        devices: _.Devices
+      _.Devices.forEach((d) => {
+        result.push({
+          platName: _.platName,
+          updateTime: _.updateTime,
+          online: false,
+          deviceName: d.name,
+          deviceId: d.id
+        })
       })
     })
     monitorStore.setMonitorData(result)
