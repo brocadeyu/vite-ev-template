@@ -76,7 +76,12 @@
     </template>
     <template #footer>
       <div class="foot-btns">
-        <el-pagination background layout="prev, pager, next" :total="1000" />
+        <el-pagination
+          v-model:current-page="currentPage"
+          background
+          layout="prev, pager, next"
+          :total="monitorData.length"
+        />
       </div>
     </template>
   </BaseDocker>
@@ -96,10 +101,24 @@ const props = withDefaults(
   }>(),
   { title: '' }
 )
+const currentPage = ref(1)
+const tableData = ref([])
+watch(currentPage, (page) => {
+  console.log('页数变化', page)
+  const startIndex = (currentPage.value - 1) * 10
+  const endIndex = startIndex + currentPage.value
+  tableData.value = monitorData.value.slice(startIndex, endIndex)
+})
+watch(monitorData, (newVal) => {
+  const startIndex = (currentPage.value - 1) * 10
+  const endIndex = startIndex + currentPage.value
+  tableData.value = newVal.slice(startIndex, endIndex)
+})
+
 const closePop = () => {
   popupStore.closePop()
 }
-const tableData = ref([
+const tableData1 = ref([
   {
     deviceId: 'daaa-aaa-aa--aa',
     deviceName: '短波电台',
@@ -158,14 +177,21 @@ const tableData = ref([
   },
   {
     deviceId: 'daaa-aaa-aa--aa',
-    deviceName: '短波电台',
+    deviceName: '1短波电台',
     platName: '飞机2',
     online: true,
     updateTime: '2024'
   },
   {
     deviceId: 'daaa-aaa-aa--aa',
-    deviceName: '短波电台',
+    deviceName: '1短波电台',
+    platName: '飞机2',
+    online: true,
+    updateTime: '2024'
+  },
+  {
+    deviceId: 'daaa-aaa-aa--aa',
+    deviceName: '1短波电台',
     platName: '飞机2',
     online: true,
     updateTime: '2024'
