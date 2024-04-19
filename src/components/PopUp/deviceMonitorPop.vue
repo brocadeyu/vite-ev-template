@@ -146,9 +146,15 @@
       <div class="foot-btns">
         <el-pagination
           v-model:current-page="currentPage"
+          style="
+            --el-disabled-bg-color: #022f31;
+            --el-pagination-hover-color: white;
+            --el-pagination-button-bg-color: #0f6f74;
+            --el-color-primary: #119aa0;
+          "
           background
           layout="prev, pager, next"
-          :total="monitorData.length"
+          :total="100"
         />
       </div>
     </template>
@@ -285,13 +291,6 @@ const tableData1 = ref([
     platName: '飞机2',
     online: true,
     updateTime: '2024'
-  },
-  {
-    deviceId: 'daaa-aaa-aa--aa',
-    deviceName: '1短波电台',
-    platName: '飞机2',
-    online: true,
-    updateTime: '2024'
   }
 ])
 </script>
@@ -327,6 +326,16 @@ const tableData1 = ref([
   --el-border-color: #0e9aa0;
   --el-text-color-placeholder: white;
   --el-border-color-hover: #16b0b8;
+}
+::v-deep(.el-pagination.is-background .btn-prev) {
+  --el-pagination-button-bg-color: #119aa0;
+}
+
+::v-deep(.el-pagination.is-background .btn-next) {
+  --el-pagination-button-bg-color: #119aa0;
+}
+::v-deep(.el-pagination.is-background .el-pager li.is-active) {
+  background-color: #25bfc6;
 }
 
 .filter-content {
