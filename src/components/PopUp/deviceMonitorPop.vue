@@ -14,7 +14,69 @@
     </template>
     <template #content>
       <div class="mission-content">
-        <div style="height: calc(100%)">
+        <div class="filter-content">
+          <div class="filter-item">
+            <span>所属平台</span>
+            <el-select
+              v-model="filterParams.pt"
+              placeholder="Select"
+              style="width: 180px; margin-left: 10px"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </div>
+          <div class="filter-item">
+            <span>设备类型</span>
+            <el-select
+              v-model="filterParams.lx"
+              placeholder="Select"
+              style="width: 180px; margin-left: 10px"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </div>
+          <div class="filter-item">
+            <span>设备编号</span>
+            <el-select
+              v-model="filterParams.bh"
+              placeholder="Select"
+              style="width: 180px; margin-left: 10px"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </div>
+          <div class="filter-item">
+            <span>设备状态</span>
+            <el-select
+              v-model="filterParams.zt"
+              placeholder="Select"
+              style="width: 180px; margin-left: 10px"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </div>
+        </div>
+        <div style="height: calc(90%)">
           <el-table
             element-loading-text="拼命加载中"
             element-loading-background="rgba(12, 21, 42, 0.8)"
@@ -95,6 +157,7 @@ import { storeToRefs } from 'pinia'
 const popupStore = usePopupStore()
 const monitorStore = useMonitorStore()
 const { monitorData } = storeToRefs(monitorStore)
+
 const props = withDefaults(
   defineProps<{
     title?: string
@@ -103,6 +166,34 @@ const props = withDefaults(
 )
 const currentPage = ref(1)
 const tableData = ref([])
+const filterParams = reactive({
+  pt: '',
+  lx: '',
+  bh: '',
+  zt: ''
+})
+const options = [
+  {
+    value: 'Option1',
+    label: 'Option1'
+  },
+  {
+    value: 'Option2',
+    label: 'Option2'
+  },
+  {
+    value: 'Option3',
+    label: 'Option3'
+  },
+  {
+    value: 'Option4',
+    label: 'Option4'
+  },
+  {
+    value: 'Option5',
+    label: 'Option5'
+  }
+]
 watch(currentPage, (page) => {
   console.log('页数变化', page)
   const startIndex = (currentPage.value - 1) * 10
@@ -223,5 +314,16 @@ const tableData1 = ref([
 }
 ::v-deep(.bd-footer) {
   height: 33px;
+}
+
+.filter-content {
+  height: 10%;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.filter-item {
+  flex: 1;
 }
 </style>
