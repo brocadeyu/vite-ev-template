@@ -3,7 +3,7 @@
   <BaseDocker
     :title="title"
     :show-footer="true"
-    :height="'675px'"
+    :height="'733px'"
     :width="'1200px'"
     :is-draggable="true"
   >
@@ -76,14 +76,20 @@
             </el-select>
           </div>
         </div>
-        <div style="height: calc(90%)">
+        <div
+          style="
+            height: calc(90%);
+            border: 1px solid #095356;
+            border-radius: 5px;
+            overflow: hidden;
+          "
+        >
           <el-table
             element-loading-text="拼命加载中"
             element-loading-background="rgba(12, 21, 42, 0.8)"
-            :data="tableData"
+            :data="tableData1"
             style="
               width: 100%;
-              margin-top: 20px;
               --el-table-border-color: none;
               --el-table-bg-color: transparent;
             "
@@ -297,8 +303,9 @@ const tableData1 = ref([
   margin-right: 2px;
 }
 .mission-content {
-  height: 545px;
+  height: 100%;
   padding: 5px;
+  padding-bottom: 10px;
   padding-top: 0;
   box-sizing: border-box;
 }
@@ -314,6 +321,12 @@ const tableData1 = ref([
 }
 ::v-deep(.bd-footer) {
   height: 33px;
+}
+::v-deep(.el-select) {
+  --el-fill-color-blank: transparent;
+  --el-border-color: #0e9aa0;
+  --el-text-color-placeholder: white;
+  --el-border-color-hover: #16b0b8;
 }
 
 .filter-content {
