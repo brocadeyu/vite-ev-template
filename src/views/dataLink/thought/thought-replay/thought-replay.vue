@@ -149,18 +149,28 @@ onMounted(() => {
         linkStore.linkConnectInfo[linkType].linkTo.forEach((linkStr) => {
           const deviceOne = linkStr.split('-')[0]
           const deviceTwo = linkStr.split('-')[1]
-          const fromPosition = entityStore.getEntityById(deviceOne).position
-          const toPosition = entityStore.getEntityById(deviceTwo).position
+          const one = entityStore.getEntityById(deviceOne)
+          const two = entityStore.getEntityById(deviceTwo)
+          const fromPosition = one.position
+          const toPosition = two.position
           const opt = {
             id: `${deviceOne}-${deviceTwo}-广播消息`,
             type: linkType,
             positionArr: [fromPosition, toPosition],
             isBrodeCast: true
           }
-          cesiumStore.cesium.messageMap.displayMessageLink(opt)
+          one.online &&
+            two.online &&
+            cesiumStore.cesium.messageMap.displayMessageLink(opt)
         })
         const sender = m.split(':')[1].split('广播')[0]
         linkStore.linkConnectInfo[linkType].selection.forEach((_) => {
+          if (
+            !entityStore.getEntityById(sender).online ||
+            !entityStore.getEntityById(_).online
+          ) {
+            return
+          }
           if (_ !== sender) {
             const s1 = sender
             const s2 = _
@@ -174,9 +184,15 @@ onMounted(() => {
         })
       } else if (message[0].MessageType === '点播消息') {
         if (!m.includes('数据量')) {
-          console.log('自定义消息')
+          // console.log('自定义消息')
           if (message[0].type === '90X链') {
             linkMessageArr.forEach((_) => {
+              if (
+                !entityStore.getEntityById(_.from).online ||
+                !entityStore.getEntityById(_.to).online
+              ) {
+                return
+              }
               const id = `${_.from}-${_.to}`
               const fromPosition = entityStore.getEntityById(_.from).position
               const toPosition = entityStore.getEntityById(_.to).position
@@ -265,6 +281,12 @@ onMounted(() => {
             // })
           } else {
             linkMessageArr.forEach((_) => {
+              if (
+                !entityStore.getEntityById(_.from).online ||
+                !entityStore.getEntityById(_.to).online
+              ) {
+                return
+              }
               const id = `${_.from}-${_.to}`
               const fromPosition = entityStore.getEntityById(_.from).position
               const toPosition = entityStore.getEntityById(_.to).position
@@ -296,6 +318,12 @@ onMounted(() => {
         } else {
           if (message[0].type === '90X链') {
             linkMessageArr.forEach((_) => {
+              if (
+                !entityStore.getEntityById(_.from).online ||
+                !entityStore.getEntityById(_.to).online
+              ) {
+                return
+              }
               const id = `${_.from}-${_.to}`
               const fromPosition = entityStore.getEntityById(_.from).position
               const toPosition = entityStore.getEntityById(_.to).position
@@ -366,6 +394,12 @@ onMounted(() => {
             // })
           } else {
             linkMessageArr.forEach((_) => {
+              if (
+                !entityStore.getEntityById(_.from).online ||
+                !entityStore.getEntityById(_.to).online
+              ) {
+                return
+              }
               const id = `${_.from}-${_.to}`
               const fromPosition = entityStore.getEntityById(_.from).position
               const toPosition = entityStore.getEntityById(_.to).position
@@ -389,6 +423,12 @@ onMounted(() => {
       } else {
         //卫星消息
         linkMessageArr.forEach((_) => {
+          if (
+            !entityStore.getEntityById(_.from).online ||
+            !entityStore.getEntityById(_.to).online
+          ) {
+            return
+          }
           const id = `${_.from}-${_.to}`
           const fromPosition = entityStore.getEntityById(_.from).position
           const toPosition = entityStore.getEntityById(_.to).position
@@ -680,7 +720,7 @@ onMounted(() => {
   })
 
   websocketStore.addEventListener(WS_EVENT.monitorData, (data) => {
-    console.log('监控数据', data)
+    // console.log('监控数据', data)
     entityStore.resetEntityOnlineStatus()
     let result = []
     data.online.forEach((_) => {
