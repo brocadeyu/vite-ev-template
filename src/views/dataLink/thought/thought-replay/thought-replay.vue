@@ -681,8 +681,10 @@ onMounted(() => {
 
   websocketStore.addEventListener(WS_EVENT.monitorData, (data) => {
     console.log('监控数据', data)
+    entityStore.resetEntityOnlineStatus()
     let result = []
     data.online.forEach((_) => {
+      entityStore.setEntityOnlineStatusById(_.platName)
       _.Devices.forEach((d) => {
         result.push({
           platName: _.platName,

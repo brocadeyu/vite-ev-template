@@ -20,6 +20,7 @@ export default class Entity {
   path: []
   equipment: []
   params: any
+  online: boolean = false
   constructor(opt: IAddEntityOpt) {
     const { id, type, position, path, equipment, params } = opt
     this.id = id
@@ -60,5 +61,8 @@ export default class Entity {
       _.isHas = false
       _.isUse = false
     })
+  }
+  setOnlineStatus(flag: boolean) {
+    this.online = flag
   }
 }

@@ -42,6 +42,17 @@ export const useEntityStore = defineStore('entity', () => {
       delete entities.value[id]
     }
   }
+  const resetEntityOnlineStatus = () => {
+    entitiesArr.value.forEach((_) => {
+      _.setOnlineStatus(false)
+    })
+  }
+  const setEntityOnlineStatusById = (id: string, flag: boolean) => {
+    const entity = getEntityById(id)
+    if (entity) {
+      entity.setOnlineStatus(true)
+    }
+  }
   const updateEntityPosition = (param) => {
     const { id, position } = param
     const target = entities.value[id]
@@ -58,6 +69,8 @@ export const useEntityStore = defineStore('entity', () => {
     addEntity,
     removeEntityById,
     getEntityById,
-    updateEntityPosition
+    updateEntityPosition,
+    resetEntityOnlineStatus,
+    setEntityOnlineStatusById
   }
 })

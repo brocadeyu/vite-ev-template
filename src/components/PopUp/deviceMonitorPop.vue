@@ -4,7 +4,7 @@
     :title="title"
     :show-footer="true"
     :height="'733px'"
-    :width="'1200px'"
+    :width="'1400px'"
     :is-draggable="true"
   >
     <template #header>
@@ -23,7 +23,7 @@
               style="width: 180px; margin-left: 10px"
             >
               <el-option
-                v-for="item in options"
+                v-for="item in ptOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -38,14 +38,14 @@
               style="width: 180px; margin-left: 10px"
             >
               <el-option
-                v-for="item in options"
+                v-for="item in lxOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
               />
             </el-select>
           </div>
-          <div class="filter-item">
+          <!-- <div class="filter-item">
             <span>设备编号</span>
             <el-select
               v-model="filterParams.bh"
@@ -59,7 +59,7 @@
                 :value="item.value"
               />
             </el-select>
-          </div>
+          </div> -->
           <div class="filter-item">
             <span>设备状态</span>
             <el-select
@@ -68,7 +68,7 @@
               style="width: 180px; margin-left: 10px"
             >
               <el-option
-                v-for="item in options"
+                v-for="item in ztOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -87,7 +87,7 @@
           <el-table
             element-loading-text="拼命加载中"
             element-loading-background="rgba(12, 21, 42, 0.8)"
-            :data="tableData1"
+            :data="tableData"
             style="
               width: 100%;
               --el-table-border-color: none;
@@ -114,9 +114,9 @@
               color: 'white'
             }"
           >
-            <el-table-column label="装备名称" prop="deviceId">
+            <el-table-column label="装备名称" prop="deviceName">
             </el-table-column>
-            <el-table-column label="装备编号" prop="deviceName">
+            <el-table-column label="装备编号" prop="deviceId" width="500">
             </el-table-column>
             <el-table-column label="所属平台" prop="platName">
             </el-table-column>
@@ -130,7 +130,7 @@
                 </span>
               </template>
             </el-table-column>
-            <el-table-column label="更新时间" prop="updateTime">
+            <el-table-column label="更新时间" prop="updateTime" width="300">
             </el-table-column>
             <template #empty>
               <el-empty
@@ -154,7 +154,7 @@
           "
           background
           layout="prev, pager, next"
-          :total="100"
+          :total="monitorData.length"
         />
       </div>
     </template>
@@ -165,9 +165,11 @@
 import BaseDocker from '@/components/BaseDocker.vue'
 import { usePopupStore } from '@/stores/popupStore'
 import { useMonitorStore } from '@/stores/monitorStore'
+import { useEntityStore } from '@/stores/entityStore'
 import { storeToRefs } from 'pinia'
 const popupStore = usePopupStore()
 const monitorStore = useMonitorStore()
+const entityStore = useEntityStore()
 const { monitorData } = storeToRefs(monitorStore)
 
 const props = withDefaults(
@@ -179,15 +181,19 @@ const props = withDefaults(
 const currentPage = ref(1)
 const tableData = ref([])
 const filterParams = reactive({
-  pt: '',
-  lx: '',
+  pt: '全部',
+  lx: '全部',
   bh: '',
-  zt: ''
+  zt: '全部'
 })
 const options = [
   {
-    value: 'Option1',
-    label: 'Option1'
+    value: '全部',
+    label: '全部'
+  },
+  {
+    value: '综合链设备',
+    label: '综合链设备'
   },
   {
     value: 'Option2',
@@ -206,15 +212,73 @@ const options = [
     label: 'Option5'
   }
 ]
+const ptOptions = ref([
+  {
+    value: '全部',
+    label: '全部'
+  }
+])
+const lxOptions = [
+  {
+    value: '全部',
+    label: '全部'
+  },
+  {
+    value: '综合链设备',
+    label: '综合链设备'
+  },
+  {
+    value: '90X链设备',
+    label: '90X链设备'
+  },
+  {
+    value: 'JIDS链设备',
+    label: 'JIDS链设备'
+  },
+  {
+    value: '卫星通信设备',
+    label: '卫星通信设备'
+  },
+  {
+    value: '短波电台',
+    label: '短波电台'
+  },
+  {
+    value: '对空超短波电台',
+    label: '对空超短波电台'
+  },
+  {
+    value: '对海超短波电台',
+    label: '对海超短波电台'
+  },
+  {
+    value: '微波电台',
+    label: '微波电台'
+  }
+]
+const ztOptions = [
+  {
+    value: '全部',
+    label: '全部'
+  },
+  {
+    value: '在线',
+    label: '在线'
+  },
+  {
+    value: '离线',
+    label: '离线'
+  }
+]
 watch(currentPage, (page) => {
-  console.log('页数变化', page)
-  const startIndex = (currentPage.value - 1) * 10
-  const endIndex = startIndex + currentPage.value
-  tableData.value = monitorData.value.slice(startIndex, endIndex)
+  // console.log('页数变化', page)
+  // const startIndex = (currentPage.value - 1) * 10
+  // const endIndex = startIndex + currentPage.value
+  // tableData.value = monitorData.value.slice(startIndex, endIndex)
 })
 watch(monitorData, (newVal) => {
   const startIndex = (currentPage.value - 1) * 10
-  const endIndex = startIndex + currentPage.value
+  const endIndex = startIndex + 10
   tableData.value = newVal.slice(startIndex, endIndex)
 })
 
@@ -293,6 +357,25 @@ const tableData1 = ref([
     updateTime: '2024'
   }
 ])
+
+onMounted(() => {
+  const idArr = entityStore.entitiesArr.map((_) => _.id)
+  ptOptions.value = [
+    {
+      value: '全部',
+      label: '全部'
+    }
+  ].concat(
+    idArr.map((i) => {
+      return {
+        value: i,
+        label: i
+      }
+    })
+  )
+
+  // console.log('ptOptions', ptOptions.value)
+})
 </script>
 
 <style scoped>
