@@ -180,4 +180,8 @@ onMounted(() => {
 .el-button {
   margin-left: 0px;
 }
+
+:deep(.el-select__placeholder) {
+  color: white;
+}
 </style>
