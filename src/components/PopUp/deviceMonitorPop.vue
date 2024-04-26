@@ -154,7 +154,7 @@
           "
           background
           layout="prev, pager, next"
-          :total="monitorData.length"
+          :total="filteredMonitorData.length"
         />
       </div>
     </template>
@@ -276,7 +276,31 @@ watch(currentPage, (page) => {
   // const endIndex = startIndex + currentPage.value
   // tableData.value = monitorData.value.slice(startIndex, endIndex)
 })
-watch(monitorData, (newVal) => {
+const filteredMonitorData = computed(() => {
+  return monitorData.value
+    .filter((_) => {
+      if (filterParams.pt === '全部') {
+        return true
+      } else {
+        return _.platName === filterParams.pt
+      }
+    })
+    .filter((_) => {
+      if (filterParams.lx === '全部') {
+        return true
+      } else {
+        return _.deviceName === filterParams.lx
+      }
+    })
+    .filter((_) => {
+      if (filterParams.zt === '全部') {
+        return true
+      } else {
+        return (_.online ? '在线' : '离线') === filterParams.zt
+      }
+    })
+})
+watch(filteredMonitorData, (newVal) => {
   const startIndex = (currentPage.value - 1) * 10
   const endIndex = startIndex + 10
   tableData.value = newVal.slice(startIndex, endIndex)
