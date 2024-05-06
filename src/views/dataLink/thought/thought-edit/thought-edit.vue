@@ -40,7 +40,7 @@ onMounted(async () => {
     ]).then(() => {
       setLayerVisible()
     })
-    console.log('初始化完成')
+    // console.log('初始化完成')
   })
 })
 const asyncInitEntity = async () => {

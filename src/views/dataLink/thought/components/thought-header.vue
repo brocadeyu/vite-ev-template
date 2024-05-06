@@ -77,7 +77,7 @@ const saveThought = () => {
 
 const onSaveUpdate = async () => {
   try {
-    console.log('更新想定保存')
+    // console.log('更新想定保存')
     // console.log(entityStore.entitiesArr)
     const linkObj = linkStore.linkConnectInfo
     const jMission = missionStore.staticMission
@@ -135,12 +135,12 @@ const onSaveUpdate = async () => {
       jsonData: jsonData
     }
 
-    console.log('param', param)
+    // console.log('param', param)
     await saveUpdateThought(param)
     popupStore.closePop()
     router.replace({ path: '/dataLink/thought/overview' })
   } catch (error) {
-    console.log('error', error)
+    // console.log('error', error)
   }
 }
 </script>

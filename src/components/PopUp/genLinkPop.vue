@@ -633,7 +633,7 @@ onMounted(() => {
   param4 && (formDataKu.mainDevice = param4?.mainDevice)
 
   websocketStore.addEventListener(WS_EVENT.createLink, (data) => {
-    console.log('接收到的createLink数据====>', data)
+    // console.log('接收到的createLink数据====>', data)
     cesiumStore.cesium.linkMap.removeAllLink()
     cesiumStore.cesium.scanMap.removeAllScan()
     cesiumStore.cesium.checkLineMap.removeAllCheckLine()

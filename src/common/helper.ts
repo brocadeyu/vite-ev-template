@@ -1,6 +1,6 @@
 import { EntityType } from '@/common/enum'
 import WZImg from '@/assets/model/wzzsj.png'
-import ZCImg from '@/assets/model/zczsj.png'
+// import ZCImg from '@/assets/model/zczsj.png'
 import SHIP052C from '@/assets/model/052c.png'
 import SHIP052D from '@/assets/model/052d.png'
 import H6k from '@/assets/model/h6k.jpg'
@@ -25,7 +25,7 @@ export const getEntityImgByType: (type: EntityType) => string = (type) => {
 // 判断两个数组是否相等的函数
 export function arraysAreEqual(arr1, arr2) {
   if (arr1.length !== arr2.length) {
-    console.log('数组长度不相同')
+    // console.log('数组长度不相同')
     return false
   }
   for (let i = 0; i < arr1.length; i++) {
@@ -46,16 +46,16 @@ export function getNowTimeStr() {
   let minutes = date.getMinutes() // 分
   let seconds = date.getSeconds() //秒
   let mill = date.getMilliseconds() //毫秒
-  let weekArr = [
-    '星期一',
-    '星期二',
-    '星期三',
-    '星期四',
-    '星期五',
-    '星期六',
-    '星期天'
-  ]
-  let week = weekArr[date.getDay()]
+  // let weekArr = [
+  //   '星期一',
+  //   '星期二',
+  //   '星期三',
+  //   '星期四',
+  //   '星期五',
+  //   '星期六',
+  //   '星期天'
+  // ]
+  // let week = weekArr[date.getDay()]
   // 给一位数的数据前面加 “0”
   if (month >= 1 && month <= 9) {
     month = '0' + month

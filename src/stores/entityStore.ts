@@ -47,7 +47,7 @@ export const useEntityStore = defineStore('entity', () => {
       _.setOnlineStatus(false)
     })
   }
-  const setEntityOnlineStatusById = (id: string, flag: boolean) => {
+  const setEntityOnlineStatusById = (id: string) => {
     const entity = getEntityById(id)
     if (entity) {
       entity.setOnlineStatus(true)

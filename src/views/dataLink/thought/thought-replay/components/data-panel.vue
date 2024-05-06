@@ -137,7 +137,7 @@ const getFileName = (m) => {
   return file.name
 }
 const clickDownloadFile = (m) => {
-  console.log('下载mmmmmmmmmmm', m)
+  // console.log('下载mmmmmmmmmmm', m)
   const file = window.fileMap.get(m)
   if (!file) return
   const blob = new Blob([file], { type: file.type })

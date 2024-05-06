@@ -12,7 +12,7 @@ export default class DynamicPoint {
     scanColor
     duration
   }) {
-    const { viewer, cartographicCenter, maxRadius, scanColor, duration } = opt
+    const { viewer, cartographicCenter, maxRadius, scanColor } = opt
     this.viewer = viewer
     const _Cartesian3Center =
       Cesium.Cartographic.toCartesian(cartographicCenter)

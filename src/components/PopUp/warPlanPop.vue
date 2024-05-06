@@ -254,7 +254,7 @@ import BaseDocker from '@/components/BaseDocker.vue'
 import draggable from 'vuedraggable'
 import { usePopupStore } from '@/stores/popupStore'
 import { useMissionStore } from '@/stores/missionStore'
-import type { TabsPaneContext } from 'element-plus'
+// import type { TabsPaneContext } from 'element-plus'
 import { arraysAreEqual } from '@/common/helper'
 import { storeToRefs } from 'pinia'
 import genDoc from '@/utils/genWord'
@@ -262,7 +262,7 @@ const popupStore = usePopupStore()
 const missionStore = useMissionStore()
 const activeTab = ref('static')
 
-const isDiff = ref(false)
+// const isDiff = ref(false)
 const { isGenFlag, isDown } = storeToRefs(missionStore)
 const isGen = ref(false)
 const oldIsGen = ref(false)
@@ -270,8 +270,8 @@ const isGening = ref(false) //是否正在生成
 const staticList = ref([])
 const dynamicList = ref([])
 
-const drag = ref(false)
-const handleClick = (tab: TabsPaneContext, event: Event) => {
+// const drag = ref(false)
+const handleClick = () => {
   // console.log(tab, event)
 }
 const handleGen = () => {
@@ -336,7 +336,7 @@ const handleImport = async () => {
       let file_string = e.target.result
       // eslint-disable-next-line camelcase
       const jsonData = JSON.parse(`${file_string}`)
-      console.log('导入文件内容', jsonData)
+      // console.log('导入文件内容', jsonData)
       // this.DataLinkInfo.link[this.dataLinkUseCur].mission.push(...jsonData);
 
       jsonData.forEach((_) => {
@@ -395,7 +395,7 @@ const handleDown = () => {
     message: '下发成功'
   })
 }
-const props = withDefaults(
+withDefaults(
   defineProps<{
     title?: string
   }>(),

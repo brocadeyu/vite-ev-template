@@ -172,7 +172,7 @@ const monitorStore = useMonitorStore()
 const entityStore = useEntityStore()
 const { monitorData } = storeToRefs(monitorStore)
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     title?: string
   }>(),
@@ -186,32 +186,6 @@ const filterParams = reactive({
   bh: '',
   zt: '全部'
 })
-const options = [
-  {
-    value: '全部',
-    label: '全部'
-  },
-  {
-    value: '综合链设备',
-    label: '综合链设备'
-  },
-  {
-    value: 'Option2',
-    label: 'Option2'
-  },
-  {
-    value: 'Option3',
-    label: 'Option3'
-  },
-  {
-    value: 'Option4',
-    label: 'Option4'
-  },
-  {
-    value: 'Option5',
-    label: 'Option5'
-  }
-]
 const ptOptions = ref([
   {
     value: '全部',
@@ -270,12 +244,12 @@ const ztOptions = [
     label: '离线'
   }
 ]
-watch(currentPage, (page) => {
-  // console.log('页数变化', page)
-  // const startIndex = (currentPage.value - 1) * 10
-  // const endIndex = startIndex + currentPage.value
-  // tableData.value = monitorData.value.slice(startIndex, endIndex)
-})
+// watch(currentPage, (page) => {
+//   // console.log('页数变化', page)
+//   // const startIndex = (currentPage.value - 1) * 10
+//   // const endIndex = startIndex + currentPage.value
+//   // tableData.value = monitorData.value.slice(startIndex, endIndex)
+// })
 const filteredMonitorData = computed(() => {
   return monitorData.value
     .filter((_) => {
@@ -309,78 +283,6 @@ watch(filteredMonitorData, (newVal) => {
 const closePop = () => {
   popupStore.closePop()
 }
-const tableData1 = ref([
-  {
-    deviceId: 'daaa-aaa-aa--aa',
-    deviceName: '短波电台',
-    platName: '飞机2',
-    online: true,
-    updateTime: '2024'
-  },
-  {
-    deviceId: 'daaa-aaa-aa--aa',
-    deviceName: '短波电台',
-    platName: '飞机2',
-    online: true,
-    updateTime: '2024'
-  },
-  {
-    deviceId: 'daaa-aaa-aa--aa',
-    deviceName: '短波电台',
-    platName: '飞机2',
-    online: true,
-    updateTime: '2024'
-  },
-  {
-    deviceId: 'daaa-aaa-aa--aa',
-    deviceName: '短波电台',
-    platName: '飞机2',
-    online: true,
-    updateTime: '2024'
-  },
-  {
-    deviceId: 'daaa-aaa-aa--aa',
-    deviceName: '短波电台',
-    platName: '飞机2',
-    online: true,
-    updateTime: '2024'
-  },
-  {
-    deviceId: 'daaa-aaa-aa--aa',
-    deviceName: '短波电台',
-    platName: '飞机2',
-    online: true,
-    updateTime: '2024'
-  },
-  {
-    deviceId: 'daaa-aaa-aa--aa',
-    deviceName: '短波电台',
-    platName: '飞机2',
-    online: true,
-    updateTime: '2024'
-  },
-  {
-    deviceId: 'daaa-aaa-aa--aa',
-    deviceName: '短波电台',
-    platName: '飞机2',
-    online: true,
-    updateTime: '2024'
-  },
-  {
-    deviceId: 'daaa-aaa-aa--aa',
-    deviceName: '1短波电台',
-    platName: '飞机2',
-    online: true,
-    updateTime: '2024'
-  },
-  {
-    deviceId: 'daaa-aaa-aa--aa',
-    deviceName: '1短波电台',
-    platName: '飞机2',
-    online: true,
-    updateTime: '2024'
-  }
-])
 
 onMounted(() => {
   const idArr = entityStore.entitiesArr.map((_) => _.id)

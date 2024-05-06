@@ -3,9 +3,9 @@ import * as Cesium from 'cesium'
 
 import FLIGHT from '@/assets/model/Mi171ZC.gltf'
 import SHIP from '@/assets/model/052DQZJZC.gltf'
-import LightShip from '@/assets/model/light-ship.glb'
+// import LightShip from '@/assets/model/light-ship.glb'
 import H6k from '@/assets/model/H-6k.glb'
-import wrj from '@/assets/model/wrj.glb'
+// import wrj from '@/assets/model/wrj.glb'
 import { EntityType } from '@/common/enum'
 
 interface IAddModelOpt {

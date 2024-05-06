@@ -20,7 +20,7 @@ export default class BoardMap {
     this._map = new Map()
   }
   addBoard(opt: IAddBoardOpt) {
-    const { id, text, position } = opt
+    const { id, position } = opt
     const label = this._collection.add({
       text: id,
       position: Cesium.Cartesian3.fromDegrees(...position),

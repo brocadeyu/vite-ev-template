@@ -46,7 +46,7 @@ import { useThoughtStore } from '@/stores/thougthStore'
 import { useEntityStore } from '@/stores/entityStore'
 import { usePopupStore } from '@/stores/popupStore'
 import { useRouter } from 'vue-router'
-import { screenShot } from '@/common/helper'
+// import { screenShot } from '@/common/helper'
 import { ElLoading } from 'element-plus'
 import { WS_EVENT } from '@/common/enum'
 // import { WS_EVENT } from '@/common/enum'
@@ -123,7 +123,7 @@ const handleStepSizeChange = (val) => {
 }
 const sendRequestGenDoc = async () => {
   loadingInstance = ElLoading.service({ fullscreen: true, text: '生成文档中' })
-  console.log('发送生成文档消息')
+  // console.log('发送生成文档消息')
   let data = {
     InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDoc'
   }
@@ -134,7 +134,7 @@ const sendRequestGenDoc = async () => {
 }
 const toSimulateSend = () => {
   const list = entityStore.entitiesArr.map((_) => _.id)
-  console.log('simulateSend-query-deviceList', list)
+  // console.log('simulateSend-query-deviceList', list)
   sessionStorage.setItem('simulateSend-deviceList', JSON.stringify(list))
   const url = router.resolve({
     path: '/simulateSend'
@@ -149,7 +149,7 @@ const openDeviceMonitorView = () => {
 }
 onMounted(() => {
   websocketStore.addEventListener(WS_EVENT.genDocSuccess, () => {
-    console.log('文档生成成功！！！')
+    // console.log('文档生成成功！！！')
     if (loadingInstance) {
       nextTick(() => {
         // Loading should be closed asynchronously

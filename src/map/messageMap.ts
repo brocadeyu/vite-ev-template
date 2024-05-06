@@ -1,5 +1,5 @@
 import { LinkType } from '@/common/enum'
-import { Viewer, PrimitiveCollection, Primitive } from 'cesium'
+import { Viewer, PrimitiveCollection } from 'cesium'
 import * as Cesium from 'cesium'
 //数据链通讯消息链路连线
 interface DisplayMessageLinkOpt {
@@ -27,7 +27,7 @@ export default class MessageMap {
     this._viewer.scene.primitives.add(this._collectionKU)
   }
   displayMessageLink(opt: DisplayMessageLinkOpt) {
-    const { id, positionArr, type, isBrodeCast } = opt
+    const { positionArr, type, isBrodeCast } = opt
     // console.log('id, positionArr, type', id, positionArr, type)
     const geometryInstance = new Cesium.GeometryInstance({
       geometry: new Cesium.PolylineGeometry({

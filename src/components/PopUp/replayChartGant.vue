@@ -74,7 +74,7 @@ const setEchartsData = () => {
   }
   const option = {
     tooltip: {
-      position: function (point, params, dom, rect, size) {
+      position: function (point) {
         // 固定在鼠标右上
         return [point[0] + 30, point[1] + 30]
       }

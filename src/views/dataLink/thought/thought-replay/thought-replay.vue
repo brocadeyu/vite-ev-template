@@ -539,16 +539,16 @@ onMounted(() => {
       gtImg: dataGt,
       ZHLImg: batchImg['ZHLImg']
     }
-    console.log(data1)
+    // console.log(data1)
     websocketStore.sendMessage(data1)
     let data2 = {
       InteractType: 'baseInter.EntiyInter.VirtualInteract.CreateDocImage2',
       '90XImg': batchImg['90XImg'],
       JIDSImg: batchImg['JIDSImg']
     }
-    console.log(data2)
+    // console.log(data2)
     websocketStore.sendMessage(data2)
-    const randNum = Math.random()
+    // const randNum = Math.random()
     let delayAcc = 0
     let percentAcc = 0
     let missAcc = 0
@@ -697,7 +697,7 @@ onMounted(() => {
     const normalS = maxS - minS !== 0 ? (avgSpeed - minS) / (maxS - minS) : 0
     const score =
       normalD * 0.3 + normalP * 0.3 + normalM * 0.3 + (1 - normalS) * 0.1
-    console.log('score', score)
+    // console.log('score', score)
     // 根据概率分布选择描述
     let description
     if (score > 0.5) {
@@ -715,7 +715,7 @@ onMounted(() => {
       KUImg: batchImg['KUImg'],
       commentStr: description
     }
-    console.log(data3)
+    // console.log(data3)
     websocketStore.sendMessage(data3)
   })
 
@@ -753,7 +753,7 @@ onMounted(() => {
   bc.onmessage = (e) => {
     //接受模拟发送标签页面发送的消息，ws发送
     // console.log('接受到的消息', e.data)
-    console.log('发送模拟发送信息', e.data)
+    // console.log('发送模拟发送信息', e.data)
     websocketStore.sendMessage(e.data)
     if (e.data.file) {
       const file = e.data.file

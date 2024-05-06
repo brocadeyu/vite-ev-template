@@ -28,7 +28,7 @@
 import BaseDocker from '@/components/BaseDocker.vue'
 import { ref } from 'vue'
 import WZImg from '@/assets/model/wzzsj.png'
-import ZCImg from '@/assets/model/zczsj.png'
+// import ZCImg from '@/assets/model/zczsj.png'
 import SHIP052C from '@/assets/model/052c.png'
 import SHIP052D from '@/assets/model/052d.png'
 import H6k from '@/assets/model/h6k.jpg'
