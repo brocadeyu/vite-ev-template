@@ -70,7 +70,7 @@ const displayTypeOptions = [
     value: '90X链'
   },
   {
-    label: 'JIDS链',
+    label: 'JIXX链',
     value: 'JIDS链'
   },
   {

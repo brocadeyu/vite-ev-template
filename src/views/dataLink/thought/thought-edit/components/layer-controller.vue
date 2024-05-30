@@ -50,7 +50,7 @@ enum NodeLabel {
   '数据链',
   '综合链',
   '90X链',
-  'JIDS链',
+  'JIXX链',
   'KU卫通'
 }
 const treeData: Tree[] = [
@@ -73,7 +73,7 @@ const treeData: Tree[] = [
         label: '90X链'
       },
       {
-        label: 'JIDS链'
+        label: 'JIXX链'
       },
       {
         label: 'KU卫通'
@@ -111,7 +111,7 @@ const handleNodeCheckChange = (node: any, isChecked: boolean) => {
         flag: isChecked
       })
       break
-    case 'JIDS链':
+    case 'JIXX链':
       cesiumStore.cesium.linkMap.setVisibleByType({
         type: 'JIDS链',
         flag: isChecked

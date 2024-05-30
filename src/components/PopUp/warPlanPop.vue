@@ -143,7 +143,7 @@
         </el-tabs>
         <el-empty
           v-if="!isGen && !isGening"
-          description="点击生成以加载默认作战计划"
+          description="点击生成以加载默认ZZ计划"
         >
           <el-button
             type="primary"

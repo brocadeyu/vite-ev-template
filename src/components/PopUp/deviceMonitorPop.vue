@@ -114,7 +114,11 @@
               color: 'white'
             }"
           >
-            <el-table-column label="装备名称" prop="deviceName">
+            <el-table-column
+              label="装备名称"
+              prop="deviceName"
+              :formatter="formatter"
+            >
             </el-table-column>
             <el-table-column label="装备编号" prop="deviceId" width="500">
             </el-table-column>
@@ -207,7 +211,7 @@ const lxOptions = [
   },
   {
     value: 'JIDS链设备',
-    label: 'JIDS链设备'
+    label: 'JIXX链设备'
   },
   {
     value: '卫星通信设备',
@@ -250,6 +254,9 @@ const ztOptions = [
 //   // const endIndex = startIndex + currentPage.value
 //   // tableData.value = monitorData.value.slice(startIndex, endIndex)
 // })
+const formatter = (r, c, cellValue) => {
+  return cellValue === 'JIDS链设备' ? 'JIXX设备' : cellValue
+}
 const filteredMonitorData = computed(() => {
   return monitorData.value
     .filter((_) => {

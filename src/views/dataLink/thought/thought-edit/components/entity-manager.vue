@@ -69,7 +69,7 @@
             size="small"
             color="#119aa0"
             @click="openWarPlanPop"
-            >作战计划
+            >ZZ计划
           </el-button>
         </div>
       </template>
@@ -210,7 +210,7 @@ const sendValidateLink = () => {
 }
 const openWarPlanPop = () => {
   popupStore.openPop({
-    title: '作战计划',
+    title: 'ZZ计划',
     type: 'warPlan'
   })
 }

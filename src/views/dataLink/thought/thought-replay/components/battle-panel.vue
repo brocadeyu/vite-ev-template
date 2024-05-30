@@ -1,11 +1,6 @@
 <template>
   <div class="bp-container">
-    <BaseDocker
-      :title="'作战日志'"
-      :height="'230px'"
-      :width="'650px'"
-      icon="log"
-    >
+    <BaseDocker :title="'ZZ日志'" :height="'230px'" :width="'650px'" icon="log">
       <template #header>
         <div>
           <el-button

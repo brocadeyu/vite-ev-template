@@ -180,7 +180,7 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="JIDS链设备" name="JIDS链">
+          <el-tab-pane label="JIXX链设备" name="JIDS链">
             <el-form ref="formRefJIDS" :model="formDataJIDS">
               <el-form-item
                 label="通信方式"

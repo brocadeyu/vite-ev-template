@@ -70,14 +70,18 @@
                 <span style="color: #dbdb32"
                   >{{
                     node.data.label.includes('#')
-                      ? node.data.label.split('#')[0]
-                      : node.data.label.split(':')[0]
+                      ? node.data.label
+                          .split('#')[0]
+                          .replace(/JIDS链/g, 'JIXX链')
+                      : node.data.label
+                          .split(':')[0]
+                          .replace(/JIDS链/g, 'JIXX链')
                   }}:</span
                 >
                 <span
                   v-if="!node.data.label.includes('$')"
                   style="margin-left: 5px; color: #13d713"
-                  >{{ node.data.link }},{{
+                  >{{ node.data.link.replace(/JIDS链/g, 'JIXX链') }},{{
                     node.data.label.includes('#')
                       ? node.data.label.split('#')[1]
                       : node.data.label.split(':').length === 2
@@ -86,7 +90,7 @@
                   }}</span
                 >
                 <span v-else style="margin-left: 5px; color: #13d713"
-                  >{{ node.data.link }},{{
+                  >{{ node.data.link.replace(/JIDS链/g, 'JIXX链') }},{{
                     node.data.label.split('#')[1].split('$')[0]
                   }}
                   <span

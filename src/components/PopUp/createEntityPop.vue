@@ -146,7 +146,7 @@
             <el-form-item label="装备配置">
               <div v-for="(item, index) in formData.equipment" :key="index">
                 <el-checkbox v-model="item.isHas" size="small">{{
-                  item.name
+                  item.name === 'JIDS链设备' ? 'JDXX设备' : item.name
                 }}</el-checkbox>
                 <el-switch
                   v-model="item.isUse"
@@ -425,7 +425,7 @@
               </el-row>
             </el-form>
             <el-form v-if="jidsActive" class="area">
-              <div class="textOne">JIDS链</div>
+              <div class="textOne">JIXX链</div>
               <el-row>
                 <el-col :span="8">
                   <el-form-item
